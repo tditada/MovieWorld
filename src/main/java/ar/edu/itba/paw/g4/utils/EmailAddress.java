@@ -56,4 +56,8 @@ public class EmailAddress {
 				&& equal(this.domainPart, that.domainPart);
 	}
 
+	public static EmailAddressBuilder builder() {
+		return new EmailAddressBuilder();
+	}
+
 }

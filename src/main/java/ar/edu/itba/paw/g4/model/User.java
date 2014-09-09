@@ -93,7 +93,7 @@ public class User extends Entity {
 				&& equal(this.vip, that.vip);
 	}
 
-	// public static UserBuilder builder() {
-	// return new UserBuilder();
-	// }
+	public static UserBuilder builder() {
+		return new UserBuilder();
+	}
 }

@@ -51,4 +51,8 @@ public class Comment extends Entity {
 		return toStringHelper(this).add("user", user).add("movie", movie)
 				.add("score", score).add("text", text).toString();
 	}
+	
+	public static CommentBuilder builder() {
+		return new CommentBuilder();
+	}
 }

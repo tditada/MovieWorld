@@ -42,4 +42,8 @@ public class Director extends Entity {
 	public String toString() {
 		return toStringHelper(this).add("name", name).toString();
 	}
+	
+	public static DirectorBuilder builder() {
+		return new DirectorBuilder();
+	}
 }

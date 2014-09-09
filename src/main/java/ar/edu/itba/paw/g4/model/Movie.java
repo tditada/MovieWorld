@@ -117,4 +117,8 @@ public class Movie extends Entity {
 				&& equal(this.summary, that.summary);
 	}
 
+	public static MovieBuilder builder() {
+		return new MovieBuilder();
+	}
+
 }
