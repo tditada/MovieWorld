@@ -1,11 +1,11 @@
 package ar.edu.itba.paw.g4.model;
 
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.equal;
+import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.utils.Validations.checkNotNullOrEmpty;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.notEmptyStr;
+import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
+import static com.google.common.base.Predicates.notNull;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import ar.edu.itba.paw.g4.utils.persist.Entity;
 
@@ -17,10 +17,10 @@ public class Comment extends Entity {
 
 	@GeneratePojoBuilder
 	public Comment(String text, int score, User user, Movie movie) {
-		checkNotNullOrEmpty(text);
+		checkArgument(text, notNull(), notEmptyStr());
 		checkArgument(score > 0);
-		checkNotNull(user);
-		checkNotNull(movie);
+		checkArgument(user != null);
+		checkArgument(movie != null);
 
 		this.text = text;
 		this.score = score;
@@ -42,8 +42,10 @@ public class Comment extends Entity {
 			return false;
 		}
 		Comment that = (Comment) obj;
-		return equal(this.score, that.score) && equal(this.text, that.text)
-				&& equal(this.user, that.user) && equal(this.movie, that.movie);
+		return areEqual(this.score, that.score)
+				&& areEqual(this.text, that.text)
+				&& areEqual(this.user, that.user)
+				&& areEqual(this.movie, that.movie);
 	}
 
 	@Override
@@ -51,7 +53,7 @@ public class Comment extends Entity {
 		return toStringHelper(this).add("user", user).add("movie", movie)
 				.add("score", score).add("text", text).toString();
 	}
-	
+
 	public static CommentBuilder builder() {
 		return new CommentBuilder();
 	}

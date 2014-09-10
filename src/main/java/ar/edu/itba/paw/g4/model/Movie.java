@@ -1,11 +1,12 @@
 package ar.edu.itba.paw.g4.model;
 
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.equal;
+import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.utils.Validations.checkNotNullOrEmpty;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.notEmptyColl;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.notEmptyStr;
+import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
+import static com.google.common.base.Predicates.notNull;
 import static org.joda.time.DateTime.now;
 
 import java.util.List;
@@ -31,15 +32,16 @@ public class Movie extends Entity {
 	private String summary;
 
 	@GeneratePojoBuilder
-	public Movie(DateTime creationDate, String name, List<MovieGenres> genres,
-			Director director, int durationInMins, String summary) {
-		checkNotNull(creationDate);
-		checkNotNull(releaseDate);
-		checkNotNullOrEmpty(name);
-		checkArgument(!genres.isEmpty());
-		checkNotNull(director);
+	public Movie(DateTime creationDate, DateTime releaseDate, String name,
+			List<MovieGenres> genres, Director director, int durationInMins,
+			String summary) {
+		checkArgument(creationDate != null);
+		checkArgument(releaseDate != null);
+		checkArgument(director != null);
+		checkArgument(summary != null);
+		checkArgument(name, notNull(), notEmptyStr());
+		checkArgument(genres, notNull(), notEmptyColl());
 		checkArgument(durationInMins > 0);
-		checkNotNull(summary);
 
 		this.creationDate = creationDate;
 		this.name = name;
@@ -108,13 +110,13 @@ public class Movie extends Entity {
 			return false;
 		}
 		Movie that = (Movie) obj;
-		return equal(this.name, that.name)
-				&& equal(this.releaseDate, that.releaseDate)
-				&& equal(this.creationDate, that.creationDate)
-				&& equal(this.genres, that.genres)
-				&& equal(this.director, that.director)
-				&& equal(this.durationInMins, that.durationInMins)
-				&& equal(this.summary, that.summary);
+		return areEqual(this.name, that.name)
+				&& areEqual(this.releaseDate, that.releaseDate)
+				&& areEqual(this.creationDate, that.creationDate)
+				&& areEqual(this.genres, that.genres)
+				&& areEqual(this.director, that.director)
+				&& areEqual(this.durationInMins, that.durationInMins)
+				&& areEqual(this.summary, that.summary);
 	}
 
 	public static MovieBuilder builder() {

@@ -1,11 +1,13 @@
 package ar.edu.itba.paw.g4.model;
 
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.equal;
+import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.utils.Validations.checkNotNullOrEmpty;
-import ar.edu.itba.paw.g4.utils.persist.Entity;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.notEmptyStr;
+import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
+import static com.google.common.base.Predicates.notNull;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import ar.edu.itba.paw.g4.utils.persist.Entity;
 
 public class Director extends Entity {
 	private String name; // TODO: change this and User's first and last names to
@@ -13,7 +15,7 @@ public class Director extends Entity {
 
 	@GeneratePojoBuilder
 	public Director(String name) {
-		checkNotNullOrEmpty(name);
+		checkArgument(name, notNull(), notEmptyStr());
 		this.name = name;
 	}
 
@@ -30,7 +32,7 @@ public class Director extends Entity {
 			return false;
 		}
 		Director that = (Director) obj;
-		return equal(this.name, that.name);
+		return areEqual(this.name, that.name);
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class Director extends Entity {
 	public String toString() {
 		return toStringHelper(this).add("name", name).toString();
 	}
-	
+
 	public static DirectorBuilder builder() {
 		return new DirectorBuilder();
 	}

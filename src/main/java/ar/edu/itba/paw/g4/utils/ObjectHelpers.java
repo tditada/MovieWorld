@@ -12,7 +12,7 @@ public class ObjectHelpers {
 		return Objects.hashCode(objects);
 	}
 
-	public static boolean equal(Object a, Object b) {
+	public static boolean areEqual(Object a, Object b) {
 		return Objects.equal(a, b);
 	}
 }

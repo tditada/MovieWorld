@@ -1,11 +1,11 @@
 package ar.edu.itba.paw.g4.utils;
 
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.equal;
+import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import static ar.edu.itba.paw.g4.utils.validation.Validations.*;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.*;
+import static com.google.common.base.Predicates.*;
 import java.util.regex.Pattern;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -21,8 +21,8 @@ public class EmailAddress {
 
 	@GeneratePojoBuilder
 	public EmailAddress(String localPart, String domainPart) {
-		checkNotNull(localPart);
-		checkNotNull(domainPart);
+		checkArgument(localPart, notNull(), notEmptyStr());
+		checkArgument(domainPart, notNull(), notEmptyStr());
 		checkArgument(isValidEmail(localPart, domainPart));
 		this.localPart = localPart;
 		this.domainPart = domainPart;
@@ -52,8 +52,8 @@ public class EmailAddress {
 			return false;
 		}
 		EmailAddress that = (EmailAddress) obj;
-		return equal(this.localPart, that.localPart)
-				&& equal(this.domainPart, that.domainPart);
+		return areEqual(this.localPart, that.localPart)
+				&& areEqual(this.domainPart, that.domainPart);
 	}
 
 	public static EmailAddressBuilder builder() {

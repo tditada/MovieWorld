@@ -1,10 +1,11 @@
 package ar.edu.itba.paw.g4.model;
 
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.equal;
+import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.utils.Validations.checkNotNullOrEmpty;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
+import static com.google.common.base.Predicates.*;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.*;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.joda.time.DateTime;
@@ -26,11 +27,12 @@ public class User extends Entity {
 	@GeneratePojoBuilder
 	public User(String firstName, String lastName, EmailAddress email,
 			String password, DateTime birthDate, boolean vip) {
-		checkNotNullOrEmpty(firstName);
-		checkNotNullOrEmpty(lastName);
-		checkNotNull(email);
-		checkNotNullOrEmpty(password);
-		checkNotNull(birthDate);
+		checkArgument(email != null);
+		checkArgument(birthDate != null);
+		checkArgument(firstName, notNull(), notEmptyStr());
+		checkArgument(lastName, notNull(), notEmptyStr());
+		checkArgument(password, notNull(), notEmptyStr());
+
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -85,12 +87,12 @@ public class User extends Entity {
 			return false;
 		}
 		User that = (User) obj;
-		return equal(this.firstName, that.firstName)
-				&& equal(this.lastName, that.lastName)
-				&& equal(this.email, that.email)
-				&& equal(this.password, that.password)
-				&& equal(this.birthDate, that.birthDate)
-				&& equal(this.vip, that.vip);
+		return areEqual(this.firstName, that.firstName)
+				&& areEqual(this.lastName, that.lastName)
+				&& areEqual(this.email, that.email)
+				&& areEqual(this.password, that.password)
+				&& areEqual(this.birthDate, that.birthDate)
+				&& areEqual(this.vip, that.vip);
 	}
 
 	public static UserBuilder builder() {
