@@ -1,0 +1,20 @@
+Consola 1:
+1. Pararse en la carpeta paw4/ dentro de nuestro proyecto
+2. tirar postgres -D ./ ;el puerto en el .conf esta como 5434
+
+Consola 2:
+(1). sudo useradd paw
+(2). sudo passwd paw ;paw es la contraseña Y el usuario
+3. su paw
+4. psql -d paw4 -U paw -W ;conecta a la base de datos paw4 con el usuario paw y pide contraseña
+
+() se hacen solo 1 vez.
+
+Como creamos la BD:
+su postgres
+psql 
+CREATE DATABASE paw4 WITH ENCODING 'UTF8';
+CREATE USER paw PASSWORD 'paw';
+GRANT ALL PRIVILAGES ON DATABASE paw4 TO paw;
+/q
+(se sigue con pasos 3 y 4 consola 2)
