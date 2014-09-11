@@ -19,7 +19,7 @@ for i in range(len(MONTH_NAMES)):
 
 FIELDS_TO_CHECK = ['Type', 'Title', 'Runtime', 'Released', 'Plot', 'Genre', 'Director']
 
-SQL_QUERY_HEAD = """INSERT INTO Movies(title, creationDate, releaseDate, genres, directorName, runtimeInMins, summary)
+SQL_QUERY_HEAD = """INSERT INTO Movies(title, creationDate, releaseDate, genres, directorName, runtimeMins, summary)
 VALUES"""
 SQL_QUERY_BODY = """('{title}', TIMESTAMP '{creation_date}', TIMESTAMP '{release_date}',
  '{genres}', '{director}', {runtime}, '{summary}')"""

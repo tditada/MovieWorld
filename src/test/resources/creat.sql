@@ -9,7 +9,7 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE Movies (
-  movieid SERIAL PRIMARY KEY,
+  movieId SERIAL PRIMARY KEY,
   title VARCHAR(255),
   creationDate TIMESTAMP,
   releaseDate TIMESTAMP,
