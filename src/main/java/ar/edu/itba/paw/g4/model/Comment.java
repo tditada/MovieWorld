@@ -3,9 +3,9 @@ package ar.edu.itba.paw.g4.model;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.notEmptyStr;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
-import static com.google.common.base.Predicates.notNull;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import ar.edu.itba.paw.g4.utils.persist.Entity;
 
@@ -17,10 +17,10 @@ public class Comment extends Entity {
 
 	@GeneratePojoBuilder
 	public Comment(String text, int score, User user, Movie movie) {
-		checkArgument(text, notNull(), notEmptyStr());
 		checkArgument(score > 0);
-		checkArgument(user != null);
-		checkArgument(movie != null);
+		checkArgument(text, neitherNullNorEmpty());
+		checkArgument(user, notNull());
+		checkArgument(movie, notNull());
 
 		this.text = text;
 		this.score = score;

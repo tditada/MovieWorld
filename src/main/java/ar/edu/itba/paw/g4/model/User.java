@@ -3,9 +3,9 @@ package ar.edu.itba.paw.g4.model;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
-import static com.google.common.base.Predicates.*;
-import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.*;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.joda.time.DateTime;
@@ -27,11 +27,11 @@ public class User extends Entity {
 	@GeneratePojoBuilder
 	public User(String firstName, String lastName, EmailAddress email,
 			String password, DateTime birthDate, boolean vip) {
-		checkArgument(email != null);
-		checkArgument(birthDate != null);
-		checkArgument(firstName, notNull(), notEmptyStr());
-		checkArgument(lastName, notNull(), notEmptyStr());
-		checkArgument(password, notNull(), notEmptyStr());
+		checkArgument(email, notNull());
+		checkArgument(birthDate, notNull());
+		checkArgument(firstName, neitherNullNorEmpty());
+		checkArgument(lastName, neitherNullNorEmpty());
+		checkArgument(password, neitherNullNorEmpty());
 
 		this.firstName = firstName;
 		this.lastName = lastName;

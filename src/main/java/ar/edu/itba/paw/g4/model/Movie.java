@@ -3,10 +3,10 @@ package ar.edu.itba.paw.g4.model;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.notEmptyColl;
-import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.notEmptyStr;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.notEmptyColl;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
-import static com.google.common.base.Predicates.notNull;
 import static org.joda.time.DateTime.now;
 
 import java.util.List;
@@ -35,13 +35,13 @@ public class Movie extends Entity {
 	public Movie(DateTime creationDate, DateTime releaseDate, String name,
 			List<MovieGenres> genres, Director director, int durationInMins,
 			String summary) {
-		checkArgument(creationDate != null);
-		checkArgument(releaseDate != null);
-		checkArgument(director != null);
-		checkArgument(summary != null);
-		checkArgument(name, notNull(), notEmptyStr());
-		checkArgument(genres, notNull(), notEmptyColl());
 		checkArgument(durationInMins > 0);
+		checkArgument(creationDate, notNull());
+		checkArgument(releaseDate, notNull());
+		checkArgument(director, notNull());
+		checkArgument(summary, notNull());
+		checkArgument(name, neitherNullNorEmpty());
+		checkArgument(genres, notNull(), notEmptyColl());
 
 		this.creationDate = creationDate;
 		this.title = name;
@@ -90,9 +90,8 @@ public class Movie extends Entity {
 		return toStringHelper(this).add("name", title)
 				.add("creationDate", creationDate)
 				.add("releaseDate", releaseDate).add("genres", genres)
-				.add("director", director)
-				.add("durationInMins", runtimeInMins).add("summary", summary)
-				.toString();
+				.add("director", director).add("durationInMins", runtimeInMins)
+				.add("summary", summary).toString();
 	}
 
 	@Override

@@ -3,9 +3,9 @@ package ar.edu.itba.paw.g4.utils;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.utils.validation.Validations.*;
-import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.*;
-import static com.google.common.base.Predicates.*;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
+
 import java.util.regex.Pattern;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -21,8 +21,8 @@ public class EmailAddress {
 
 	@GeneratePojoBuilder
 	public EmailAddress(String localPart, String domainPart) {
-		checkArgument(localPart, notNull(), notEmptyStr());
-		checkArgument(domainPart, notNull(), notEmptyStr());
+		checkArgument(localPart, neitherNullNorEmpty());
+		checkArgument(domainPart, neitherNullNorEmpty());
 		checkArgument(isValidEmail(localPart, domainPart));
 		this.localPart = localPart;
 		this.domainPart = domainPart;

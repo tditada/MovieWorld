@@ -3,9 +3,8 @@ package ar.edu.itba.paw.g4.model;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.notEmptyStr;
+import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
-import static com.google.common.base.Predicates.notNull;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import ar.edu.itba.paw.g4.utils.persist.Entity;
 
@@ -15,7 +14,7 @@ public class Director extends Entity {
 
 	@GeneratePojoBuilder
 	public Director(String name) {
-		checkArgument(name, notNull(), notEmptyStr());
+		checkArgument(name, neitherNullNorEmpty());
 		this.name = name;
 	}
 

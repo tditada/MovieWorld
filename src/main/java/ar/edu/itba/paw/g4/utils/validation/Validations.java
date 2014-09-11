@@ -61,9 +61,8 @@ public class Validations {
 		int i = 0;
 		for (Predicate<? super T> predicate : predicates) {
 			if (!predicate.apply(value)) {
-				exceptionFactory
-						.throwException("Validation failure (predicate " + i
-								+ ")");
+				exceptionFactory.throwException("Validation failure "
+						+ "(predicate " + i + ")");
 			}
 			i++;
 		}
