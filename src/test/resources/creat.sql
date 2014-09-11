@@ -1,5 +1,5 @@
 CREATE TABLE Users (
-  id SERIAL PRIMARY KEY,
+  userId SERIAL PRIMARY KEY,
   firstName VARCHAR(255),
   lastName VARCHAR(255),
   emailAddr VARCHAR(255),
@@ -9,20 +9,21 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE Movies (
-  id SERIAL PRIMARY KEY,
+  movieid SERIAL PRIMARY KEY,
   title VARCHAR(255),
   creationDate TIMESTAMP,
   releaseDate TIMESTAMP,
   genres VARCHAR(25)[],
   directorName VARCHAR(255),
-  runtimeInMins INT,
+  runtimeMins INT,
   summary TEXT
 );
 
 CREATE TABLE Comments (
-  id SERIAL PRIMARY KEY,
+  commentId SERIAL PRIMARY KEY,
   score INT,
   txt TEXT,
+  creationDate TIMESTAMP,
   userId INT REFERENCES Users(id),
   movieId INT REFERENCES Movies(id)
 );

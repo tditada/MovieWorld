@@ -5,7 +5,6 @@ import static com.google.common.io.Closeables.closeQuietly;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
 import ar.edu.itba.paw.g4.exception.DatabaseException;
@@ -23,7 +22,7 @@ public class DatabaseConnectionManager {
 		return instance;
 	}
 
-	public Connection getConnection() throws SQLException {
+	public Connection getConnection() {
 		InputStream is = null;
 		Connection conn = null;
 		try {
@@ -33,7 +32,7 @@ public class DatabaseConnectionManager {
 			String url = props.getProperty(DB_URL_ID);
 			conn = DriverManager.getConnection(url, props);
 		} catch (Exception e) {// TODO: check error handling!
-			throw new DatabaseException(e.getMessage(), e);
+			throw new DatabaseException(e);
 		}
 		closeQuietly(is);
 		return conn;

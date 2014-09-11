@@ -32,22 +32,24 @@ public class Movie extends Entity {
 	private String summary;
 
 	@GeneratePojoBuilder
-	public Movie(DateTime creationDate, DateTime releaseDate, String name,
-			List<MovieGenres> genres, Director director, int durationInMins,
-			String summary) {
-		checkArgument(durationInMins > 0);
+	public Movie(Integer id, DateTime creationDate, DateTime releaseDate,
+			String title, List<MovieGenres> genres, Director director,
+			int runtimeInMins, String summary) {
+		super(id);
+		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
 		checkArgument(releaseDate, notNull());
 		checkArgument(director, notNull());
 		checkArgument(summary, notNull());
-		checkArgument(name, neitherNullNorEmpty());
+		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(genres, notNull(), notEmptyColl());
 
+		this.title = title;
 		this.creationDate = creationDate;
-		this.title = name;
+		this.releaseDate = releaseDate;
 		this.genres = genres;
 		this.director = director;
-		this.runtimeInMins = durationInMins;
+		this.runtimeInMins = runtimeInMins;
 		this.summary = summary;
 	}
 

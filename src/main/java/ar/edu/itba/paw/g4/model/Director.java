@@ -6,9 +6,8 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import ar.edu.itba.paw.g4.util.persist.Entity;
 
-public class Director extends Entity {
+public class Director {
 	private String name; // TODO: change this and User's first and last names to
 							// HumanName or sth like that
 

@@ -8,7 +8,6 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.regex.Pattern;
 
-import ar.edu.itba.paw.g4.utils.EmailAddressBuilder;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 public class EmailAddress {
@@ -20,6 +19,18 @@ public class EmailAddress {
 	private final String localPart;
 	private final String domainPart;
 
+	public static EmailAddress build(String address) {
+		String[] parts = address.split("@");
+		if (parts.length != 2) {
+			throw new IllegalArgumentException("Malformed email address");
+		}
+		return new EmailAddress(parts[0], parts[1]);
+	}
+
+	private static boolean isValidEmail(String localPart, String domainPart) {
+		return EMAIL_PATTERN.matcher(localPart + "@" + domainPart).matches();
+	}
+
 	@GeneratePojoBuilder
 	public EmailAddress(String localPart, String domainPart) {
 		checkArgument(localPart, neitherNullNorEmpty());
@@ -27,10 +38,6 @@ public class EmailAddress {
 		checkArgument(isValidEmail(localPart, domainPart));
 		this.localPart = localPart;
 		this.domainPart = domainPart;
-	}
-
-	private static boolean isValidEmail(String localPart, String domainPart) {
-		return EMAIL_PATTERN.matcher(localPart + "@" + domainPart).matches();
 	}
 
 	@Override
