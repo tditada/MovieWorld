@@ -23,12 +23,12 @@ import ar.edu.itba.paw.g4.utils.persist.Entity;
 public class Movie extends Entity {
 	private static final int MAX_DAYS_AS_RELEASE = 6;
 
-	private String name;
+	private String title;
 	private DateTime creationDate;
 	private DateTime releaseDate;
 	private List<MovieGenres> genres;
 	private Director director;
-	private int durationInMins;
+	private int runtimeInMins;
 	private String summary;
 
 	@GeneratePojoBuilder
@@ -44,10 +44,10 @@ public class Movie extends Entity {
 		checkArgument(durationInMins > 0);
 
 		this.creationDate = creationDate;
-		this.name = name;
+		this.title = name;
 		this.genres = genres;
 		this.director = director;
-		this.durationInMins = durationInMins;
+		this.runtimeInMins = durationInMins;
 		this.summary = summary;
 	}
 
@@ -55,8 +55,8 @@ public class Movie extends Entity {
 		return creationDate;
 	}
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
 	public List<MovieGenres> getGenre() {
@@ -67,8 +67,8 @@ public class Movie extends Entity {
 		return director;
 	}
 
-	public int getDurationInMins() {
-		return durationInMins;
+	public int getRuntimeInMins() {
+		return runtimeInMins;
 	}
 
 	public String getSummary() {
@@ -87,18 +87,18 @@ public class Movie extends Entity {
 
 	@Override
 	public String toString() {
-		return toStringHelper(this).add("name", name)
+		return toStringHelper(this).add("name", title)
 				.add("creationDate", creationDate)
 				.add("releaseDate", releaseDate).add("genres", genres)
 				.add("director", director)
-				.add("durationInMins", durationInMins).add("summary", summary)
+				.add("durationInMins", runtimeInMins).add("summary", summary)
 				.toString();
 	}
 
 	@Override
 	public int hashCode() {
-		return hash(name, creationDate, releaseDate, genres, director,
-				durationInMins, summary);
+		return hash(title, creationDate, releaseDate, genres, director,
+				runtimeInMins, summary);
 	}
 
 	@Override
@@ -110,12 +110,12 @@ public class Movie extends Entity {
 			return false;
 		}
 		Movie that = (Movie) obj;
-		return areEqual(this.name, that.name)
+		return areEqual(this.title, that.title)
 				&& areEqual(this.releaseDate, that.releaseDate)
 				&& areEqual(this.creationDate, that.creationDate)
 				&& areEqual(this.genres, that.genres)
 				&& areEqual(this.director, that.director)
-				&& areEqual(this.durationInMins, that.durationInMins)
+				&& areEqual(this.runtimeInMins, that.runtimeInMins)
 				&& areEqual(this.summary, that.summary);
 	}
 

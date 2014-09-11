@@ -10,12 +10,12 @@ CREATE TABLE Users (
 
 CREATE TABLE Movies (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(255),
+  title VARCHAR(255),
   creationDate TIMESTAMP,
   releaseDate TIMESTAMP,
   genres VARCHAR(25)[],
   directorName VARCHAR(255),
-  durationInMins INT,
+  runtimeInMins INT,
   summary TEXT
 );
 
