@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.utils.persist;
+package ar.edu.itba.paw.g4.util.persist;
 
 public abstract class Entity {
 	private Integer id;

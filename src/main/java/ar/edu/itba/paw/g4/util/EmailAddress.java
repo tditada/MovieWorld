@@ -1,13 +1,14 @@
-package ar.edu.itba.paw.g4.utils;
+package ar.edu.itba.paw.g4.util;
 
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.neitherNullNorEmpty;
-import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.regex.Pattern;
 
+import ar.edu.itba.paw.g4.utils.EmailAddressBuilder;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 public class EmailAddress {

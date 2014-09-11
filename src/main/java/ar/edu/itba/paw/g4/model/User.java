@@ -1,17 +1,17 @@
 package ar.edu.itba.paw.g4.model;
 
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.neitherNullNorEmpty;
-import static ar.edu.itba.paw.g4.utils.validation.PredicateHelpers.notNull;
-import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
+import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.utils.EmailAddress;
-import ar.edu.itba.paw.g4.utils.persist.Entity;
+import ar.edu.itba.paw.g4.util.EmailAddress;
+import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class User extends Entity {
 	private String firstName;

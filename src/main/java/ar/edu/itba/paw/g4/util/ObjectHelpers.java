@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.utils;
+package ar.edu.itba.paw.g4.util;
 
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Objects;

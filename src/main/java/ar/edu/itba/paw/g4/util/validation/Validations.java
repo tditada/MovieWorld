@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.utils.validation;
+package ar.edu.itba.paw.g4.util.validation;
 
 import com.google.common.base.Predicate;
 
