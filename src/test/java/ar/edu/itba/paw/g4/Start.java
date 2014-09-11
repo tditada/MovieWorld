@@ -14,8 +14,8 @@ public class Start {
 		server.setConnectors(new Connector[] { connector });
 		WebAppContext bb = new WebAppContext();
 		bb.setServer(server);
-		bb.setContextPath("/HotelApp");
-		bb.setWar("src/main/webapp");
+		// bb.setContextPath("/HotelApp");
+		// bb.setWar("src/main/webapp");
 		server.addHandler(bb);
 		try {
 			System.out.println(">>> STARTING EMBEDDED JETTY SERVER, "

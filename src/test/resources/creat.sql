@@ -24,8 +24,8 @@ CREATE TABLE Comments (
   score INT,
   txt TEXT,
   creationDate TIMESTAMP,
-  userId INT REFERENCES Users(id),
-  movieId INT REFERENCES Movies(id)
+  userId INT REFERENCES Users(userId),
+  movieId INT REFERENCES Movies(movieId)
 );
 
 
