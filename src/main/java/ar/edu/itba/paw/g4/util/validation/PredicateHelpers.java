@@ -11,16 +11,25 @@ public class PredicateHelpers {
 
 	private static Predicate<String> STR_NOT_EMPTY = new Predicate<String>() {
 		@Override
-		public boolean apply(String arg) {
-			return !arg.isEmpty();
+		public boolean apply(String str) {
+			return !str.isEmpty();
 		}
 	};
 
 	private static Predicate<Collection<?>> COLL_NOT_EMPTY = new Predicate<Collection<?>>() {
 		@Override
-		public boolean apply(Collection<?> arg) {
-			return !arg.isEmpty();
+		public boolean apply(Collection<?> coll) {
+			return !coll.isEmpty();
 		}
+	};
+
+	private static Predicate<Object[]> ARR_NOT_EMPTY = new Predicate<Object[]>() {
+
+		@Override
+		public boolean apply(Object[] arr) {
+			return arr.length > 0;
+		}
+
 	};
 
 	private static Predicate<String> NEITHER_NULL_NOR_EMPTY = new Predicate<String>() {
@@ -44,5 +53,9 @@ public class PredicateHelpers {
 
 	public static Predicate<Collection<?>> notEmptyColl() {
 		return COLL_NOT_EMPTY;
+	}
+
+	public static Predicate<Object[]> notEmptyArr() {
+		return ARR_NOT_EMPTY;
 	}
 }

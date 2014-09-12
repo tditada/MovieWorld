@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.g4.persist.impl;
 
 import static ar.edu.itba.paw.g4.util.persist.DatabaseConnectionManager.getConnection;
+import static ar.edu.itba.paw.g4.util.persist.PSQLQueryHelpers.insertQuery;
+import static ar.edu.itba.paw.g4.util.persist.PSQLQueryHelpers.updateQuery;
 import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.asTimestamp;
 import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getBoolean;
 import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getDateTime;
@@ -13,12 +15,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import ar.edu.itba.paw.g4.exception.DatabaseException;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.UserDAO;
 
 public class SQLUserDAO implements UserDAO {
+	private static final String TABLE_NAME = "Users";
+
 	private static final SQLUserDAO instance = new SQLUserDAO();
 
 	public static SQLUserDAO getInstance() {
@@ -34,14 +39,11 @@ public class SQLUserDAO implements UserDAO {
 
 			String query;
 			if (!user.isPersisted()) {
-				query = "INSERT Users"
-						+ "(firstName, lastName, emailAddr, password, birthDate)"
-						+ "VALUES" + "(?,?,?,?,?)" + ";";
-				//aca me haria falta hacer un get para el id para poderlo settear
+				query = insertQuery(TABLE_NAME, "firstName", "lastName",
+						"emailAddr", "password", "birthDate");
 			} else {
-				query = "UPDATE Users"
-						+ "(firstName, lastName, emailAddr, password, birthDate)"
-						+ "SET VALUES" + "(?,?,?,?,?)" + ";";
+				query = updateQuery(TABLE_NAME, "firstName", "lastName",
+						"emailAddr", "password", "birthDate", "userId");
 			}
 
 			PreparedStatement statement = connection.prepareStatement(query);
@@ -50,9 +52,17 @@ public class SQLUserDAO implements UserDAO {
 			statement.setString(3, user.getEmail().asTextAddress());
 			statement.setString(4, user.getPassword());
 			statement.setTimestamp(5, asTimestamp(user.getBirthDate()));
-			statement.setInt(6, user.getId());
 
-			statement.execute();
+			if (!user.isPersisted()) {
+				statement.setInt(6, user.getId());
+			}
+
+			int result = statement.executeUpdate(query,
+					Statement.RETURN_GENERATED_KEYS);
+
+			if (!user.isPersisted()) {
+				user.setId(result);
+			}
 
 			connection.commit();
 			connection.close();
@@ -68,19 +78,19 @@ public class SQLUserDAO implements UserDAO {
 			Connection connection = getConnection();
 
 			PreparedStatement statement = connection
-					.prepareStatement("SELECT * FROM Users WHERE userId=?");
+					.prepareStatement("SELECT * FROM " + TABLE_NAME
+							+ " WHERE userId=?");
 			statement.setInt(1, id);
 
 			ResultSet results = statement.executeQuery();
-			while (results.next()) {
-				user = User.builder().withId(id)
-						.withFirstName(getString(results, "firstName"))
-						.withLastName(getString(results, "lastName"))
-						.withPassword(getString(results, "password"))
-						.withEmail(getEmailAddress(results, "email"))
-						.withBirthDate(getDateTime(results, "birthDate"))
-						.withVip(getBoolean(results, "vip")).build();
-			}
+			user = User.builder().withId(id)
+					.withFirstName(getString(results, "firstName"))
+					.withLastName(getString(results, "lastName"))
+					.withPassword(getString(results, "password"))
+					.withEmail(getEmailAddress(results, "email"))
+					.withBirthDate(getDateTime(results, "birthDate"))
+					.withVip(getBoolean(results, "vip")).build();
+
 			connection.close();
 		} catch (SQLException e) {
 			throw new DatabaseException(e);

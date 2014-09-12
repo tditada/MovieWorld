@@ -1,10 +1,8 @@
 package ar.edu.itba.paw.g4.util.persist;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.List;
 
 import org.joda.time.DateTime;
 
@@ -33,7 +31,7 @@ public class SQLQueryHelpers {
 	public static <E extends Enum<E>> Iterable<E> getEnum(ResultSet resultSet,
 			String columnName, Converter<String, E> converter)
 			throws SQLException {
-		String[] stringValues = getArray(resultSet, "genres", String[].class);
+		String[] stringValues = getArray(resultSet, columnName, String[].class);
 		return EnumHelpers.valuesOf(converter, stringValues);
 	}
 

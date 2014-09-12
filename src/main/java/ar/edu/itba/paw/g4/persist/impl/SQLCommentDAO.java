@@ -33,7 +33,7 @@ public class SQLCommentDAO implements CommentDAO {
 	@Override
 	public void save(Comment comment) {
 		checkArgument(comment, notNull());
-
+		
 		try {
 			Connection connection = getConnection();
 
