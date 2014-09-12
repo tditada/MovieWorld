@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.util.persist;
+package ar.edu.itba.paw.g4.util.persist.sql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

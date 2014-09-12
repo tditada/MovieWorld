@@ -1,10 +1,11 @@
-package ar.edu.itba.paw.g4.util.persist;
+package ar.edu.itba.paw.g4.util.persist.sql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
 
 import ar.edu.itba.paw.g4.exception.DatabaseException;
+import ar.edu.itba.paw.g4.util.persist.DatabaseSettings;
 
 public class DatabaseConnectionManager {
 	private static final String DB_URL_ID = "url";

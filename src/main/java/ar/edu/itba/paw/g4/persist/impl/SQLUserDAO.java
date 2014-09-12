@@ -1,25 +1,24 @@
 package ar.edu.itba.paw.g4.persist.impl;
 
-import static ar.edu.itba.paw.g4.util.persist.DatabaseConnectionManager.getConnection;
-import static ar.edu.itba.paw.g4.util.persist.PSQLQueryHelpers.insertQuery;
-import static ar.edu.itba.paw.g4.util.persist.PSQLQueryHelpers.updateQuery;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.asTimestamp;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getBoolean;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getDateTime;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getEmailAddress;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getString;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getBoolean;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getDateTime;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getEmailAddress;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getString;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Arrays;
+import java.util.List;
 
-import ar.edu.itba.paw.g4.exception.DatabaseException;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.UserDAO;
+import ar.edu.itba.paw.g4.util.persist.sql.DatabaseConnection;
+import ar.edu.itba.paw.g4.util.persist.sql.SQLStatement;
 
 public class SQLUserDAO implements UserDAO {
 	private static final String TABLE_NAME = "Users";
@@ -31,70 +30,76 @@ public class SQLUserDAO implements UserDAO {
 	}
 
 	@Override
-	public void save(User user) {
+	public void save(final User user) {
 		checkArgument(user, notNull());
 
-		try {
-			Connection connection = getConnection();
+		new DatabaseConnection<Void>() {
 
-			String query;
-			if (!user.isPersisted()) {
-				query = insertQuery(TABLE_NAME, "firstName", "lastName",
+			@Override
+			protected Void handleConnection(Connection connection)
+					throws SQLException {
+				String query;
+				List<String> columns = Arrays.asList("firstName", "lastName",
 						"emailAddr", "password", "birthDate");
-			} else {
-				query = updateQuery(TABLE_NAME, "firstName", "lastName",
-						"emailAddr", "password", "birthDate", "userId");
+				if (!user.isPersisted()) {
+					query = insertQuery(TABLE_NAME, columns);
+				} else {
+					columns.add("userId");
+					query = updateQuery(TABLE_NAME, columns);
+				}
+
+				SQLStatement statement = new SQLStatement(connection, query,
+						true);
+				statement.addParameter(user.getFirstName());
+				statement.addParameter(user.getLastName());
+				statement.addParameter(user.getEmail().asTextAddress());
+				statement.addParameter(user.getPassword());
+				statement.addParameter(user.getBirthDate());
+
+				if (!user.isPersisted()) {
+					statement.addParameter(user.getId());
+				}
+
+				int result = statement.executeUpdate();
+
+				if (!user.isPersisted()) {
+					user.setId(result);
+				}
+
+				connection.commit();
+				return null;
 			}
 
-			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setString(1, user.getFirstName());
-			statement.setString(2, user.getLastName());
-			statement.setString(3, user.getEmail().asTextAddress());
-			statement.setString(4, user.getPassword());
-			statement.setTimestamp(5, asTimestamp(user.getBirthDate()));
-
-			if (!user.isPersisted()) {
-				statement.setInt(6, user.getId());
-			}
-
-			int result = statement.executeUpdate(query,
-					Statement.RETURN_GENERATED_KEYS);
-
-			if (!user.isPersisted()) {
-				user.setId(result);
-			}
-
-			connection.commit();
-			connection.close();
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		}
+		}.run();/*
+				 * TODO: preguntar si estaria bien meterlo en el constructor de
+				 * DatabaseConnection
+				 */
 	}
 
 	@Override
-	public User getById(int id) {
-		User user = null;
-		try {
-			Connection connection = getConnection();
+	public User getById(final int id) {
+		DatabaseConnection<User> connection = new DatabaseConnection<User>() {
 
-			PreparedStatement statement = connection
-					.prepareStatement("SELECT * FROM " + TABLE_NAME
-							+ " WHERE userId=?");
-			statement.setInt(1, id);
+			@Override
+			protected User handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME
+						+ " WHERE userId=?";
+				SQLStatement statement = new SQLStatement(connection, query,
+						false);
+				statement.addParameter(id);
 
-			ResultSet results = statement.executeQuery();
-			user = User.builder().withId(id)
-					.withFirstName(getString(results, "firstName"))
-					.withLastName(getString(results, "lastName"))
-					.withPassword(getString(results, "password"))
-					.withEmail(getEmailAddress(results, "email"))
-					.withBirthDate(getDateTime(results, "birthDate"))
-					.withVip(getBoolean(results, "vip")).build();
+				ResultSet results = statement.executeQuery();
+				return User.builder().withId(id)
+						.withFirstName(getString(results, "firstName"))
+						.withLastName(getString(results, "lastName"))
+						.withPassword(getString(results, "password"))
+						.withEmail(getEmailAddress(results, "email"))
+						.withBirthDate(getDateTime(results, "birthDate"))
+						.withVip(getBoolean(results, "vip")).build();
 
-			connection.close();
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		}
-		return user;
+			}
+		};
+		return connection.run();
 	}
 }

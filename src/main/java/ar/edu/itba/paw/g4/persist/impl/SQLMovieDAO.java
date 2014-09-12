@@ -1,11 +1,11 @@
 package ar.edu.itba.paw.g4.persist.impl;
 
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getBoolean;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getDateTime;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getEmailAddress;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getEnum;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getInt;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getString;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getBoolean;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getDateTime;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getEmailAddress;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getEnum;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getInt;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getString;
 import static com.google.common.collect.FluentIterable.from;
 
 import java.sql.ResultSet;

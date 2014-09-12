@@ -1,9 +1,9 @@
 package ar.edu.itba.paw.g4.persist.impl;
 
-import static ar.edu.itba.paw.g4.util.persist.DatabaseConnectionManager.getConnection;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.asTimestamp;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getInt;
-import static ar.edu.itba.paw.g4.util.persist.SQLQueryHelpers.getString;
+import static ar.edu.itba.paw.g4.util.persist.sql.DatabaseConnectionManager.getConnection;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.asTimestamp;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getInt;
+import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getString;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
