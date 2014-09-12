@@ -21,9 +21,8 @@ public class Comment extends Entity {
 	private DateTime creationDate;
 
 	@GeneratePojoBuilder
-	public Comment(Integer id, String text, int score, User user, Movie movie,
+	public Comment(String text, int score, User user, Movie movie,
 			DateTime creationDate) {
-		super(id);
 		checkArgument(score > 0);
 		checkArgument(text, neitherNullNorEmpty());
 		checkArgument(user, notNull());

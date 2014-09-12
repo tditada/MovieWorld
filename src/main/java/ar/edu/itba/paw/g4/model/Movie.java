@@ -32,10 +32,9 @@ public class Movie extends Entity {
 	private String summary;
 
 	@GeneratePojoBuilder
-	public Movie(Integer id, DateTime creationDate, DateTime releaseDate,
-			String title, List<MovieGenres> genres, Director director,
-			int runtimeInMins, String summary) {
-		super(id);
+	public Movie(DateTime creationDate, DateTime releaseDate, String title,
+			List<MovieGenres> genres, Director director, int runtimeInMins,
+			String summary) {
 		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
 		checkArgument(releaseDate, notNull());

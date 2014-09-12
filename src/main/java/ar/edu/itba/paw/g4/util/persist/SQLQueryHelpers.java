@@ -1,17 +1,23 @@
 package ar.edu.itba.paw.g4.util.persist;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.joda.time.DateTime;
-
-import com.google.common.base.Converter;
 
 import ar.edu.itba.paw.g4.util.EmailAddress;
 import ar.edu.itba.paw.g4.util.EnumHelpers;
 
-public class QueryHelpers {
+import com.google.common.base.Converter;
+
+public class SQLQueryHelpers {
+	public static Timestamp asTimestamp(DateTime date) {
+		return new Timestamp(date.getMillis());
+	}
+
 	public static DateTime getDateTime(ResultSet resultSet, String columnName)
 			throws SQLException {
 		Timestamp timestamp = resultSet.getTimestamp(columnName);

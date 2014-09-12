@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 public class EmailAddress {
-	private static final String EMAIL_PATTERN_STR = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*"
-			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	private static final String EMAIL_PATTERN_STR = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*"
+			+ "@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 	private static final Pattern EMAIL_PATTERN = Pattern
 			.compile(EMAIL_PATTERN_STR);
 
@@ -66,6 +66,13 @@ public class EmailAddress {
 
 	public static EmailAddressBuilder builder() {
 		return new EmailAddressBuilder();
+	}
+
+	public String asTextAddress() { /*
+									 * TODO check if this shouldn't either be
+									 * merged with toString or a static method
+									 */
+		return localPart + "@" + domainPart;
 	}
 
 }

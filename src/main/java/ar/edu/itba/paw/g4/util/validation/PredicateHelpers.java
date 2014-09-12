@@ -26,7 +26,7 @@ public class PredicateHelpers {
 	private static Predicate<String> NEITHER_NULL_NOR_EMPTY = new Predicate<String>() {
 		@Override
 		public boolean apply(String str) {
-			return Strings.isNullOrEmpty(str);
+			return !Strings.isNullOrEmpty(str);
 		}
 	};
 

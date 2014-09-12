@@ -25,9 +25,8 @@ public class User extends Entity {
 	private boolean vip;
 
 	@GeneratePojoBuilder
-	public User(Integer id, String firstName, String lastName,
-			EmailAddress email, String password, DateTime birthDate, boolean vip) {
-		super(id);
+	public User(String firstName, String lastName, EmailAddress email,
+			String password, DateTime birthDate, boolean vip) {
 		checkArgument(email, notNull());
 		checkArgument(birthDate, notNull());
 		checkArgument(firstName, neitherNullNorEmpty());
