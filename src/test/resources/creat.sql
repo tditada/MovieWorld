@@ -1,14 +1,13 @@
-CREATE TABLE Users (
+CREATE TABLE users (
   userId SERIAL PRIMARY KEY,
   firstName VARCHAR(255),
   lastName VARCHAR(255),
   emailAddr VARCHAR(255),
   password VARCHAR(255),
-  birthDate TIMESTAMP,
-  vip BOOLEAN
+  birthDate TIMESTAMP
 );
 
-CREATE TABLE Movies (
+CREATE TABLE movies (
   movieId SERIAL PRIMARY KEY,
   title VARCHAR(255),
   creationDate TIMESTAMP,
@@ -19,7 +18,7 @@ CREATE TABLE Movies (
   summary TEXT
 );
 
-CREATE TABLE Comments (
+CREATE TABLE comments (
   commentId SERIAL PRIMARY KEY,
   score INT,
   txt TEXT,

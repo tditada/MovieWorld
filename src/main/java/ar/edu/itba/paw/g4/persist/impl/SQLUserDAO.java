@@ -12,7 +12,6 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 import ar.edu.itba.paw.g4.model.User;
@@ -20,8 +19,10 @@ import ar.edu.itba.paw.g4.persist.UserDAO;
 import ar.edu.itba.paw.g4.util.persist.sql.DatabaseConnection;
 import ar.edu.itba.paw.g4.util.persist.sql.SQLStatement;
 
+import com.google.common.collect.Lists;
+
 public class SQLUserDAO implements UserDAO {
-	private static final String TABLE_NAME = "Users";
+	private static final String TABLE_NAME = "users";
 
 	private static final SQLUserDAO instance = new SQLUserDAO();
 
@@ -39,8 +40,8 @@ public class SQLUserDAO implements UserDAO {
 			protected Void handleConnection(Connection connection)
 					throws SQLException {
 				String query;
-				List<String> columns = Arrays.asList("firstName", "lastName",
-						"emailAddr", "password", "birthDate");
+				List<String> columns = Lists.newArrayList("firstName",
+						"lastName", "emailAddr", "password", "birthDate");
 				if (!user.isPersisted()) {
 					query = insertQuery(TABLE_NAME, columns);
 				} else {
@@ -56,7 +57,7 @@ public class SQLUserDAO implements UserDAO {
 				statement.addParameter(user.getPassword());
 				statement.addParameter(user.getBirthDate());
 
-				if (!user.isPersisted()) {
+				if (user.isPersisted()) {
 					statement.addParameter(user.getId());
 				}
 

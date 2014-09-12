@@ -12,7 +12,7 @@ public class PSQLQueryHelpers {
 		checkArgument(tableName, neitherNullNorEmpty());
 		checkArgument(columnNames, notNull(), notEmptyColl());
 
-		return "INSERT " + tableName + toColumnNamesStr(columnNames)
+		return "INSERT INTO " + tableName + toColumnNamesStr(columnNames)
 				+ " VALUES" + getVariablesStr(columnNames.size()) + ";";
 	}
 

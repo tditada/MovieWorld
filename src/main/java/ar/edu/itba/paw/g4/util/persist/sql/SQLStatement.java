@@ -1,6 +1,9 @@
 package ar.edu.itba.paw.g4.util.persist.sql;
 
 import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.asTimestamp;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
+import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkState;
 
 import java.sql.Connection;
@@ -18,6 +21,9 @@ public class SQLStatement {
 
 	public SQLStatement(Connection connection, String sql, boolean update)
 			throws SQLException {
+		checkArgument(connection, notNull());
+		checkArgument(sql, neitherNullNorEmpty());
+
 		this.update = update;
 		if (update) {
 			this.statement = connection.prepareStatement(sql,
@@ -28,6 +34,7 @@ public class SQLStatement {
 	}
 
 	public SQLStatement addParameter(String value) throws SQLException {
+		checkArgument(value, notNull());
 		this.statement.setString(++parameterCount, value);
 		return this;
 	}
@@ -38,6 +45,7 @@ public class SQLStatement {
 	}
 
 	public SQLStatement addParameter(DateTime date) throws SQLException {
+		checkArgument(date, notNull());
 		this.statement.setTimestamp(++parameterCount, asTimestamp(date));
 		return this;
 	}
