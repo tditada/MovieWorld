@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.utils.validation;
+package ar.edu.itba.paw.g4.util.validation;
 
 import com.google.common.base.Predicate;
 
@@ -61,9 +61,8 @@ public class Validations {
 		int i = 0;
 		for (Predicate<? super T> predicate : predicates) {
 			if (!predicate.apply(value)) {
-				exceptionFactory
-						.throwException("Validation failure (predicate " + i
-								+ ")");
+				exceptionFactory.throwException("Validation failure "
+						+ "(predicate " + i + ")");
 			}
 			i++;
 		}

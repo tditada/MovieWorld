@@ -1,17 +1,17 @@
 package ar.edu.itba.paw.g4.model;
 
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.areEqual;
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.hash;
-import static ar.edu.itba.paw.g4.utils.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.utils.validation.Validations.checkArgument;
-import static com.google.common.base.Predicates.*;
-import static ar.edu.itba.paw.g4.utils.validation.PredicateExtras.*;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
+import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.utils.EmailAddress;
-import ar.edu.itba.paw.g4.utils.persist.Entity;
+import ar.edu.itba.paw.g4.util.EmailAddress;
+import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class User extends Entity {
 	private String firstName;
@@ -22,23 +22,21 @@ public class User extends Entity {
 							 * TODO: validate min length!
 							 */
 	private DateTime birthDate;
-	private boolean vip;
 
 	@GeneratePojoBuilder
 	public User(String firstName, String lastName, EmailAddress email,
-			String password, DateTime birthDate, boolean vip) {
-		checkArgument(email != null);
-		checkArgument(birthDate != null);
-		checkArgument(firstName, notNull(), notEmptyStr());
-		checkArgument(lastName, notNull(), notEmptyStr());
-		checkArgument(password, notNull(), notEmptyStr());
+			String password, DateTime birthDate) {
+		checkArgument(email, notNull());
+		checkArgument(birthDate, notNull());
+		checkArgument(firstName, neitherNullNorEmpty());
+		checkArgument(lastName, neitherNullNorEmpty());
+		checkArgument(password, neitherNullNorEmpty());
 
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 		this.birthDate = birthDate;
-		this.vip = vip;
 	}
 
 	public String getFirstName() {
@@ -61,21 +59,17 @@ public class User extends Entity {
 		return birthDate;
 	}
 
-	public boolean isVip() {
-		return vip;
-	}
-
 	@Override
 	public String toString() {
 		return toStringHelper(this).add("firstName", firstName)
 				.add("lastName", lastName).add("email", email)
 				.add("password", password).add("birthDate", birthDate)
-				.add("vip", vip).toString();
+				.toString();
 	}
 
 	@Override
 	public int hashCode() {
-		return hash(firstName, lastName, email, password, birthDate, vip);
+		return hash(firstName, lastName, email, password, birthDate);
 	}
 
 	@Override
@@ -91,8 +85,7 @@ public class User extends Entity {
 				&& areEqual(this.lastName, that.lastName)
 				&& areEqual(this.email, that.email)
 				&& areEqual(this.password, that.password)
-				&& areEqual(this.birthDate, that.birthDate)
-				&& areEqual(this.vip, that.vip);
+				&& areEqual(this.birthDate, that.birthDate);
 	}
 
 	public static UserBuilder builder() {
