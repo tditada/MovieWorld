@@ -60,7 +60,7 @@ public class Movie extends Entity {
 		return title;
 	}
 
-	public List<MovieGenres> getGenre() {
+	public List<MovieGenres> getGenres() {
 		return genres;
 	}
 

@@ -1,6 +1,5 @@
-package ar.edu.itba.paw.g4.persist;
+package ar.edu.itba.paw.g4.util.persist;
 
-import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public interface GenericDAO<E extends Entity> {
 	public void save(E entity);

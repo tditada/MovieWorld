@@ -1,16 +1,24 @@
 package ar.edu.itba.paw.g4;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.g4.enums.MovieGenres;
+import ar.edu.itba.paw.g4.model.Director;
+import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.User;
+import ar.edu.itba.paw.g4.persist.MovieDAO;
 import ar.edu.itba.paw.g4.persist.UserDAO;
+import ar.edu.itba.paw.g4.persist.impl.SQLMovieDAO;
 import ar.edu.itba.paw.g4.persist.impl.SQLUserDAO;
 import ar.edu.itba.paw.g4.util.EmailAddress;
+
+import com.google.common.collect.Lists;
 
 public class DummyMain {
 	public static void main(String[] args) throws Exception {
 		UserDAO userDAO = SQLUserDAO.getInstance();
-		// CommentDAO commentDAO = CommentDAOImpl.getInstance();
 
 		User user = User.builder().withBirthDate(DateTime.now())
 				.withEmail(EmailAddress.build("pepes@foo.com"))
@@ -19,6 +27,38 @@ public class DummyMain {
 
 		userDAO.save(user);
 
-		// commentDAO.save(entity);
+		User user2 = userDAO.getById(user.getId());
+		if (!user.equals(user2)) {
+			System.out.println(user);
+			System.out.println(user2);
+			throw new RuntimeException("Problemas con el userDAO");
+		}
+
+		MovieDAO movieDAO = SQLMovieDAO.getInstance();
+
+		List<MovieGenres> genres = Lists.newArrayList(MovieGenres.ACTION);
+		Director director = Director.builder().withName("El Barto").build();
+		Movie movie = Movie
+				.builder()
+				.withTitle("Bartman, el origen")
+				.withSummary(
+						"La epica historia del barto, plagada de accion y groserias")
+				.withDirector(director)
+				.withCreationDate(DateTime.now().minusYears(1))
+				.withGenres(genres)
+				.withReleaseDate(DateTime.now().minusMonths(1))
+				.withRuntimeInMins(115).build();
+
+		movieDAO.save(movie);
+
+		Movie movie2 = movieDAO.getById(movie.getId());
+		if (!movie.equals(movie2)) {
+			System.out.println(movie);
+			System.out.println(movie2);
+			throw new RuntimeException("Problemas con el movieDAO");
+		}
+
+		System.out.println("Everything OK");
+
 	}
 }

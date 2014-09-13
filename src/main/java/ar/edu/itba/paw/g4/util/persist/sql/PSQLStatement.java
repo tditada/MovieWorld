@@ -6,24 +6,28 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkState;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
-public class SQLStatement {
+public class PSQLStatement {
+	private Connection connection;
 	private PreparedStatement statement;
 	private int parameterCount = 0;
 	private boolean update;
 
-	public SQLStatement(Connection connection, String sql, boolean update)
+	public PSQLStatement(Connection connection, String sql, boolean update)
 			throws SQLException {
 		checkArgument(connection, notNull());
 		checkArgument(sql, neitherNullNorEmpty());
 
+		this.connection = connection;
 		this.update = update;
 		if (update) {
 			this.statement = connection.prepareStatement(sql,
@@ -33,30 +37,47 @@ public class SQLStatement {
 		}
 	}
 
-	public SQLStatement addParameter(String value) throws SQLException {
+	public PSQLStatement addParameter(String value) throws SQLException {
 		checkArgument(value, notNull());
 		this.statement.setString(++parameterCount, value);
 		return this;
 	}
 
-	public SQLStatement addParameter(int value) throws SQLException {
+	public PSQLStatement addParameter(int value) throws SQLException {
 		this.statement.setInt(++parameterCount, value);
 		return this;
 	}
 
-	public SQLStatement addParameter(DateTime date) throws SQLException {
+	public PSQLStatement addParameter(DateTime date) throws SQLException {
 		checkArgument(date, notNull());
 		this.statement.setTimestamp(++parameterCount, asTimestamp(date));
 		return this;
 	}
 
+	public void addParameter(String sqlType, List<?> list) throws SQLException {
+		checkArgument(list, notNull());
+		Array elements = connection.createArrayOf(sqlType, list.toArray());
+		this.statement.setArray(++parameterCount, elements);
+	}
+
+	public void addParameter(List<? extends Enum<?>> list) throws SQLException {
+		checkArgument(list, notNull());
+		//IMPORTANT: it's 'varchar' and not 'VARCHAR'
+		Array elements = connection.createArrayOf("varchar", list.toArray());
+		this.statement.setArray(++parameterCount, elements);
+	}
+
 	public int executeUpdate() throws SQLException {
 		checkState(update);
-		return statement.executeUpdate();
+		statement.executeUpdate();
+		ResultSet result = statement.getGeneratedKeys();
+		result.next();
+		return (int) result.getLong(1); // TODO: Check this!
 	}
 
 	public ResultSet executeQuery() throws SQLException {
 		checkState(!update);
 		return statement.executeQuery();
 	}
+
 }

@@ -22,11 +22,10 @@ public class User extends Entity {
 							 * TODO: validate min length!
 							 */
 	private DateTime birthDate;
-	private boolean vip;
 
 	@GeneratePojoBuilder
 	public User(String firstName, String lastName, EmailAddress email,
-			String password, DateTime birthDate, boolean vip) {
+			String password, DateTime birthDate) {
 		checkArgument(email, notNull());
 		checkArgument(birthDate, notNull());
 		checkArgument(firstName, neitherNullNorEmpty());
@@ -38,7 +37,6 @@ public class User extends Entity {
 		this.email = email;
 		this.password = password;
 		this.birthDate = birthDate;
-		this.vip = vip;
 	}
 
 	public String getFirstName() {
@@ -61,21 +59,17 @@ public class User extends Entity {
 		return birthDate;
 	}
 
-	public boolean isVip() {
-		return vip;
-	}
-
 	@Override
 	public String toString() {
 		return toStringHelper(this).add("firstName", firstName)
 				.add("lastName", lastName).add("email", email)
 				.add("password", password).add("birthDate", birthDate)
-				.add("vip", vip).toString();
+				.toString();
 	}
 
 	@Override
 	public int hashCode() {
-		return hash(firstName, lastName, email, password, birthDate, vip);
+		return hash(firstName, lastName, email, password, birthDate);
 	}
 
 	@Override
@@ -91,8 +85,7 @@ public class User extends Entity {
 				&& areEqual(this.lastName, that.lastName)
 				&& areEqual(this.email, that.email)
 				&& areEqual(this.password, that.password)
-				&& areEqual(this.birthDate, that.birthDate)
-				&& areEqual(this.vip, that.vip);
+				&& areEqual(this.birthDate, that.birthDate);
 	}
 
 	public static UserBuilder builder() {

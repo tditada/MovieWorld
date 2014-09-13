@@ -1,25 +1,33 @@
 package ar.edu.itba.paw.g4.persist.impl;
 
-import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getBoolean;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
 import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getDateTime;
-import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getEmailAddress;
 import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getEnum;
 import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getInt;
 import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getString;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
+import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static com.google.common.collect.FluentIterable.from;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.itba.paw.g4.enums.MovieGenres;
-import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.Movie;
-import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.MovieDAO;
+import ar.edu.itba.paw.g4.util.persist.sql.DatabaseConnection;
+import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;
+
+import com.google.common.collect.Lists;
 
 public class SQLMovieDAO implements MovieDAO {
+	private static final String TABLE_NAME = "movies";
+
 	private static final MovieDAO instance = new SQLMovieDAO();
 
 	public static MovieDAO getInstance() {
@@ -27,46 +35,99 @@ public class SQLMovieDAO implements MovieDAO {
 	}
 
 	@Override
-	public void save(Movie movie) {
-		// TODO Auto-generated method stub
+	public void save(final Movie movie) {
+		checkArgument(movie, notNull());
 
+		new DatabaseConnection<Void>() {
+
+			@Override
+			protected Void handleConnection(Connection connection)
+					throws SQLException {
+				String query;
+				List<String> columns = Lists.newArrayList("title",
+						"creationDate", "releaseDate", "genres",
+						"directorName", "runtimeMins", "summary");
+				if (!movie.isPersisted()) {
+					query = insertQuery(TABLE_NAME, columns);
+				} else {
+					columns.add("movieId");
+					query = updateQuery(TABLE_NAME, columns);
+				}
+
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						true);
+				statement.addParameter(movie.getTitle());
+				statement.addParameter(movie.getCreationDate());
+				statement.addParameter(movie.getReleaseDate());
+				statement.addParameter(movie.getGenres());
+				statement.addParameter(movie.getDirector().getName());
+				statement.addParameter(movie.getRuntimeInMins());
+				statement.addParameter(movie.getSummary());
+
+				if (movie.isPersisted()) {
+					statement.addParameter(movie.getId());
+				}
+
+				int result = statement.executeUpdate();
+
+				if (!movie.isPersisted()) {
+					movie.setId(result);
+				}
+
+				connection.commit();
+				return null;
+			}
+
+		}.run();/*
+				 * TODO: preguntar si estaria bien meterlo en el constructor de
+				 * DatabaseConnection
+				 */
 	}
 
 	@Override
-	public Movie getById(int id) {
-		// ResultSet results = statement.executeQuery();
-		// while (results.next()) {
-		// Director director = Director.builder().withName("directorName")
-		// .build();
-		//
-		// List<MovieGenres> genres = from(
-		// getEnum(results, "genres", MovieGenres.getConverter()))
-		// .copyInto(new LinkedList<MovieGenres>());
-		//
-		// Movie movie = movieDAO.getById(getInt(results,"movieId"));
-		// .builder()
-		// .withId(getInt(results, "movieId"))
-		// .withTitle(getString(results, "title"))
-		// .withCreationDate(
-		// getDateTime(results, "Movies.creationDate"))
-		// .withReleaseDate(getDateTime(results, "releaseDate"))
-		// .withGenres(genres).withDirector(director)
-		// .withRuntimeInMins(getInt(results, "runtimeMins"))
-		// .withSummary(getString(results, "summary")).build();
-		//
-		// User user = User.builder().withId(getInt(results, "usersId"))
-		// .withFirstName(getString(results, "firstName"))
-		// .withLastName(getString(results, "lastName"))
-		// .withPassword(getString(results, "password"))
-		// .withEmail(getEmailAddress(results, "email"))
-		// .withBirthDate(getDateTime(results, "birthDate"))
-		// .withVip(getBoolean(results, "vip")).build();
-		//
-		// comment = Comment.builder().withId(id).withMovie(movie)
-		// .withUser(user).withScore(getInt(results, "score"))
-		// .withText(getString(results, "txt")).build();
+	public Movie getById(final int id) {
+		DatabaseConnection<Movie> connection = new DatabaseConnection<Movie>() {
 
-		return null;
+			@Override
+			protected Movie handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME
+						+ " WHERE movieId=?";
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+				statement.addParameter(id);
+
+				ResultSet results = statement.executeQuery();
+				if (results.next()) {
+
+					Director director = Director.builder()
+							.withName(getString(results, "directorName"))
+							.build();
+
+					List<MovieGenres> genres = from(
+							getEnum(results, "genres",
+									MovieGenres.getConverter())).copyInto(
+							new LinkedList<MovieGenres>());
+
+					Movie movie = Movie
+							.builder()
+							.withId(getInt(results, "movieId"))
+							.withTitle(getString(results, "title"))
+							.withCreationDate(
+									getDateTime(results, "creationDate"))
+							.withReleaseDate(
+									getDateTime(results, "releaseDate"))
+							.withGenres(genres).withDirector(director)
+							.withRuntimeInMins(getInt(results, "runtimeMins"))
+							.withSummary(getString(results, "summary")).build();
+					movie.setId(id);
+					return movie;
+				}
+				return null; // TODO: ver si no habria que tirar exception aca
+								// (pelicula inexistente)
+			}
+		};
+		return connection.run();
 	}
 
 }

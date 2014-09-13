@@ -17,7 +17,7 @@ import java.util.List;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.UserDAO;
 import ar.edu.itba.paw.g4.util.persist.sql.DatabaseConnection;
-import ar.edu.itba.paw.g4.util.persist.sql.SQLStatement;
+import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;
 
 import com.google.common.collect.Lists;
 
@@ -49,7 +49,7 @@ public class SQLUserDAO implements UserDAO {
 					query = updateQuery(TABLE_NAME, columns);
 				}
 
-				SQLStatement statement = new SQLStatement(connection, query,
+				PSQLStatement statement = new PSQLStatement(connection, query,
 						true);
 				statement.addParameter(user.getFirstName());
 				statement.addParameter(user.getLastName());
@@ -86,19 +86,23 @@ public class SQLUserDAO implements UserDAO {
 					throws SQLException {
 				String query = "SELECT * FROM " + TABLE_NAME
 						+ " WHERE userId=?";
-				SQLStatement statement = new SQLStatement(connection, query,
+				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
 				statement.addParameter(id);
 
 				ResultSet results = statement.executeQuery();
-				return User.builder().withId(id)
-						.withFirstName(getString(results, "firstName"))
-						.withLastName(getString(results, "lastName"))
-						.withPassword(getString(results, "password"))
-						.withEmail(getEmailAddress(results, "email"))
-						.withBirthDate(getDateTime(results, "birthDate"))
-						.withVip(getBoolean(results, "vip")).build();
-
+				if (results.next()) {
+					User user = User.builder()
+							.withFirstName(getString(results, "firstName"))
+							.withLastName(getString(results, "lastName"))
+							.withPassword(getString(results, "password"))
+							.withEmail(getEmailAddress(results, "emailAddr"))
+							.withBirthDate(getDateTime(results, "birthDate"))
+							.build();
+					user.setId(id);
+					return user;
+				}
+				return null;//TODO: ver si no habria que tirar exception aca (usuario inexistente)
 			}
 		};
 		return connection.run();
