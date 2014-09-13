@@ -9,6 +9,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.services.GenericUserService;
 import ar.edu.itba.paw.g4.services.UserService;
 
@@ -32,13 +33,12 @@ public class UserFilter implements Filter{
 			FilterChain chain) throws IOException, ServletException {
 		//¿Está bien este casteo? HttpServletRequest extiende HttpServlet
 		GenericUserService userService = new UserService((HttpServletRequest) req);
-		if (userService.userHasSession() && req.getAttribute("user")==null) {
+		if (req.getAttribute("user")==null && userService.userHasSession()) {
 			// LE PIDO AL SERVICE QUE ME ARME EL USUARIO
 			// EL USUARIO LO METO EN EL REQUEST
 //			req.setAttribute("user",);
-			return;
 		}
-		
+		chain.doFilter(req, rsp);		
 	}
 
 

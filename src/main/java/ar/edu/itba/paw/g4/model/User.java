@@ -22,6 +22,7 @@ public class User extends Entity {
 							 * TODO: validate min length!
 							 */
 	private DateTime birthDate;
+	private boolean vip;
 
 	@GeneratePojoBuilder
 	public User(String firstName, String lastName, EmailAddress email,
