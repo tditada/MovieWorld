@@ -1,11 +1,10 @@
 package ar.edu.itba.paw.g4.persist.impl;
 
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getEmailAddress;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
-import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getBoolean;
-import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getDateTime;
-import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getEmailAddress;
-import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getString;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
@@ -21,12 +20,12 @@ import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;
 
 import com.google.common.collect.Lists;
 
-public class SQLUserDAO implements UserDAO {
+public class PSQLUserDAO implements UserDAO {
 	private static final String TABLE_NAME = "users";
 
-	private static final SQLUserDAO instance = new SQLUserDAO();
+	private static final PSQLUserDAO instance = new PSQLUserDAO();
 
-	public static SQLUserDAO getInstance() {
+	public static PSQLUserDAO getInstance() {
 		return instance;
 	}
 
@@ -102,7 +101,8 @@ public class SQLUserDAO implements UserDAO {
 					user.setId(id);
 					return user;
 				}
-				return null;//TODO: ver si no habria que tirar exception aca (usuario inexistente)
+				return null;// TODO: ver si no habria que tirar exception aca
+							// (usuario inexistente)
 			}
 		};
 		return connection.run();

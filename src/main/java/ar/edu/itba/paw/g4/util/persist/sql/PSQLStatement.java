@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.g4.util.persist.sql;
 
-import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.asTimestamp;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.asTimestamp;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
@@ -62,7 +62,7 @@ public class PSQLStatement {
 
 	public void addParameter(List<? extends Enum<?>> list) throws SQLException {
 		checkArgument(list, notNull());
-		//IMPORTANT: it's 'varchar' and not 'VARCHAR'
+		// IMPORTANT: it's 'varchar' and not 'VARCHAR'
 		Array elements = connection.createArrayOf("varchar", list.toArray());
 		this.statement.setArray(++parameterCount, elements);
 	}

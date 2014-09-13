@@ -1,24 +1,31 @@
 package ar.edu.itba.paw.g4;
 
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getInt;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
+
 import java.util.List;
 
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.enums.MovieGenres;
+import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.User;
+import ar.edu.itba.paw.g4.persist.CommentDAO;
 import ar.edu.itba.paw.g4.persist.MovieDAO;
 import ar.edu.itba.paw.g4.persist.UserDAO;
-import ar.edu.itba.paw.g4.persist.impl.SQLMovieDAO;
-import ar.edu.itba.paw.g4.persist.impl.SQLUserDAO;
+import ar.edu.itba.paw.g4.persist.impl.PSQLCommentDAO;
+import ar.edu.itba.paw.g4.persist.impl.PSQLMovieDAO;
+import ar.edu.itba.paw.g4.persist.impl.PSQLUserDAO;
 import ar.edu.itba.paw.g4.util.EmailAddress;
 
 import com.google.common.collect.Lists;
 
 public class DummyMain {
 	public static void main(String[] args) throws Exception {
-		UserDAO userDAO = SQLUserDAO.getInstance();
+		UserDAO userDAO = PSQLUserDAO.getInstance();
 
 		User user = User.builder().withBirthDate(DateTime.now())
 				.withEmail(EmailAddress.build("pepes@foo.com"))
@@ -34,7 +41,7 @@ public class DummyMain {
 			throw new RuntimeException("Problemas con el userDAO");
 		}
 
-		MovieDAO movieDAO = SQLMovieDAO.getInstance();
+		MovieDAO movieDAO = PSQLMovieDAO.getInstance();
 
 		List<MovieGenres> genres = Lists.newArrayList(MovieGenres.ACTION);
 		Director director = Director.builder().withName("El Barto").build();
@@ -58,6 +65,21 @@ public class DummyMain {
 			throw new RuntimeException("Problemas con el movieDAO");
 		}
 
+		CommentDAO commentDAO = PSQLCommentDAO.getInstance();
+
+		Comment comment = Comment.builder().withScore(5)
+				.withText("Me fascino. Cambio mi vida")
+				.withCreationDate(DateTime.now()).withMovie(movie)
+				.withUser(user).build();
+
+		commentDAO.save(comment);
+
+		Comment comment2 = commentDAO.getById(comment.getId());
+		if (!comment.equals(comment2)) {
+			System.out.println(comment);
+			System.out.println(comment2);
+			throw new RuntimeException("Problemas con el commentDAO");
+		}
 		System.out.println("Everything OK");
 
 	}

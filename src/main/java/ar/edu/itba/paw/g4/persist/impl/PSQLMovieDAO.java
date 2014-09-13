@@ -2,10 +2,10 @@ package ar.edu.itba.paw.g4.persist.impl;
 
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
-import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getDateTime;
-import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getEnum;
-import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getInt;
-import static ar.edu.itba.paw.g4.util.persist.sql.SQLQueryHelpers.getString;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getEnum;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getInt;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static com.google.common.collect.FluentIterable.from;
@@ -25,10 +25,10 @@ import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;
 
 import com.google.common.collect.Lists;
 
-public class SQLMovieDAO implements MovieDAO {
+public class PSQLMovieDAO implements MovieDAO {
 	private static final String TABLE_NAME = "movies";
 
-	private static final MovieDAO instance = new SQLMovieDAO();
+	private static final MovieDAO instance = new PSQLMovieDAO();
 
 	public static MovieDAO getInstance() {
 		return instance;
@@ -111,7 +111,6 @@ public class SQLMovieDAO implements MovieDAO {
 
 					Movie movie = Movie
 							.builder()
-							.withId(getInt(results, "movieId"))
 							.withTitle(getString(results, "title"))
 							.withCreationDate(
 									getDateTime(results, "creationDate"))
