@@ -3,7 +3,7 @@
 # echo "Cleaning..."
 # mvn clean
 echo "Compiling..."
-mvn compile
+# mvn compile
 
 echo "Copying generated builders in .../g4/model"
 mkdir -p src/main/resources/generated/java/ar/edu/itba/paw/g4/model
