@@ -1,9 +1,5 @@
 package ar.edu.itba.paw.g4;
 
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getInt;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
-
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -25,6 +21,10 @@ import com.google.common.collect.Lists;
 
 public class DummyMain {
 	public static void main(String[] args) throws Exception {
+		testDAOs();
+	}
+
+	private static void testDAOs() {
 		UserDAO userDAO = PSQLUserDAO.getInstance();
 
 		User user = User.builder().withBirthDate(DateTime.now())
