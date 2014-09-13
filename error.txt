@@ -1,0 +1,179 @@
+Compiling...
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Movie World 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.3:resources (default-resources) @ MovieWorld ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.0.2:compile (default-compile) @ MovieWorld ---
+[INFO] Compiling 13 source files to /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/target/classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.672s
+[INFO] Finished at: Sat Sep 13 17:05:43 ART 2014
+[INFO] Final Memory: 10M/104M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:2.0.2:compile (default-compile) on project MovieWorld: Compilation failure: Compilation failure:
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLMovieDAO.java:[50,14] error: cannot find symbol
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method isPersisted()
+[ERROR] location: variable movie of type Movie
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLMovieDAO.java:67: error: cannot find symbol
+[ERROR] if (movie.isPersisted()) {
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method isPersisted()
+[ERROR] location: variable movie of type Movie
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLMovieDAO.java:68: error: cannot find symbol
+[ERROR] statement.addParameter(movie.getId());
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method getId()
+[ERROR] location: variable movie of type Movie
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLMovieDAO.java:73: error: cannot find symbol
+[ERROR] if (!movie.isPersisted()) {
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method isPersisted()
+[ERROR] location: variable movie of type Movie
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLMovieDAO.java:74: error: cannot find symbol
+[ERROR] movie.setId(result);
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method setId(int)
+[ERROR] location: variable movie of type Movie
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLMovieDAO.java:103: error: cannot access DirectorBuilder
+[ERROR] Director director = Director.builder()
+[ERROR] ^
+[ERROR] 
+[ERROR] class file for DirectorBuilder not found
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLMovieDAO.java:[113,15] error: cannot access MovieBuilder
+[ERROR] 
+[ERROR] class file for MovieBuilder not found
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLMovieDAO.java:[122,10] error: cannot find symbol
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method setId(int)
+[ERROR] location: variable movie of type Movie
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/MovieDAO.java:6: error: type argument Movie is not within bounds of type-variable E
+[ERROR] public interface MovieDAO extends GenericDAO<Movie> {
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   where E is a type-variable:
+[ERROR] E extends Entity declared in interface GenericDAO
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/UserDAO.java:6: error: type argument User is not within bounds of type-variable E
+[ERROR] public interface UserDAO extends GenericDAO<User> {
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   where E is a type-variable:
+[ERROR] E extends Entity declared in interface GenericDAO
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/CommentDAO.java:6: error: type argument Comment is not within bounds of type-variable E
+[ERROR] public interface CommentDAO extends GenericDAO<Comment> {
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   where E is a type-variable:
+[ERROR] E extends Entity declared in interface GenericDAO
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLCommentDAO.java:51: error: cannot find symbol
+[ERROR] if (!comment.isPersisted()) {
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method isPersisted()
+[ERROR] location: variable comment of type Comment
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLCommentDAO.java:63: error: cannot find symbol
+[ERROR] statement.addParameter(comment.getUser().getId());
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method getId()
+[ERROR] location: class User
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLCommentDAO.java:64: error: cannot find symbol
+[ERROR] statement.addParameter(comment.getMovie().getId());
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method getId()
+[ERROR] location: class Movie
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLCommentDAO.java:66: error: cannot find symbol
+[ERROR] if (comment.isPersisted()) {
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method isPersisted()
+[ERROR] location: variable comment of type Comment
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLCommentDAO.java:67: error: cannot find symbol
+[ERROR] statement.addParameter(comment.getId());
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method getId()
+[ERROR] location: variable comment of type Comment
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLCommentDAO.java:72: error: cannot find symbol
+[ERROR] if (!comment.isPersisted()) {
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method isPersisted()
+[ERROR] location: variable comment of type Comment
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLCommentDAO.java:73: error: cannot find symbol
+[ERROR] comment.setId(result);
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method setId(int)
+[ERROR] location: variable comment of type Comment
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLCommentDAO.java:105: error: cannot access CommentBuilder
+[ERROR] .builder()
+[ERROR] ^
+[ERROR] 
+[ERROR] class file for CommentBuilder not found
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLCommentDAO.java:[111,12] error: cannot find symbol
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method setId(int)
+[ERROR] location: variable comment of type Comment
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLUserDAO.java:44: error: cannot find symbol
+[ERROR] if (!user.isPersisted()) {
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method isPersisted()
+[ERROR] location: variable user of type User
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLUserDAO.java:55: error: cannot access EmailAddress
+[ERROR] statement.addParameter(user.getEmail().asTextAddress());
+[ERROR] ^
+[ERROR] 
+[ERROR] class file for EmailAddress not found
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLUserDAO.java:[59,12] error: cannot find symbol
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method isPersisted()
+[ERROR] location: variable user of type User
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLUserDAO.java:60: error: cannot find symbol
+[ERROR] statement.addParameter(user.getId());
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method getId()
+[ERROR] location: variable user of type User
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLUserDAO.java:65: error: cannot find symbol
+[ERROR] if (!user.isPersisted()) {
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method isPersisted()
+[ERROR] location: variable user of type User
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLUserDAO.java:66: error: cannot find symbol
+[ERROR] user.setId(result);
+[ERROR] ^
+[ERROR] 
+[ERROR] could not parse error message:   symbol:   method setId(int)
+[ERROR] location: variable user of type User
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLUserDAO.java:94: error: cannot access UserBuilder
+[ERROR] User user = User.builder()
+[ERROR] ^
+[ERROR] 
+[ERROR] class file for UserBuilder not found
+[ERROR] /home/tere/Desktop/ITBA/jiol-sucker/2014-2/PROYECTO-DE-APLICACIONES-WEB-72.38/TPE/src/main/java/ar/edu/itba/paw/g4/persist/impl/PSQLUserDAO.java:[101,9] error: cannot find symbol
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+Copying generated builders in .../g4/model
+Copying generated builders in .../g4/util
+target/classes/ar/edu/itba/paw/g4/util/EmailAddressBuilder.java
