@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.g4.util.validation;
 
 import java.util.Collection;
+import java.util.Map;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -20,6 +21,13 @@ public class PredicateHelpers {
 		@Override
 		public boolean apply(Collection<?> coll) {
 			return !coll.isEmpty();
+		}
+	};
+
+	private static Predicate<Map<?, ?>> MAP_NOT_EMPTY = new Predicate<Map<?, ?>>() {
+		@Override
+		public boolean apply(Map<?, ?> map) {
+			return !map.isEmpty();
 		}
 	};
 
@@ -57,5 +65,9 @@ public class PredicateHelpers {
 
 	public static Predicate<Object[]> notEmptyArr() {
 		return ARR_NOT_EMPTY;
+	}
+
+	public static Predicate<Map<?, ?>> notEmptyMap() {
+		return MAP_NOT_EMPTY;
 	}
 }

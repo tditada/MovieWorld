@@ -2,10 +2,10 @@ package ar.edu.itba.paw.g4.persist.impl;
 
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getEnum;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getInt;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLResultHelpers.getDateTime;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLResultHelpers.getEnum;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLResultHelpers.getInt;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLResultHelpers.getString;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static com.google.common.collect.FluentIterable.from;

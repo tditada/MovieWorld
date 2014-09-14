@@ -1,10 +1,10 @@
 package ar.edu.itba.paw.g4.persist.impl;
 
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getEmailAddress;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLResultHelpers.getDateTime;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLResultHelpers.getEmailAddress;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLResultHelpers.getString;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
