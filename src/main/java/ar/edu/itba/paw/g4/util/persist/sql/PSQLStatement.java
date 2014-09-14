@@ -67,13 +67,11 @@ public class PSQLStatement {
 			throws SQLException {
 		checkArgument(list, notNull());
 		// IMPORTANT: it's 'varchar' and not 'VARCHAR'
-		Array elements = connection.createArrayOf("varchar", list.toArray());
-		this.statement.setArray(++parameterCount, elements);
-		return this;
+		return addParameter("varchar", list);
 	}
 
 	public PSQLStatement addParameter(Object parameter) throws SQLException {
-		throw new UnsupportedOperationException("Type " + parameter.getClass()
+		throw new UnsupportedOperationException("Type " + parameter.getClass().getCanonicalName()
 				+ " is unsupported");
 	}
 
