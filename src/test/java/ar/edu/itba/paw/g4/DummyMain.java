@@ -82,5 +82,18 @@ public class DummyMain {
 		}
 		System.out.println("Everything OK");
 
+		List<Comment> commentsByMovie = commentDAO.getAllByMovie(movie);
+		if (!commentsByMovie.contains(comment)) {
+			System.out.println(commentsByMovie);
+			System.out.println(comment);
+			throw new RuntimeException("Problemas con el commentDAO");
+		}
+
+		List<Comment> commentsByUser = commentDAO.getAllByUser(user);
+		if (!commentsByUser.contains(comment)) {
+			System.out.println(commentsByUser);
+			System.out.println(comment);
+			throw new RuntimeException("Problemas con el commentDAO");
+		}
 	}
 }

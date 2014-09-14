@@ -99,34 +99,31 @@ public class PSQLMovieDAO implements MovieDAO {
 
 				ResultSet results = statement.executeQuery();
 				if (results.next()) {
-
-					Director director = Director.builder()
-							.withName(getString(results, "directorName"))
-							.build();
-
-					List<MovieGenres> genres = from(
-							getEnum(results, "genres",
-									MovieGenres.getConverter())).copyInto(
-							new LinkedList<MovieGenres>());
-
-					Movie movie = Movie
-							.builder()
-							.withTitle(getString(results, "title"))
-							.withCreationDate(
-									getDateTime(results, "creationDate"))
-							.withReleaseDate(
-									getDateTime(results, "releaseDate"))
-							.withGenres(genres).withDirector(director)
-							.withRuntimeInMins(getInt(results, "runtimeMins"))
-							.withSummary(getString(results, "summary")).build();
-					movie.setId(id);
-					return movie;
+					return getMovieFromResults(results);
 				}
 				return null; // TODO: ver si no habria que tirar exception aca
 								// (pelicula inexistente)
 			}
 		};
 		return connection.run();
+	}
+
+	private Movie getMovieFromResults(ResultSet results) throws SQLException {
+		Director director = Director.builder()
+				.withName(getString(results, "directorName")).build();
+
+		List<MovieGenres> genres = from(
+				getEnum(results, "genres", MovieGenres.getConverter()))
+				.copyInto(new LinkedList<MovieGenres>());
+
+		Movie movie = Movie.builder().withTitle(getString(results, "title"))
+				.withCreationDate(getDateTime(results, "creationDate"))
+				.withReleaseDate(getDateTime(results, "releaseDate"))
+				.withGenres(genres).withDirector(director)
+				.withRuntimeInMins(getInt(results, "runtimeMins"))
+				.withSummary(getString(results, "summary")).build();
+		movie.setId(getInt(results, "movieId"));
+		return movie;
 	}
 
 }
