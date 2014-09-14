@@ -78,8 +78,8 @@ public class Comment extends Entity {
 
 	@Override
 	public String toString() {
-		return toStringHelper(this).add("user", user).add("movie", movie)
-				.add("score", score).add("text", text)
+		return toStringHelper(this).add("id", getId()).add("user", user)
+				.add("movie", movie).add("score", score).add("text", text)
 				.add("creationDate", creationDate).toString();
 	}
 

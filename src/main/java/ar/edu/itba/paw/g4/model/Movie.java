@@ -88,7 +88,7 @@ public class Movie extends Entity {
 
 	@Override
 	public String toString() {
-		return toStringHelper(this).add("name", title)
+		return toStringHelper(this).add("name", title).add("id", getId())
 				.add("creationDate", creationDate)
 				.add("releaseDate", releaseDate).add("genres", genres)
 				.add("director", director).add("durationInMins", runtimeInMins)

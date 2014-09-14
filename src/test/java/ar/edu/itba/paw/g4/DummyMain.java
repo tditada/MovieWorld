@@ -1,9 +1,5 @@
 package ar.edu.itba.paw.g4;
 
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getInt;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
-
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -82,5 +78,18 @@ public class DummyMain {
 		}
 		System.out.println("Everything OK");
 
+		List<Comment> commentsByMovie = commentDAO.getAllByMovie(movie);
+		if (!commentsByMovie.contains(comment)) {
+			System.out.println(commentsByMovie);
+			System.out.println(comment);
+			throw new RuntimeException("Problemas con el commentDAO");
+		}
+
+		List<Comment> commentsByUser = commentDAO.getAllByUser(user);
+		if (!commentsByUser.contains(comment)) {
+			System.out.println(commentsByUser);
+			System.out.println(comment);
+			throw new RuntimeException("Problemas con el commentDAO");
+		}
 	}
 }

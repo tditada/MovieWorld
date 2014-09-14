@@ -54,17 +54,19 @@ public class PSQLStatement {
 		return this;
 	}
 
-	public void addParameter(String sqlType, List<?> list) throws SQLException {
+	public PSQLStatement addParameter(String sqlType, List<?> list)
+			throws SQLException {
 		checkArgument(list, notNull());
 		Array elements = connection.createArrayOf(sqlType, list.toArray());
 		this.statement.setArray(++parameterCount, elements);
+		return this;
 	}
 
-	public void addParameter(List<? extends Enum<?>> list) throws SQLException {
+	public PSQLStatement addParameter(List<? extends Enum<?>> list)
+			throws SQLException {
 		checkArgument(list, notNull());
 		// IMPORTANT: it's 'varchar' and not 'VARCHAR'
-		Array elements = connection.createArrayOf("varchar", list.toArray());
-		this.statement.setArray(++parameterCount, elements);
+		return addParameter("varchar", list);
 	}
 
 	public int executeUpdate() throws SQLException {
