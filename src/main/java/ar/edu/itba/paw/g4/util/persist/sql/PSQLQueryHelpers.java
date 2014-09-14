@@ -5,62 +5,60 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.Pair;
+import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.util.persist.query.Conditionals;
-import ar.edu.itba.paw.g4.util.persist.query.Orderings;
+import ar.edu.itba.paw.g4.util.EmailAddress;
+import ar.edu.itba.paw.g4.util.EnumHelpers;
+
+import com.google.common.base.Converter;
 
 public class PSQLQueryHelpers {
-	public static String selectAllQuery(String tableName,
-			List<Pair<String, Conditionals>> conditionals,
-			Pair<String, Orderings> ordering, Integer limit) {
-		checkArgument(tableName, neitherNullNorEmpty());
-		checkArgument(conditionals, notNull(), notEmptyColl());
-
-		String condStr = "";
-		for (Pair<String, Conditionals> condPair : conditionals) {
-			condStr += condPair.getKey()
-					+ conditionalToStr(condPair.getValue()) + "?";
-		}
-
-		return "SELECT * FROM " + tableName + " WHERE " + condStr
-				+ " ORDER BY " + ordering.getLeft() + " "
-				+ orderingToStr(ordering.getRight()) + " LIMIT "
-				+ limitToStr(limit) + " ;";
+	public static Timestamp asTimestamp(DateTime date) {
+		return new Timestamp(date.getMillis());
 	}
 
-	private static String limitToStr(Integer limit) {
-		return limit == null ? "ALL" : String.valueOf(limit.intValue());
+	public static DateTime getDateTime(ResultSet resultSet, String columnName)
+			throws SQLException {
+		Timestamp timestamp = resultSet.getTimestamp(columnName);
+		return new DateTime(timestamp);
 	}
 
-	private static String conditionalToStr(Conditionals conditional) {
-		switch (conditional) {
-		case EQ:
-			return "=";
-		case NEQ:
-			return "<>";
-		case SMALLER:
-			return "<";
-		case SEQ:
-			return "<=";
-		case BIGGER:
-			return ">";
-		case BEQ:
-			return ">=";
-		}
-		throw new IllegalArgumentException("Invalid conditional");
+	public static <T> T[] getArray(ResultSet resultSet, String columnName,
+			Class<T[]> clazz) throws SQLException {
+		T[] array = clazz.cast(resultSet.getArray(columnName).getArray());
+		return array;
 	}
 
-	private static String orderingToStr(Orderings ordering) {
-		switch (ordering) {
-		case ASC:
-			return "ASC";
-		case DESC:
-			return "DESC";
-		}
-		throw new IllegalArgumentException("Invalid ordering");
+	public static <E extends Enum<E>> Iterable<E> getEnum(ResultSet resultSet,
+			String columnName, Converter<String, E> converter)
+			throws SQLException {
+		String[] stringValues = getArray(resultSet, columnName, String[].class);
+		return EnumHelpers.valuesOf(converter, stringValues);
+	}
+
+	public static EmailAddress getEmailAddress(ResultSet resultSet,
+			String columnName) throws SQLException {
+		return EmailAddress.build(resultSet.getString(columnName));
+	}
+
+	public static String getString(ResultSet resultSet, String columnName)
+			throws SQLException {
+		return resultSet.getString(columnName);
+	}
+
+	public static int getInt(ResultSet resultSet, String columnName)
+			throws SQLException {
+		return resultSet.getInt(columnName);
+	}
+
+	public static boolean getBoolean(ResultSet resultSet, String columnName)
+			throws SQLException {
+		return resultSet.getBoolean(columnName);
 	}
 
 	public static String insertQuery(String tableName, List<String> columnNames) {

@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.g4.util.persist.sql;
 
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLResultHelpers.asTimestamp;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.asTimestamp;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
@@ -43,8 +43,7 @@ public class PSQLStatement {
 		return this;
 	}
 
-	public PSQLStatement addParameter(Integer value) throws SQLException {
-		checkArgument(value, notNull());
+	public PSQLStatement addParameter(int value) throws SQLException {
 		this.statement.setInt(++parameterCount, value);
 		return this;
 	}
@@ -55,26 +54,17 @@ public class PSQLStatement {
 		return this;
 	}
 
-	public PSQLStatement addParameter(String sqlType, List<?> list)
-			throws SQLException {
+	public void addParameter(String sqlType, List<?> list) throws SQLException {
 		checkArgument(list, notNull());
 		Array elements = connection.createArrayOf(sqlType, list.toArray());
 		this.statement.setArray(++parameterCount, elements);
-		return this;
 	}
 
-	public PSQLStatement addParameter(List<? extends Enum<?>> list)
-			throws SQLException {
+	public void addParameter(List<? extends Enum<?>> list) throws SQLException {
 		checkArgument(list, notNull());
 		// IMPORTANT: it's 'varchar' and not 'VARCHAR'
 		Array elements = connection.createArrayOf("varchar", list.toArray());
 		this.statement.setArray(++parameterCount, elements);
-		return this;
-	}
-
-	public PSQLStatement addParameter(Object parameter) throws SQLException {
-		throw new UnsupportedOperationException("Type " + parameter.getClass()
-				+ " is unsupported");
 	}
 
 	public int executeUpdate() throws SQLException {
