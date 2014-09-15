@@ -108,6 +108,28 @@ public class PSQLMovieDAO implements MovieDAO {
 		return connection.run();
 	}
 
+	@Override
+	public List<Movie> getAll() {
+		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
+
+			@Override
+			protected List<Movie> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME;
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+
+				ResultSet results = statement.executeQuery();
+				List<Movie> movies = new LinkedList<>();
+				while (results.next()) {
+					movies.add(getMovieFromResults(results));
+				}
+				return movies;
+			}
+		};
+		return connection.run();
+	}
+
 	private Movie getMovieFromResults(ResultSet results) throws SQLException {
 		Director director = Director.builder()
 				.withName(getString(results, "directorName")).build();
