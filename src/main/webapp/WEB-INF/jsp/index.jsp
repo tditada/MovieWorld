@@ -1,10 +1,5 @@
-<p/>
-   
-<h2>Buen dia, digame su nombre y signo: </h2> <br>
-<form action="horoscope" method="POST">
-	<input type="text" length="20" name="name">
-	<p/><br>
-	<input type="text" length="20" name="sign">
-	<p/><br>
-	<input type="submit">
-</form>
+<%@ include file="header.jsp" %>
+  <body>
+    <h1>Hello, world!</h1>
+  </body>
+  <%@ include file="footer.jsp" %>

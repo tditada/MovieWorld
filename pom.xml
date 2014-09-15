@@ -7,7 +7,7 @@
 	<name>Movie World</name>
 	<description>Movie DB webapp</description>
 	<dependencies>
-		<!-- View -->
+		<!-- View -->		
 		<dependency>
 		    <groupId>org.webjars</groupId>
 		    <artifactId>webjars-locator</artifactId>
@@ -22,7 +22,7 @@
 		    <groupId>org.webjars</groupId>
 		    <artifactId>bootstrap</artifactId>
 		    <version>3.2.0</version>
-		</dependency>
+		</dependency> 
 		<!-- DB -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
