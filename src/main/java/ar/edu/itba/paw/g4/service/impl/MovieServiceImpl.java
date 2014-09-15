@@ -2,6 +2,9 @@ package ar.edu.itba.paw.g4.service.impl;
 
 import java.util.List;
 
+import ar.edu.itba.paw.g4.enums.MovieGenres;
+import ar.edu.itba.paw.g4.exception.DatabaseException;
+import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.persist.MovieDAO;
 import ar.edu.itba.paw.g4.persist.impl.PSQLMovieDAO;
@@ -12,7 +15,25 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public List<Movie> getAllMovies() {
-		return movieDAO.getAll();
+		try {
+			return movieDAO.getAll();
+		} catch (DatabaseException dbe) {
+			throw new ServiceException(dbe);/*
+											 * TODO: deberia chequear por otros
+											 * tipos de exception?
+											 */
+		}
 	}
 
+	@Override
+	public List<Movie> getAllMoviesByGenre(MovieGenres genre) {
+		try {
+			return movieDAO.getAllByGenre(genre);
+		} catch (DatabaseException dbe) {
+			throw new ServiceException(dbe);/*
+											 * TODO: deberia chequear por otros
+											 * tipos de exception?
+											 */
+		}
+	}
 }

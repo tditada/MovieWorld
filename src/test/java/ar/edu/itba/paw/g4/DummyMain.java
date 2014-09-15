@@ -102,5 +102,13 @@ public class DummyMain {
 			System.out.println(movie);
 			throw new RuntimeException("Problemas con el movieDAO");
 		}
+
+		List<Movie> allMoviesByGenre = movieDAO.getAllByGenre(movie.getGenres()
+				.get(0));
+		if (!allMoviesByGenre.contains(movie)) {
+			System.out.println(allMoviesByGenre);
+			System.out.println(movie);
+			throw new RuntimeException("Problemas con el movieDAO");
+		}
 	}
 }
