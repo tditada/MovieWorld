@@ -110,5 +110,15 @@ public class DummyMain {
 			System.out.println(movie);
 			throw new RuntimeException("Problemas con el movieDAO");
 		}
+
+		int n = 5;
+		List<Movie> newestNMovies = movieDAO.getNewestN(n);
+		System.out.println(newestNMovies);
+		if (!newestNMovies.contains(movie)
+				|| (allMovies.size() >= n && newestNMovies.size() < n)) {
+			System.out.println(newestNMovies);
+			System.out.println(movie);
+			throw new RuntimeException("Problemas con el movieDAO");
+		}
 	}
 }

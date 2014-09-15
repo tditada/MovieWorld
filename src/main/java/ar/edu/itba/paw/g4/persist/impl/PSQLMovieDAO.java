@@ -128,6 +128,7 @@ public class PSQLMovieDAO implements MovieDAO {
 
 	@Override
 	public List<Movie> getAllByGenre(final MovieGenres genre) {
+		checkArgument(genre, notNull());
 		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
 
 			@Override
@@ -138,6 +139,27 @@ public class PSQLMovieDAO implements MovieDAO {
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
 				statement.addParameter(genre);
+
+				ResultSet results = statement.executeQuery();
+				return getMoviesFromResults(results);
+			}
+		};
+		return connection.run();
+	}
+
+	@Override
+	public List<Movie> getNewestN(final int quantity) {
+		checkArgument(quantity > 0);
+		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
+
+			@Override
+			protected List<Movie> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME
+						+ " ORDER BY creationDate DESC LIMIT ?;";
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+				statement.addParameter(quantity);
 
 				ResultSet results = statement.executeQuery();
 				return getMoviesFromResults(results);

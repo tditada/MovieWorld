@@ -12,4 +12,6 @@ public interface MovieDAO extends GenericDAO<Movie> {
 
 	public List<Movie> getAllByGenre(MovieGenres genre);
 
+	public List<Movie> getNewestN(int quantity);
+
 }

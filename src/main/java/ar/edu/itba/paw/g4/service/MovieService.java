@@ -9,4 +9,6 @@ public interface MovieService {
 	public List<Movie> getAllMovies();
 
 	public List<Movie> getAllMoviesByGenre(MovieGenres genre);
+
+	public List<Movie> getNewestNMovies(int quantity);
 }
