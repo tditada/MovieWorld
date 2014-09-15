@@ -113,10 +113,17 @@ public class DummyMain {
 
 		int n = 5;
 		List<Movie> newestNMovies = movieDAO.getNewestN(n);
-		System.out.println(newestNMovies);
 		if (!newestNMovies.contains(movie)
 				|| (allMovies.size() >= n && newestNMovies.size() < n)) {
 			System.out.println(newestNMovies);
+			System.out.println(movie);
+			throw new RuntimeException("Problemas con el movieDAO");
+		}
+
+		List<Movie> allMoviesByDirector = movieDAO.getAllByDirector(movie
+				.getDirector());
+		if (!allMoviesByDirector.contains(movie)) {
+			System.out.println(allMoviesByDirector);
 			System.out.println(movie);
 			throw new RuntimeException("Problemas con el movieDAO");
 		}

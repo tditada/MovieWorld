@@ -1,16 +1,18 @@
 package ar.edu.itba.paw.g4.service.impl;
 
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
+import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+
 import java.util.List;
 
 import ar.edu.itba.paw.g4.enums.MovieGenres;
 import ar.edu.itba.paw.g4.exception.DatabaseException;
 import ar.edu.itba.paw.g4.exception.ServiceException;
+import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.persist.MovieDAO;
 import ar.edu.itba.paw.g4.persist.impl.PSQLMovieDAO;
 import ar.edu.itba.paw.g4.service.MovieService;
-import static ar.edu.itba.paw.g4.util.validation.Validations.*;
-import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.*;
 
 public class MovieServiceImpl implements MovieService {
 	private MovieDAO movieDAO = PSQLMovieDAO.getInstance();
@@ -52,4 +54,18 @@ public class MovieServiceImpl implements MovieService {
 											 */
 		}
 	}
+
+	@Override
+	public List<Movie> getAllMoviesByDirector(Director director) {
+		checkArgument(director, notNull());
+		try {
+			return movieDAO.getAllByDirector(director);
+		} catch (DatabaseException dbe) {
+			throw new ServiceException(dbe);/*
+											 * TODO: deberia chequear por otros
+											 * tipos de exception?
+											 */
+		}
+	}
+
 }
