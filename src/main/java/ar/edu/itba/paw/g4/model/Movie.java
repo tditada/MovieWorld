@@ -21,7 +21,7 @@ import ar.edu.itba.paw.g4.enums.MovieGenres;
 import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class Movie extends Entity {
-	private static final int MAX_DAYS_AS_RELEASE = 6;
+	private static final int DAYS_AS_RELEASE = 6;
 
 	private String title;
 	private DateTime creationDate;
@@ -82,7 +82,7 @@ public class Movie extends Entity {
 
 	public boolean isRelease() {
 		Interval releaseInterval = new Interval(releaseDate,
-				Period.days(MAX_DAYS_AS_RELEASE));
+				Period.days(DAYS_AS_RELEASE));
 		return releaseInterval.contains(now());
 	}
 
