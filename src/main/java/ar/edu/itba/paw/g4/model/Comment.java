@@ -26,7 +26,7 @@ public class Comment extends Entity {
 	@GeneratePojoBuilder
 	public Comment(String text, int score, User user, Movie movie,
 			DateTime creationDate) {
-		checkArgument(score > MIN_SCORE && score < MAX_SCORE);
+		checkArgument(score >= MIN_SCORE && score <= MAX_SCORE);
 		checkArgument(text, neitherNullNorEmpty());
 		checkArgument(user, notNull());
 		checkArgument(movie, notNull());
