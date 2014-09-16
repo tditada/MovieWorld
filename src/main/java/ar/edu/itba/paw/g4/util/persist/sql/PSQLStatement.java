@@ -54,17 +54,32 @@ public class PSQLStatement {
 		return this;
 	}
 
-	public void addParameter(String sqlType, List<?> list) throws SQLException {
-		checkArgument(list, notNull());
-		Array elements = connection.createArrayOf(sqlType, list.toArray());
-		this.statement.setArray(++parameterCount, elements);
+	public <E extends Enum<E>> PSQLStatement addParameter(E value)
+			throws SQLException {
+		checkArgument(value, notNull());
+		return addParameter(value.name()); // TODO: check! (enum being added as
+											// string)
 	}
 
-	public void addParameter(List<? extends Enum<?>> list) throws SQLException {
+	public PSQLStatement addParameter(String sqlType, List<?> list)
+			throws SQLException {
+		checkArgument(list, notNull());
+		Array elements = connection.createArrayOf(sqlType, list.toArray());
+		/*
+		 * TODO: check if .name() is being used here
+		 */
+		/*
+		 * TODO: check if it's right to add lists of enums as lists of strings
+		 */
+		this.statement.setArray(++parameterCount, elements);
+		return this;
+	}
+
+	public PSQLStatement addParameter(List<? extends Enum<?>> list)
+			throws SQLException {
 		checkArgument(list, notNull());
 		// IMPORTANT: it's 'varchar' and not 'VARCHAR'
-		Array elements = connection.createArrayOf("varchar", list.toArray());
-		this.statement.setArray(++parameterCount, elements);
+		return addParameter("varchar", list);
 	}
 
 	public int executeUpdate() throws SQLException {

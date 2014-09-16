@@ -61,10 +61,10 @@ public class User extends Entity {
 
 	@Override
 	public String toString() {
-		return toStringHelper(this).add("firstName", firstName)
-				.add("lastName", lastName).add("email", email)
-				.add("password", password).add("birthDate", birthDate)
-				.toString();
+		return toStringHelper(this).add("id", getId())
+				.add("firstName", firstName).add("lastName", lastName)
+				.add("email", email).add("password", password)
+				.add("birthDate", birthDate).toString();
 	}
 
 	@Override

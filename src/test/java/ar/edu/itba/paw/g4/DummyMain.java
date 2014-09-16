@@ -82,5 +82,50 @@ public class DummyMain {
 		}
 		System.out.println("Everything OK");
 
+		List<Comment> commentsByMovie = commentDAO.getAllByMovie(movie);
+		if (!commentsByMovie.contains(comment)) {
+			System.out.println(commentsByMovie);
+			System.out.println(comment);
+			throw new RuntimeException("Problemas con el commentDAO");
+		}
+
+		List<Comment> commentsByUser = commentDAO.getAllByUser(user);
+		if (!commentsByUser.contains(comment)) {
+			System.out.println(commentsByUser);
+			System.out.println(comment);
+			throw new RuntimeException("Problemas con el commentDAO");
+		}
+
+		List<Movie> allMovies = movieDAO.getAll();
+		if (!allMovies.contains(movie)) {
+			System.out.println(allMovies);
+			System.out.println(movie);
+			throw new RuntimeException("Problemas con el movieDAO");
+		}
+
+		List<Movie> allMoviesByGenre = movieDAO.getAllByGenre(movie.getGenres()
+				.get(0));
+		if (!allMoviesByGenre.contains(movie)) {
+			System.out.println(allMoviesByGenre);
+			System.out.println(movie);
+			throw new RuntimeException("Problemas con el movieDAO");
+		}
+
+		int n = 5;
+		List<Movie> newestNMovies = movieDAO.getNewestN(n);
+		if (!newestNMovies.contains(movie)
+				|| (allMovies.size() >= n && newestNMovies.size() < n)) {
+			System.out.println(newestNMovies);
+			System.out.println(movie);
+			throw new RuntimeException("Problemas con el movieDAO");
+		}
+
+		List<Movie> allMoviesByDirector = movieDAO.getAllByDirector(movie
+				.getDirector());
+		if (!allMoviesByDirector.contains(movie)) {
+			System.out.println(allMoviesByDirector);
+			System.out.println(movie);
+			throw new RuntimeException("Problemas con el movieDAO");
+		}
 	}
 }

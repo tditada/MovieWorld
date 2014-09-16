@@ -2,6 +2,7 @@ package ar.edu.itba.paw.g4.persist.impl;
 
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getEmailAddress;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getInt;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
@@ -91,20 +92,23 @@ public class PSQLUserDAO implements UserDAO {
 
 				ResultSet results = statement.executeQuery();
 				if (results.next()) {
-					User user = User.builder()
-							.withFirstName(getString(results, "firstName"))
-							.withLastName(getString(results, "lastName"))
-							.withPassword(getString(results, "password"))
-							.withEmail(getEmailAddress(results, "emailAddr"))
-							.withBirthDate(getDateTime(results, "birthDate"))
-							.build();
-					user.setId(id);
-					return user;
+					return getUserFromResults(results);
 				}
 				return null;// TODO: ver si no habria que tirar exception aca
 							// (usuario inexistente)
 			}
 		};
 		return connection.run();
+	}
+
+	private User getUserFromResults(ResultSet results) throws SQLException {
+		User user = User.builder()
+				.withFirstName(getString(results, "firstName"))
+				.withLastName(getString(results, "lastName"))
+				.withPassword(getString(results, "password"))
+				.withEmail(getEmailAddress(results, "emailAddr"))
+				.withBirthDate(getDateTime(results, "birthDate")).build();
+		user.setId(getInt(results, "userId"));
+		return user;
 	}
 }

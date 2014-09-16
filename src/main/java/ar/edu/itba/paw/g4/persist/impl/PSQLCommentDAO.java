@@ -11,6 +11,7 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.itba.paw.g4.model.Comment;
@@ -98,23 +99,73 @@ public class PSQLCommentDAO implements CommentDAO {
 
 				ResultSet results = statement.executeQuery();
 				if (results.next()) {
-					Movie movie = movieDAO.getById(getInt(results, "movieId"));
-					User user = userDAO.getById(getInt(results, "userId"));
-
-					Comment comment = Comment
-							.builder()
-							.withScore(getInt(results, "score"))
-							.withText(getString(results, "txt"))
-							.withCreationDate(
-									getDateTime(results, "creationDate"))
-							.withMovie(movie).withUser(user).build();
-					comment.setId(id);
-					return comment;
+					return getCommentFromResults(results);
 				}
 				return null; // TODO: ver si no habria que tirar exception aca
 								// (comentario inexistente)
 			}
 		};
 		return connection.run();
+	}
+
+	@Override
+	public List<Comment> getAllByMovie(final Movie movie) {
+		DatabaseConnection<List<Comment>> connection = new DatabaseConnection<List<Comment>>() {
+
+			@Override
+			protected List<Comment> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME
+						+ " WHERE movieId=?";
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+				statement.addParameter(movie.getId());
+
+				ResultSet results = statement.executeQuery();
+				List<Comment> comments = new LinkedList<>();
+				while (results.next()) {
+					comments.add(getCommentFromResults(results));
+				}
+				return comments;
+			}
+		};
+		return connection.run();
+	}
+
+	@Override
+	public List<Comment> getAllByUser(final User user) {
+		DatabaseConnection<List<Comment>> connection = new DatabaseConnection<List<Comment>>() {
+
+			@Override
+			protected List<Comment> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME
+						+ " WHERE userId=?";
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+				statement.addParameter(user.getId());
+
+				ResultSet results = statement.executeQuery();
+				List<Comment> comments = new LinkedList<>();
+				while (results.next()) {
+					comments.add(getCommentFromResults(results));
+				}
+				return comments;
+			}
+		};
+		return connection.run();
+	}
+
+	private Comment getCommentFromResults(ResultSet results)
+			throws SQLException {
+		Movie movie = movieDAO.getById(getInt(results, "movieId"));
+		User user = userDAO.getById(getInt(results, "userId"));
+
+		Comment comment = Comment.builder().withScore(getInt(results, "score"))
+				.withText(getString(results, "txt"))
+				.withCreationDate(getDateTime(results, "creationDate"))
+				.withMovie(movie).withUser(user).build();
+		comment.setId(getInt(results, "commentId"));
+		return comment;
 	}
 }

@@ -99,34 +99,121 @@ public class PSQLMovieDAO implements MovieDAO {
 
 				ResultSet results = statement.executeQuery();
 				if (results.next()) {
-
-					Director director = Director.builder()
-							.withName(getString(results, "directorName"))
-							.build();
-
-					List<MovieGenres> genres = from(
-							getEnum(results, "genres",
-									MovieGenres.getConverter())).copyInto(
-							new LinkedList<MovieGenres>());
-
-					Movie movie = Movie
-							.builder()
-							.withTitle(getString(results, "title"))
-							.withCreationDate(
-									getDateTime(results, "creationDate"))
-							.withReleaseDate(
-									getDateTime(results, "releaseDate"))
-							.withGenres(genres).withDirector(director)
-							.withRuntimeInMins(getInt(results, "runtimeMins"))
-							.withSummary(getString(results, "summary")).build();
-					movie.setId(id);
-					return movie;
+					return getMovieFromResults(results);
 				}
 				return null; // TODO: ver si no habria que tirar exception aca
 								// (pelicula inexistente)
 			}
 		};
 		return connection.run();
+	}
+
+	@Override
+	public List<Movie> getAll() {
+		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
+
+			@Override
+			protected List<Movie> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME;
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+
+				ResultSet results = statement.executeQuery();
+				return getMoviesFromResults(results);
+			}
+		};
+		return connection.run();
+	}
+
+	@Override
+	public List<Movie> getAllByGenre(final MovieGenres genre) {
+		checkArgument(genre, notNull());
+		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
+
+			@Override
+			protected List<Movie> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME
+						+ " WHERE ? = ANY(genres);";
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+				statement.addParameter(genre);
+
+				ResultSet results = statement.executeQuery();
+				return getMoviesFromResults(results);
+			}
+		};
+		return connection.run();
+	}
+
+	@Override
+	public List<Movie> getNewestN(final int quantity) {
+		checkArgument(quantity > 0);
+		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
+
+			@Override
+			protected List<Movie> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME
+						+ " ORDER BY creationDate DESC LIMIT ?;";
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+				statement.addParameter(quantity);
+
+				ResultSet results = statement.executeQuery();
+				return getMoviesFromResults(results);
+			}
+		};
+		return connection.run();
+	}
+
+	@Override
+	public List<Movie> getAllByDirector(final Director director) {
+		checkArgument(director, notNull());
+		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
+
+			@Override
+			protected List<Movie> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME
+						+ " WHERE directorName = ?;";
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+				statement.addParameter(director.getName());
+
+				ResultSet results = statement.executeQuery();
+				return getMoviesFromResults(results);
+			}
+		};
+		return connection.run();
+	}
+
+	private List<Movie> getMoviesFromResults(ResultSet results)
+			throws SQLException {
+		List<Movie> movies = new LinkedList<>();
+		while (results.next()) {
+			movies.add(getMovieFromResults(results));
+		}
+		return movies;
+	}
+
+	private Movie getMovieFromResults(ResultSet results) throws SQLException {
+		Director director = Director.builder()
+				.withName(getString(results, "directorName")).build();
+
+		List<MovieGenres> genres = from(
+				getEnum(results, "genres", MovieGenres.getConverter()))
+				.copyInto(new LinkedList<MovieGenres>());
+
+		Movie movie = Movie.builder().withTitle(getString(results, "title"))
+				.withCreationDate(getDateTime(results, "creationDate"))
+				.withReleaseDate(getDateTime(results, "releaseDate"))
+				.withGenres(genres).withDirector(director)
+				.withRuntimeInMins(getInt(results, "runtimeMins"))
+				.withSummary(getString(results, "summary")).build();
+		movie.setId(getInt(results, "movieId"));
+		return movie;
 	}
 
 }
