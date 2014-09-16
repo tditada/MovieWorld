@@ -7,7 +7,7 @@ import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.Movie;
 
 public interface MovieService {
-	public List<Movie> getAllMovies();
+	public List<Movie> getMovieList();
 
 	public List<Movie> getAllMoviesByGenre(MovieGenres genre);
 

@@ -14,14 +14,21 @@ import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.persist.MovieDAO;
 import ar.edu.itba.paw.g4.persist.impl.PSQLMovieDAO;
 import ar.edu.itba.paw.g4.service.MovieService;
+import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 public class MovieServiceImpl implements MovieService {
+	private static final MovieService instance = new MovieServiceImpl();
+
 	private MovieDAO movieDAO = PSQLMovieDAO.getInstance();
 
+	public static MovieService getInstance() {
+		return instance;
+	}
+
 	@Override
-	public List<Movie> getAllMovies() {
+	public List<Movie> getMovieList() {
 		try {
-			return movieDAO.getAll();
+			return movieDAO.getAllByReleaseDate(Orderings.DESC);
 		} catch (DatabaseException dbe) {
 			throw new ServiceException(dbe);/*
 											 * TODO: deberia chequear por otros

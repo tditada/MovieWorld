@@ -14,10 +14,24 @@ import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.util.EmailAddress;
 import ar.edu.itba.paw.g4.util.EnumHelpers;
+import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 import com.google.common.base.Converter;
 
 public class PSQLQueryHelpers {
+	public static String asSQLOrdering(Orderings ordering) {
+		switch (ordering) {
+		case ASC:
+			return "ASC";
+		case DESC:
+			return "DESC";
+		}
+		throw new IllegalArgumentException("Not a valid Ordering");
+		/*
+		 * will never happen though
+		 */
+	}
+
 	public static Timestamp asTimestamp(DateTime date) {
 		return new Timestamp(date.getMillis());
 	}

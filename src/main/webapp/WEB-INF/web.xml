@@ -2,10 +2,20 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
 	<servlet>
 		<servlet-name>Index</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.servlets.IndexServlet</servlet-class>
-	</servlet>	
+		<servlet-class>ar.edu.itba.paw.g4.controller.IndexController
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>Movies</servlet-name>
+		<servlet-class>ar.edu.itba.paw.g4.controller.MoviesController
+		</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Index</servlet-name>
 		<url-pattern>/index</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Movies</servlet-name>
+		<url-pattern>/movies</url-pattern>
 	</servlet-mapping>
 </web-app>

@@ -16,6 +16,7 @@ import ar.edu.itba.paw.g4.persist.impl.PSQLCommentDAO;
 import ar.edu.itba.paw.g4.persist.impl.PSQLMovieDAO;
 import ar.edu.itba.paw.g4.persist.impl.PSQLUserDAO;
 import ar.edu.itba.paw.g4.util.EmailAddress;
+import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 import com.google.common.collect.Lists;
 
@@ -99,7 +100,7 @@ public class DummyMain {
 			throw new RuntimeException("Problemas con el commentDAO");
 		}
 
-		List<Movie> allMovies = movieDAO.getAll();
+		List<Movie> allMovies = movieDAO.getAllByReleaseDate(Orderings.DESC);
 		if (!allMovies.contains(movie)) {
 			System.out.println(allMovies);
 			System.out.println(movie);

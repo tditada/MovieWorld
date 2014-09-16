@@ -1,11 +1,12 @@
 package ar.edu.itba.paw.g4.persist.impl;
 
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.asSQLOrdering;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getEnum;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getInt;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static com.google.common.collect.FluentIterable.from;
@@ -22,6 +23,7 @@ import ar.edu.itba.paw.g4.enums.MovieGenres;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.persist.MovieDAO;
+import ar.edu.itba.paw.g4.util.persist.Orderings;
 import ar.edu.itba.paw.g4.util.persist.sql.DatabaseConnection;
 import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;
 
@@ -111,13 +113,14 @@ public class PSQLMovieDAO implements MovieDAO {
 	}
 
 	@Override
-	public List<Movie> getAll() {
+	public List<Movie> getAllByReleaseDate(final Orderings ordering) {
 		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
 
 			@Override
 			protected List<Movie> handleConnection(Connection connection)
 					throws SQLException {
-				String query = "SELECT * FROM " + TABLE_NAME;
+				String query = "SELECT * FROM " + TABLE_NAME
+						+ " ORDER BY releaseDate " + asSQLOrdering(ordering);
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
 
@@ -137,7 +140,7 @@ public class PSQLMovieDAO implements MovieDAO {
 			protected List<Movie> handleConnection(Connection connection)
 					throws SQLException {
 				String query = "SELECT * FROM " + TABLE_NAME
-						+ " WHERE ? = ANY(genres);";
+						+ " WHERE ? = ANY(genres)";
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
 				statement.addParameter(genre);
@@ -158,7 +161,7 @@ public class PSQLMovieDAO implements MovieDAO {
 			protected List<Movie> handleConnection(Connection connection)
 					throws SQLException {
 				String query = "SELECT * FROM " + TABLE_NAME
-						+ " ORDER BY creationDate DESC LIMIT ?;";
+						+ " ORDER BY creationDate DESC LIMIT ?";
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
 				statement.addParameter(quantity);
@@ -179,7 +182,7 @@ public class PSQLMovieDAO implements MovieDAO {
 			protected List<Movie> handleConnection(Connection connection)
 					throws SQLException {
 				String query = "SELECT * FROM " + TABLE_NAME
-						+ " WHERE directorName = ?;";
+						+ " WHERE directorName = ?";
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
 				statement.addParameter(director.getName());
@@ -205,7 +208,7 @@ public class PSQLMovieDAO implements MovieDAO {
 					throws SQLException {
 				String query = "SELECT * FROM " + TABLE_NAME
 						+ " WHERE releaseDate >= ? AND releaseDate <= ?"
-						+ " ORDER BY releaseDate DESC;";
+						+ " ORDER BY releaseDate DESC";
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
 				statement.addParameter(fromDate);
