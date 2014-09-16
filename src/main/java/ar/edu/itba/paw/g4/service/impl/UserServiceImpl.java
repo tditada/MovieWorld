@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean userHasSession() {
 		HttpSession session = request.getSession();
-		return SessionAttributesAreNull(session);
+		return !SessionAttributesAreNull(session);
 	}
 	
 	//	Revisa la BD para ver si el usuario existe

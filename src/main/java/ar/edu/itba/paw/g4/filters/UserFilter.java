@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
@@ -24,19 +25,18 @@ public class UserFilter implements Filter{
 	
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
+		// Auto-generated method stub		
 	}
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse rsp,
 			FilterChain chain) throws IOException, ServletException {
-		//¿Está bien este casteo? HttpServletRequest extiende HttpServlet
+		//TODO: ¿Está bien este casteo? HttpServletRequest extiende HttpServlet		
 		UserService userService = new UserServiceImpl((HttpServletRequest) req);
 		if (req.getAttribute("user")==null && userService.userHasSession()) {
-			// LE PIDO AL SERVICE QUE ME ARME EL USUARIO
-			// EL USUARIO LO METO EN EL REQUEST
-//			req.setAttribute("user",);
+			HttpSession session=((HttpServletRequest)req).getSession();
+			User user = userService.getUserById((Integer)session.getAttribute("id"));
+			req.setAttribute("user",user);
 		}
 		chain.doFilter(req, rsp);		
 	}
