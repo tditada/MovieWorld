@@ -196,6 +196,7 @@ public class PSQLMovieDAO implements MovieDAO {
 			final DateTime toDate) {
 		checkArgument(fromDate, notNull());
 		checkArgument(toDate, notNull());
+		checkArgument(toDate.isAfter(fromDate));
 
 		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
 
