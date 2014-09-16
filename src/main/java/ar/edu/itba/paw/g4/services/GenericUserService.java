@@ -1,12 +1,16 @@
 package ar.edu.itba.paw.g4.services;
 
 import ar.edu.itba.paw.g4.model.User;
+import ar.edu.itba.paw.g4.util.EmailAddress;
 
 public interface GenericUserService{
 	
+	
 	public boolean userHasSession();
 	
-	public User getUser(User user);
+	public User getUserById(Integer id);
+	
+	public User getUserLogin(EmailAddress email, String pass);
 	
 	public void Register(User user);
 	

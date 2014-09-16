@@ -16,6 +16,7 @@ import java.util.List;
 
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.UserDAO;
+import ar.edu.itba.paw.g4.util.EmailAddress;
 import ar.edu.itba.paw.g4.util.persist.sql.DatabaseConnection;
 import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;
 
@@ -29,8 +30,31 @@ public class PSQLUserDAO implements UserDAO {
 	public static PSQLUserDAO getInstance() {
 		return instance;
 	}
+	
+	public User getByEmail(final EmailAddress email) {
+		checkArgument(email, notNull());
+		DatabaseConnection<User> connection = new DatabaseConnection<User>() {
 
-	@Override
+			@Override
+			protected User handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME
+						+ " WHERE emailAddr = ?;";
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+				statement.addParameter(email.toString());
+
+				ResultSet results = statement.executeQuery();
+				if (results.next()) {
+					return getUserFromResults(results);
+				}
+				return null;
+			}
+		};
+		return connection.run();
+	}
+	
+@Override
 	public void save(final User user) {
 		checkArgument(user, notNull());
 
