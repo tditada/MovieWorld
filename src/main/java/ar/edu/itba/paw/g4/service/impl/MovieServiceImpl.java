@@ -16,8 +16,6 @@ import ar.edu.itba.paw.g4.persist.impl.PSQLMovieDAO;
 import ar.edu.itba.paw.g4.service.MovieService;
 
 public class MovieServiceImpl implements MovieService {
-	private static final int DAYS_AS_RELEASE = 6;
-
 	private MovieDAO movieDAO = PSQLMovieDAO.getInstance();
 
 	@Override
@@ -75,7 +73,7 @@ public class MovieServiceImpl implements MovieService {
 	public List<Movie> getReleases() {
 		try {
 			return movieDAO.getAllByReleaseDateInRange(
-					now().minusDays(DAYS_AS_RELEASE), now());
+					now().minusDays(Movie.DAYS_AS_RELEASE), now());
 		} catch (DatabaseException dbe) {
 			throw new ServiceException(dbe);/*
 											 * TODO: deberia chequear por otros
