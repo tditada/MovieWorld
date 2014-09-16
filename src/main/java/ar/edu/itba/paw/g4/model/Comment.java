@@ -14,6 +14,7 @@ import org.joda.time.DateTime;
 import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class Comment extends Entity {
+	private static final int MIN_SCORE = 0;
 	private static final int MAX_SCORE = 5;
 
 	private String text;
@@ -25,7 +26,7 @@ public class Comment extends Entity {
 	@GeneratePojoBuilder
 	public Comment(String text, int score, User user, Movie movie,
 			DateTime creationDate) {
-		checkArgument(score > 0 && score < MAX_SCORE);
+		checkArgument(score > MIN_SCORE && score < MAX_SCORE);
 		checkArgument(text, neitherNullNorEmpty());
 		checkArgument(user, notNull());
 		checkArgument(movie, notNull());
