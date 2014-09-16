@@ -7,8 +7,8 @@
     <title>Bootstrap 101 Template</title>
 
     <!-- Bootstrap -->
-    <link rel='stylesheet' href='lib/bootstrap/css/bootstrap.css.min'/>
-	<link rel='stylesheet' href='lib/bootstrap/css/bootstrap-theme.css.min'/>
+    <link rel='stylesheet' href='lib/bootstrap/css/bootstrap.min.css'/>
+	<link rel='stylesheet' href='lib/bootstrap/css/bootstrap-theme.min.css'/>
 	<script type='text/javascript' src='lib/jquery/js/jquery-1.11.1.min.js'></script>
 	<script type='text/javascript' src='lib/bootstrap/js/bootstrap.min.js'></script>
 	
