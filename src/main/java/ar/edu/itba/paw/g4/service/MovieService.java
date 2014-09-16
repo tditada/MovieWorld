@@ -16,4 +16,6 @@ public interface MovieService {
 	public List<Movie> getReleases();
 
 	public List<Movie> getAllMoviesByDirector(Director director);
+	
+	public Movie getMovieById(int id);
 }

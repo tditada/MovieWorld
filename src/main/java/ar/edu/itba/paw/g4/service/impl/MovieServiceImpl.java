@@ -84,4 +84,16 @@ public class MovieServiceImpl implements MovieService {
 		}
 	}
 
+	@Override
+	public Movie getMovieById(int id) {
+		try {
+			return movieDAO.getById(id);
+		} catch (DatabaseException dbe) {
+			throw new ServiceException(dbe);/*
+											 * TODO: deberia chequear por otros
+											 * tipos de exception?
+											 */
+		}
+	}
+
 }
