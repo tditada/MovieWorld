@@ -11,7 +11,11 @@ public interface MovieService {
 
 	public List<Movie> getAllMoviesByGenre(MovieGenres genre);
 
-	public List<Movie> getNewestNMovies(int quantity);
+	public List<Movie> getNewAdditions(int maxQuantity);
+	
+	public List<Movie> getReleases();
 
 	public List<Movie> getAllMoviesByDirector(Director director);
+	
+	public Movie getMovieById(int id);
 }

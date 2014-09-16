@@ -4,3 +4,5 @@
 .classpath
 /target/
 .factorypath
+paw4/
+paw4/*

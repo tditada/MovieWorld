@@ -7,7 +7,6 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNor
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
-import static org.joda.time.DateTime.now;
 
 import java.util.List;
 
@@ -15,13 +14,12 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-import org.joda.time.Period;
 
 import ar.edu.itba.paw.g4.enums.MovieGenres;
 import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class Movie extends Entity {
-	private static final int MAX_DAYS_AS_RELEASE = 6;
+	public static final int DAYS_AS_RELEASE = 6;
 
 	private String title;
 	private DateTime creationDate;
@@ -81,9 +79,10 @@ public class Movie extends Entity {
 	}
 
 	public boolean isRelease() {
-		Interval releaseInterval = new Interval(releaseDate,
-				Period.days(MAX_DAYS_AS_RELEASE));
-		return releaseInterval.contains(now());
+		DateTime now = DateTime.now();
+		Interval releaseInterval = new Interval(now.minusDays(DAYS_AS_RELEASE),
+				now);
+		return releaseInterval.contains(releaseDate);
 	}
 
 	@Override

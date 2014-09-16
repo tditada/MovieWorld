@@ -14,13 +14,12 @@ import ar.edu.itba.paw.g4.util.EmailAddress;
 import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class User extends Entity {
+	private static final int MIN_PASSWORD_LENGTH = 10;
+
 	private String firstName;
 	private String lastName;
 	private EmailAddress email;
-	private String password; /*
-							 * TODO: encrypt maybe? md5 is supposed to be easy
-							 * TODO: validate min length!
-							 */
+	private String password;
 	private DateTime birthDate;
 
 	@GeneratePojoBuilder
@@ -30,7 +29,8 @@ public class User extends Entity {
 		checkArgument(birthDate, notNull());
 		checkArgument(firstName, neitherNullNorEmpty());
 		checkArgument(lastName, neitherNullNorEmpty());
-		checkArgument(password, neitherNullNorEmpty());
+		checkArgument(password, notNull());
+		checkArgument(password.length() >= MIN_PASSWORD_LENGTH);
 
 		this.firstName = firstName;
 		this.lastName = lastName;
