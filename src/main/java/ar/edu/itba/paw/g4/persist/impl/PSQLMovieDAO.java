@@ -16,6 +16,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import ar.edu.itba.paw.g4.enums.MovieGenres;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.Movie;
@@ -148,7 +150,7 @@ public class PSQLMovieDAO implements MovieDAO {
 	}
 
 	@Override
-	public List<Movie> getNewestN(final int quantity) {
+	public List<Movie> getNewestNByCreationDate(final int quantity) {
 		checkArgument(quantity > 0);
 		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
 
@@ -181,6 +183,32 @@ public class PSQLMovieDAO implements MovieDAO {
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
 				statement.addParameter(director.getName());
+
+				ResultSet results = statement.executeQuery();
+				return getMoviesFromResults(results);
+			}
+		};
+		return connection.run();
+	}
+
+	@Override
+	public List<Movie> getAllByReleaseDateInRange(final DateTime fromDate,
+			final DateTime toDate) {
+		checkArgument(fromDate, notNull());
+		checkArgument(toDate, notNull());
+
+		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
+
+			@Override
+			protected List<Movie> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME
+						+ " WHERE releaseDate >= ? AND releaseDate <= ?"
+						+ " ORDER BY releaseDate DESC;";
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+				statement.addParameter(fromDate);
+				statement.addParameter(toDate);
 
 				ResultSet results = statement.executeQuery();
 				return getMoviesFromResults(results);

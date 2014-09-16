@@ -112,7 +112,7 @@ public class DummyMain {
 		}
 
 		int n = 5;
-		List<Movie> newestNMovies = movieDAO.getNewestN(n);
+		List<Movie> newestNMovies = movieDAO.getNewestNByCreationDate(n);
 		if (!newestNMovies.contains(movie)
 				|| (allMovies.size() >= n && newestNMovies.size() < n)) {
 			System.out.println(newestNMovies);
