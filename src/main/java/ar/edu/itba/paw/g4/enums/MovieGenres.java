@@ -6,7 +6,8 @@ import com.google.common.base.Converter;
 import com.google.common.base.Enums;
 
 public enum MovieGenres {
-	ACTION, COMEDY, DRAMA, TERROR, ROMANCE;
+	ACTION, COMEDY, DRAMA, TERROR, ROMANCE, THRILLER, FAMILY, HISTORY, ADVENTURE, CRIME, MYSTERY,
+	HORROR, FANTASY, BIOGRAPHY, SPORT, WAR, DOCUMENTARY, MUSIC, MUSICAL, ANIMATION, WESTERN;
 
 	private static final Converter<String, MovieGenres> converter = Enums
 			.stringConverter(MovieGenres.class);

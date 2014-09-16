@@ -61,9 +61,12 @@ def parse_release_date(json_data):
 def parse_runtime(json_data):
 	return re.compile("\d+").match(json_data['Runtime']).group(0)
 
+def to_genre_format(str):
+	return postgres_escape(str.upper())
+
 def parse_genres(json_data):
 	unescaped_genres = re.compile(", +").split(json_data['Genre'])
-	escaped_genres = list(map(postgres_escape, unescaped_genres))
+	escaped_genres = list(map(to_genre_format, unescaped_genres))
 	return escaped_genres
 
 def parse_movie(raw_data):
@@ -90,6 +93,10 @@ def parse_movie(raw_data):
 	summary = postgres_escape(json_resp['Plot'])
 
 	genres = parse_genres(json_resp)
+
+	if 'ADULT' in genres:
+		return None
+
 	release_date = parse_release_date(json_resp)
 	creation_date = datetime.date(2014, 9, 10)
 
