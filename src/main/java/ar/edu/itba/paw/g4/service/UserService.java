@@ -8,9 +8,9 @@ public interface UserService{
 	
 	public User getUser(User user);
 	
-	public void Register(User user);
+	public void register(User user);
 	
 	public void logout(User user);
 	
-	public void Login(User user); //existsUser + verificar PASS -equals-
+	public void login(User user); //existsUser + verificar PASS -equals-
 }

@@ -14,6 +14,15 @@ import ar.edu.itba.paw.g4.persist.impl.PSQLCommentDAO;
 import ar.edu.itba.paw.g4.service.CommentService;
 
 public class CommentServiceImpl implements CommentService {
+	private static final CommentService instance = new CommentServiceImpl();
+
+	public static CommentService getInstance() {
+		return instance;
+	}
+
+	private CommentServiceImpl() {
+	}
+
 	private CommentDAO commentDAO = PSQLCommentDAO.getInstance();
 
 	@Override

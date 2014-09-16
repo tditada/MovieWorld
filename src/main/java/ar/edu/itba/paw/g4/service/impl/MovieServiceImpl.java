@@ -25,6 +25,9 @@ public class MovieServiceImpl implements MovieService {
 		return instance;
 	}
 
+	private MovieServiceImpl() {
+	}
+
 	@Override
 	public List<Movie> getMovieList() {
 		try {
