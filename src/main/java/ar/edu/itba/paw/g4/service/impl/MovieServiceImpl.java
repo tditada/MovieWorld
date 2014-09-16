@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.g4.service.impl;
 
+import static org.joda.time.DateTime.*;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
@@ -43,10 +44,10 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public List<Movie> getNewestNMovies(int quantity) {
-		checkArgument(quantity > 0);
+	public List<Movie> getNewAdditions(int maxQuantity) {
+		checkArgument(maxQuantity > 0);
 		try {
-			return movieDAO.getNewestN(quantity);
+			return movieDAO.getNewestNByCreationDate(maxQuantity);
 		} catch (DatabaseException dbe) {
 			throw new ServiceException(dbe);/*
 											 * TODO: deberia chequear por otros
@@ -60,6 +61,31 @@ public class MovieServiceImpl implements MovieService {
 		checkArgument(director, notNull());
 		try {
 			return movieDAO.getAllByDirector(director);
+		} catch (DatabaseException dbe) {
+			throw new ServiceException(dbe);/*
+											 * TODO: deberia chequear por otros
+											 * tipos de exception?
+											 */
+		}
+	}
+
+	@Override
+	public List<Movie> getReleases() {
+		try {
+			return movieDAO.getAllByReleaseDateInRange(
+					now().minusDays(Movie.DAYS_AS_RELEASE), now());
+		} catch (DatabaseException dbe) {
+			throw new ServiceException(dbe);/*
+											 * TODO: deberia chequear por otros
+											 * tipos de exception?
+											 */
+		}
+	}
+
+	@Override
+	public Movie getMovieById(int id) {
+		try {
+			return movieDAO.getById(id);
 		} catch (DatabaseException dbe) {
 			throw new ServiceException(dbe);/*
 											 * TODO: deberia chequear por otros

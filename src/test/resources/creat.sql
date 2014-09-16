@@ -1,30 +1,32 @@
 CREATE TABLE users (
   userId SERIAL PRIMARY KEY,
-  firstName VARCHAR(255),
-  lastName VARCHAR(255),
-  emailAddr VARCHAR(255),
-  password VARCHAR(255),
-  birthDate TIMESTAMP
+  firstName VARCHAR(35) NOT NULL,
+  lastName VARCHAR(35) NOT NULL,
+  emailAddr VARCHAR(100) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  birthDate TIMESTAMP NOT NULL,
+
+  UNIQUE(emailAddr)
 );
 
 CREATE TABLE movies (
   movieId SERIAL PRIMARY KEY,
-  title VARCHAR(255),
-  creationDate TIMESTAMP,
-  releaseDate TIMESTAMP,
-  genres VARCHAR(25)[],
-  directorName VARCHAR(255),
-  runtimeMins INT,
-  summary TEXT
+  title VARCHAR(255) NOT NULL,
+  creationDate TIMESTAMP NOT NULL,
+  releaseDate TIMESTAMP NOT NULL,
+  genres VARCHAR(25)[] NOT NULL,
+  directorName VARCHAR(70) NOT NULL,
+  runtimeMins INT CHECK (runtimeMins > 0),
+  summary TEXT NOT NULL
 );
 
 CREATE TABLE comments (
   commentId SERIAL PRIMARY KEY,
-  score INT,
-  txt TEXT,
-  creationDate TIMESTAMP,
-  userId INT REFERENCES Users(userId),
-  movieId INT REFERENCES Movies(movieId)
+  score INT CHECK (score >= 0 AND score <= 5),
+  txt TEXT NOT NULL,
+  creationDate TIMESTAMP NOT NULL,
+  userId INT REFERENCES users(userId),
+  movieId INT REFERENCES movies(movieId)
 );
 
 

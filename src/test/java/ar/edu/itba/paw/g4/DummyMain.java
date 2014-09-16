@@ -22,15 +22,19 @@ import com.google.common.collect.Lists;
 public class DummyMain {
 	public static void main(String[] args) throws Exception {
 		testDAOs();
+		System.out.println("Everything OK");
 	}
 
 	private static void testDAOs() {
 		UserDAO userDAO = PSQLUserDAO.getInstance();
 
-		User user = User.builder().withBirthDate(DateTime.now())
-				.withEmail(EmailAddress.build("pepes@foo.com"))
-				.withFirstName("Pepe").withLastName("Sanchez")
-				.withPassword("123456").build();
+		User user = User
+				.builder()
+				.withBirthDate(DateTime.now())
+				.withEmail(
+						EmailAddress.build("pepes" + System.currentTimeMillis()
+								+ "@foo.com")).withFirstName("Pepe")
+				.withLastName("Sanchez").withPassword("12345678910").build();
 
 		userDAO.save(user);
 
@@ -80,7 +84,6 @@ public class DummyMain {
 			System.out.println(comment2);
 			throw new RuntimeException("Problemas con el commentDAO");
 		}
-		System.out.println("Everything OK");
 
 		List<Comment> commentsByMovie = commentDAO.getAllByMovie(movie);
 		if (!commentsByMovie.contains(comment)) {
@@ -112,7 +115,7 @@ public class DummyMain {
 		}
 
 		int n = 5;
-		List<Movie> newestNMovies = movieDAO.getNewestN(n);
+		List<Movie> newestNMovies = movieDAO.getNewestNByCreationDate(n);
 		if (!newestNMovies.contains(movie)
 				|| (allMovies.size() >= n && newestNMovies.size() < n)) {
 			System.out.println(newestNMovies);
@@ -125,6 +128,52 @@ public class DummyMain {
 		if (!allMoviesByDirector.contains(movie)) {
 			System.out.println(allMoviesByDirector);
 			System.out.println(movie);
+			throw new RuntimeException("Problemas con el movieDAO");
+		}
+
+		DateTime fromDate = DateTime.now().plusYears(1).minusDays(6);
+		DateTime toDate = DateTime.now().plusYears(1);
+
+		Movie movieNotReleasedInRange1 = Movie.builder()
+				.withTitle("Future movie not in range 1")
+				.withSummary("Some movie summary").withDirector(director)
+				.withCreationDate(DateTime.now().plusYears(1))
+				.withGenres(genres).withReleaseDate(fromDate.minusMinutes(15))
+				.withRuntimeInMins(115).build();
+		movieDAO.save(movieNotReleasedInRange1);
+		Movie movieReleasedInRange1 = Movie.builder()
+				.withTitle("Future movie X").withSummary("Some movie summary")
+				.withDirector(director)
+				.withCreationDate(DateTime.now().plusYears(1))
+				.withGenres(genres).withReleaseDate(fromDate)
+				.withRuntimeInMins(115).build();
+		movieDAO.save(movieReleasedInRange1);
+		Movie movieReleasedInRange2 = Movie.builder()
+				.withTitle("Future movie Y").withSummary("Some movie summary")
+				.withDirector(director)
+				.withCreationDate(DateTime.now().plusYears(1))
+				.withGenres(genres).withReleaseDate(toDate)
+				.withRuntimeInMins(115).build();
+		movieDAO.save(movieReleasedInRange2);
+		Movie movieNotReleasedInRange2 = Movie.builder()
+				.withTitle("Future movie not in range 2")
+				.withSummary("Some movie summary").withDirector(director)
+				.withCreationDate(DateTime.now().plusYears(1))
+				.withGenres(genres).withReleaseDate(toDate.plusMinutes(15))
+				.withRuntimeInMins(115).build();
+		movieDAO.save(movieNotReleasedInRange2);
+
+		List<Movie> allReleasedInRange = movieDAO.getAllByReleaseDateInRange(
+				fromDate, toDate);
+		if (!allReleasedInRange.contains(movieReleasedInRange1)
+				|| !allReleasedInRange.contains(movieReleasedInRange2)
+				|| allReleasedInRange.contains(movieNotReleasedInRange1)
+				|| allReleasedInRange.contains(movieNotReleasedInRange2)) {
+			System.out.println(allReleasedInRange);
+			System.out.println(movieReleasedInRange1);
+			System.out.println(movieReleasedInRange2);
+			System.out.println(movieNotReleasedInRange1);
+			System.out.println(movieNotReleasedInRange2);
 			throw new RuntimeException("Problemas con el movieDAO");
 		}
 	}
