@@ -46,10 +46,10 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public List<Movie> getNewAdditions(int quantity) {
-		checkArgument(quantity > 0);
+	public List<Movie> getNewAdditions(int maxQuantity) {
+		checkArgument(maxQuantity > 0);
 		try {
-			return movieDAO.getNewestNByCreationDate(quantity);
+			return movieDAO.getNewestNByCreationDate(maxQuantity);
 		} catch (DatabaseException dbe) {
 			throw new ServiceException(dbe);/*
 											 * TODO: deberia chequear por otros
