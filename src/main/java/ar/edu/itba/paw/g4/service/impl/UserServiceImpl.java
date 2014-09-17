@@ -21,12 +21,12 @@ public class UserServiceImpl implements UserService{
 	private static String EMAIL_ID = "email";
 	private static String PASS = "password";
 	private static String BIRTHDAY ="birthday";
-	private HttpServletRequest request;
+//	private HttpServletRequest request;
 	
 	
 	//TODO: ¿saco el request?
 	public UserServiceImpl(HttpServletRequest request) {
-		this.request=request;
+//		this.request=request;
 		instance=new UserServiceImpl(request);
 	}
 	
@@ -37,15 +37,10 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public boolean userHasSession() {
-		HttpSession session = request.getSession();
-		return SessionAttributesAreNull(session);
+		return false;
+//		HttpSession session = request.getSession();
+//		return SessionAttributesAreNull(session);
 	}
-	
-	//	Revisa la BD para ver si el usuario existe
-//	private boolean userExists(User user){
-//		userdao.getById(user.getId());
-//		return false;		
-//	}
 
 	@Override
 	public User getUserById(Integer id) {
@@ -64,18 +59,19 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void logout(User user) {
-		HttpSession session = request.getSession();
-		session.setAttribute(NAME_ID, null);
-		session.setAttribute(EMAIL_ID, null);		
+//		HttpSession session = request.getSession();
+//		session.setAttribute(NAME_ID, null);
+//		session.setAttribute(EMAIL_ID, null);		
 	}
 	
 	public User login(EmailAddress email, String pass){
-		User user=authentication(email,pass);
-		CreateUserSession(user);
-		return user;
+//		User user=authentication(email,pass);
+//		CreateUserSession(user);
+//		return user
+		return null;
 	}
 	
-	private User authentication(EmailAddress email, String pass){
+	public User authentication(EmailAddress email, String pass){
 		User user= userdao.getByEmail(email);
 		if(user==null){
 			throw new ServiceException("Non existent user");
@@ -88,18 +84,19 @@ public class UserServiceImpl implements UserService{
 	private boolean checkPassword(User user, String pass) {
 		return user.getPassword().equals(pass);		
 	}
-
-	private void CreateUserSession(User user) {
-		HttpSession session = request.getSession();		
-		session.setAttribute(NAME_ID, user.getFirstName());
-		session.setAttribute(EMAIL_ID, user.getLastName());
-		session.setAttribute(LAST_NAME, user.getLastName());
-		session.setAttribute(PASS, user.getPassword());
-		session.setAttribute(BIRTHDAY, user.getBirthDate());		
-	}
 	
-	private boolean SessionAttributesAreNull(HttpSession session){
-		return session.getAttribute(NAME_ID)==null && session.getAttribute(LAST_NAME)==null && session.getAttribute(EMAIL_ID)==null && session.getAttribute(PASS)==null && session.getAttribute(BIRTHDAY)==null;
-	}
+	
+//	private boolean SessionAttributesAreNull(HttpSession session){
+//		return session.getAttribute(NAME_ID)==null && session.getAttribute(LAST_NAME)==null && session.getAttribute(EMAIL_ID)==null && session.getAttribute(PASS)==null && session.getAttribute(BIRTHDAY)==null;
+//	}
+	
+//	private void CreateUserSession(User user) {
+//		HttpSession session = request.getSession();		
+//		session.setAttribute(NAME_ID, user.getFirstName());
+//		session.setAttribute(EMAIL_ID, user.getLastName());
+//		session.setAttribute(LAST_NAME, user.getLastName());
+//		session.setAttribute(PASS, user.getPassword());
+//		session.setAttribute(BIRTHDAY, user.getBirthDate());		
+//	}
 	
 }

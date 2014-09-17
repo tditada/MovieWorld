@@ -14,4 +14,6 @@ public interface UserService{
 	public void logout(User user);	
 	
 	public User login(EmailAddress email, String pass);
+	
+	public User authentication(EmailAddress email, String pass);
 }
