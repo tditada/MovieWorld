@@ -11,6 +11,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MovieWorld</title>
 
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Datepicker - Display month &amp; year menus</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script>
+  $(function() {
+    $( "#datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "1900:2014"
+    });
+  });
+  </script>
+</head>
+  
 <!-- Bootstrap - Style -->
 <link rel='stylesheet' href='lib/bootstrap/css/bootstrap.min.css' />
 <link rel='stylesheet' href='lib/bootstrap/css/bootstrap-theme.min.css' />
