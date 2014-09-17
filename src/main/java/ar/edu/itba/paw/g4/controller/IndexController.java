@@ -11,7 +11,6 @@ public class IndexController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
 //		UserManager userManager = new CookieUserManager(request, response);
 //		User user = userManager.getUser();
 //		
