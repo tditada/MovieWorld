@@ -50,7 +50,7 @@ public class RegistrationController extends HttpServlet {
 				.withEmail(EmailAddress.build(req.getParameter(EMAIL_ID)))
 				.withBirthDate(new DateTime(req.getParameter(BIRTHDAY_ID))).build();
 		
-		userservice.Register(user);
+		userservice.register(user);
 		req.getRequestDispatcher("login").forward(req, resp);
 	}
 

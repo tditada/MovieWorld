@@ -8,6 +8,7 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.noRepetitionsL
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+import static ar.edu.itba.paw.g4.util.validation.Validations.checkState;
 
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class Movie extends Entity {
 	}
 
 	public int getAverageScore() {
+		checkState(totalComments > 0);
 		return totalScore / totalComments;
 	}
 

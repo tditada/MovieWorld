@@ -2,8 +2,7 @@ body {
 	padding-top: 70px;
 }
 
-.bootstrap-select.btn-group:not (.input-group-btn ), .bootstrap-select.btn-group[class*="span"]
-	{
+.bootstrap-select.btn-group:not (.input-group-btn ), .bootstrap-select.btn-group[class*="span"]{
 	margin: 0 !important;
 }
 

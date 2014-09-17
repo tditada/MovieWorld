@@ -15,19 +15,14 @@ import ar.edu.itba.paw.g4.util.EmailAddress;
 public class UserServiceImpl implements UserService {
 
 	private UserDAO userdao = PSQLUserDAO.getInstance();
-	private static UserService instance;
+	private static UserService instance=new UserServiceImpl();
 	private static String NAME_ID = "name";
 	private static String LAST_NAME = "lastname";
 	private static String EMAIL_ID = "email";
 	private static String PASS = "password";
 	private static String BIRTHDAY = "birthday";
 
-	// private HttpServletRequest request;
-
-	// TODO: ¿saco el request?
-	public UserServiceImpl(HttpServletRequest request) {
-		// this.request=request;
-		instance = new UserServiceImpl(request);
+	private UserServiceImpl() {
 	}
 
 	public static UserService getInstance() {
@@ -48,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void Register(User user) {
+	public void register(User user) {
 		try {
 			userdao.save(user);
 		} catch (DatabaseException e) {
@@ -70,7 +65,7 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
-	public User authentication(EmailAddress email, String pass) {
+	public User authenticate(EmailAddress email, String pass) {
 		User user = userdao.getByEmail(email);
 		if (user == null) {
 			throw new ServiceException("Non existent user");

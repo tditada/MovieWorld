@@ -16,6 +16,7 @@ import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
 
 public class UserFilter implements Filter {
 	private FilterConfig filterConfig;
+	private UserService userService = UserServiceImpl.getInstance();
 
 	@Override
 	public void init(FilterConfig fil) throws ServletException {
@@ -32,7 +33,6 @@ public class UserFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse rsp,
 			FilterChain chain) throws IOException, ServletException {
 		// TODO: ¿Está bien este casteo? HttpServletRequest extiende HttpServlet
-		UserService userService = new UserServiceImpl((HttpServletRequest) req);
 		if (req.getAttribute("user") == null && userService.userHasSession()) {
 			HttpSession session = ((HttpServletRequest) req).getSession();
 			/*

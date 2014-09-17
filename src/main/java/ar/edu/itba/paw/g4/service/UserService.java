@@ -9,11 +9,11 @@ public interface UserService{
 	
 	public User getUserById(Integer id);
 	
-	public void Register(User user);
+	public void register(User user);
 	
 	public void logout(User user);	
 	
 	public User login(EmailAddress email, String pass);
 	
-	public User authentication(EmailAddress email, String pass);
+	public User authenticate(EmailAddress email, String pass);
 }
