@@ -14,9 +14,10 @@ import ar.edu.itba.paw.g4.service.MovieService;
 import ar.edu.itba.paw.g4.service.impl.MovieServiceImpl;
 
 @SuppressWarnings("serial")
-public class MoviesController extends HttpServlet {
+public class MovieListController extends HttpServlet {
 	public static final String GENRES_ID = "genres";
 	public static final String MOVIES_ID = "movies";
+	public static final String FILTER_BY_GENRE_ID = "genre";
 
 	private MovieService movieService = MovieServiceImpl.getInstance();
 
@@ -26,7 +27,16 @@ public class MoviesController extends HttpServlet {
 
 		request.setAttribute(GENRES_ID, MovieGenres.values());
 
-		List<Movie> moviesList = movieService.getMovieList();
+		String filterGenreStr = (String) request
+				.getParameter(FILTER_BY_GENRE_ID);
+		List<Movie> moviesList;
+		if (filterGenreStr == null) {
+			moviesList = movieService.getMovieList();
+		} else {
+			MovieGenres filterGenre = MovieGenres.valueOf(filterGenreStr);
+			moviesList = movieService.getAllMoviesByGenre(filterGenre);
+		}
+
 		request.setAttribute(MOVIES_ID, moviesList);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/showMovies.jsp").forward(

@@ -14,8 +14,10 @@ import static com.google.common.collect.FluentIterable.from;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 
@@ -234,9 +236,9 @@ public class PSQLMovieDAO implements MovieDAO {
 		Director director = Director.builder()
 				.withName(getString(results, "directorName")).build();
 
-		List<MovieGenres> genres = from(
+		Set<MovieGenres> genres = from(
 				getEnum(results, "genres", MovieGenres.getConverter()))
-				.copyInto(new LinkedList<MovieGenres>());
+				.copyInto(new HashSet<MovieGenres>());
 
 		Movie movie = Movie.builder().withTitle(getString(results, "title"))
 				.withCreationDate(getDateTime(results, "creationDate"))
