@@ -19,10 +19,10 @@ for i in range(len(MONTH_NAMES)):
 
 FIELDS_TO_CHECK = ['Type', 'Title', 'Runtime', 'Released', 'Plot', 'Genre', 'Director']
 
-SQL_QUERY_HEAD = """INSERT INTO movies(title, creationDate, releaseDate, genres, directorName, runtimeMins, summary)
+SQL_QUERY_HEAD = """INSERT INTO movies(title, creationDate, releaseDate, genres, directorName, runtimeMins, summary, totalScore, totalComments)
 VALUES"""
 SQL_QUERY_BODY = """('{title}', TIMESTAMP '{creation_date}', TIMESTAMP '{release_date}',
- '{genres}', '{director}', {runtime}, '{summary}')"""
+ '{genres}', '{director}', {runtime}, '{summary}', {total_score}, {total_comments})"""
 
 def postgres_escape(str):
 	return re.sub("[\'\"]", "\'\'", str)
@@ -107,7 +107,9 @@ def parse_movie(raw_data):
 		genres = postgres_arr_format(genres),
 		director = director,
 		runtime = runtime,
-		summary = summary)
+		summary = summary,
+		total_score = 0,
+		total_comments = 0)
 	return query_str
 
 def gen_inserts_for(hits_f, out_f, num_ids):

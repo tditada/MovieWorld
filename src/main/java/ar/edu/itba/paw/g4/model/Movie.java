@@ -4,11 +4,12 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.noRepetitionsList;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
-import java.util.Set;
+import java.util.List;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -24,22 +25,26 @@ public class Movie extends Entity {
 	private String title;
 	private DateTime creationDate;
 	private DateTime releaseDate;
-	private Set<MovieGenres> genres;
+	private List<MovieGenres> genres;
 	private Director director;
 	private int runtimeInMins;
 	private String summary;
+	private int totalScore;
+	private int totalComments;
 
 	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
-			Set<MovieGenres> genres, Director director, int runtimeInMins,
-			String summary) {
+			List<MovieGenres> genres, Director director, int runtimeInMins,
+			String summary, int totalScore, int totalComments) {
 		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
 		checkArgument(releaseDate, notNull());
 		checkArgument(director, notNull());
 		checkArgument(summary, notNull());
 		checkArgument(title, neitherNullNorEmpty());
-		checkArgument(genres, notNull(), notEmptyColl());
+		checkArgument(genres, notNull(), notEmptyColl(), noRepetitionsList());
+		checkArgument(totalScore >= 0);
+		checkArgument(totalComments >= 0);
 
 		this.title = title;
 		this.creationDate = creationDate;
@@ -48,6 +53,20 @@ public class Movie extends Entity {
 		this.director = director;
 		this.runtimeInMins = runtimeInMins;
 		this.summary = summary;
+		this.totalScore = totalScore;
+		this.totalComments = totalComments;
+	}
+
+	public int getTotalComments() {
+		return totalComments;
+	}
+
+	public int getTotalScore() {
+		return totalScore;
+	}
+
+	public int getAverageScore() {
+		return totalScore / totalComments;
 	}
 
 	public DateTime getCreationDate() {
@@ -58,7 +77,7 @@ public class Movie extends Entity {
 		return title;
 	}
 
-	public Set<MovieGenres> getGenres() {
+	public List<MovieGenres> getGenres() {
 		return genres;
 	}
 
@@ -91,7 +110,8 @@ public class Movie extends Entity {
 				.add("creationDate", creationDate)
 				.add("releaseDate", releaseDate).add("genres", genres)
 				.add("director", director).add("durationInMins", runtimeInMins)
-				.add("summary", summary).toString();
+				.add("summary", summary).add("totalScore", totalScore)
+				.add("totalComments", totalComments).toString();
 	}
 
 	@Override

@@ -38,4 +38,17 @@ public class CommentServiceImpl implements CommentService {
 		}
 	}
 
+	@Override
+	public void addComment(Comment comment) {
+		checkArgument(comment, notNull());
+		try {
+			commentDAO.save(comment);
+		} catch (DatabaseException dbe) {
+			throw new ServiceException(dbe);/*
+											 * TODO: deberia chequear por otros
+											 * tipos de exception?
+											 */
+		}
+	}
+
 }
