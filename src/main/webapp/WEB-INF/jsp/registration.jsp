@@ -1,7 +1,7 @@
 <%@ include file="header.jsp" %>
 <div class="container">
     <div class="row">
-        <form role="form">
+        <form role="form" action="registration" method="POST">
             <div class="col-lg-6">
                 <div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Required Field</strong></div>
                 <div class="form-group">
