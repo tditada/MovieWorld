@@ -30,9 +30,12 @@ public class PSQLCommentDAO implements CommentDAO {
 	private static final String SCORE_ID = "score";
 	private static final String TEXT_ID = "txt";
 	private static final String CREAT_DATE_ID = "creationDate";
-	private static final String USER_ATTR_ID = "userId";
-	private static final String MOVIE_ATTR_ID = "movieId";
+	private static final String USER_ID_ATTR_ID = "userId";
+	private static final String MOVIE_ID_ATTR_ID = "movieId";
 	private static final String ID_ATTR_ID = "commentId";
+	private static final String MOVIE_TABLE_NAME_ID = "movies";
+	private static final String MOVIE_TOTAL_SCORE_ID = "totalScore";
+	private static final String MOVIE_TOTAL_COMMENTS_ID = "totalComments";
 
 	private static final CommentDAO instance = new PSQLCommentDAO();
 
@@ -54,7 +57,7 @@ public class PSQLCommentDAO implements CommentDAO {
 					throws SQLException {
 				String query;
 				List<String> columns = Lists.newArrayList(SCORE_ID, TEXT_ID,
-						CREAT_DATE_ID, USER_ATTR_ID, MOVIE_ATTR_ID);
+						CREAT_DATE_ID, USER_ID_ATTR_ID, MOVIE_ID_ATTR_ID);
 				if (!comment.isPersisted()) {
 					query = insertQuery(TABLE_NAME_ID, columns);
 				} else {
@@ -62,19 +65,32 @@ public class PSQLCommentDAO implements CommentDAO {
 					query = updateQuery(TABLE_NAME_ID, columns);
 				}
 
-				PSQLStatement statement = new PSQLStatement(connection, query,
-						true);
-				statement.addParameter(comment.getScore());
-				statement.addParameter(comment.getText());
-				statement.addParameter(comment.getCreationDate());
-				statement.addParameter(comment.getUser().getId());
-				statement.addParameter(comment.getMovie().getId());
+				PSQLStatement saveCommentStmt = new PSQLStatement(connection,
+						query, true);
+				saveCommentStmt.addParameter(comment.getScore());
+				saveCommentStmt.addParameter(comment.getText());
+				saveCommentStmt.addParameter(comment.getCreationDate());
+				saveCommentStmt.addParameter(comment.getUser().getId());
+				saveCommentStmt.addParameter(comment.getMovie().getId());
 
 				if (comment.isPersisted()) {
-					statement.addParameter(comment.getId());
+					saveCommentStmt.addParameter(comment.getId());
 				}
 
-				int result = statement.executeUpdate();
+				String updateMovieQuery = "UPDATE " + MOVIE_TABLE_NAME_ID
+						+ " SET " + MOVIE_TOTAL_SCORE_ID + "=?,"
+						+ MOVIE_TOTAL_COMMENTS_ID + "=? WHERE "
+						+ MOVIE_ID_ATTR_ID + "=?;";
+				PSQLStatement updateMovieStmt = new PSQLStatement(connection,
+						updateMovieQuery, true);
+				Movie movie = comment.getMovie();
+				updateMovieStmt.addParameter(movie.getTotalScore()
+						+ comment.getScore());
+				updateMovieStmt.addParameter(movie.getTotalComments() + 1);
+				updateMovieStmt.addParameter(movie.getId());
+
+				int result = saveCommentStmt.executeUpdate();
+				updateMovieStmt.executeUpdate();
 
 				if (!comment.isPersisted()) {
 					comment.setId(result);
@@ -122,7 +138,7 @@ public class PSQLCommentDAO implements CommentDAO {
 			protected List<Comment> handleConnection(Connection connection)
 					throws SQLException {
 				String query = "SELECT * FROM " + TABLE_NAME_ID + " WHERE "
-						+ MOVIE_ATTR_ID + "=?";
+						+ MOVIE_ID_ATTR_ID + "=?";
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
 				statement.addParameter(movie.getId());
@@ -146,7 +162,7 @@ public class PSQLCommentDAO implements CommentDAO {
 			protected List<Comment> handleConnection(Connection connection)
 					throws SQLException {
 				String query = "SELECT * FROM " + TABLE_NAME_ID + " WHERE "
-						+ USER_ATTR_ID + "=?";
+						+ USER_ID_ATTR_ID + "=?";
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
 				statement.addParameter(user.getId());
@@ -164,8 +180,8 @@ public class PSQLCommentDAO implements CommentDAO {
 
 	private Comment getCommentFromResults(ResultSet results)
 			throws SQLException {
-		Movie movie = movieDAO.getById(getInt(results, MOVIE_ATTR_ID));
-		User user = userDAO.getById(getInt(results, USER_ATTR_ID));
+		Movie movie = movieDAO.getById(getInt(results, MOVIE_ID_ATTR_ID));
+		User user = userDAO.getById(getInt(results, USER_ID_ATTR_ID));
 
 		Comment comment = Comment.builder()
 				.withScore(getInt(results, SCORE_ID))

@@ -21,8 +21,6 @@ import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class Movie extends Entity {
 	public static final int DAYS_AS_RELEASE = 6;
-	private static final int MIN_SCORE = 0;
-	private static final int MAX_SCORE = 5;
 
 	private String title;
 	private DateTime creationDate;
@@ -31,12 +29,13 @@ public class Movie extends Entity {
 	private Director director;
 	private int runtimeInMins;
 	private String summary;
-	private int averageScore;
+	private int totalScore;
+	private int totalComments;
 
 	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
 			List<MovieGenres> genres, Director director, int runtimeInMins,
-			String summary, int averageScore) {
+			String summary, int totalScore, int totalComments) {
 		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
 		checkArgument(releaseDate, notNull());
@@ -44,7 +43,8 @@ public class Movie extends Entity {
 		checkArgument(summary, notNull());
 		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(genres, notNull(), notEmptyColl(), noRepetitionsList());
-		checkArgument(averageScore >= MIN_SCORE && averageScore <= MAX_SCORE);
+		checkArgument(totalScore >= 0);
+		checkArgument(totalComments >= 0);
 
 		this.title = title;
 		this.creationDate = creationDate;
@@ -53,11 +53,20 @@ public class Movie extends Entity {
 		this.director = director;
 		this.runtimeInMins = runtimeInMins;
 		this.summary = summary;
-		this.averageScore = averageScore;
+		this.totalScore = totalScore;
+		this.totalComments = totalComments;
+	}
+
+	public int getTotalComments() {
+		return totalComments;
+	}
+
+	public int getTotalScore() {
+		return totalScore;
 	}
 
 	public int getAverageScore() {
-		return averageScore;
+		return totalScore / totalComments;
 	}
 
 	public DateTime getCreationDate() {
@@ -101,13 +110,14 @@ public class Movie extends Entity {
 				.add("creationDate", creationDate)
 				.add("releaseDate", releaseDate).add("genres", genres)
 				.add("director", director).add("durationInMins", runtimeInMins)
-				.add("summary", summary).add("score", averageScore).toString();
+				.add("summary", summary).add("totalScore", totalScore)
+				.add("totalComments", totalComments).toString();
 	}
 
 	@Override
 	public int hashCode() {
 		return hash(title, creationDate, releaseDate, genres, director,
-				runtimeInMins, summary, averageScore);
+				runtimeInMins, summary, totalScore, totalComments);
 	}
 
 	@Override
@@ -126,7 +136,8 @@ public class Movie extends Entity {
 				&& areEqual(this.director, that.director)
 				&& areEqual(this.runtimeInMins, that.runtimeInMins)
 				&& areEqual(this.summary, that.summary)
-				&& areEqual(this.averageScore, that.averageScore);
+				&& areEqual(this.totalScore, that.totalScore)
+				&& areEqual(this.totalComments, that.totalComments);
 	}
 
 	public static MovieBuilder builder() {
