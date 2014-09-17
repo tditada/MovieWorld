@@ -117,7 +117,7 @@ public class Movie extends Entity {
 	@Override
 	public int hashCode() {
 		return hash(title, creationDate, releaseDate, genres, director,
-				runtimeInMins, summary, totalScore, totalComments);
+				runtimeInMins, summary);
 	}
 
 	@Override
@@ -135,9 +135,7 @@ public class Movie extends Entity {
 				&& areEqual(this.genres, that.genres)
 				&& areEqual(this.director, that.director)
 				&& areEqual(this.runtimeInMins, that.runtimeInMins)
-				&& areEqual(this.summary, that.summary)
-				&& areEqual(this.totalScore, that.totalScore)
-				&& areEqual(this.totalComments, that.totalComments);
+				&& areEqual(this.summary, that.summary);
 	}
 
 	public static MovieBuilder builder() {

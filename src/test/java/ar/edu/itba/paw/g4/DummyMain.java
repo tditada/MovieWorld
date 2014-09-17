@@ -27,6 +27,7 @@ public class DummyMain {
 	}
 
 	private static void testDAOs() {
+		// IMPORTANT: These tests will only work with an empty database!
 		UserDAO userDAO = PSQLUserDAO.getInstance();
 
 		User user = User
@@ -119,6 +120,9 @@ public class DummyMain {
 		List<Movie> newestNMovies = movieDAO.getNewestNByCreationDate(n);
 		if (!newestNMovies.contains(movie)
 				|| (allMovies.size() >= n && newestNMovies.size() < n)) {
+			System.out.println(!newestNMovies.contains(movie));
+			System.out.println(allMovies.size() >= n
+					&& newestNMovies.size() < n);
 			System.out.println(newestNMovies);
 			System.out.println(movie);
 			throw new RuntimeException("Problemas con el movieDAO");

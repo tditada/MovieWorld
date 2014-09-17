@@ -78,6 +78,9 @@ public class PSQLMovieDAO implements MovieDAO {
 				statement.addParameter(movie.getDirector().getName());
 				statement.addParameter(movie.getRuntimeInMins());
 				statement.addParameter(movie.getSummary());
+				statement.addParameter(movie.getTotalScore());
+				statement.addParameter(movie.getTotalComments());
+				
 
 				if (movie.isPersisted()) {
 					statement.addParameter(movie.getId());
