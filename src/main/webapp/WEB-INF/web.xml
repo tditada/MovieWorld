@@ -6,8 +6,8 @@
 		</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>Movies</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.MoviesController
+		<servlet-name>MovieList</servlet-name>
+		<servlet-class>ar.edu.itba.paw.g4.controller.MovieListController
 		</servlet-class>
 	</servlet>
 	<servlet>
@@ -20,8 +20,8 @@
 		<url-pattern>/index</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>Movies</servlet-name>
-		<url-pattern>/movies</url-pattern>
+		<servlet-name>MovieList</servlet-name>
+		<url-pattern>/movieList</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>

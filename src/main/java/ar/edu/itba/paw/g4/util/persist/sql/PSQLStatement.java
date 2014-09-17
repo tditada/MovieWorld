@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
+import java.util.Collection;
 
 import org.joda.time.DateTime;
 
@@ -61,10 +61,11 @@ public class PSQLStatement {
 											// string)
 	}
 
-	public PSQLStatement addParameter(String sqlType, List<?> list)
+	public PSQLStatement addParameter(String sqlType, Collection<?> collection)
 			throws SQLException {
-		checkArgument(list, notNull());
-		Array elements = connection.createArrayOf(sqlType, list.toArray());
+		checkArgument(collection, notNull());
+		Array elements = connection
+				.createArrayOf(sqlType, collection.toArray());
 		/*
 		 * TODO: check if .name() is being used here
 		 */
@@ -75,11 +76,11 @@ public class PSQLStatement {
 		return this;
 	}
 
-	public PSQLStatement addParameter(List<? extends Enum<?>> list)
+	public PSQLStatement addParameter(Collection<? extends Enum<?>> coll)
 			throws SQLException {
-		checkArgument(list, notNull());
+		checkArgument(coll, notNull());
 		// IMPORTANT: it's 'varchar' and not 'VARCHAR'
-		return addParameter("varchar", list);
+		return addParameter("varchar", coll);
 	}
 
 	public int executeUpdate() throws SQLException {

@@ -8,7 +8,7 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
-import java.util.List;
+import java.util.Set;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -24,14 +24,14 @@ public class Movie extends Entity {
 	private String title;
 	private DateTime creationDate;
 	private DateTime releaseDate;
-	private List<MovieGenres> genres;
+	private Set<MovieGenres> genres;
 	private Director director;
 	private int runtimeInMins;
 	private String summary;
 
 	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
-			List<MovieGenres> genres, Director director, int runtimeInMins,
+			Set<MovieGenres> genres, Director director, int runtimeInMins,
 			String summary) {
 		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
@@ -58,7 +58,7 @@ public class Movie extends Entity {
 		return title;
 	}
 
-	public List<MovieGenres> getGenres() {
+	public Set<MovieGenres> getGenres() {
 		return genres;
 	}
 

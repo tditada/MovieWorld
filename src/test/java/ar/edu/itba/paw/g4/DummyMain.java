@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.g4;
 
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 
@@ -18,7 +19,7 @@ import ar.edu.itba.paw.g4.persist.impl.PSQLUserDAO;
 import ar.edu.itba.paw.g4.util.EmailAddress;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class DummyMain {
 	public static void main(String[] args) throws Exception {
@@ -48,7 +49,7 @@ public class DummyMain {
 
 		MovieDAO movieDAO = PSQLMovieDAO.getInstance();
 
-		List<MovieGenres> genres = Lists.newArrayList(MovieGenres.ACTION);
+		Set<MovieGenres> genres = Sets.newHashSet(MovieGenres.ACTION);
 		Director director = Director.builder().withName("El Barto").build();
 		Movie movie = Movie
 				.builder()
@@ -108,7 +109,7 @@ public class DummyMain {
 		}
 
 		List<Movie> allMoviesByGenre = movieDAO.getAllByGenre(movie.getGenres()
-				.get(0));
+				.iterator().next());
 		if (!allMoviesByGenre.contains(movie)) {
 			System.out.println(allMoviesByGenre);
 			System.out.println(movie);

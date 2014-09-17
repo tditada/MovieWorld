@@ -7,14 +7,7 @@ import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
 
 public class UserServiceImpl implements UserService {
-	private static final UserService instance = new UserServiceImpl();
 
-	public static UserService getInstance() {
-		return instance;
-	}
-
-	private UserServiceImpl() {
-	}
 
 	// private UserDAO userdao=UserDAO.getInstance();
 	private static String NAME_ID = "name";
