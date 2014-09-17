@@ -27,13 +27,12 @@ public class MovieListController extends HttpServlet {
 
 		request.setAttribute(GENRES_ID, MovieGenres.values());
 
-		String filterGenreStr = (String) request
-				.getParameter(FILTER_BY_GENRE_ID);
+		String filterGenreParam = request.getParameter(FILTER_BY_GENRE_ID);
 		List<Movie> moviesList;
-		if (filterGenreStr == null) {
+		if (filterGenreParam == null) {
 			moviesList = movieService.getMovieList();
 		} else {
-			MovieGenres filterGenre = MovieGenres.valueOf(filterGenreStr);
+			MovieGenres filterGenre = MovieGenres.valueOf(filterGenreParam);
 			moviesList = movieService.getAllMoviesByGenre(filterGenre);
 		}
 

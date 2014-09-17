@@ -4,11 +4,12 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.noRepetitionsList;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
-import java.util.Set;
+import java.util.List;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
@@ -20,26 +21,30 @@ import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class Movie extends Entity {
 	public static final int DAYS_AS_RELEASE = 6;
+	private static final int MIN_SCORE = 0;
+	private static final int MAX_SCORE = 5;
 
 	private String title;
 	private DateTime creationDate;
 	private DateTime releaseDate;
-	private Set<MovieGenres> genres;
+	private List<MovieGenres> genres;
 	private Director director;
 	private int runtimeInMins;
 	private String summary;
+	private int averageScore;
 
 	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
-			Set<MovieGenres> genres, Director director, int runtimeInMins,
-			String summary) {
+			List<MovieGenres> genres, Director director, int runtimeInMins,
+			String summary, int averageScore) {
 		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
 		checkArgument(releaseDate, notNull());
 		checkArgument(director, notNull());
 		checkArgument(summary, notNull());
 		checkArgument(title, neitherNullNorEmpty());
-		checkArgument(genres, notNull(), notEmptyColl());
+		checkArgument(genres, notNull(), notEmptyColl(), noRepetitionsList());
+		checkArgument(averageScore >= MIN_SCORE && averageScore <= MAX_SCORE);
 
 		this.title = title;
 		this.creationDate = creationDate;
@@ -48,6 +53,11 @@ public class Movie extends Entity {
 		this.director = director;
 		this.runtimeInMins = runtimeInMins;
 		this.summary = summary;
+		this.averageScore = averageScore;
+	}
+
+	public int getAverageScore() {
+		return averageScore;
 	}
 
 	public DateTime getCreationDate() {
@@ -58,7 +68,7 @@ public class Movie extends Entity {
 		return title;
 	}
 
-	public Set<MovieGenres> getGenres() {
+	public List<MovieGenres> getGenres() {
 		return genres;
 	}
 
@@ -91,13 +101,13 @@ public class Movie extends Entity {
 				.add("creationDate", creationDate)
 				.add("releaseDate", releaseDate).add("genres", genres)
 				.add("director", director).add("durationInMins", runtimeInMins)
-				.add("summary", summary).toString();
+				.add("summary", summary).add("score", averageScore).toString();
 	}
 
 	@Override
 	public int hashCode() {
 		return hash(title, creationDate, releaseDate, genres, director,
-				runtimeInMins, summary);
+				runtimeInMins, summary, averageScore);
 	}
 
 	@Override
@@ -115,7 +125,8 @@ public class Movie extends Entity {
 				&& areEqual(this.genres, that.genres)
 				&& areEqual(this.director, that.director)
 				&& areEqual(this.runtimeInMins, that.runtimeInMins)
-				&& areEqual(this.summary, that.summary);
+				&& areEqual(this.summary, that.summary)
+				&& areEqual(this.averageScore, that.averageScore);
 	}
 
 	public static MovieBuilder builder() {

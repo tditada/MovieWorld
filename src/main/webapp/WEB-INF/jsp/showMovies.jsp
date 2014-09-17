@@ -2,7 +2,7 @@
 
 <%@ include file="navbarStart.jsp"%>
 <!-- <p class="navbar-text">Filter by genre</p> -->
-<form class="navbar-form navbar-left" role="search" action="movieList"
+<form class="navbar-form navbar-left" role="search" action="movies/list"
 	method="get">
 	<div class="form-group">
 		<select class="selectpicker" title="Filter by genre"
@@ -40,7 +40,7 @@
 					<td class="col-md-4"><c:out value="${movie.title}" /></td>
 					<td class="col-md-1"><a
 						href="<c:out
-								value="/movie?id=${movie.id}" />"><span
+								value="movies/detail?id=${movie.id}" />"><span
 							class="glyphicon glyphicon-link"></span></a></td>
 					</tr>
 				</c:forEach>

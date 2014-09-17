@@ -11,6 +11,11 @@
 		</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>MovieDetail</servlet-name>
+		<servlet-class>ar.edu.itba.paw.g4.controller.MovieDetailController
+		</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>Login</servlet-name>
 		<servlet-class>ar.edu.itba.paw.g4.controller.LoginController
 		</servlet-class>
@@ -21,7 +26,11 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>MovieList</servlet-name>
-		<url-pattern>/movieList</url-pattern>
+		<url-pattern>/movies/list</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>MovieDetail</servlet-name>
+		<url-pattern>/movies/detail</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>

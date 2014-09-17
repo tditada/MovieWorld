@@ -8,7 +8,6 @@ import ar.edu.itba.paw.g4.service.UserService;
 
 public class UserServiceImpl implements UserService {
 
-
 	// private UserDAO userdao=UserDAO.getInstance();
 	private static String NAME_ID = "name";
 	private static String LAST_NAME = "lastname";

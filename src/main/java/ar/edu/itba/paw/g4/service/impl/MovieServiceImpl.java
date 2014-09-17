@@ -95,7 +95,12 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public Movie getMovieById(int id) {
 		try {
-			return movieDAO.getById(id);
+			Movie movie = movieDAO.getById(id);
+			if (movie == null) {
+				throw new IllegalArgumentException(
+						"There is no movie with id (" + id + ")");
+			}
+			return movie;
 		} catch (DatabaseException dbe) {
 			throw new ServiceException(dbe);/*
 											 * TODO: deberia chequear por otros
