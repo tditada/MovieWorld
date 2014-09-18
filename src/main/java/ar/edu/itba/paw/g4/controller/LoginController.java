@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.g4.controller;
 
+import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
@@ -16,14 +19,13 @@ import ar.edu.itba.paw.g4.util.EmailAddress;
 @SuppressWarnings("serial")
 public class LoginController extends HttpServlet {
 	private UserService userService = UserServiceImpl.getInstance();
-	private static UserService instance;
+	// private static UserService instance;
 	private static String NAME_ID = "firstname";
 	private static String LASTNAME_ID = "lastname";
 	private static String EMAIL_ID = "email";
 	private static String PASS_ID = "password";
-	private static String PASS2_ID = "secondPassword";
+	// private static String PASS2_ID = "secondPassword";
 	private static String BIRTHDAY_ID = "birthday";
-	private static String ERROR = "error";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -36,16 +38,16 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		try{
+		try {
 			String emailParam = req.getParameter(EMAIL_ID);
 			EmailAddress email = EmailAddress.build(emailParam);
 			String password = req.getParameter(PASS_ID);
 			User user = userService.authenticate(email, password);
 			createUserSession(user, req);
-			req.getRequestDispatcher(req.getHeader("referer")).forward(req, resp);
-		}catch(ServiceException e){
-			req.setAttribute(ERROR, e.getMessage());
-			req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, resp);
+			req.getRequestDispatcher(req.getHeader("referer")).forward(req,
+					resp);
+		} catch (ServiceException e) {
+			manageError(e, req, resp);
 		}
 	}
 

@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.g4.controller;
 
+
+import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 import java.io.IOException;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ar.edu.itba.paw.g4.enums.MovieGenres;
+import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.service.MovieService;
 import ar.edu.itba.paw.g4.service.impl.MovieServiceImpl;
@@ -29,17 +32,21 @@ public class MovieListController extends HttpServlet {
 
 		String filterGenreParam = request.getParameter(FILTER_BY_GENRE_ID);
 		List<Movie> moviesList;
-		if (filterGenreParam == null) {
-			moviesList = movieService.getMovieList();
-		} else {
-			MovieGenres filterGenre = MovieGenres.valueOf(filterGenreParam);
-			moviesList = movieService.getAllMoviesByGenre(filterGenre);
+		
+		try{
+			if (filterGenreParam == null) {
+				moviesList = movieService.getMovieList();
+			} else {
+				MovieGenres filterGenre = MovieGenres.valueOf(filterGenreParam);
+				moviesList = movieService.getAllMoviesByGenre(filterGenre);
+			}
+	
+			request.setAttribute(MOVIES_ID, moviesList);
+	
+			request.getRequestDispatcher("/WEB-INF/jsp/showMovies.jsp").forward(request, response);
+		}catch(ServiceException e){
+			manageError(e,request,response);
 		}
-
-		request.setAttribute(MOVIES_ID, moviesList);
-
-		request.getRequestDispatcher("/WEB-INF/jsp/showMovies.jsp").forward(
-				request, response);
 	}
 
 }
