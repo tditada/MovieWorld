@@ -1,4 +1,5 @@
 <%@ include file="header.jsp"%>
+<%@ include file="headerend.jsp"%>
 
 <%@ include file="navbarStart.jsp"%>
 <form class="navbar-form navbar-left" role="search" action="movies/list"
