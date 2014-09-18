@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.g4.service.impl;
 
-import javax.servlet.http.HttpServletRequest;
-
 import ar.edu.itba.paw.g4.exception.DatabaseException;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
@@ -44,7 +42,7 @@ public class UserServiceImpl implements UserService {
 	public User authenticate(EmailAddress email, String pass) {
 		User user = userdao.getByEmail(email);
 		if (user == null) {
-			throw new ServiceException("Non existent user");
+			throw new ServiceException("Invalid user");
 		} else if (!checkPassword(user, pass)) {
 			throw new ServiceException("Wrong Password");
 		}
