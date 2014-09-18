@@ -25,6 +25,11 @@
 		<servlet-class>ar.edu.itba.paw.g4.controller.RegistrationController
 		</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>Error</servlet-name>
+		<servlet-class>ar.edu.itba.paw.g4.controller.ErrorController
+		</servlet-class>
+	</servlet>
 	<filter>
 		<filter-name>UserFilter</filter-name>
 		<filter-class>ar.edu.itba.paw.g4.filter.UserFilter</filter-class>
@@ -52,5 +57,9 @@
 	<servlet-mapping>
 		<servlet-name>Registration</servlet-name>
 		<url-pattern>/registration</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Error</servlet-name>
+		<url-pattern>/error</url-pattern>
 	</servlet-mapping>
 </web-app>

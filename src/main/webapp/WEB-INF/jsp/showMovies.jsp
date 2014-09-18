@@ -1,7 +1,7 @@
 <%@ include file="header.jsp"%>
+<%@ include file="headerend.jsp"%>
 
 <%@ include file="navbarStart.jsp"%>
-<!-- <p class="navbar-text">Filter by genre</p> -->
 <form class="navbar-form navbar-left" role="search" action="movies/list"
 	method="get">
 	<div class="form-group">
@@ -17,6 +17,7 @@
 		<button type="submit" class="btn btn-default">Apply filter</button>
 	</div>
 </form>
+<%@ include file="userMenu.jsp"%>
 <%@ include file="navbarEnd.jsp"%>
 
 <div class="container">
@@ -24,7 +25,6 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<!--TODO:queda mas lindo asi? <th class="col-md-1">#</th> -->
 					<th class="col-md-2">Release Date</th>
 					<th class="col-md-2">Director</th>
 					<th class="col-md-4">Title</th>

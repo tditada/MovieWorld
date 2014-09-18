@@ -19,12 +19,11 @@ import ar.edu.itba.paw.g4.util.EmailAddress;
 @SuppressWarnings("serial")
 public class LoginController extends HttpServlet {
 	private UserService userService = UserServiceImpl.getInstance();
-//	private static UserService instance;
+	// private static UserService instance;
 	private static String NAME_ID = "firstname";
 	private static String LASTNAME_ID = "lastname";
 	private static String EMAIL_ID = "email";
 	private static String PASS_ID = "password";
-//	private static String PASS2_ID = "secondPassword";
 	private static String BIRTHDAY_ID = "birthday";
 
 	@Override
@@ -54,7 +53,6 @@ public class LoginController extends HttpServlet {
 		}
 	}
 
-	// QUE RECIBA SESSION
 	private void createUserSession(User user, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute(NAME_ID, user.getFirstName());

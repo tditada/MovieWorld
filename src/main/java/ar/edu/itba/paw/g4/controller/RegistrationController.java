@@ -35,30 +35,28 @@ public class RegistrationController extends HttpServlet {
 		req.getRequestDispatcher("/WEB-INF/jsp/registration.jsp").forward(req,
 				resp);
 	}
-
-	// TODO 1: VALIDO LAS COSAS (contraseñas iguales, etc) >
-	// req.getRequestDispatcher(/registration) <-- aca va a hacer un get
-	// Le paso como attribute al request los campos (y cuales estan bien y
-	// cuales estan mal)
+	//TODO 1: VALIDO LAS COSAS (contraseñas iguales, etc) > req.getRequestDispatcher(/registration) <-- aca va a hacer un get
+	// Le paso como attribute al request los campos (y cuales estan bien y cuales estan mal)
 	// jsp -> movieController (movieDetails)
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
-		DateTimeFormatter formatter = DateTimeFormat.forPattern("mm/dd/yyyy");
-		DateTime birthDate = formatter.parseDateTime(req
-				.getParameter(BIRTHDAY_ID));
+//
+//		DateTimeFormatter formatter = DateTimeFormat.forPattern("mm/dd/yyyy");
+//		DateTime birthDate = formatter.parseDateTime(req
+//				.getParameter(BIRTHDAY_ID));
 
 		User user = User.builder().withFirstName(req.getParameter(NAME_ID))
 				.withLastName(req.getParameter(LASTNAME_ID))
 				.withPassword(req.getParameter(PASS_ID))
 				.withEmail(EmailAddress.build(req.getParameter(EMAIL_ID)))
-				.withBirthDate(birthDate).build();
-		try {
+				.withBirthDate(new DateTime(req.getParameter(BIRTHDAY_ID))).build();
+		try{
 			userservice.register(user);
-			resp.sendRedirect(req.getHeader("referer"));
-		} catch (ServiceException e) {
-			manageError(e, req, resp);
+			req.getRequestDispatcher("login").forward(req, resp);
+		}catch(ServiceException e){
+			manageError(e,req,resp);
 		}
 	}
 }

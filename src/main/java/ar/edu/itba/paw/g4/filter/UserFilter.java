@@ -25,10 +25,10 @@ public class UserFilter implements Filter {
 //	private static String PASS2_ID = "secondPassword";
 	private static String BIRTHDAY_ID = "birthday";
 
+
 	@Override
 	public void init(FilterConfig fil) throws ServletException {
 		filterConfig = fil;
-
 	}
 
 	@Override
@@ -39,25 +39,27 @@ public class UserFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse rsp,
 			FilterChain chain) throws IOException, ServletException {
+
 		// TODO: ¿Está bien este casteo? HttpServletRequest extiende HttpServlet
 		if (req.getAttribute("user") == null && userHasSession((HttpServletRequest)req)) {
 			HttpSession session = ((HttpServletRequest) req).getSession();
 			User user = userService.getUserById((Integer) session .getAttribute("id"));
 			req.setAttribute("user", user);
+
 		}
 		chain.doFilter(req, rsp);
 	}
 	
-	public boolean userHasSession(HttpServletRequest req) {
-	 HttpSession session = req.getSession();
-	 return SessionAttributesAreNull(session);
-}
+	private boolean userHasSession(HttpServletRequest request) {
+		 HttpSession session = request.getSession();
+		 return !SessionAttributesAreNull(session);
+	}
 	
 	 private boolean SessionAttributesAreNull(HttpSession session){
 		 return session.getAttribute(NAME_ID)==null &&
 		 session.getAttribute(LASTNAME_ID)==null &&
 		 session.getAttribute(EMAIL_ID)==null && session.getAttribute(PASS_ID)==null
 		 && session.getAttribute(BIRTHDAY_ID)==null;
-		 }
+	 }
 
 }

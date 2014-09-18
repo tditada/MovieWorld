@@ -1,4 +1,5 @@
 <%@ include file="header.jsp" %>
+<%@ include file="headerend.jsp"%>
 <div class="container">
     <div class="row">
         <form role="form" action="registration" method="POST">

@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.g4.controller;
 
+import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
+import ar.edu.itba.paw.g4.exception.ServiceException;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -31,12 +34,15 @@ public class MovieDetailController extends HttpServlet {
 																		 */
 		}
 		int movieId = Integer.valueOf(movieIdParam);
-
+		try{
 		Movie movie = movieService.getMovieById(movieId);
 		request.setAttribute(MOVIE_ID, movie);
 
 		request.getRequestDispatcher("/WEB-INF/jsp/showMovie.jsp").forward(
 				request, response);
+		}catch(ServiceException e){
+			manageError(e,request,response);
+		}
 	}
 
 }
