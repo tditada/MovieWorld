@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
