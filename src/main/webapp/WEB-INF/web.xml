@@ -6,6 +6,11 @@
 		</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>Home</servlet-name>
+		<servlet-class>ar.edu.itba.paw.g4.controller.MovieHomeController
+		</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>MovieList</servlet-name>
 		<servlet-class>ar.edu.itba.paw.g4.controller.MovieListController
 		</servlet-class>
@@ -28,6 +33,10 @@
 	<servlet-mapping>
 		<servlet-name>Index</servlet-name>
 		<url-pattern>/index</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Home</servlet-name>
+		<url-pattern>/home</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>MovieList</servlet-name>
