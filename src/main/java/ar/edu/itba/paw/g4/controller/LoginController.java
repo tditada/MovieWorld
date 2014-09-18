@@ -44,7 +44,6 @@ public class LoginController extends HttpServlet {
 		req.getRequestDispatcher(req.getHeader("referer")).forward(req, resp);
 	}
 
-	// QUE RECIBA SESSION
 	private void createUserSession(User user, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute(NAME_ID, user.getFirstName());

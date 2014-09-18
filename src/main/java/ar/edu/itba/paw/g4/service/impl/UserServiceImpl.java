@@ -11,7 +11,7 @@ import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.util.EmailAddress;
 
 
-//TODO: Pasar session
+//TODO: ¿Pasar session?
 public class UserServiceImpl implements UserService {
 
 	private UserDAO userdao = PSQLUserDAO.getInstance();
@@ -30,13 +30,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean userHasSession() {
-		return false;
-		// HttpSession session = request.getSession();
-		// return SessionAttributesAreNull(session);
-	}
-
-	@Override
 	public User getUserById(Integer id) {
 		userdao.getById(id);
 		return null;
@@ -52,18 +45,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void logout(User user) {
-		// HttpSession session = request.getSession();
-		// session.setAttribute(NAME_ID, null);
-		// session.setAttribute(EMAIL_ID, null);
-	}
-
-	public User login(EmailAddress email, String pass) {
-		// User user=authentication(email,pass);
-		// CreateUserSession(user);
-		// return user
-		return null;
-	}
 
 	public User authenticate(EmailAddress email, String pass) {
 		User user = userdao.getByEmail(email);
@@ -80,6 +61,19 @@ public class UserServiceImpl implements UserService {
 		return user.getPassword().equals(pass);
 	}
 
+//	public void logout(User user) {
+//		// HttpSession session = request.getSession();
+//		// session.setAttribute(NAME_ID, null);
+//		// session.setAttribute(EMAIL_ID, null);
+//	}
+//
+//	public User login(EmailAddress email, String pass) {
+//		// User user=authentication(email,pass);
+//		// CreateUserSession(user);
+//		// return user
+//		return null;
+//	}
+
 	// private boolean SessionAttributesAreNull(HttpSession session){
 	// return session.getAttribute(NAME_ID)==null &&
 	// session.getAttribute(LAST_NAME)==null &&
@@ -95,5 +89,12 @@ public class UserServiceImpl implements UserService {
 	// session.setAttribute(PASS, user.getPassword());
 	// session.setAttribute(BIRTHDAY, user.getBirthDate());
 	// }
+		
+	//	@Override
+	//	public boolean userHasSession() {
+	//		return false;
+	//		// HttpSession session = request.getSession();
+	//		// return SessionAttributesAreNull(session);
+	//	}
 
 }
