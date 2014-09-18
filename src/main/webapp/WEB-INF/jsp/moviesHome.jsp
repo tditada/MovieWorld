@@ -14,36 +14,71 @@
 				<div class="panel-heading text-center">
 					<h3 class="panel-title">Top 5</h3>
 				</div>
-				<ul class="list-group">
-					<li class="list-group-item">Cras justo odio <span
-						class="glyphicon glyphicon-star"></span></li>
-					<li class="list-group-item">Dapibus ac facilisis in</li>
-					<li class="list-group-item">Morbi leo risus</li>
-					<li class="list-group-item">Porta ac consectetur ac</li>
-					<li class="list-group-item">Vestibulum at eros</li>
-				</ul>
+				<table class="table">
+					<thead />
+					<tbody>
+						<c:forEach items="${topMovies}" var="topMovie">
+							<tr>
+								<td><a
+									href="<c:out
+								value="movies/detail?id=${topMovie.id}" />">
+										<c:out value="${topMovie.title}" />
+								</a></td>
+								<td><c:forEach begin="1" end="${topMovie.averageScore}">
+										<span class="glyphicon glyphicon-star"></span>
+									</c:forEach> <c:if test="${topMovie.averageScore < 5}">
+										<c:forEach begin="${topMovie.averageScore}" end="4">
+											<span class="glyphicon glyphicon-star-empty"></span>
+										</c:forEach>
+									</c:if><small> <c:out value="(${topMovie.averageScore}/5)" />
+								</small></td>
+							</tr>
+						</c:forEach>
+						<!-- 				<ul class="list-group"> -->
+						<%-- 					<c:forEach items="${topMovies}" var="topMovie"> --%>
+						<!-- 						<li class="list-group-item"><a -->
+						<%-- 							href="<c:out --%>
+						<%-- 								value="movies/detail?id=${topMovie.id}" />"> --%>
+						<%-- 								<c:out value="${topMovie.title}" /> --%>
+						<%-- 						</a> <c:forEach begin="1" end="${topMovie.averageScore}"> --%>
+						<!-- 								<span class="glyphicon glyphicon-star"></span> -->
+						<%-- 							</c:forEach> <c:if test="${topMovie.averageScore < 5}"> --%>
+						<%-- 								<c:forEach begin="${topMovie.averageScore}" end="4"> --%>
+						<!-- 									<span class="glyphicon glyphicon-star-empty"></span> -->
+						<%-- 								</c:forEach> --%>
+						<%-- 							</c:if> <small> <c:out value="(${topMovie.averageScore}/5)" /> --%>
+						<!-- 						</small></li> -->
+						<%-- 					</c:forEach> --%>
+						<!-- 				</ul> -->
+					</tbody>
+				</table>
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading text-center">
 					<h3 class="panel-title">New Additions</h3>
 				</div>
-
 				<table class="table">
 					<thead>
 						<tr>
-							<th>#</th>
-							<th>Added</th>
-							<th>Title</th>
-							<th># of comments</th>
+							<th class="text-center">Added</th>
+							<th class="text-center">Title</th>
+							<th class="text-center">Comments</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>1</td>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-						</tr>
+						<c:forEach items="${newAdditions}" var="newAddition">
+							<tr>
+								<td><joda:format value="${newAddition.creationDate}"
+										style="M-" /></td>
+								<td class="text-center"><a
+									href="<c:out
+								value="movies/detail?id=${newAddition.id}" />">
+										<c:out value="${newAddition.title}" />
+								</a></td>
+								<td class="text-center"><c:out
+										value="${newAddition.totalComments}" /></td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
@@ -53,46 +88,29 @@
 				<div class="panel-heading text-center">
 					<h2 class="panel-title">Releases</h2>
 				</div>
-				<!-- 				<ul> -->
-				<!-- 					<li> -->
-<!-- 				<div> -->
-<!-- 					<div class="panel panel-default"> -->
-<!-- 						<div class="panel-heading">Panel heading without title</div> -->
-<!-- 						<div class="panel-body">Panel content</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-				<!-- 					</li> -->
-				<!-- 				</ul> -->
-				<!-- 				<table class="table"> -->
-				<!-- 					<thead> -->
-				<!-- 						<tr> -->
-				<!-- 							<th>#</th> -->
-				<!-- 							<th>First Name</th> -->
-				<!-- 							<th>Last Name</th> -->
-				<!-- 							<th>Username</th> -->
-				<!-- 						</tr> -->
-				<!-- 					</thead> -->
-				<!-- 					<tbody> -->
-				<!-- 						<tr> -->
-				<!-- 							<td>1</td> -->
-				<!-- 							<td>Mark</td> -->
-				<!-- 							<td>Otto</td> -->
-				<!-- 							<td>@mdo</td> -->
-				<!-- 						</tr> -->
-				<!-- 						<tr> -->
-				<!-- 							<td>2</td> -->
-				<!-- 							<td>Jacob</td> -->
-				<!-- 							<td>Thornton</td> -->
-				<!-- 							<td>@fat</td> -->
-				<!-- 						</tr> -->
-				<!-- 						<tr> -->
-				<!-- 							<td>3</td> -->
-				<!-- 							<td>Larry</td> -->
-				<!-- 							<td>the Bird</td> -->
-				<!-- 							<td>@twitter</td> -->
-				<!-- 						</tr> -->
-				<!-- 					</tbody> -->
-				<!-- 				</table> -->
+				<c:forEach items="${releases}" var="release">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<a
+								href="<c:out
+								value="movies/detail?id=${release.id}" />">
+								<c:out value="${release.title}" />
+							</a>
+						</div>
+						<div class="panel-body">
+							<p>
+								<c:choose>
+									<c:when test="${fn:length(release.summary) > 300}">
+										<c:out value="${fn:substring(release.summary, 0, 300)}..." />
+									</c:when>
+									<c:otherwise>
+										<c:out value="${release.summary}" />
+									</c:otherwise>
+								</c:choose>
+							</p>
+						</div>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 	</div>

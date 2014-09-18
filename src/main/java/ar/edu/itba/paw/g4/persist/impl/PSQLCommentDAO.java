@@ -1,10 +1,6 @@
 package ar.edu.itba.paw.g4.persist.impl;
 
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getInt;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.*;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
@@ -26,16 +22,17 @@ import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;
 import com.google.common.collect.Lists;
 
 public class PSQLCommentDAO implements CommentDAO {
-	private static final String TABLE_NAME_ID = "comments";
+	private static final String COMMENT_TABLE_ID = "comments";
 	private static final String SCORE_ID = "score";
 	private static final String TEXT_ID = "txt";
 	private static final String CREAT_DATE_ID = "creationDate";
 	private static final String USER_ID_ATTR_ID = "userId";
 	private static final String MOVIE_ID_ATTR_ID = "movieId";
 	private static final String ID_ATTR_ID = "commentId";
-	private static final String MOVIE_TABLE_NAME_ID = "movies";
-	private static final String MOVIE_TOTAL_SCORE_ID = "totalScore";
+	private static final String MOVIE_TABLE_ID = "movies";
+	private static final String MOVIE_AVG_SCORE_ID = "averageScore";
 	private static final String MOVIE_TOTAL_COMMENTS_ID = "totalComments";
+	private static final String SUBQUERY_ID = "subquery";
 
 	private static final CommentDAO instance = new PSQLCommentDAO();
 
@@ -59,10 +56,10 @@ public class PSQLCommentDAO implements CommentDAO {
 				List<String> columns = Lists.newArrayList(SCORE_ID, TEXT_ID,
 						CREAT_DATE_ID, USER_ID_ATTR_ID, MOVIE_ID_ATTR_ID);
 				if (!comment.isPersisted()) {
-					query = insertQuery(TABLE_NAME_ID, columns);
+					query = insertQuery(COMMENT_TABLE_ID, columns);
 				} else {
 					columns.add(ID_ATTR_ID);
-					query = updateQuery(TABLE_NAME_ID, columns);
+					query = updateQuery(COMMENT_TABLE_ID, columns);
 				}
 
 				PSQLStatement saveCommentStmt = new PSQLStatement(connection,
@@ -77,17 +74,30 @@ public class PSQLCommentDAO implements CommentDAO {
 					saveCommentStmt.addParameter(comment.getId());
 				}
 
-				String updateMovieQuery = "UPDATE " + MOVIE_TABLE_NAME_ID
-						+ " SET " + MOVIE_TOTAL_SCORE_ID + "=?,"
-						+ MOVIE_TOTAL_COMMENTS_ID + "=? WHERE "
-						+ MOVIE_ID_ATTR_ID + "=?;";
+				String averageScoreAndCommentsQuery = "SELECT "
+						+ list(as(average(SCORE_ID), MOVIE_AVG_SCORE_ID),
+								as(countAll(), MOVIE_TOTAL_COMMENTS_ID))
+						+ " FROM " + MOVIE_TABLE_ID + " JOIN "
+						+ COMMENT_TABLE_ID + " ON "
+						+ fullName(MOVIE_TABLE_ID, MOVIE_ID_ATTR_ID) + "="
+						+ fullName(COMMENT_TABLE_ID, MOVIE_ID_ATTR_ID)
+						+ " WHERE "
+						+ fullName(MOVIE_TABLE_ID, MOVIE_ID_ATTR_ID) + "=?";
+
+				String updateMovieQuery = "UPDATE " + MOVIE_TABLE_ID + " SET "
+						+ MOVIE_AVG_SCORE_ID + "="
+						+ fullName(SUBQUERY_ID, MOVIE_AVG_SCORE_ID) + ","
+						+ MOVIE_TOTAL_COMMENTS_ID + "="
+						+ fullName(SUBQUERY_ID, MOVIE_TOTAL_COMMENTS_ID)
+						+ " FROM "
+						+ as(averageScoreAndCommentsQuery, SUBQUERY_ID)
+						+ " WHERE "
+						+ fullName(MOVIE_TABLE_ID, MOVIE_ID_ATTR_ID) + "=?";
+
 				PSQLStatement updateMovieStmt = new PSQLStatement(connection,
 						updateMovieQuery, true);
-				Movie movie = comment.getMovie();
-				updateMovieStmt.addParameter(movie.getTotalScore()
-						+ comment.getScore());
-				updateMovieStmt.addParameter(movie.getTotalComments() + 1);
-				updateMovieStmt.addParameter(movie.getId());
+				updateMovieStmt.addParameter(comment.getMovie().getId());
+				updateMovieStmt.addParameter(comment.getMovie().getId());
 
 				int result = saveCommentStmt.executeUpdate();
 				updateMovieStmt.executeUpdate();
@@ -113,7 +123,7 @@ public class PSQLCommentDAO implements CommentDAO {
 			@Override
 			protected Comment handleConnection(Connection connection)
 					throws SQLException {
-				String query = "SELECT * FROM " + TABLE_NAME_ID + " WHERE "
+				String query = "SELECT * FROM " + COMMENT_TABLE_ID + " WHERE "
 						+ ID_ATTR_ID + "=?";
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
@@ -137,7 +147,7 @@ public class PSQLCommentDAO implements CommentDAO {
 			@Override
 			protected List<Comment> handleConnection(Connection connection)
 					throws SQLException {
-				String query = "SELECT * FROM " + TABLE_NAME_ID + " WHERE "
+				String query = "SELECT * FROM " + COMMENT_TABLE_ID + " WHERE "
 						+ MOVIE_ID_ATTR_ID + "=?";
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
@@ -161,7 +171,7 @@ public class PSQLCommentDAO implements CommentDAO {
 			@Override
 			protected List<Comment> handleConnection(Connection connection)
 					throws SQLException {
-				String query = "SELECT * FROM " + TABLE_NAME_ID + " WHERE "
+				String query = "SELECT * FROM " + COMMENT_TABLE_ID + " WHERE "
 						+ USER_ID_ATTR_ID + "=?";
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);

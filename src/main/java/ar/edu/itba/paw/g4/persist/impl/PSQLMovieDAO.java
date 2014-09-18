@@ -39,7 +39,7 @@ public class PSQLMovieDAO implements MovieDAO {
 	private static final String RUNTIME_ID = "runtimeMins";
 	private static final String SUMMARY_ID = "summary";
 	private static final String ID_ATTR_ID = "movieId";
-	private static final String TOTAL_SCORE_ID = "totalScore";
+	private static final String AVG_SCORE_ID = "averageScore";
 	private static final String TOTAL_COMMENTS_ID = "totalComments";
 
 	private static final MovieDAO instance = new PSQLMovieDAO();
@@ -58,10 +58,10 @@ public class PSQLMovieDAO implements MovieDAO {
 			protected Void handleConnection(Connection connection)
 					throws SQLException {
 				String query;
-				List<String> columns = Lists.newArrayList(TITLE_ID,
-						CREAT_DATE_ID, REL_DATE_ID, GENRES_ID, DIR_NAME_ID,
-						RUNTIME_ID, SUMMARY_ID, TOTAL_SCORE_ID,
-						TOTAL_COMMENTS_ID);
+				List<String> columns = Lists
+						.newArrayList(TITLE_ID, CREAT_DATE_ID, REL_DATE_ID,
+								GENRES_ID, DIR_NAME_ID, RUNTIME_ID, SUMMARY_ID,
+								AVG_SCORE_ID, TOTAL_COMMENTS_ID);
 				if (!movie.isPersisted()) {
 					query = insertQuery(TABLE_NAME_ID, columns);
 				} else {
@@ -78,9 +78,8 @@ public class PSQLMovieDAO implements MovieDAO {
 				statement.addParameter(movie.getDirector().getName());
 				statement.addParameter(movie.getRuntimeInMins());
 				statement.addParameter(movie.getSummary());
-				statement.addParameter(movie.getTotalScore());
+				statement.addParameter(movie.getAverageScore());
 				statement.addParameter(movie.getTotalComments());
-				
 
 				if (movie.isPersisted()) {
 					statement.addParameter(movie.getId());
@@ -237,6 +236,32 @@ public class PSQLMovieDAO implements MovieDAO {
 		return connection.run();
 	}
 
+	@Override
+	public List<Movie> getAllByAverageScore(Orderings ordering,
+			final int quantity) {
+		checkArgument(ordering, notNull());
+		checkArgument(quantity >= 0);
+
+		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
+
+			@Override
+			protected List<Movie> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + TABLE_NAME_ID + " ORDER BY "
+						+ AVG_SCORE_ID + " " + asSQLOrdering(Orderings.DESC)
+						+ " LIMIT ?";
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+				statement.addParameter(quantity);
+
+				ResultSet results = statement.executeQuery();
+				return getMoviesFromResults(results);
+			}
+
+		};
+		return connection.run();
+	}
+
 	private List<Movie> getMoviesFromResults(ResultSet results)
 			throws SQLException {
 		List<Movie> movies = new LinkedList<>();
@@ -260,10 +285,9 @@ public class PSQLMovieDAO implements MovieDAO {
 				.withGenres(genres).withDirector(director)
 				.withRuntimeInMins(getInt(results, RUNTIME_ID))
 				.withSummary(getString(results, SUMMARY_ID))
-				.withTotalScore(getInt(results, TOTAL_SCORE_ID))
+				.withAverageScore(getInt(results, AVG_SCORE_ID))
 				.withTotalComments(getInt(results, TOTAL_COMMENTS_ID)).build();
 		movie.setId(getInt(results, ID_ATTR_ID));
 		return movie;
 	}
-
 }

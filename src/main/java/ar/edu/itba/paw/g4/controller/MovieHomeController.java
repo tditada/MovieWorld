@@ -27,9 +27,6 @@ public class MovieHomeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		List<Movie> topMovies = movieService.getTopMovies(TOP_MOVIES_QUANTITY);
-		/*
-		 * FIXME : dummy implementation in service !
-		 */
 		request.setAttribute(TOP_MOVIES_ID, topMovies);
 
 		List<Movie> newAdditions = movieService

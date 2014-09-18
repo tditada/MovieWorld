@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.g4.service.impl;
 
-import javax.servlet.http.HttpServletRequest;
-
 import ar.edu.itba.paw.g4.exception.DatabaseException;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
@@ -10,12 +8,11 @@ import ar.edu.itba.paw.g4.persist.impl.PSQLUserDAO;
 import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.util.EmailAddress;
 
-
 //TODO: Pasar session
 public class UserServiceImpl implements UserService {
 
 	private UserDAO userdao = PSQLUserDAO.getInstance();
-	private static UserService instance=new UserServiceImpl();
+	private static UserService instance = new UserServiceImpl();
 	private static String NAME_ID = "name";
 	private static String LAST_NAME = "lastname";
 	private static String EMAIL_ID = "email";

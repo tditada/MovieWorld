@@ -16,8 +16,6 @@ import ar.edu.itba.paw.g4.persist.impl.PSQLMovieDAO;
 import ar.edu.itba.paw.g4.service.MovieService;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
-import com.google.common.collect.Lists;
-
 public class MovieServiceImpl implements MovieService {
 	private static final MovieService instance = new MovieServiceImpl();
 
@@ -72,8 +70,7 @@ public class MovieServiceImpl implements MovieService {
 	public List<Movie> getTopMovies(int quantity) {
 		checkArgument(quantity > 0);
 		try {
-			// return movieDAO.getAllByAverageScoreInRange(); FIXME
-			return Lists.newArrayList();
+			return movieDAO.getAllByAverageScore(Orderings.DESC, quantity);
 		} catch (DatabaseException dbe) {
 			throw new ServiceException(dbe);/*
 											 * TODO: deberia chequear por otros

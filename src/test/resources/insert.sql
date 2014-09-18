@@ -1,4 +1,4 @@
-INSERT INTO movies(title, creationDate, releaseDate, genres, directorName, runtimeMins, summary, totalScore, totalComments)
+INSERT INTO movies(title, creationDate, releaseDate, genres, directorName, runtimeMins, summary, averageScore, totalComments)
 VALUES
 ('Pulp Fiction', TIMESTAMP '2014-09-10', TIMESTAMP '1994-10-14',
  '{"CRIME","DRAMA","THRILLER"}', 'Quentin Tarantino', 154, 'The lives of two mob hit men, a boxer, a gangster''s wife, and a pair of diner bandits intertwine in four tales of violence and redemption.', 0, 0),
@@ -996,6 +996,8 @@ VALUES
  '{"ACTION","ADVENTURE","COMEDY"}', 'Robert Rodriguez', 100, 'The Cortez siblings set out for a mysterious island, where they encounter a genetic scientist and a set of rival spy kids.', 0, 0),
 ('Fulltime Killer', TIMESTAMP '2014-09-10', TIMESTAMP '2001-08-03',
  '{"ACTION","CRIME","DRAMA"}', 'Johnnie To', 102, 'Two very different hitmen find themselves to be in each other''s way. They use all their skill to solve the problem.', 0, 0),
+('The Hobbit: An Unexpected Journey', TIMESTAMP '2014-09-10', TIMESTAMP '2012-12-14',
+ '{"ADVENTURE","FANTASY"}', 'Peter Jackson', 169, 'A reluctant hobbit, Bilbo Baggins, sets out to the Lonely Mountain with a spirited group of dwarves to reclaim their mountain home - and the gold within it - from the dragon Smaug.', 0, 0),
 ('Death Proof', TIMESTAMP '2014-09-10', TIMESTAMP '2007-05-31',
  '{"ACTION","THRILLER"}', 'Quentin Tarantino', 113, 'Two separate sets of voluptuous women are stalked at different times by a scarred stuntman who uses his ''death proof'' cars to execute his murderous plans.', 0, 0),
 ('Secretariat', TIMESTAMP '2014-09-10', TIMESTAMP '2010-10-08',
@@ -1011,4 +1013,6 @@ VALUES
 ('You and I', TIMESTAMP '2014-09-10', TIMESTAMP '2011-02-03',
  '{"DRAMA","ROMANCE","THRILLER"}', 'Roland Joffé', 100, 'Two teenage girls, Janie who is American and Lana who is Russian, fall in love after meeting at a t.A.T.u concert and are swept into a dangerous world of obsession, drug abuse and murder.', 0, 0),
 ('G.I. Joe: The Rise of Cobra', TIMESTAMP '2014-09-10', TIMESTAMP '2009-08-07',
- '{"ACTION","ADVENTURE","SCI-FI"}', 'Stephen Sommers', 118, 'An elite military unit comprised of special operatives known as G.I. Joe, operating out of The Pit, takes on an evil organization led by a notorious arms dealer.', 0, 0);
+ '{"ACTION","ADVENTURE","SCI-FI"}', 'Stephen Sommers', 118, 'An elite military unit comprised of special operatives known as G.I. Joe, operating out of The Pit, takes on an evil organization led by a notorious arms dealer.', 0, 0),
+('The Hobbit: The Desolation of Smaug', TIMESTAMP '2014-09-10', TIMESTAMP '2013-12-13',
+ '{"ADVENTURE","FANTASY"}', 'Peter Jackson', 161, 'The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring.', 0, 0);
