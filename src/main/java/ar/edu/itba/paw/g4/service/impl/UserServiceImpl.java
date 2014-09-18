@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void register(User user) {
+		//TODO: VERIFICAR QUE EL USUARIO NO EXISTE
 		try {
 			userdao.save(user);
 		} catch (DatabaseException e) {
@@ -72,7 +73,6 @@ public class UserServiceImpl implements UserService {
 		} else if (!checkPassword(user, pass)) {
 			throw new ServiceException("Wrong Password");
 		}
-		;
 		return user;
 	}
 

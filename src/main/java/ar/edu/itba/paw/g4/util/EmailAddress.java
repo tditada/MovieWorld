@@ -20,6 +20,7 @@ public class EmailAddress {
 	private final String domainPart;
 
 	public static EmailAddress build(String address) {
+		checkArgument(address, neitherNullNorEmpty());
 		String[] parts = address.split("@");
 		if (parts.length != 2) {
 			throw new IllegalArgumentException("Malformed email address");

@@ -2,6 +2,7 @@ package ar.edu.itba.paw.g4.controller;
 
 import java.io.IOException;
 
+import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,12 +37,17 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String emailParam = req.getParameter(EMAIL_ID);
-		EmailAddress email = EmailAddress.build(emailParam);
-		String password = req.getParameter(PASS_ID);
-		User user = userService.authenticate(email, password);
-		createUserSession(user, req);
-		req.getRequestDispatcher(req.getHeader("referer")).forward(req, resp);
+		try {
+			String emailParam = req.getParameter(EMAIL_ID);
+			EmailAddress email = EmailAddress.build(emailParam);
+			String password = req.getParameter(PASS_ID);
+			User user = userService.authenticate(email, password);
+//			createUserSession(user, req);
+			req.getRequestDispatcher(req.getHeader("referer")).forward(req,
+					resp);
+		} catch (ServiceException e) {
+			manageError(e, req, resp);
+		}
 	}
 
 	// QUE RECIBA SESSION

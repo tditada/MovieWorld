@@ -120,7 +120,7 @@ public class PSQLUserDAO implements UserDAO {
 						+ EMAIL_ADDR_ID + " = ?";
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
-				statement.addParameter(email.toString());
+				statement.addParameter(email.asTextAddress());
 
 				ResultSet results = statement.executeQuery();
 				if (results.next()) {
