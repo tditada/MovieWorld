@@ -24,7 +24,7 @@ public class MovieDetailController extends HttpServlet {
 
 		String movieIdParam = request.getParameter(MOVIE_PARAM_ID);
 		if (movieIdParam == null) {
-			response.sendRedirect(response.encodeRedirectURL("/index"));/*
+			response.sendRedirect(response.encodeRedirectURL("index"));/*
 																		 * TODO:
 																		 * check
 																		 * !

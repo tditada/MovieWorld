@@ -1,8 +1,6 @@
 package ar.edu.itba.paw.g4.controller;
 
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getEmailAddress;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
+import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 
 import java.io.IOException;
 
@@ -15,8 +13,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-
-import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
@@ -57,11 +53,10 @@ public class RegistrationController extends HttpServlet {
 				.withLastName(req.getParameter(LASTNAME_ID))
 				.withPassword(req.getParameter(PASS_ID))
 				.withEmail(EmailAddress.build(req.getParameter(EMAIL_ID)))
-				.withBirthDate(birthDate)
-				.build();
+				.withBirthDate(birthDate).build();
 		try {
 			userservice.register(user);
-			req.getRequestDispatcher("home").forward(req, resp);
+			resp.sendRedirect(req.getHeader("referer"));
 		} catch (ServiceException e) {
 			manageError(e, req, resp);
 		}

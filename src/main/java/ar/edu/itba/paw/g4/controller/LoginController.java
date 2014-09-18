@@ -1,8 +1,9 @@
 package ar.edu.itba.paw.g4.controller;
 
+import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
+
 import java.io.IOException;
 
-import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,12 +19,12 @@ import ar.edu.itba.paw.g4.util.EmailAddress;
 @SuppressWarnings("serial")
 public class LoginController extends HttpServlet {
 	private UserService userService = UserServiceImpl.getInstance();
-	private static UserService instance;
+//	private static UserService instance;
 	private static String NAME_ID = "firstname";
 	private static String LASTNAME_ID = "lastname";
 	private static String EMAIL_ID = "email";
 	private static String PASS_ID = "password";
-	private static String PASS2_ID = "secondPassword";
+//	private static String PASS2_ID = "secondPassword";
 	private static String BIRTHDAY_ID = "birthday";
 
 	@Override
@@ -42,9 +43,12 @@ public class LoginController extends HttpServlet {
 			EmailAddress email = EmailAddress.build(emailParam);
 			String password = req.getParameter(PASS_ID);
 			User user = userService.authenticate(email, password);
-//			createUserSession(user, req);
-			req.getRequestDispatcher(req.getHeader("referer")).forward(req,
-					resp);
+			createUserSession(user, req);
+			if(req.getHeader("referer").equals("http://localhost:8081/MovieWorld/login")){
+				resp.sendRedirect("home");
+			}else{
+				resp.sendRedirect(req.getHeader("referer"));
+			}
 		} catch (ServiceException e) {
 			manageError(e, req, resp);
 		}

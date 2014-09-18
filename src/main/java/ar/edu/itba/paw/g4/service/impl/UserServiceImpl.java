@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.g4.service.impl;
 
-import javax.servlet.http.HttpServletRequest;
-
 import ar.edu.itba.paw.g4.exception.DatabaseException;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
@@ -16,12 +14,7 @@ public class UserServiceImpl implements UserService {
 
 	private UserDAO userdao = PSQLUserDAO.getInstance();
 	private static UserService instance=new UserServiceImpl();
-	private static String NAME_ID = "name";
-	private static String LAST_NAME = "lastname";
-	private static String EMAIL_ID = "email";
-	private static String PASS = "password";
-	private static String BIRTHDAY = "birthday";
-
+	
 	private UserServiceImpl() {
 	}
 
@@ -29,12 +22,11 @@ public class UserServiceImpl implements UserService {
 		return instance;
 	}
 
-	@Override
-	public boolean userHasSession() {
-		return false;
-		// HttpSession session = request.getSession();
-		// return SessionAttributesAreNull(session);
-	}
+//	@Override
+//	public boolean userHasSession() {
+//		// HttpSession session = request.getSession();
+//		// return SessionAttributesAreNull(session);
+//	}
 
 	@Override
 	public User getUserById(Integer id) {
@@ -52,19 +44,19 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@Override
-	public void logout(User user) {
-		// HttpSession session = request.getSession();
-		// session.setAttribute(NAME_ID, null);
-		// session.setAttribute(EMAIL_ID, null);
-	}
+//	@Override
+//	public void logout(User user) {
+//		// HttpSession session = request.getSession();
+//		// session.setAttribute(NAME_ID, null);
+//		// session.setAttribute(EMAIL_ID, null);
+//	}
 
-	public User login(EmailAddress email, String pass) {
-		// User user=authentication(email,pass);
-		// CreateUserSession(user);
-		// return user
-		return null;
-	}
+//	public User login(EmailAddress email, String pass) {
+//		// User user=authentication(email,pass);
+//		// CreateUserSession(user);
+//		// return user
+//		return null;
+//	}
 
 	public User authenticate(EmailAddress email, String pass) {
 		User user = userdao.getByEmail(email);
