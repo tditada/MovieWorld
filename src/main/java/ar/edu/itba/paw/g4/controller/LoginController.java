@@ -24,6 +24,7 @@ public class LoginController extends HttpServlet {
 	private static String PASS_ID = "password";
 	private static String PASS2_ID = "secondPassword";
 	private static String BIRTHDAY_ID = "birthday";
+	private static String ERROR = "error";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -36,12 +37,17 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String emailParam = req.getParameter(EMAIL_ID);
-		EmailAddress email = EmailAddress.build(emailParam);
-		String password = req.getParameter(PASS_ID);
-		User user = userService.authenticate(email, password);
-		createUserSession(user, req);
-		req.getRequestDispatcher(req.getHeader("referer")).forward(req, resp);
+		try{
+			String emailParam = req.getParameter(EMAIL_ID);
+			EmailAddress email = EmailAddress.build(emailParam);
+			String password = req.getParameter(PASS_ID);
+			User user = userService.authenticate(email, password);
+			createUserSession(user, req);
+			req.getRequestDispatcher(req.getHeader("referer")).forward(req, resp);
+		}catch(ServiceException e){
+			req.setAttribute(ERROR, e.getMessage());
+			req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, resp);
+		}
 	}
 
 	private void createUserSession(User user, HttpServletRequest request) {

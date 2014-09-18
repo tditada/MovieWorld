@@ -16,11 +16,6 @@ public class UserServiceImpl implements UserService {
 
 	private UserDAO userdao = PSQLUserDAO.getInstance();
 	private static UserService instance=new UserServiceImpl();
-	private static String NAME_ID = "name";
-	private static String LAST_NAME = "lastname";
-	private static String EMAIL_ID = "email";
-	private static String PASS = "password";
-	private static String BIRTHDAY = "birthday";
 
 	private UserServiceImpl() {
 	}

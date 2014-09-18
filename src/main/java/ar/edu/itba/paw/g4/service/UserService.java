@@ -2,7 +2,6 @@ package ar.edu.itba.paw.g4.service;
 
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.util.EmailAddress;
-
 public interface UserService{
 	
 //	public boolean userHasSession();
