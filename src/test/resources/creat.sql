@@ -17,7 +17,7 @@ CREATE TABLE movies (
   genres VARCHAR(25)[] NOT NULL,
   directorName VARCHAR(70) NOT NULL,
   runtimeMins INT CHECK (runtimeMins > 0),
-  totalScore INT CHECK (totalScore >= 0),
+  averageScore INT CHECK (averageScore >= 0),
   totalComments INT CHECK (totalComments >= 0),
   summary TEXT NOT NULL
 );

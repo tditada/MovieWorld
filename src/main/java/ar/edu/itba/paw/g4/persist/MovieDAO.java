@@ -23,4 +23,6 @@ public interface MovieDAO extends GenericDAO<Movie> {
 	public List<Movie> getAllByReleaseDateInRange(DateTime fromDate,
 			DateTime toDate);
 
+	public List<Movie> getAllByAverageScore(Orderings ordering, int quantity);
+
 }

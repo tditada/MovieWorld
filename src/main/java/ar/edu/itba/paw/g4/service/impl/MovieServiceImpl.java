@@ -39,10 +39,15 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public List<Movie> getNewAdditions(int maxQuantity) {
-		checkArgument(maxQuantity > 0);
-		return movieDAO.getNewestNByCreationDate(maxQuantity);
+	public List<Movie> getNewAdditions(int quantity) {
+		checkArgument(quantity > 0);
+		return movieDAO.getNewestNByCreationDate(quantity);
+	}
 
+
+	public List<Movie> getTopMovies(int quantity) {
+		checkArgument(quantity > 0);
+		return movieDAO.getAllByAverageScore(Orderings.DESC, quantity);
 	}
 
 	@Override

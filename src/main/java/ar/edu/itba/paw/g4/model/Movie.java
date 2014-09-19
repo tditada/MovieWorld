@@ -8,7 +8,6 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.noRepetitionsL
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
-import static ar.edu.itba.paw.g4.util.validation.Validations.checkState;
 
 import java.util.List;
 
@@ -30,13 +29,13 @@ public class Movie extends Entity {
 	private Director director;
 	private int runtimeInMins;
 	private String summary;
-	private int totalScore;
+	private int averageScore;
 	private int totalComments;
 
 	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
 			List<MovieGenres> genres, Director director, int runtimeInMins,
-			String summary, int totalScore, int totalComments) {
+			String summary, int averageScore, int totalComments) {
 		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
 		checkArgument(releaseDate, notNull());
@@ -44,7 +43,7 @@ public class Movie extends Entity {
 		checkArgument(summary, notNull());
 		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(genres, notNull(), notEmptyColl(), noRepetitionsList());
-		checkArgument(totalScore >= 0);
+		checkArgument(averageScore >= 0);
 		checkArgument(totalComments >= 0);
 
 		this.title = title;
@@ -54,7 +53,7 @@ public class Movie extends Entity {
 		this.director = director;
 		this.runtimeInMins = runtimeInMins;
 		this.summary = summary;
-		this.totalScore = totalScore;
+		this.averageScore = averageScore;
 		this.totalComments = totalComments;
 	}
 
@@ -62,13 +61,8 @@ public class Movie extends Entity {
 		return totalComments;
 	}
 
-	public int getTotalScore() {
-		return totalScore;
-	}
-
 	public int getAverageScore() {
-		checkState(totalComments > 0);
-		return totalScore / totalComments;
+		return averageScore;
 	}
 
 	public DateTime getCreationDate() {
@@ -112,7 +106,7 @@ public class Movie extends Entity {
 				.add("creationDate", creationDate)
 				.add("releaseDate", releaseDate).add("genres", genres)
 				.add("director", director).add("durationInMins", runtimeInMins)
-				.add("summary", summary).add("totalScore", totalScore)
+				.add("summary", summary).add("averageScore", averageScore)
 				.add("totalComments", totalComments).toString();
 	}
 

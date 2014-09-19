@@ -46,31 +46,16 @@
 				</dd>
 				<dt>Score</dt>
 				<dd>
-					<c:choose>
-						<c:when test="${movie.totalComments == 0}">
-							<c:forEach begin="1" end="5">
-								<span class="glyphicon glyphicon-star-empty"></span>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<c:forEach begin="1" end="${movie.averageScore}">
-								<span class="glyphicon glyphicon-star"></span>
-							</c:forEach>
-							<c:if test="${movie.averageScore} < 5">
-								<c:forEach begin="${movie.averageScore}" end="5">
-									<span class="glyphicon glyphicon-star-empty"></span>
-								</c:forEach>
-							</c:if>
-						</c:otherwise>
-					</c:choose>
-					<small> <c:choose>
-							<c:when test="${movie.totalComments == 0}">
-								<c:out value="(0/0)" />
-							</c:when>
-							<c:otherwise>
-								<c:out value="(${movie.averageScore}/5)" />
-							</c:otherwise>
-						</c:choose> <c:out value=" for ${movie.totalComments} comments"></c:out></small>
+					<c:forEach begin="1" end="${movie.averageScore}">
+						<span class="glyphicon glyphicon-star"></span>
+					</c:forEach>
+					<c:if test="${movie.averageScore < 5}">
+						<c:forEach begin="${movie.averageScore}" end="4">
+							<span class="glyphicon glyphicon-star-empty"></span>
+						</c:forEach>
+					</c:if>
+					<small> <c:out value="(${movie.averageScore}/5)" /> <c:out
+							value=" for ${movie.totalComments} comments"></c:out></small>
 				</dd>
 				<dt>Summary</dt>
 				<dd>
