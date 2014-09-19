@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <label for="firstname">Enter Name</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" name="firstname" id="firstname" <c:if test="${not empty name}"> value="${name}" </c:if> placeholder="Enter Name" required>
+                        <input type="text" class="form-control" name="firstname" id="firstname" <c:if test="${not empty firstname}"> value="${firstname}" </c:if> placeholder="Enter Name" required>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
                 </div>
