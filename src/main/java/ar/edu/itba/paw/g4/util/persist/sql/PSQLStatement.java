@@ -57,8 +57,7 @@ public class PSQLStatement {
 	public <E extends Enum<E>> PSQLStatement addParameter(E value)
 			throws SQLException {
 		checkArgument(value, notNull());
-		return addParameter(value.name()); // TODO: check! (enum being added as
-											// string)
+		return addParameter(value.name()); // IMPORTANT: this is ok
 	}
 
 	public PSQLStatement addParameter(String sqlType, Collection<?> collection)
@@ -66,12 +65,6 @@ public class PSQLStatement {
 		checkArgument(collection, notNull());
 		Array elements = connection
 				.createArrayOf(sqlType, collection.toArray());
-		/*
-		 * TODO: check if .name() is being used here
-		 */
-		/*
-		 * TODO: check if it's right to add lists of enums as lists of strings
-		 */
 		this.statement.setArray(++parameterCount, elements);
 		return this;
 	}

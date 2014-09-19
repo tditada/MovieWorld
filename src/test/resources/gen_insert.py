@@ -62,12 +62,12 @@ def parse_runtime(json_data):
 	return re.compile("\d+").match(json_data['Runtime']).group(0)
 
 def to_genre_format(str):
-	return postgres_escape(str.upper())
+	return postgres_escape(str.upper().replace('-',''))
 
 def parse_genres(json_data):
 	unescaped_genres = re.compile(", +").split(json_data['Genre'])
-	escaped_genres = list(map(to_genre_format, unescaped_genres))
-	return escaped_genres
+	formatted_genres = list(map(to_genre_format, unescaped_genres))
+	return formatted_genres
 
 def parse_movie(raw_data):
 	global FIELDS_TO_CHECK, SQL_QUERY_BODY

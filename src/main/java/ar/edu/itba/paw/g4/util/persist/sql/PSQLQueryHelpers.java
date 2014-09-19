@@ -57,11 +57,9 @@ public class PSQLQueryHelpers {
 			return "ASC";
 		case DESC:
 			return "DESC";
+		default:
+			throw new IllegalArgumentException("Not a valid Ordering");
 		}
-		throw new IllegalArgumentException("Not a valid Ordering");
-		/*
-		 * will never happen though
-		 */
 	}
 
 	public static Timestamp asTimestamp(DateTime date) {
