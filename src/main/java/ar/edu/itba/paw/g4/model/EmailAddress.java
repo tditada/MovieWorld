@@ -8,7 +8,6 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.regex.Pattern;
 
-import ar.edu.itba.paw.g4.util.EmailAddressBuilder;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 public class EmailAddress {

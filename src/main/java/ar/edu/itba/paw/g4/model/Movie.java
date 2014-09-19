@@ -21,6 +21,7 @@ import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class Movie extends Entity {
 	public static final int DAYS_AS_RELEASE = 6;
+	public static final int MAX_TITLE_LENGTH = 255;
 
 	private String title;
 	private DateTime creationDate;
@@ -42,6 +43,7 @@ public class Movie extends Entity {
 		checkArgument(director, notNull());
 		checkArgument(summary, notNull());
 		checkArgument(title, neitherNullNorEmpty());
+		checkArgument(title.length() <= MAX_TITLE_LENGTH);
 		checkArgument(genres, notNull(), notEmptyColl(), noRepetitionsList());
 		checkArgument(totalScore >= 0);
 		checkArgument(totalComments >= 0);
