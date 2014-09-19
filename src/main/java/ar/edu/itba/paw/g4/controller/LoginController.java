@@ -1,9 +1,10 @@
 package ar.edu.itba.paw.g4.controller;
 
-import static ar.edu.itba.paw.g4.util.validation.Validations.*;
+import static ar.edu.itba.paw.g4.util.validation.Validations.isLoginValid;
 import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ar.edu.itba.paw.g4.enums.LoginField;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
@@ -43,22 +45,25 @@ public class LoginController extends HttpServlet {
 			String emailParam = req.getParameter(EMAIL_ID);
 			EmailAddress email = EmailAddress.build(emailParam);
 			String password = req.getParameter(PASS_ID);
-			List<Boolean> errors = validateLogin(emailParam,password);
-			for(int i=0;i<=errors.size();i++){
-				if(errors.get(i)){
-					req.setAttribute("errors", errors);
-					doGet(req,resp);
+			List<Boolean> errors = new LinkedList<Boolean>();
+			
+			if(!isLoginValid(emailParam,password,errors)){
+				for(int i=0;i<errors.size();i++){
+					int fieldEnum = LoginField.values()[i].value;
+					req.setAttribute("error"+fieldEnum, errors.get(i));
 				}
+				req.setAttribute(EMAIL_ID, emailParam);
+				req.setAttribute(PASS_ID,password);
+				doGet(req,resp);				
 			}
 			
 			User user = userService.authenticate(email, password);
 			createUserSession(user, req);
 			if(req.getHeader("referer").equals("http://localhost:8081/MovieWorld/login")){
-//				resp.sendRedirect("home");
+				resp.sendRedirect("home");
 			}else{
-//				resp.sendRedirect(req.getHeader("referer"));
+				resp.sendRedirect(req.getHeader("referer"));
 			}
-			resp.sendRedirect("myComments");
 		} catch (ServiceException e) {
 			manageError(e, req, resp);
 		}

@@ -1,20 +1,22 @@
 package ar.edu.itba.paw.g4.util.validation;
 
-import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
-
-import java.util.LinkedList;
 import java.util.List;
-import ar.edu.itba.paw.g4.enums.*;
+
+import ar.edu.itba.paw.g4.enums.LoginField;
+import ar.edu.itba.paw.g4.enums.RegistrationField;
+
 import com.google.common.base.Predicate;
 
 public class Validations {
-	
-	private static int MIN=1;
-	private static int MAX_NAME=35;
-	private static int MAX_EMAIL=100;
-	private static int MAX_PASSWORD=255;
-	private static int MIN_BIRTHDAY=8;
-	
+
+	private static int MIN = 1;
+	private static int MAX_NAME = 35;
+	private static int MAX_EMAIL = 100;
+	private static int MIN_PASSWORD = 10;
+	private static int MAX_PASSWORD = 255;
+	private static int MIN_BIRTHDAY = 8;
+	private static int MAX_BIRTHDAY = 10;
+
 	private static final ExceptionFactory ILLEGAL_ARG_EXCF = new ExceptionFactory() {
 		@Override
 		public void throwException(String cause) {
@@ -79,39 +81,70 @@ public class Validations {
 			i++;
 		}
 	}
-	
-	public static List<Boolean> validateLogin(String email, String password){
-		List<Boolean> list=new LinkedList<Boolean>();
-		for(int i=0;i<=LoginField.maxValue();i++){
-			list.add(i,false);
+
+	public static boolean isLoginValid(String email, String password,
+			List<Boolean> errors) {
+		int fieldValue = 0;
+
+		if (!(email.length() >= MIN && email.length() <= MAX_EMAIL)) {
+			fieldValue = LoginField.EMAIL.value;
+			errors.add(fieldValue, true);
+		} else {
+			errors.add(fieldValue, false);
 		}
-		if(!(email.length() >= MIN && email.length() <= MAX_EMAIL)){
-			list.add(LoginField.EMAIL.value, true);
-		}else if(!(password.length() >= MIN && email.length() <= MAX_PASSWORD)){
-			list.add(LoginField.PASSWORD.value, true);
+
+		if (!(password.length() >= MIN_PASSWORD && email.length() <= MAX_PASSWORD)) {
+			fieldValue = LoginField.PASSWORD.value;
+			errors.add(fieldValue, true);
+		} else {
+			errors.add(fieldValue, false);
 		}
-		return list;
+		return !(errors.get(LoginField.EMAIL.value) || errors
+				.get(LoginField.PASSWORD.value));
 	}
-	
-	public static List<Boolean> validateRegister(String name, String lastName, String email, String password, String secondPassword, String birthday){
-		List<Boolean> list=new LinkedList<Boolean>();
-		for(int i=0;i<=RegistrationField.maxValue();i++){
-			list.add(i,false);
+
+	public static boolean validateRegister(String name, String lastName,
+			String email, String password, String secondPassword,
+			String birthday, List<Boolean> errors) {
+		validateLengthAndOther(name, MIN, MAX_NAME, errors,
+				RegistrationField.NAME.value, isAlpha(name));
+		validateLengthAndOther(lastName, MIN, MAX_NAME, errors,
+				RegistrationField.LASTNAME.value, isAlpha(lastName));
+		validateLength(email, MIN, MAX_EMAIL, errors,
+				RegistrationField.EMAIL.value);
+		validateLength(password, MIN_PASSWORD, MAX_PASSWORD, errors,
+				RegistrationField.PASSWORD.value);
+		validateLengthAndOther(secondPassword, MIN_PASSWORD, MAX_PASSWORD,
+				errors, RegistrationField.SECONDPASSWORD.value,
+				password.equals(secondPassword));
+		validateLengthAndOther(birthday, MIN_BIRTHDAY, MAX_BIRTHDAY, errors,
+				RegistrationField.BIRTHDAY.value, birthday != null);
+
+		return !(errors.get(LoginField.EMAIL.value)
+				|| errors.get(LoginField.PASSWORD.value)
+				|| errors.get(RegistrationField.NAME.value)
+				|| errors.get(RegistrationField.LASTNAME.value)
+				|| errors.get(RegistrationField.SECONDPASSWORD.value) || errors
+					.get(RegistrationField.BIRTHDAY.value));
+	}
+
+	private static void validateLengthAndOther(String param, int min, int max,
+			List<Boolean> errors, int fieldValue, boolean secondValidation) {
+		if (!(param.length() >= min && param.length() <= max)
+				|| !secondValidation) {
+			errors.add(fieldValue, true);
+		} else {
+			errors.add(fieldValue, false);
 		}
-		if(!(name.length() >= MIN && name.length() <= MAX_NAME)){
-			list.add(RegistrationField.NAME.value, true);
-		}else if(!(lastName.length() >= MIN && lastName.length() <= MAX_NAME)){
-			list.add(RegistrationField.LASTNAME.value, true);
-		}else if(!(email.length() >= MIN && email.length() <= MAX_EMAIL)){
-			list.add(RegistrationField.EMAIL.value, true);
-		}else if(!(password.length() >= MIN && email.length() <= MAX_PASSWORD)){
-			list.add(RegistrationField.PASSWORD.value, true);
-		}else if(!(secondPassword.length() >= MIN && secondPassword.length() <= MAX_PASSWORD && password.equals(secondPassword))){
-			list.add(RegistrationField.SECONDPASSWORD.value, true);
-		}else if(!(birthday.length()>= MIN_BIRTHDAY && birthday!=null)){
-			list.add(RegistrationField.BIRTHDAY.value, true);
-		}
-		return list;
+	}
+
+	private static void validateLength(String param, int min, int max,
+			List<Boolean> errors, int fieldValue) {
+		validateLengthAndOther(param, min, max, errors, fieldValue, true);
+	}
+
+	private static boolean isAlpha(String name) {
+		return name.matches("[a-zA-Z]+");
 	}
 
 }

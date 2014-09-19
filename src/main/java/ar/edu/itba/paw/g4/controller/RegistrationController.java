@@ -1,13 +1,10 @@
 package ar.edu.itba.paw.g4.controller;
 
-import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
-import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
-import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static ar.edu.itba.paw.g4.util.validation.Validations.validateRegister;
 import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
-import static org.joda.time.DateTime.now;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -19,6 +16,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import ar.edu.itba.paw.g4.enums.RegistrationField;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
@@ -55,19 +53,20 @@ public class RegistrationController extends HttpServlet {
 		String secondPassword=req.getParameter(SECONDPASSWORD_ID);
 		String birthday=req.getParameter(BIRTHDAY_ID);
 		
-		List<Boolean> errors = validateRegister(name, lastName, email, password,secondPassword, birthday);
-		for(int i=0;i<=errors.size();i++){
-			if(errors.get(i)){
-				req.setAttribute("errors", errors);
-				req.setAttribute(NAME_ID,name);
-				req.setAttribute(LASTNAME_ID,lastName);
-				req.setAttribute(EMAIL_ID, email);
-				req.setAttribute(BIRTHDAY_ID, birthday);
-				doGet(req,resp);
-			}
-		}
-		
-		
+		List<Boolean> errors = new LinkedList<Boolean>();
+			if(!validateRegister(name, lastName, email, password,secondPassword, birthday, errors)){
+				for(int i=0;i<errors.size();i++){
+					int fieldEnum = RegistrationField.values()[i].value;
+					req.setAttribute("error"+fieldEnum, errors.get(i));
+					if(errors.get(i)){
+						req.setAttribute(NAME_ID,name);
+						req.setAttribute(LASTNAME_ID,lastName);
+						req.setAttribute(EMAIL_ID, email);
+						req.setAttribute(BIRTHDAY_ID, birthday);
+					}
+				}
+				doGet(req,resp);				
+			}		
 		
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("mm-dd-yyyy");
 		DateTime birthDate = formatter.parseDateTime(req
