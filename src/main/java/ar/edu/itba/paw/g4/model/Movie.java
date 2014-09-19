@@ -29,13 +29,13 @@ public class Movie extends Entity {
 	private Director director;
 	private int runtimeInMins;
 	private String summary;
-	private int averageScore;
+	private int totalScore;
 	private int totalComments;
 
 	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
 			List<MovieGenres> genres, Director director, int runtimeInMins,
-			String summary, int averageScore, int totalComments) {
+			String summary, int totalScore, int totalComments) {
 		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
 		checkArgument(releaseDate, notNull());
@@ -43,7 +43,7 @@ public class Movie extends Entity {
 		checkArgument(summary, notNull());
 		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(genres, notNull(), notEmptyColl(), noRepetitionsList());
-		checkArgument(averageScore >= 0);
+		checkArgument(totalScore >= 0);
 		checkArgument(totalComments >= 0);
 
 		this.title = title;
@@ -53,8 +53,13 @@ public class Movie extends Entity {
 		this.director = director;
 		this.runtimeInMins = runtimeInMins;
 		this.summary = summary;
-		this.averageScore = averageScore;
+		this.totalScore = totalScore;
 		this.totalComments = totalComments;
+	}
+
+	public void addComment(Comment comment) {
+		this.totalScore += comment.getScore();
+		this.totalComments++;
 	}
 
 	public int getTotalComments() {
@@ -62,7 +67,10 @@ public class Movie extends Entity {
 	}
 
 	public int getAverageScore() {
-		return averageScore;
+		if (totalComments == 0) {
+			return 0;
+		}
+		return totalScore / totalComments;
 	}
 
 	public DateTime getCreationDate() {
@@ -106,7 +114,7 @@ public class Movie extends Entity {
 				.add("creationDate", creationDate)
 				.add("releaseDate", releaseDate).add("genres", genres)
 				.add("director", director).add("durationInMins", runtimeInMins)
-				.add("summary", summary).add("averageScore", averageScore)
+				.add("summary", summary).add("totalScore", totalScore)
 				.add("totalComments", totalComments).toString();
 	}
 

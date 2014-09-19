@@ -6,6 +6,11 @@
 		</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>MoviesHome</servlet-name>
+		<servlet-class>ar.edu.itba.paw.g4.controller.MovieHomeController
+		</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>MovieList</servlet-name>
 		<servlet-class>ar.edu.itba.paw.g4.controller.MovieListController
 		</servlet-class>
@@ -37,7 +42,8 @@
 	</servlet>
 	<filter>
 		<filter-name>FatalError</filter-name>
-		<filter-class>ar.edu.itba.paw.g4.filter.FatalErrorFilter</filter-class>
+		<filter-class>ar.edu.itba.paw.g4.filter.FatalErrorFilter
+		</filter-class>
 	</filter>
 	<filter>
 		<filter-name>HomeFilter</filter-name>
@@ -62,6 +68,10 @@
 	<servlet-mapping>
 		<servlet-name>Index</servlet-name>
 		<url-pattern>/index</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>MoviesHome</servlet-name>
+		<url-pattern>/home</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>MovieList</servlet-name>

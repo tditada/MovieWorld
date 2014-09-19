@@ -1,4 +1,4 @@
-INSERT INTO movies(title, creationDate, releaseDate, genres, directorName, runtimeMins, summary, averageScore, totalComments)
+INSERT INTO movies(title, creationDate, releaseDate, genres, directorName, runtimeMins, summary, totalScore, totalComments)
 VALUES
 ('Pulp Fiction', TIMESTAMP '2014-09-10', TIMESTAMP '1994-10-14',
  '{"CRIME","DRAMA","THRILLER"}', 'Quentin Tarantino', 154, 'The lives of two mob hit men, a boxer, a gangster''s wife, and a pair of diner bandits intertwine in four tales of violence and redemption.', 0, 0),
