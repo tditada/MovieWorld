@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.g4.service.impl;
 
-import ar.edu.itba.paw.g4.exception.DatabaseException;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.UserDAO;
@@ -30,12 +29,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void register(User user) {
-		//TODO: VERIFICAR QUE EL USUARIO NO EXISTE
-		try {
-			userdao.save(user);
-		} catch (DatabaseException e) {
-			throw new ServiceException(e);
-		}
+			User dbUser=userdao.getByEmail(user.getEmail());
+			if(dbUser==null){
+				userdao.save(dbUser);	// idem user			
+			}else{
+				throw new ServiceException("Usuario ya existente");
+			}
+	
 	}
 	@Override
 	public User authenticate(EmailAddress email, String pass) {

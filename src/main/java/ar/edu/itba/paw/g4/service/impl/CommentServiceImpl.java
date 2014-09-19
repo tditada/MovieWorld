@@ -28,27 +28,14 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<Comment> getCommentsOf(User user) {
 		checkArgument(user, notNull());
-		try {
 			return commentDAO.getAllByUser(user);
-		} catch (DatabaseException dbe) {
-			throw new ServiceException(dbe);/*
-											 * TODO: deberia chequear por otros
-											 * tipos de exception?
-											 */
-		}
 	}
 
 	@Override
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-		try {
 			commentDAO.save(comment);
-		} catch (DatabaseException dbe) {
-			throw new ServiceException(dbe);/*
-											 * TODO: deberia chequear por otros
-											 * tipos de exception?
-											 */
-		}
+	
 	}
 
 }
