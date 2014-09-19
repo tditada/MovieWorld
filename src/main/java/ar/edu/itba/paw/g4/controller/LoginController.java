@@ -48,7 +48,7 @@ public class LoginController extends HttpServlet {
 			}else{
 //				resp.sendRedirect(req.getHeader("referer"));
 			}
-			resp.sendRedirect("myComments");
+			resp.sendRedirect("me/comments/all");
 		} catch (ServiceException e) {
 			manageError(e, req, resp);
 		}
