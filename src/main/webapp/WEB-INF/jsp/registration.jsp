@@ -46,7 +46,7 @@
                 <div class="form-group">
                     <label for="email">Enter Email</label>
                     <div class="input-group">
-                        <input type="email" class="form-control" id="email" name="email" <c:if test="${not empty email}"> value="${email}" </c:if>  placeholder="Enter Email" required>
+                        <input type="email" class="form-control" id="email" name="email" <c:if test="${not empty email}"> value="${email.asTextAddress}" </c:if>  placeholder="Enter Email" required>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
                 </div>

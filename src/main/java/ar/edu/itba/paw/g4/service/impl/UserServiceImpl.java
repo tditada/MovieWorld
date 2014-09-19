@@ -1,11 +1,11 @@
 package ar.edu.itba.paw.g4.service.impl;
 
 import ar.edu.itba.paw.g4.exception.ServiceException;
+import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.UserDAO;
 import ar.edu.itba.paw.g4.persist.impl.PSQLUserDAO;
 import ar.edu.itba.paw.g4.service.UserService;
-import ar.edu.itba.paw.g4.util.EmailAddress;
 
 //TODO: Pasar session
 public class UserServiceImpl implements UserService {

@@ -10,11 +10,12 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.util.EmailAddress;
 import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class User extends Entity {
-	private static final int MIN_PASSWORD_LENGTH = 10;
+	public static final int MIN_PASSWORD_LENGTH = 10;
+	public static final int MAX_PASSWORD_LENGTH = 255;
+	public static final int MAX_NAME_LENGTH = 35;
 
 	private String firstName;
 	private String lastName;
@@ -28,9 +29,12 @@ public class User extends Entity {
 		checkArgument(email, notNull());
 		checkArgument(birthDate, notNull());
 		checkArgument(firstName, neitherNullNorEmpty());
+		checkArgument(firstName.length() <= MAX_NAME_LENGTH);
 		checkArgument(lastName, neitherNullNorEmpty());
+		checkArgument(lastName.length() <= MAX_NAME_LENGTH);
 		checkArgument(password, notNull());
-		checkArgument(password.length() >= MIN_PASSWORD_LENGTH);
+		checkArgument(password.length() >= MIN_PASSWORD_LENGTH
+				&& password.length() <= MAX_PASSWORD_LENGTH);
 
 		this.firstName = firstName;
 		this.lastName = lastName;

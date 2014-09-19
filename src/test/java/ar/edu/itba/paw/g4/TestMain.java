@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import ar.edu.itba.paw.g4.enums.MovieGenres;
 import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Director;
+import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.CommentDAO;
@@ -15,7 +16,6 @@ import ar.edu.itba.paw.g4.persist.UserDAO;
 import ar.edu.itba.paw.g4.persist.impl.PSQLCommentDAO;
 import ar.edu.itba.paw.g4.persist.impl.PSQLMovieDAO;
 import ar.edu.itba.paw.g4.persist.impl.PSQLUserDAO;
-import ar.edu.itba.paw.g4.util.EmailAddress;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 import com.google.common.collect.Lists;
@@ -34,7 +34,7 @@ public class TestMain {
 				.builder()
 				.withBirthDate(DateTime.now())
 				.withEmail(
-						EmailAddress.build("pepes" + System.currentTimeMillis()
+						EmailAddress.buildFrom("pepes" + System.currentTimeMillis()
 								+ "@foo.com")).withFirstName("Pepe")
 				.withLastName("Sanchez").withPassword("12345678910").build();
 

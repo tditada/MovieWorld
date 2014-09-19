@@ -8,12 +8,15 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 public class Director {
+	private static final int MAX_NAME_LENGTH = 70;
+
 	private String name; // TODO: change this and User's first and last names to
 							// HumanName or sth like that
 
 	@GeneratePojoBuilder
 	public Director(String name) {
 		checkArgument(name, neitherNullNorEmpty());
+		checkArgument(name.length() <= MAX_NAME_LENGTH);
 		this.name = name;
 	}
 
