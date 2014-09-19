@@ -21,7 +21,7 @@ public class HomeFilter  implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-//		((HttpServletResponse)response).sendRedirect("home");
+		((HttpServletResponse)response).sendRedirect("home");
 		chain.doFilter(request, response);		
 	}
 
