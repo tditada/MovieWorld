@@ -16,7 +16,6 @@ public class Validations {
 	private static int MAX_PASSWORD = 255;
 	private static int MIN_BIRTHDAY = 8;
 	private static int MAX_BIRTHDAY = 10;
-	
 
 	private static final ExceptionFactory ILLEGAL_ARG_EXCF = new ExceptionFactory() {
 		@Override
@@ -87,14 +86,14 @@ public class Validations {
 			List<Boolean> errors) {
 		int fieldValue = 0;
 
-		if (!(email.length() >= getMIN() && email.length() <= MAX_EMAIL)) {
+		if (!(email.length() >= MIN && email.length() <= MAX_EMAIL)) {
 			fieldValue = LoginField.EMAIL.value;
 			errors.add(fieldValue, true);
 		} else {
 			errors.add(fieldValue, false);
 		}
 
-		if (!(password.length() >= getMIN_PASSWORD() && email.length() <= getMAX_PASSWORD())) {
+		if (!(password.length() >= MIN_PASSWORD && email.length() <= MAX_PASSWORD)) {
 			fieldValue = LoginField.PASSWORD.value;
 			errors.add(fieldValue, true);
 		} else {
@@ -107,15 +106,15 @@ public class Validations {
 	public static boolean validateRegister(String name, String lastName,
 			String email, String password, String secondPassword,
 			String birthday, List<Boolean> errors) {
-		validateLengthAndOther(name, getMIN(), getMAX_NAME(), errors,
+		validateLengthAndOther(name, MIN, MAX_NAME, errors,
 				RegistrationField.NAME.value, isAlpha(name));
-		validateLengthAndOther(lastName, getMIN(), getMAX_NAME(), errors,
+		validateLengthAndOther(lastName, MIN, MAX_NAME, errors,
 				RegistrationField.LASTNAME.value, isAlpha(lastName));
-		validateLength(email, getMIN(), MAX_EMAIL, errors,
+		validateLength(email, MIN, MAX_EMAIL, errors,
 				RegistrationField.EMAIL.value);
-		validateLength(password, getMIN_PASSWORD(), getMAX_PASSWORD(), errors,
+		validateLength(password, MIN_PASSWORD, MAX_PASSWORD, errors,
 				RegistrationField.PASSWORD.value);
-		validateLengthAndOther(secondPassword, getMIN_PASSWORD(), getMAX_PASSWORD(),
+		validateLengthAndOther(secondPassword, MIN_PASSWORD, MAX_PASSWORD,
 				errors, RegistrationField.SECONDPASSWORD.value,
 				password.equals(secondPassword));
 		validateLengthAndOther(birthday, MIN_BIRTHDAY, MAX_BIRTHDAY, errors,
@@ -146,38 +145,6 @@ public class Validations {
 
 	private static boolean isAlpha(String name) {
 		return name.matches("[a-zA-Z]+");
-	}
-
-	public static int getMIN_PASSWORD() {
-		return MIN_PASSWORD;
-	}
-
-	public static void setMIN_PASSWORD(int mIN_PASSWORD) {
-		MIN_PASSWORD = mIN_PASSWORD;
-	}
-
-	public static int getMAX_PASSWORD() {
-		return MAX_PASSWORD;
-	}
-
-	public static void setMAX_PASSWORD(int mAX_PASSWORD) {
-		MAX_PASSWORD = mAX_PASSWORD;
-	}
-
-	public static int getMAX_NAME() {
-		return MAX_NAME;
-	}
-
-	public static void setMAX_NAME(int mAX_NAME) {
-		MAX_NAME = mAX_NAME;
-	}
-
-	public static int getMIN() {
-		return MIN;
-	}
-
-	public static void setMIN(int mIN) {
-		MIN = mIN;
 	}
 
 }
