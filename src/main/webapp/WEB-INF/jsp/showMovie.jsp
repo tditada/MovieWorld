@@ -22,11 +22,11 @@
 		<div class="panel-body">
 			<dl class="dl-horizontal">
 				<dt>Genres</dt>
-				<dd>
+				<dd class="text-capitalize">
 					<c:forEach items="${movie.genres}" var="genre" varStatus="status">
 						<c:if test="${status.index > 0}">,</c:if>
 						<a href="<c:url value="movies/list?genre=${genre}"/>"><c:out
-								value="${genre}" /></a>
+								value="${genre.genreName}" /></a>
 					</c:forEach>
 				</dd>
 				<dt>Director</dt>

@@ -20,37 +20,10 @@ import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 import com.google.common.collect.Lists;
 
-public class DummyMain {
+public class TestMain {
 	public static void main(String[] args) throws Exception {
-		createReleases();
 		testDAOs();
 		System.out.println("Everything OK");
-	}
-
-	private static void createReleases() {
-		MovieDAO movieDAO = PSQLMovieDAO.getInstance();
-
-		List<MovieGenres> genres = Lists.newArrayList(MovieGenres.ACTION);
-		Director director = Director.builder().withName("El Barto").build();
-
-		String extraText = "";
-		for (int i = 0; i < 300; i++) {
-			extraText += "a ";
-		}
-		Movie movie = Movie
-				.builder()
-				.withTitle("Bartman, el caballero de la noche asciende")
-				.withSummary(
-						"McBane planea destruir Springfield; solo Bartman podra detenerlo."
-								+ "El resto de esto es una descripcion boba eternamente larga"
-								+ " solo para molestar y poder ver si funciona todo bien. Make Bartman proud boy"
-								+ extraText).withDirector(director)
-				.withCreationDate(DateTime.now().minusYears(1))
-				.withGenres(genres)
-				.withReleaseDate(DateTime.now().minusDays(1))
-				.withRuntimeInMins(120).build();
-
-		movieDAO.save(movie);
 	}
 
 	private static void testDAOs() {

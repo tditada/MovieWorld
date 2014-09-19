@@ -9,8 +9,8 @@
 			data-live-search="true" data-container="body" name="genre">
 			<option disabled selected>Any genre</option>
 			<c:forEach items="${genres}" var="genre">
-				<option>
-					<c:out value="${genre}" />
+				<option value="${genre}">
+					<c:out value="${genre.genreName}" />
 				</option>
 			</c:forEach>
 		</select>

@@ -22,7 +22,7 @@ FIELDS_TO_CHECK = ['Type', 'Title', 'Runtime', 'Released', 'Plot', 'Genre', 'Dir
 SQL_QUERY_HEAD = """INSERT INTO movies(title, creationDate, releaseDate, genres, directorName, runtimeMins, summary, averageScore, totalComments)
 VALUES"""
 SQL_QUERY_BODY = """('{title}', TIMESTAMP '{creation_date}', TIMESTAMP '{release_date}',
- '{genres}', '{director}', {runtime}, '{summary}', {average_score}, {total_comments})"""
+ '{genres}', '{director}', {runtime}, '{summary}', {total_score}, {total_comments})"""
 
 def postgres_escape(str):
 	return re.sub("[\'\"]", "\'\'", str)
@@ -62,12 +62,12 @@ def parse_runtime(json_data):
 	return re.compile("\d+").match(json_data['Runtime']).group(0)
 
 def to_genre_format(str):
-	return postgres_escape(str.upper())
+	return postgres_escape(str.upper().replace('-',''))
 
 def parse_genres(json_data):
 	unescaped_genres = re.compile(", +").split(json_data['Genre'])
-	escaped_genres = list(map(to_genre_format, unescaped_genres))
-	return escaped_genres
+	formatted_genres = list(map(to_genre_format, unescaped_genres))
+	return formatted_genres
 
 def parse_movie(raw_data):
 	global FIELDS_TO_CHECK, SQL_QUERY_BODY
@@ -108,7 +108,7 @@ def parse_movie(raw_data):
 		director = director,
 		runtime = runtime,
 		summary = summary,
-		average_score = 0,
+		total_score = 0,
 		total_comments = 0)
 	return query_str
 

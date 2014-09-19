@@ -29,10 +29,6 @@ public class PSQLCommentDAO implements CommentDAO {
 	private static final String USER_ID_ATTR_ID = "userId";
 	private static final String MOVIE_ID_ATTR_ID = "movieId";
 	private static final String ID_ATTR_ID = "commentId";
-	private static final String MOVIE_TABLE_ID = "movies";
-	private static final String MOVIE_AVG_SCORE_ID = "averageScore";
-	private static final String MOVIE_TOTAL_COMMENTS_ID = "totalComments";
-	private static final String SUBQUERY_ID = "subquery";
 
 	private static final CommentDAO instance = new PSQLCommentDAO();
 
@@ -62,45 +58,19 @@ public class PSQLCommentDAO implements CommentDAO {
 					query = updateQuery(COMMENT_TABLE_ID, columns);
 				}
 
-				PSQLStatement saveCommentStmt = new PSQLStatement(connection,
-						query, true);
-				saveCommentStmt.addParameter(comment.getScore());
-				saveCommentStmt.addParameter(comment.getText());
-				saveCommentStmt.addParameter(comment.getCreationDate());
-				saveCommentStmt.addParameter(comment.getUser().getId());
-				saveCommentStmt.addParameter(comment.getMovie().getId());
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						true);
+				statement.addParameter(comment.getScore());
+				statement.addParameter(comment.getText());
+				statement.addParameter(comment.getCreationDate());
+				statement.addParameter(comment.getUser().getId());
+				statement.addParameter(comment.getMovie().getId());
 
 				if (comment.isPersisted()) {
-					saveCommentStmt.addParameter(comment.getId());
+					statement.addParameter(comment.getId());
 				}
 
-				String averageScoreAndCommentsQuery = "SELECT "
-						+ list(as(average(SCORE_ID), MOVIE_AVG_SCORE_ID),
-								as(countAll(), MOVIE_TOTAL_COMMENTS_ID))
-						+ " FROM " + MOVIE_TABLE_ID + " JOIN "
-						+ COMMENT_TABLE_ID + " ON "
-						+ fullName(MOVIE_TABLE_ID, MOVIE_ID_ATTR_ID) + "="
-						+ fullName(COMMENT_TABLE_ID, MOVIE_ID_ATTR_ID)
-						+ " WHERE "
-						+ fullName(MOVIE_TABLE_ID, MOVIE_ID_ATTR_ID) + "=?";
-
-				String updateMovieQuery = "UPDATE " + MOVIE_TABLE_ID + " SET "
-						+ MOVIE_AVG_SCORE_ID + "="
-						+ fullName(SUBQUERY_ID, MOVIE_AVG_SCORE_ID) + ","
-						+ MOVIE_TOTAL_COMMENTS_ID + "="
-						+ fullName(SUBQUERY_ID, MOVIE_TOTAL_COMMENTS_ID)
-						+ " FROM "
-						+ as(averageScoreAndCommentsQuery, SUBQUERY_ID)
-						+ " WHERE "
-						+ fullName(MOVIE_TABLE_ID, MOVIE_ID_ATTR_ID) + "=?";
-
-				PSQLStatement updateMovieStmt = new PSQLStatement(connection,
-						updateMovieQuery, true);
-				updateMovieStmt.addParameter(comment.getMovie().getId());
-				updateMovieStmt.addParameter(comment.getMovie().getId());
-
-				int result = saveCommentStmt.executeUpdate();
-				updateMovieStmt.executeUpdate();
+				int result = statement.executeUpdate();
 
 				if (!comment.isPersisted()) {
 					comment.setId(result);
