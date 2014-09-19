@@ -80,9 +80,22 @@ public class Validations {
 		}
 	}
 	
+	public static List<Boolean> validateLogin(String email, String password){
+		List<Boolean> list=new LinkedList<Boolean>();
+		for(int i=0;i<=LoginField.maxValue();i++){
+			list.add(i,false);
+		}
+		if(!(email.length() >= MIN && email.length() <= MAX_EMAIL)){
+			list.add(LoginField.EMAIL.value, true);
+		}else if(!(password.length() >= MIN && email.length() <= MAX_PASSWORD)){
+			list.add(LoginField.PASSWORD.value, true);
+		}
+		return list;
+	}
+	
 	public static List<Boolean> validateRegister(String name, String lastName, String email, String password, String secondPassword, String birthday){
 		List<Boolean> list=new LinkedList<Boolean>();
-		for(int i=0;i<=RegistrationField.BIRTHDAY.value;i++){
+		for(int i=0;i<=RegistrationField.maxValue();i++){
 			list.add(i,false);
 		}
 		if(!(name.length() >= MIN && name.length() <= MAX_NAME)){

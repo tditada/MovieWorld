@@ -1,8 +1,10 @@
 package ar.edu.itba.paw.g4.controller;
 
+import static ar.edu.itba.paw.g4.util.validation.Validations.*;
 import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +34,7 @@ public class LoginController extends HttpServlet {
 		req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
 	}
 
-	// TODO: Validaciones (paso booleans en el request y que el jsp verifique)
+	// TODO: Validaciones (que el jsp verifique)
 	// ¿Manejo de errores?
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -41,6 +43,14 @@ public class LoginController extends HttpServlet {
 			String emailParam = req.getParameter(EMAIL_ID);
 			EmailAddress email = EmailAddress.build(emailParam);
 			String password = req.getParameter(PASS_ID);
+			List<Boolean> errors = validateLogin(emailParam,password);
+			for(int i=0;i<=errors.size();i++){
+				if(errors.get(i)){
+					req.setAttribute("errors", errors);
+					doGet(req,resp);
+				}
+			}
+			
 			User user = userService.authenticate(email, password);
 			createUserSession(user, req);
 			if(req.getHeader("referer").equals("http://localhost:8081/MovieWorld/login")){

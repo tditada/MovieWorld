@@ -8,4 +8,8 @@ public enum RegistrationField {
 	 RegistrationField(final int value) {
 	     this.value = value;
 	  }
+	 
+	 public static int maxValue(){
+		 return BIRTHDAY.value;
+	 }
 }
