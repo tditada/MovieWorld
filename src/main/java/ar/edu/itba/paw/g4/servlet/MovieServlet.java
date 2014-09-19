@@ -52,4 +52,10 @@ public class MovieServlet extends HttpServlet {
 			manageError(e,request,response);
 		}
 	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		doGet(req, resp);
+	}
 }
