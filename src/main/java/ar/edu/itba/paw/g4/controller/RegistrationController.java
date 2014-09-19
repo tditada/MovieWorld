@@ -1,8 +1,14 @@
 package ar.edu.itba.paw.g4.controller;
 
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
+import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+import static ar.edu.itba.paw.g4.util.validation.Validations.validateRegister;
 import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
+import static org.joda.time.DateTime.now;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,9 +31,10 @@ public class RegistrationController extends HttpServlet {
 	private static String NAME_ID = "firstname";
 	private static String LASTNAME_ID = "lastname";
 	private static String EMAIL_ID = "email";
-	private static String PASS_ID = "password";
-	// private static String PASS2_ID = "secondPassword";
+	private static String PASSWORD_ID = "password";
+	private static String SECONDPASSWORD_ID = "secondPassword";
 	private static String BIRTHDAY_ID = "birthday";
+
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -35,22 +42,41 @@ public class RegistrationController extends HttpServlet {
 		req.getRequestDispatcher("/WEB-INF/jsp/registration.jsp").forward(req,
 				resp);
 	}
-	//TODO 1: VALIDO LAS COSAS (contraseñas iguales, etc) > req.getRequestDispatcher(/registration) <-- aca va a hacer un get
-	// Le paso como attribute al request los campos (y cuales estan bien y cuales estan mal)
-	// jsp -> movieController (movieDetails)
+	//TODO 1: jsp -> recibir las validaciones y mostrar acorde
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
+		
+		String name=req.getParameter(NAME_ID);
+		String lastName=req.getParameter(LASTNAME_ID);
+		String email=req.getParameter(EMAIL_ID);
+		String password=req.getParameter(PASSWORD_ID);
+		String secondPassword=req.getParameter(SECONDPASSWORD_ID);
+		String birthday=req.getParameter(BIRTHDAY_ID);
+		
+		List<Boolean> errors = validateRegister(name, lastName, email, password,secondPassword, birthday);
+		for(int i=0;i<=errors.size();i++){
+			if(errors.get(i)){
+				req.setAttribute("errors", errors);
+				req.setAttribute(NAME_ID,name);
+				req.setAttribute(LASTNAME_ID,lastName);
+				req.setAttribute(EMAIL_ID, email);
+				req.setAttribute(BIRTHDAY_ID, birthday);
+				doGet(req,resp);
+			}
+		}
+		
+		
+		
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("mm-dd-yyyy");
 		DateTime birthDate = formatter.parseDateTime(req
 				.getParameter(BIRTHDAY_ID));
 
-		User user = User.builder().withFirstName(req.getParameter(NAME_ID))
-				.withLastName(req.getParameter(LASTNAME_ID))
-				.withPassword(req.getParameter(PASS_ID))
-				.withEmail(EmailAddress.build(req.getParameter(EMAIL_ID)))
+		User user = User.builder().withFirstName(name)
+				.withLastName(lastName)
+				.withPassword(password)
+				.withEmail(EmailAddress.build(email))
 				.withBirthDate(birthDate).build();
 		try{
 			userservice.register(user);
