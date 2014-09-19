@@ -1,5 +1,5 @@
 package ar.edu.itba.paw.g4.model;
-
+import static ar.edu.itba.paw.g4.util.validation.Validations.*;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
@@ -14,7 +14,7 @@ import ar.edu.itba.paw.g4.util.EmailAddress;
 import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class User extends Entity {
-	private static final int MIN_PASSWORD_LENGTH = 10;
+//	private static final int MIN_PASSWORD_LENGTH = 10;
 
 	private String firstName;
 	private String lastName;
@@ -25,12 +25,18 @@ public class User extends Entity {
 	@GeneratePojoBuilder
 	public User(String firstName, String lastName, EmailAddress email,
 			String password, DateTime birthDate) {
-		checkArgument(email, notNull());
 		checkArgument(birthDate, notNull());
+		checkArgument(email, notNull());
+		
 		checkArgument(firstName, neitherNullNorEmpty());
+		checkArgument(firstName.length() >= getMAX_NAME());
+		checkArgument(firstName.length() >= getMIN());
 		checkArgument(lastName, neitherNullNorEmpty());
+		checkArgument(lastName.length() >= getMAX_NAME());
+		checkArgument(lastName.length() >= getMIN());
 		checkArgument(password, notNull());
-		checkArgument(password.length() >= MIN_PASSWORD_LENGTH);
+		checkArgument(password.length() >= getMIN_PASSWORD());
+		checkArgument(password.length() <= getMAX_PASSWORD());
 
 		this.firstName = firstName;
 		this.lastName = lastName;
