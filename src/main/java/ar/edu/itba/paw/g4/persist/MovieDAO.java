@@ -20,9 +20,11 @@ public interface MovieDAO extends GenericDAO<Movie> {
 
 	public List<Movie> getAllByDirector(Director director);
 
-	public List<Movie> getAllByReleaseDateInRange(DateTime fromDate,
+	public List<Movie> getAllInOrderByReleaseDateInRange(Orderings ordering, DateTime fromDate,
 			DateTime toDate);
 
-	public List<Movie> getAllByAverageScore(Orderings ordering, int quantity);
+	public List<Movie> getAllInOrderByAverageScore(Orderings ordering, int quantity);
+
+	public List<Director> getAllDirectorsOrderedByName(Orderings ordering);
 
 }

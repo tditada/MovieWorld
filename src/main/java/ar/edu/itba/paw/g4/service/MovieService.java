@@ -20,4 +20,6 @@ public interface MovieService {
 	public Movie getMovieById(int id);
 
 	public List<Movie> getTopMovies(int quantity);
+
+	public List<Director> getAllDirectors();
 }
