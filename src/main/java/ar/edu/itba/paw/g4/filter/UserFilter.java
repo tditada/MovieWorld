@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
+import ar.edu.itba.paw.g4.util.EmailAddress;
 
 public class UserFilter implements Filter {
 	private UserService userService = UserServiceImpl.getInstance();
@@ -40,8 +41,7 @@ public class UserFilter implements Filter {
 		if (req.getAttribute("user") == null
 				&& userHasSession((HttpServletRequest) req)) {
 			HttpSession session = ((HttpServletRequest) req).getSession();
-			User user = userService.getUserById((Integer) session
-					.getAttribute("id"));
+			User user = userService.getUserByEmail((EmailAddress) session.getAttribute(EMAIL_ID));
 			req.setAttribute("user", user);
 
 		}

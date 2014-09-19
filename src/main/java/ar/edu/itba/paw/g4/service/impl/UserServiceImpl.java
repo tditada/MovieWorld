@@ -33,20 +33,28 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void register(User user) {
-			User dbUser=userdao.getByEmail(user.getEmail());
-			if(dbUser==null){
-				userdao.save(dbUser);	// idem user			
-			}else{
-				throw new ServiceException("Usuario ya existente");
-			}
-	
+		User dbUser = userdao.getByEmail(user.getEmail());
+		if (dbUser == null) {
+			userdao.save(user); 
+		} else {
+			throw new ServiceException("Usuario ya existente");
+		}
+
 	}
+
 	@Override
-	public User authenticate(EmailAddress email, String pass) {
+	public User getUserByEmail(EmailAddress email) {
 		User user = userdao.getByEmail(email);
 		if (user == null) {
 			throw new ServiceException("Invalid user");
-		} else if (!checkPassword(user, pass)) {
+		}
+		return user;
+	}
+
+	@Override
+	public User authenticate(EmailAddress email, String pass) {
+		User user = getUserByEmail(email);
+		if (!checkPassword(user, pass)) {
 			throw new ServiceException("Wrong Password");
 		}
 		return user;

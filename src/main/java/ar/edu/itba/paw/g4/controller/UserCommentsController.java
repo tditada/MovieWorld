@@ -25,11 +25,17 @@ public class UserCommentsController extends HttpServlet {
 			throws ServletException, IOException {
 		User user = (User) req.getAttribute(USER_ID);
 		try{
-		List<Comment> commentList=commentService.getCommentsOf(user);
-		req.setAttribute("comments",commentList);
-		req.getRequestDispatcher("/WEB-INF/jsp/usercomments.jsp").forward(req,resp);
+			List<Comment> commentList=commentService.getCommentsOf(user);
+			req.setAttribute("comments",commentList);
+			req.getRequestDispatcher("/WEB-INF/jsp/usercomments.jsp").forward(req,resp);
 		}catch(ServiceException e){
 			manageError(e,req,resp);
 		}
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		doGet(req, resp);
 	}
 }

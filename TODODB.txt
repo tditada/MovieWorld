@@ -15,6 +15,6 @@ su postgres
 psql 
 CREATE DATABASE paw4 WITH ENCODING 'UTF8';
 CREATE USER paw PASSWORD 'paw';
-GRANT ALL PRIVILAGES ON DATABASE paw4 TO paw;
+GRANT ALL PRIVILEGES ON DATABASE paw4 TO paw;
 /q
 (se sigue con pasos 3 y 4 consola 2)

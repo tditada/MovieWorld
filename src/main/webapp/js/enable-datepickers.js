@@ -3,6 +3,6 @@ $(document).ready(function() {
       changeMonth: true,
       changeYear: true,
       yearRange: "1900:2014",
-	dateFormat: 'mm/dd/yy'
+	dateFormat: 'mm-dd-yy'
     });
 });

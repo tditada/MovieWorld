@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
@@ -40,16 +42,16 @@ public class RegistrationController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-//
-//		DateTimeFormatter formatter = DateTimeFormat.forPattern("mm/dd/yyyy");
-//		DateTime birthDate = formatter.parseDateTime(req
-//				.getParameter(BIRTHDAY_ID));
+
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("mm-dd-yyyy");
+		DateTime birthDate = formatter.parseDateTime(req
+				.getParameter(BIRTHDAY_ID));
 
 		User user = User.builder().withFirstName(req.getParameter(NAME_ID))
 				.withLastName(req.getParameter(LASTNAME_ID))
 				.withPassword(req.getParameter(PASS_ID))
 				.withEmail(EmailAddress.build(req.getParameter(EMAIL_ID)))
-				.withBirthDate(new DateTime(req.getParameter(BIRTHDAY_ID))).build();
+				.withBirthDate(birthDate).build();
 		try{
 			userservice.register(user);
 			req.getRequestDispatcher("login").forward(req, resp);

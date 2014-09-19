@@ -6,11 +6,6 @@
 		</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>Home</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.MovieHomeController
-		</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>MovieList</servlet-name>
 		<servlet-class>ar.edu.itba.paw.g4.controller.MovieListController
 		</servlet-class>
@@ -33,6 +28,11 @@
 	<servlet>
 		<servlet-name>Error</servlet-name>
 		<servlet-class>ar.edu.itba.paw.g4.controller.ErrorController
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>UserComments</servlet-name>
+		<servlet-class>ar.edu.itba.paw.g4.controller.UserCommentsController
 		</servlet-class>
 	</servlet>
 	<filter>
@@ -64,10 +64,6 @@
 		<url-pattern>/index</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>Home</servlet-name>
-		<url-pattern>/home</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>MovieList</servlet-name>
 		<url-pattern>/movies/list</url-pattern>
 	</servlet-mapping>
@@ -86,5 +82,9 @@
 	<servlet-mapping>
 		<servlet-name>Error</servlet-name>
 		<url-pattern>/error</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UserComments</servlet-name>
+		<url-pattern>/myComments</url-pattern>
 	</servlet-mapping>
 </web-app>

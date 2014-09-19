@@ -1,5 +1,7 @@
 <%@ include file="header.jsp"%>
 <%@ include file="headerend.jsp"%>
+<%@ include file="navbarStart.jsp"%>
+<%@ include file="navbarEnd.jsp"%>
 <div class="container">
   <div class="row">
     <div class="span12">

@@ -44,10 +44,11 @@ public class LoginController extends HttpServlet {
 			User user = userService.authenticate(email, password);
 			createUserSession(user, req);
 			if(req.getHeader("referer").equals("http://localhost:8081/MovieWorld/login")){
-				resp.sendRedirect("home");
+//				resp.sendRedirect("home");
 			}else{
-				resp.sendRedirect(req.getHeader("referer"));
+//				resp.sendRedirect(req.getHeader("referer"));
 			}
+			resp.sendRedirect("myComments");
 		} catch (ServiceException e) {
 			manageError(e, req, resp);
 		}
@@ -56,7 +57,7 @@ public class LoginController extends HttpServlet {
 	private void createUserSession(User user, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute(NAME_ID, user.getFirstName());
-		session.setAttribute(EMAIL_ID, user.getLastName());
+		session.setAttribute(EMAIL_ID, user.getEmail());
 		session.setAttribute(LASTNAME_ID, user.getLastName());
 		session.setAttribute(PASS_ID, user.getPassword());
 		session.setAttribute(BIRTHDAY_ID, user.getBirthDate());

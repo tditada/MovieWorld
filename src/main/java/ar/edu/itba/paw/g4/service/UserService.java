@@ -8,6 +8,8 @@ public interface UserService{
 	
 	public User getUserById(Integer id);
 	
+	public User getUserByEmail(EmailAddress email);
+	
 	public void register(User user);
 	
 //	public void logout(User user);	

@@ -1,5 +1,11 @@
 <%@ include file="header.jsp" %>
 <%@ include file="headerend.jsp" %>
+<%@ include file="navbarStart.jsp"%>
+<ul class="nav navbar-nav">
+	<li><a href="<c:out value="movies/list"/>">All movies</a></li>
+</ul>
+<%@ include file="userMenu.jsp"%>
+<%@ include file="navbarEnd.jsp"%>
 <div id="form">
 <form class="col-md-5" action="login" method="POST">
     <div class="form-group">
