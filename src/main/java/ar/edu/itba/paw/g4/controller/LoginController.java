@@ -43,7 +43,7 @@ public class LoginController extends HttpServlet {
 			String password = req.getParameter(PASS_ID);
 			User user = userService.authenticate(email, password);
 			createUserSession(user, req);
-			if(req.getHeader("referer").equals("http://localhost:8081/MovieWorld/login")){
+			if(req.getHeader("referer").equals("http://localhost:8081/MovieWorld/login")){ //XXX
 //				resp.sendRedirect("home");
 			}else{
 //				resp.sendRedirect(req.getHeader("referer"));

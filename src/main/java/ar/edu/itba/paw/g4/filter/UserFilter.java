@@ -25,6 +25,8 @@ public class UserFilter implements Filter {
 	// private static String PASS2_ID = "secondPassword";
 	private static String BIRTHDAY_ID = "birthday";
 
+	private static String USER_ID = "user";
+
 	@Override
 	public void init(FilterConfig fil) throws ServletException {
 	}
@@ -37,13 +39,12 @@ public class UserFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse rsp,
 			FilterChain chain) throws IOException, ServletException {
-
-		if (req.getAttribute("user") == null
+		if (req.getAttribute(USER_ID) == null
 				&& userHasSession((HttpServletRequest) req)) {
 			HttpSession session = ((HttpServletRequest) req).getSession();
-			User user = userService.getUserByEmail((EmailAddress) session.getAttribute(EMAIL_ID));
-			req.setAttribute("user", user);
-
+			User user = userService.getUserByEmail((EmailAddress) session
+					.getAttribute(EMAIL_ID));
+			req.setAttribute(USER_ID, user);
 		}
 		chain.doFilter(req, rsp);
 	}

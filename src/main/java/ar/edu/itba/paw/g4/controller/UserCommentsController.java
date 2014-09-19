@@ -27,7 +27,7 @@ public class UserCommentsController extends HttpServlet {
 		try{
 			List<Comment> commentList=commentService.getCommentsOf(user);
 			req.setAttribute("comments",commentList);
-			req.getRequestDispatcher("/WEB-INF/jsp/usercomments.jsp").forward(req,resp);
+			req.getRequestDispatcher("/WEB-INF/jsp/userComments.jsp").forward(req,resp);
 		}catch(ServiceException e){
 			manageError(e,req,resp);
 		}

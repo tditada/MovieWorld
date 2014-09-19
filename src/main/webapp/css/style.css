@@ -13,3 +13,7 @@ span.glyphicon-link {
 .ui-datepicker {
 	z-index: 10 !important;
 }
+
+.black-link {
+	color: #333 !important;
+}
