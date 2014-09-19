@@ -12,7 +12,6 @@
 			<c:if test="${movie.release}">
 				<span class="label label-default">Release</span>
 			</c:if>
-
 		</h1>
 	</div>
 	<div class="panel panel-default">
@@ -31,13 +30,10 @@
 				</dd>
 				<dt>Director</dt>
 				<dd>
-					<a
-						href="<c:url value="movies/list?director=${movie.director.name}"/>"><c:out
-							value="${movie.director.name}" /></a>
-					<%-- 	<c:url value="/yourClient" var="url"> --%>
-					<%-- 		<c:param name="yourParamName" value="http://google.com/index.html" /> --%>
-					<%-- 	</c:url> --%>
-					<%--	<a href="${url}">Link to your client</a> --%>
+					<c:url value="movies/list" var="directorUrl">
+						<c:param name="director" value="${movie.director.name}" />
+					</c:url>
+					<a href="${directorUrl}"><c:out value="${movie.director.name}" /></a>
 				</dd>
 				<dt>Runtime</dt>
 				<dd>

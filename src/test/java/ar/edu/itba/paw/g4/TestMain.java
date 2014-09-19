@@ -168,8 +168,9 @@ public class TestMain {
 				.withRuntimeInMins(115).build();
 		movieDAO.save(movieNotReleasedInRange2);
 
-		List<Movie> allReleasedInRange = movieDAO.getAllByReleaseDateInRange(
-				fromDate, toDate);
+		List<Movie> allReleasedInRange = movieDAO
+				.getAllInOrderByReleaseDateInRange(Orderings.DESC, fromDate,
+						toDate);
 		if (!allReleasedInRange.contains(movieReleasedInRange1)
 				|| !allReleasedInRange.contains(movieReleasedInRange2)
 				|| allReleasedInRange.contains(movieNotReleasedInRange1)

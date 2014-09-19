@@ -44,36 +44,37 @@ public class MovieServiceImpl implements MovieService {
 		return movieDAO.getNewestNByCreationDate(quantity);
 	}
 
-
 	public List<Movie> getTopMovies(int quantity) {
 		checkArgument(quantity > 0);
-		return movieDAO.getAllByAverageScore(Orderings.DESC, quantity);
+		return movieDAO.getAllInOrderByAverageScore(Orderings.DESC, quantity);
 	}
 
 	@Override
 	public List<Movie> getAllMoviesByDirector(Director director) {
 		checkArgument(director, notNull());
+		// TODO: tiene sentido aca chequear si existe o no el director?
 		return movieDAO.getAllByDirector(director);
-
 	}
 
 	@Override
 	public List<Movie> getReleases() {
-		return movieDAO.getAllByReleaseDateInRange(
-				now().minusDays(Movie.DAYS_AS_RELEASE), now());
-
+		return movieDAO.getAllInOrderByReleaseDateInRange(Orderings.DESC, now()
+				.minusDays(Movie.DAYS_AS_RELEASE), now());
 	}
 
 	@Override
 	public Movie getMovieById(int id) {
-
 		Movie movie = movieDAO.getById(id);
 		if (movie == null) {
 			throw new IllegalArgumentException("There is no movie with id ("
 					+ id + ")");
 		}
 		return movie;
+	}
 
+	@Override
+	public List<Director> getAllDirectors() {
+		return movieDAO.getAllDirectorsOrderedByName(Orderings.ASC);
 	}
 
 }

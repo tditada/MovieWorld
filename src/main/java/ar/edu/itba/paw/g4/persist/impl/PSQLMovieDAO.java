@@ -58,10 +58,10 @@ public class PSQLMovieDAO implements MovieDAO {
 			protected Void handleConnection(Connection connection)
 					throws SQLException {
 				String query;
-				List<String> columns = Lists
-						.newArrayList(TITLE_ID, CREAT_DATE_ID, REL_DATE_ID,
-								GENRES_ID, DIR_NAME_ID, RUNTIME_ID, SUMMARY_ID,
-								TOTAL_SCORE_ID, TOTAL_COMMENTS_ID);
+				List<String> columns = Lists.newArrayList(TITLE_ID,
+						CREAT_DATE_ID, REL_DATE_ID, GENRES_ID, DIR_NAME_ID,
+						RUNTIME_ID, SUMMARY_ID, TOTAL_SCORE_ID,
+						TOTAL_COMMENTS_ID);
 				if (!movie.isPersisted()) {
 					query = insertQuery(TABLE_NAME_ID, columns);
 				} else {
@@ -209,7 +209,7 @@ public class PSQLMovieDAO implements MovieDAO {
 	}
 
 	@Override
-	public List<Movie> getAllByReleaseDateInRange(final DateTime fromDate,
+	public List<Movie> getAllInOrderByReleaseDateInRange(final Orderings ordering, final DateTime fromDate,
 			final DateTime toDate) {
 		checkArgument(fromDate, notNull());
 		checkArgument(toDate, notNull());
@@ -223,7 +223,7 @@ public class PSQLMovieDAO implements MovieDAO {
 				String query = "SELECT * FROM " + TABLE_NAME_ID + " WHERE "
 						+ REL_DATE_ID + " >= ? AND " + REL_DATE_ID + " <= ?"
 						+ " ORDER BY " + REL_DATE_ID + " "
-						+ asSQLOrdering(Orderings.DESC);
+						+ asSQLOrdering(ordering);
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
 				statement.addParameter(fromDate);
@@ -236,7 +236,7 @@ public class PSQLMovieDAO implements MovieDAO {
 		return connection.run();
 	}
 
-	public List<Movie> getAllByAverageScore(Orderings ordering,
+	public List<Movie> getAllInOrderByAverageScore(Orderings ordering,
 			final int quantity) {
 		checkArgument(ordering, notNull());
 		checkArgument(quantity >= 0);
@@ -259,6 +259,38 @@ public class PSQLMovieDAO implements MovieDAO {
 
 		};
 		return connection.run();
+	}
+
+	@Override
+	public List<Director> getAllDirectorsOrderedByName(final Orderings ordering) {
+		DatabaseConnection<List<Director>> connection = new DatabaseConnection<List<Director>>() {
+
+			@Override
+			protected List<Director> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT DISTINCT " + DIR_NAME_ID + " FROM "
+						+ TABLE_NAME_ID + " ORDER BY " + DIR_NAME_ID + " "
+						+ asSQLOrdering(ordering);
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+
+				ResultSet results = statement.executeQuery();
+				return getDirectorsFromResults(results);
+			}
+
+		};
+		return connection.run();
+	}
+
+	private List<Director> getDirectorsFromResults(ResultSet results)
+			throws SQLException {
+		List<Director> directors = new LinkedList<>();
+		while (results.next()) {
+			Director director = Director.builder()
+					.withName(getString(results, DIR_NAME_ID)).build();
+			directors.add(director);
+		}
+		return directors;
 	}
 
 	private List<Movie> getMoviesFromResults(ResultSet results)
@@ -289,4 +321,5 @@ public class PSQLMovieDAO implements MovieDAO {
 		movie.setId(getInt(results, ID_ATTR_ID));
 		return movie;
 	}
+
 }

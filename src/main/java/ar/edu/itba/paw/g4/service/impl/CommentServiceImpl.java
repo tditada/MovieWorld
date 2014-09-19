@@ -5,6 +5,7 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.List;
 
+import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.User;
@@ -36,9 +37,12 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-
+		Movie movie = movieDAO.getById(comment.getMovie().getId());
+		if (movie == null) {
+			throw new ServiceException(
+					"Cannot comment on a movie not added to the system");
+		}
 		commentDAO.save(comment);
-		Movie movie = comment.getMovie();
 		movie.addComment(comment);
 		movieDAO.save(movie);
 	}
