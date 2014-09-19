@@ -3,47 +3,47 @@
 	<!-- Servlets -->
 	<servlet>
 		<servlet-name>Index</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.IndexController
+		<servlet-class>ar.edu.itba.paw.g4.servlet.IndexServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>MoviesHome</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.MovieHomeController
+		<servlet-class>ar.edu.itba.paw.g4.servlet.MovieHomeServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>MovieList</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.MovieListController
+		<servlet-class>ar.edu.itba.paw.g4.servlet.MovieListServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>MovieDetail</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.MovieDetailController
+		<servlet-class>ar.edu.itba.paw.g4.servlet.MovieServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Login</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.LoginController
+		<servlet-class>ar.edu.itba.paw.g4.servlet.LoginServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Logout</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.LogoutController
+		<servlet-class>ar.edu.itba.paw.g4.servlet.LogoutServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Registration</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.RegistrationController
+		<servlet-class>ar.edu.itba.paw.g4.servlet.RegistrationServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Error</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.ErrorController
+		<servlet-class>ar.edu.itba.paw.g4.servlet.ErrorServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>UserComments</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.UserCommentsController
+		<servlet-class>ar.edu.itba.paw.g4.servlet.UserCommentsServlet
 		</servlet-class>
 	</servlet>
 

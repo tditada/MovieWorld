@@ -26,17 +26,10 @@ public class User extends Entity {
 	public User(String firstName, String lastName, EmailAddress email,
 			String password, DateTime birthDate) {
 		checkArgument(birthDate, notNull());
-		checkArgument(email, notNull());
-		
+		checkArgument(email, notNull());		
 		checkArgument(firstName, neitherNullNorEmpty());
-		checkArgument(firstName.length() >= getMAX_NAME());
-		checkArgument(firstName.length() >= getMIN());
 		checkArgument(lastName, neitherNullNorEmpty());
-		checkArgument(lastName.length() >= getMAX_NAME());
-		checkArgument(lastName.length() >= getMIN());
 		checkArgument(password, notNull());
-		checkArgument(password.length() >= getMIN_PASSWORD());
-		checkArgument(password.length() <= getMAX_PASSWORD());
 
 		this.firstName = firstName;
 		this.lastName = lastName;

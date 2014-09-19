@@ -59,9 +59,42 @@
 						<c:out value="${movie.summary}" />
 					</p>
 				</dd>
-			</dl>
-		</div>
+		</dl>
+	
 	</div>
+	</div>
+		<div class="panel panel-default">
+				<div class="panel-heading">
+				<h3 class="panel-title">Comments</h3>
+			</div>
+				<c:forEach items="${comments}" var="comment">
+					<div class="panel-body">
+						<dl class="dl-horizontal">
+						<dt>User</dt>
+						<dd><c:out value="${comment.user.firstName}" /></dd>
+						<dt>Score</dt>
+						<dd>
+							<c:forEach begin="1" end="${comment.score}">
+								<span class="glyphicon glyphicon-star"></span>
+							</c:forEach>
+							<c:if test="${comment.score < 5}">
+								<c:forEach begin="${comment.score}" end="4">
+									<span class="glyphicon glyphicon-star-empty"></span>
+								</c:forEach>
+							</c:if>
+						</dd>
+						<dt>Date</dt>
+						<dd>
+							<joda:format value="${comment.creationDate}" style="M-" />
+						</dd>
+						<dt>Comment</dt>
+						<dd>
+							<c:out value="${comment.text}" />
+						</dd>
+						</dl>
+					</div>
+				</c:forEach>
+			</div>
 </div>
 
 <%@ include file="footer.jsp"%>
