@@ -21,6 +21,7 @@ import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class Movie extends Entity {
 	public static final int DAYS_AS_RELEASE = 6;
+	public static final int MAX_TITLE_LENGTH = 255;
 
 	private String title;
 	private DateTime creationDate;
@@ -42,6 +43,7 @@ public class Movie extends Entity {
 		checkArgument(director, notNull());
 		checkArgument(summary, notNull());
 		checkArgument(title, neitherNullNorEmpty());
+		checkArgument(title.length() <= MAX_TITLE_LENGTH);
 		checkArgument(genres, notNull(), notEmptyColl(), noRepetitionsList());
 		checkArgument(totalScore >= 0);
 		checkArgument(totalComments >= 0);
@@ -120,8 +122,7 @@ public class Movie extends Entity {
 
 	@Override
 	public int hashCode() {
-		return hash(title, creationDate, releaseDate, genres, director,
-				runtimeInMins, summary);
+		return hash(title, director);
 	}
 
 	@Override
@@ -134,12 +135,7 @@ public class Movie extends Entity {
 		}
 		Movie that = (Movie) obj;
 		return areEqual(this.title, that.title)
-				&& areEqual(this.releaseDate, that.releaseDate)
-				&& areEqual(this.creationDate, that.creationDate)
-				&& areEqual(this.genres, that.genres)
-				&& areEqual(this.director, that.director)
-				&& areEqual(this.runtimeInMins, that.runtimeInMins)
-				&& areEqual(this.summary, that.summary);
+				&& areEqual(this.director, that.director);
 	}
 
 	public static MovieBuilder builder() {

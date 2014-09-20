@@ -18,7 +18,7 @@ import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
-import ar.edu.itba.paw.g4.util.EmailAddress;
+import ar.edu.itba.paw.g4.model.EmailAddress;
 
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {

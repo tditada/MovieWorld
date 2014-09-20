@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.util;
+package ar.edu.itba.paw.g4.model;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
@@ -8,9 +8,12 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.regex.Pattern;
 
+import ar.edu.itba.paw.g4.util.EmailAddressBuilder;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 public class EmailAddress {
+	public static final int MAX_LENGTH = 100;
+
 	private static final String EMAIL_PATTERN_STR = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*"
 			+ "@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 	private static final Pattern EMAIL_PATTERN = Pattern
@@ -19,7 +22,7 @@ public class EmailAddress {
 	private final String localPart;
 	private final String domainPart;
 
-	public static EmailAddress build(String address) {
+	public static EmailAddress buildFrom(String address) {
 		checkArgument(address, neitherNullNorEmpty());
 		String[] parts = address.split("@");
 		if (parts.length != 2) {
@@ -28,15 +31,13 @@ public class EmailAddress {
 		return new EmailAddress(parts[0], parts[1]);
 	}
 
-	private static boolean isValidEmail(String localPart, String domainPart) {
-		return EMAIL_PATTERN.matcher(localPart + "@" + domainPart).matches();
-	}
-
 	@GeneratePojoBuilder
 	public EmailAddress(String localPart, String domainPart) {
 		checkArgument(localPart, neitherNullNorEmpty());
 		checkArgument(domainPart, neitherNullNorEmpty());
-		checkArgument(isValidEmail(localPart, domainPart));
+		checkArgument((localPart + "@" + domainPart).length() <= MAX_LENGTH);
+		checkArgument(EMAIL_PATTERN.matcher(localPart + "@" + domainPart)
+				.matches());
 		this.localPart = localPart;
 		this.domainPart = domainPart;
 	}
@@ -69,10 +70,7 @@ public class EmailAddress {
 		return new EmailAddressBuilder();
 	}
 
-	public String asTextAddress() { /*
-									 * TODO check if this shouldn't either be
-									 * merged with toString or a static method
-									 */
+	public String asTextAddress() {
 		return localPart + "@" + domainPart;
 	}
 

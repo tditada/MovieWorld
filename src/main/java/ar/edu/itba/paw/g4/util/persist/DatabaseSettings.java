@@ -11,6 +11,12 @@ public class DatabaseSettings {
 	private static final String DB_PROPERTIES_FILE_PATH = "/"
 			+ DB_PROPERTIES_FILENAME;
 
+	private static final String DB_URL_ID = "url";
+	private static final String DB_AUTOCOMMIT_ID = "autocommit";
+	private static final String DB_DRIVER_ID = "driver";
+	private static final String DB_USER_ID = "user";
+	private static final String DB_PASSWORD_ID = "password";
+
 	private static DatabaseSettings instance = null;
 
 	private Properties properties;
@@ -41,7 +47,27 @@ public class DatabaseSettings {
 		}
 	}
 
-	public Properties getProperties() {
-		return properties;
+	private static Properties getProperties() throws IOException {
+		return getInstance().properties;
+	}
+
+	public static String getUrl() throws IOException {
+		return getProperties().getProperty(DB_URL_ID);
+	}
+
+	public static String getDriver() throws IOException {
+		return getProperties().getProperty(DB_DRIVER_ID);
+	}
+
+	public static String getPassword() throws IOException {
+		return getProperties().getProperty(DB_PASSWORD_ID);
+	}
+
+	public static String getUsername() throws IOException {
+		return getProperties().getProperty(DB_USER_ID);
+	}
+
+	public static boolean getAutoCommit() throws IOException {
+		return Boolean.valueOf(getProperties().getProperty(DB_AUTOCOMMIT_ID));
 	}
 }

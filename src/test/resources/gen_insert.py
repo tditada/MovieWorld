@@ -19,7 +19,7 @@ for i in range(len(MONTH_NAMES)):
 
 FIELDS_TO_CHECK = ['Type', 'Title', 'Runtime', 'Released', 'Plot', 'Genre', 'Director']
 
-SQL_QUERY_HEAD = """INSERT INTO movies(title, creationDate, releaseDate, genres, directorName, runtimeMins, summary, averageScore, totalComments)
+SQL_QUERY_HEAD = """INSERT INTO movies(title, creationDate, releaseDate, genres, directorName, runtimeMins, summary, totalScore, totalComments)
 VALUES"""
 SQL_QUERY_BODY = """('{title}', TIMESTAMP '{creation_date}', TIMESTAMP '{release_date}',
  '{genres}', '{director}', {runtime}, '{summary}', {total_score}, {total_comments})"""
@@ -130,9 +130,9 @@ def gen_inserts_for(hits_f, out_f, num_ids):
 			print("\t'twas a hit me captain! (#{hit_count})".format(hit_count=hit_count))
 			hits_f.write("{id},".format(id=num_id))
 			if num_id < max_id:
-				out_f.write(query_str+",\n")
-			else:
-				out_f.write(query_str+";\n")
+				out_f.write("{query},\n".format(query=query_str))
+			# else:
+			# 	out_f.write(query_str+";\n")
 		else:
 			print("\tMiss")
 

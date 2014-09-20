@@ -14,9 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.UserDAO;
-import ar.edu.itba.paw.g4.util.EmailAddress;
 import ar.edu.itba.paw.g4.util.persist.sql.DatabaseConnection;
 import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;
 

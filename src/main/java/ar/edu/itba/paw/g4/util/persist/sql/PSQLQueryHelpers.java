@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.util.EmailAddress;
+import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.util.EnumHelpers;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
@@ -87,7 +87,7 @@ public class PSQLQueryHelpers {
 
 	public static EmailAddress getEmailAddress(ResultSet resultSet,
 			String columnName) throws SQLException {
-		return EmailAddress.build(resultSet.getString(columnName));
+		return EmailAddress.buildFrom(resultSet.getString(columnName));
 	}
 
 	public static String getString(ResultSet resultSet, String columnName)
