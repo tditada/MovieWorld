@@ -19,7 +19,9 @@ CREATE TABLE movies (
   runtimeMins INT CHECK (runtimeMins > 0),
   totalScore INT CHECK (totalScore >= 0),
   totalComments INT CHECK (totalComments >= 0),
-  summary TEXT NOT NULL
+  summary TEXT NOT NULL,
+
+  UNIQUE(title, directorName)
 );
 
 CREATE TABLE comments (

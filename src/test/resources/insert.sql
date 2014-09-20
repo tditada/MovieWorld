@@ -111,7 +111,7 @@ VALUES
 ('Crusades', TIMESTAMP '2014-09-10', TIMESTAMP '1995-01-10',
  '{"DOCUMENTARY","HISTORY","WAR"}', 'Alan Ereira', 200, 'Terry Jones presents the history of the medieval religious wars in the middle-east known as the Crusades.', 0, 0),
 ('The Invaders', TIMESTAMP '2014-09-10', TIMESTAMP '1995-11-12',
- '{"SCIFI"}', 'Paul Shapiro', 148, 'The classic SCIFI series of the ''60s returns as one man, Scott Bakula, tries to stop an invasion of the earth by aliens disguised as humans.', 0, 0),
+ '{"SCIFI"}', 'Paul Shapiro', 148, 'The classic sci-fi series of the ''60s returns as one man, Scott Bakula, tries to stop an invasion of the earth by aliens disguised as humans.', 0, 0),
 ('Catherine the Great', TIMESTAMP '2014-09-10', TIMESTAMP '1996-04-28',
  '{"BIOGRAPHY","DRAMA","HISTORY"}', 'Marvin J. Chomsky', 100, 'Trapped in a loveless arranged marriage to the immature future Czar, a young German Princess proves a skillful political infighter and rises to become Catherine the Great.', 0, 0),
 ('Nothing Lasts Forever', TIMESTAMP '2014-09-10', TIMESTAMP '1995-11-05',
@@ -268,8 +268,6 @@ VALUES
  '{"COMEDY","MUSICAL","MYSTERY"}', 'Jacques Rivette', 169, 'Adventures of three young women in a hot and lazy Paris in summer.', 0, 0),
 ('Heat', TIMESTAMP '2014-09-10', TIMESTAMP '1995-12-15',
  '{"ACTION","CRIME","DRAMA"}', 'Michael Mann', 170, 'A group of professional bank robbers start to feel the heat from police when they unknowingly leave a clue at their latest heist.', 0, 0),
-('Heavy', TIMESTAMP '2014-09-10', TIMESTAMP '1996-06-05',
- '{"DRAMA","ROMANCE"}', 'James Mangold', 105, 'The life of an overweight, unhappy cook is changed after a kind, beautiful college drop-out comes to work as a waitress at he and his mother''s road-side restaurant.', 0, 0),
 ('High Frequency', TIMESTAMP '2014-09-10', TIMESTAMP '1989-05-01',
  '{"THRILLER"}', 'Faliero Rosati', 105, 'A boy who operates a ham radio and a man who works at a satellite relay station witness the same murder thousands of miles apart and have to figure out how to warn the next potential victim.', 0, 0),
 ('Higher Learning', TIMESTAMP '2014-09-10', TIMESTAMP '1995-01-11',
@@ -354,8 +352,6 @@ VALUES
  '{"COMEDY","DRAMA"}', 'Lesli Linka Glatter', 100, 'Four 12-year-old girls grow up together during an eventful small-town summer in 1970.', 0, 0),
 ('Once Upon a Time... When We Were Colored', TIMESTAMP '2014-09-10', TIMESTAMP '1996-01-26',
  '{"DRAMA","ROMANCE"}', 'Tim Reid', 115, 'A narrator tells the story of his childhood years in a tightly knit Afro-American community in the deep south under racial segregation.', 0, 0),
-('One Tough Bastard', TIMESTAMP '2014-09-10', TIMESTAMP '1996-07-26',
- '{"ACTION","THRILLER"}', 'Kurt Wimmer', 100, 'When a man''s wife and family are murdered, he plots revenge only to find out that the killer is under Federal protection and he must exact his own form of justice.', 0, 0),
 ('Operation Dumbo Drop', TIMESTAMP '2014-09-10', TIMESTAMP '1995-07-28',
  '{"ACTION","ADVENTURE","COMEDY"}', 'Simon Wincer', 107, 'To keep the loyalty of a native village during the Vietnam war, a US Army officer and his unit struggle to deliver it a live elephant.', 0, 0),
 ('Othello', TIMESTAMP '2014-09-10', TIMESTAMP '1995-12-15',
@@ -592,8 +588,6 @@ VALUES
  '{"CRIME","DRAMA","SPORT"}', 'Billy Hayes', 106, 'Two friends are torn apart by passion and ambition in the violent world of amateur boxing.', 0, 0),
 ('Zig Zag', TIMESTAMP '2014-09-10', TIMESTAMP '2002-07-09',
  '{"DRAMA"}', 'David S. Goyer', 101, 'An autistic 15-year-old boy steals money from his boss to provide rent for his abusive father, who uses the money to repay a loan shark.', 0, 0),
-('Agent Aika', TIMESTAMP '2014-09-10', TIMESTAMP '1997-04-25',
- '{"ANIMATION","ADVENTURE","COMEDY"}', 'Katsuhiko Nishijima', 210, 'From the creator of Project A-Ko! She''s sexy, suave and sophisticated, but she''s no bimbo. She''s a martial arts expert and a jet fighter pilot with the body of a supermodel.', 0, 0),
 ('The Last Castle', TIMESTAMP '2014-09-10', TIMESTAMP '2001-10-19',
  '{"ACTION","DRAMA","THRILLER"}', 'Rod Lurie', 131, 'A court-martialed general rallies together 1200 inmates to rise against the corrupt system that put him away.', 0, 0),
 ('The Christmas Secret', TIMESTAMP '2014-09-10', TIMESTAMP '2004-12-15',
@@ -662,8 +656,6 @@ VALUES
  '{"COMEDY","FANTASY","HORROR"}', 'Mary Lambert', 120, 'A Rock ''n Roll version of the Twilight Zone, with stories featuring a talent agent with an ironic curse, a homicidal hippie and the Disco Club from Hell.', 0, 0),
 ('Welcome to Death Row', TIMESTAMP '2014-09-10', TIMESTAMP '2001-09-25',
  '{"DOCUMENTARY","MUSIC"}', 'S. Leigh Savidge', 104, 'The true story of the rise and fall of Death Row Records.', 0, 0),
-('The Warrior', TIMESTAMP '2014-09-10', TIMESTAMP '2001-09-07',
- '{"ACTION","DRAMA","HISTORY"}', 'Sung-su Kim', 158, '1375. Nine Koryo warriors, envoys exiled by Imperial China, battle to protect a Chinese Ming Princess from Mongolian troops.', 0, 0),
 ('Aval Appadithaan', TIMESTAMP '2014-09-10', TIMESTAMP '1978-10-30',
  '{"DRAMA"}', 'C. Rudraiyaa', 114, 'The film revolves around a solitary women, her plight and ordeal against evil society.', 0, 0),
 ('Cowboy Bebop: The Movie', TIMESTAMP '2014-09-10', TIMESTAMP '2001-09-01',
@@ -822,8 +814,6 @@ VALUES
  '{"DRAMA","CRIME"}', 'Hans Pos', 102, 'The gripping true story of a Dutch girl who made an amazing career in the international narcotics world.', 0, 0),
 ('Flying Virus', TIMESTAMP '2014-09-10', TIMESTAMP '2001-12-31',
  '{"ACTION","HORROR","SCIFI"}', 'Jeff Hare', 100, 'A journalist uncovers a government conspiracy to unleash virus-carrying killer bees that could wipe out humanity.', 0, 0),
-('Hornblower: Mutiny', TIMESTAMP '2014-09-10', TIMESTAMP '2001-04-08',
- '{"ADVENTURE","DRAMA","WAR"}', 'Andrew Grieve', 240, 'Hornblower and his comrades come under the command of a revered but obviously mentally unstable captain and eventually must mutiny.', 0, 0),
 ('I Saw Mommy Kissing Santa Claus', TIMESTAMP '2014-09-10', TIMESTAMP '2001-10-23',
  '{"COMEDY","FAMILY"}', 'John Shepphird', 100, 'After a boy sees a man in Santa Claus suit kissing his mother, he thinks that the real Santa wants to replace his father, so he goes to prank-war with him.', 0, 0),
 ('Killer Tattoo', TIMESTAMP '2014-09-10', TIMESTAMP '2001-04-05',
@@ -874,8 +864,6 @@ VALUES
  '{"ACTION","CRIME","DRAMA"}', 'David Mackay', 100, 'In an Alaskan fishing town, a local crime boss suspects a local fisherman knows where his stolen money is, but this fisherman is no regular Joe.', 0, 0),
 ('Blazin''', TIMESTAMP '2014-09-10', TIMESTAMP '2001-04-03',
  '{"ACTION","ROMANCE"}', 'Marcos Antonio Miranda', 100, 'Romeo & Juliet Meets the underground drug scene in this Genx action film. Samantha and Alex fall in love, the problem is that her mom is a druglord and his dad is the chief of police!', 0, 0),
-('Bloody Sunday', TIMESTAMP '2014-09-10', TIMESTAMP '2002-01-25',
- '{"DRAMA","HISTORY","WAR"}', 'Paul Greengrass', 107, 'A dramatization of the Irish civil rights protest march and subsequent massacre by British troops on January 30, 1972.', 0, 0),
 ('Blue Hill Avenue', TIMESTAMP '2014-09-10', TIMESTAMP '2001-08-03',
  '{"CRIME","DRAMA"}', 'Craig Ross Jr.', 128, 'A child of a middle class home with solid moral values is lured into a world of crime and corruption.', 0, 0),
 ('Children on Their Birthdays', TIMESTAMP '2014-09-10', TIMESTAMP '2002-10-18',
@@ -926,8 +914,6 @@ VALUES
  '{"DOCUMENTARY"}', 'Martin Scorsese', 246, 'World renowned director Martin Scorsese narrates this journey through his favorites in Italian cinema.', 0, 0),
 ('Atanarjuat: The Fast Runner', TIMESTAMP '2014-09-10', TIMESTAMP '2002-04-12',
  '{"DRAMA","FANTASY"}', 'Zacharias Kunuk', 172, 'The telling of an Inuit legend of an evil spirit causing strife in the community and one warrior''s endurance and battle of its menace.', 0, 0),
-('Double Teamed', TIMESTAMP '2014-09-10', TIMESTAMP '2002-01-18',
- '{"BIOGRAPHY","FAMILY","SPORT"}', 'Duwayne Dunham', 120, 'The True Story of sisters Heather and Heidi Burge.', 0, 0),
 ('Dreamcatcher', TIMESTAMP '2014-09-10', TIMESTAMP '2003-03-21',
  '{"DRAMA","HORROR","SCIFI"}', 'Lawrence Kasdan', 134, 'Friends on a camping trip discover that the town they''re vacationing in is being plagued in an unusual fashion by parasitic aliens from outer space.', 0, 0),
 ('The Force of Evil', TIMESTAMP '2014-09-10', TIMESTAMP '1977-03-13',
@@ -958,8 +944,6 @@ VALUES
  '{"DRAMA","ROMANCE"}', 'John Sayles', 141, 'A woman and her new husband returns to her hometown roots in coastal northern Florida, and must deal with family, business, and encroaching real estate development.', 0, 0),
 ('Surviving Gilligan''s Island: The Incredibly True Story of the Longest Three Hour Tour in History', TIMESTAMP '2014-09-10', TIMESTAMP '2001-10-14',
  '{"COMEDY","DRAMA"}', 'Paul A. Kaufman', 100, 'A fun behind-the-scenes look into the 60''s television series, ''Gilligan''s Island.''', 0, 0),
-('Surviving Gilligan''s Island: The Incredibly True Story of the Longest Three Hour Tour in History', TIMESTAMP '2014-09-10', TIMESTAMP '2001-10-14',
- '{"COMEDY","DRAMA"}', 'Paul A. Kaufman', 100, 'A fun behind-the-scenes look into the 60''s television series, ''Gilligan''s Island.''', 0, 0),
 ('Tattoo', TIMESTAMP '2014-09-10', TIMESTAMP '2002-04-04',
  '{"DRAMA","THRILLER","CRIME"}', 'Robert Schwentke', 108, 'Two police detectives, a grizzled veteran and one fresh-faced rookie, hunt a ritualistic serial killer murdering people with tattoos and skinning them.', 0, 0),
 ('Akira', TIMESTAMP '2014-09-10', TIMESTAMP '2001-07-24',
@@ -978,8 +962,6 @@ VALUES
  '{"HORROR","MYSTERY","THRILLER"}', 'Kiyoshi Kurosawa', 118, 'Japanese university students investigate a series of suicides linked to an Internet Web cam that promises visitors the chance to interact with the dead.', 0, 0),
 ('What a Girl Wants', TIMESTAMP '2014-09-10', TIMESTAMP '2003-04-04',
  '{"COMEDY","DRAMA","ROMANCE"}', 'Dennie Gordon', 105, 'An American teenager learns that her father is a wealthy British politician running for office. Although she is eager to find him, she realizes it could cause a scandal and cost him the election.', 0, 0),
-('Murder by Numbers', TIMESTAMP '2014-09-10', TIMESTAMP '2002-04-19',
- '{"CRIME","DRAMA","THRILLER"}', 'Barbet Schroeder', 120, 'Two gifted high school students execute a ''perfect'' murder - then become engaged in an intellectual contest with a seasoned homicide detective.', 0, 0),
 ('Now You Know', TIMESTAMP '2014-09-10', TIMESTAMP '2002-12-13',
  '{"COMEDY","ROMANCE"}', 'Jeff Anderson', 102, 'On the eve of his bachelor party, a man learns his fiancee wants to call off the wedding. The unmarried couple returns to New Jersey to sort out their relationship.', 0, 0),
 ('This Filthy Earth', TIMESTAMP '2014-09-10', TIMESTAMP '2001-11-02',
@@ -994,8 +976,6 @@ VALUES
  '{"COMEDY","DRAMA","ROMANCE"}', 'Pedro Almodóvar', 112, 'Two men share an odd friendship while they care for two women who are both in deep comas.', 0, 0),
 ('Spy Kids 2: Island of Lost Dreams', TIMESTAMP '2014-09-10', TIMESTAMP '2002-08-07',
  '{"ACTION","ADVENTURE","COMEDY"}', 'Robert Rodriguez', 100, 'The Cortez siblings set out for a mysterious island, where they encounter a genetic scientist and a set of rival spy kids.', 0, 0),
-('Fulltime Killer', TIMESTAMP '2014-09-10', TIMESTAMP '2001-08-03',
- '{"ACTION","CRIME","DRAMA"}', 'Johnnie To', 102, 'Two very different hitmen find themselves to be in each other''s way. They use all their skill to solve the problem.', 0, 0),
 ('The Hobbit: An Unexpected Journey', TIMESTAMP '2014-09-10', TIMESTAMP '2012-12-14',
  '{"ADVENTURE","FANTASY"}', 'Peter Jackson', 169, 'A reluctant hobbit, Bilbo Baggins, sets out to the Lonely Mountain with a spirited group of dwarves to reclaim their mountain home - and the gold within it - from the dragon Smaug.', 0, 0),
 ('Death Proof', TIMESTAMP '2014-09-10', TIMESTAMP '2007-05-31',
@@ -1015,4 +995,46 @@ VALUES
 ('G.I. Joe: The Rise of Cobra', TIMESTAMP '2014-09-10', TIMESTAMP '2009-08-07',
  '{"ACTION","ADVENTURE","SCIFI"}', 'Stephen Sommers', 118, 'An elite military unit comprised of special operatives known as G.I. Joe, operating out of The Pit, takes on an evil organization led by a notorious arms dealer.', 0, 0),
 ('The Hobbit: The Desolation of Smaug', TIMESTAMP '2014-09-10', TIMESTAMP '2013-12-13',
- '{"ADVENTURE","FANTASY"}', 'Peter Jackson', 161, 'The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring.', 0, 0);
+ '{"ADVENTURE","FANTASY"}', 'Peter Jackson', 161, 'The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring.', 0, 0),
+('Bartman begins', TIMESTAMP '2014-09-19', TIMESTAMP '2014-09-18', '{"ACTION"}', 'El Barto', 115, 'This is the first movie of the epic Bartman trilogy, with extra action and cursing. Briefly, everything you''d expect from Mr El Barto''s extensive career of mischief and wrongdoing', 0, 0),
+('Bartman, the dark night', TIMESTAMP '2014-09-19', TIMESTAMP '2014-09-18', '{"ACTION"}', 'El Barto', 215, 'Krusty''s gone mad, and it''s time for Bartman to stop him', 0, 0),
+('Bartman, the dark night rises', TIMESTAMP '2014-09-19', TIMESTAMP '2014-09-18', '{"ACTION"}', 'El Barto', 315, 'McBane plans to destroy Springfield; only Bartman will be able to stop him. The rest of this is just a really long dummy description just to mess with you and to check if the summary length thing is working properly. Well, apparently this wasn''t long enough, so let me tell you, this is a really really really cool movie. Make Bartman proud boy, make him proud.', 0, 0);
+
+INSERT INTO users(firstName, lastName, emailAddr, password, birthDate)
+VALUES
+('A', 'Test User', 'test.email.A@gmail.com', '1234567890',  TIMESTAMP '2014-07-10'),
+('B', 'Test User', 'test.email.B@gmail.com', '1234567890',  TIMESTAMP '2014-08-10'),
+('C', 'Test User', 'test.email.C@gmail.com', '1234567890',  TIMESTAMP '2014-09-10')
+;
+
+
+INSERT INTO comments (score, txt, creationDate, userId, movieId) 
+	SELECT 5, 'The best bartman movie ever. I really loved it', TIMESTAMP '2014-09-19', subq.userId, subq.movieId
+	FROM (
+		SELECT userId, movieId 
+		FROM users CROSS JOIN movies
+		WHERE firstName='A' AND title='Bartman begins'
+) AS subq
+;
+
+INSERT INTO comments (score, txt, creationDate, userId, movieId) 
+	SELECT 4, 'Really really good movie.', TIMESTAMP '2014-09-19', subq.userId, subq.movieId
+	FROM (
+		SELECT userId, movieId 
+		FROM users CROSS JOIN movies
+		WHERE firstName='B' AND title='Bartman begins'
+) AS subq
+;
+
+INSERT INTO comments (score, txt, creationDate, userId, movieId) 
+	SELECT 1, 'Meh, I''m sick of superhero movies.', TIMESTAMP '2014-09-19', subq.userId, subq.movieId
+	FROM (
+		SELECT userId, movieId 
+		FROM users CROSS JOIN movies
+		WHERE firstName='C' AND title='Bartman begins'
+) AS subq
+;
+
+UPDATE movies SET totalScore = 10, totalComments = 3
+WHERE title='Bartman begins'
+; 
