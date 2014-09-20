@@ -27,7 +27,7 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap-datepicker</artifactId>
 			<version>1.2.0</version>
-		</dependency>		
+		</dependency>
 		<!-- Servlets -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -106,10 +106,35 @@
 					<configuration>
 						<source>1.7</source>
 						<target>1.7</target>
-						<generatedSourcesDirectory>${basedir}/src/main/resources/generated/java</generatedSourcesDirectory>
+						<!-- <generatedSourcesDirectory>${basedir}/src/generated/java</generatedSourcesDirectory> -->
 					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>copy-builder-src-files</id>
+						<phase>compile</phase>
+						<configuration>
+							<target name="copy builder src files to web project">
+								<copy todir="${project.build.directory}">
+									<fileset dir="${project.build.directory}">
+										<include name="**/*.java" />
+									</fileset>
+								</copy>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 </project>
