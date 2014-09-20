@@ -4,6 +4,7 @@
 	<groupId>ar.edu.itba.paw.g4</groupId>
 	<artifactId>MovieWorld</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>Movie World</name>
 	<description>Movie DB webapp</description>
 	<properties>
