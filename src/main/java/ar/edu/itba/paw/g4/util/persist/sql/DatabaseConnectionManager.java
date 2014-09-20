@@ -20,9 +20,8 @@ public class DatabaseConnectionManager {
 			connection = DriverManager.getConnection(url, username, password);
 
 			boolean autocommit = DatabaseSettings.getAutoCommit();
-			// connection = DriverManager.getConnection(url, properties);
-			connection.setAutoCommit(autocommit); // TODO: check!
-		} catch (Exception e) {// TODO: check error handling!
+			connection.setAutoCommit(autocommit);
+		} catch (Exception e) {
 			throw new DatabaseException(e);
 		}
 		return connection;
