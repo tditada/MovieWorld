@@ -6,7 +6,7 @@
 </ul>
 <%@ include file="userMenu.jsp"%>
 <%@ include file="navbarEnd.jsp"%>
-<div id="form">
+<div id="form" action="login" method="POST">
 <form class="col-md-5" action="login" method="POST">
 <c:if test="${error0 or error1}">
 	<p> Invalid email or password </p>

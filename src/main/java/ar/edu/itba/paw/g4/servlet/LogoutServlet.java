@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.controller;
+package ar.edu.itba.paw.g4.servlet;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @SuppressWarnings("serial")
-public class LogoutController extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 	// private UserService userService = UserServiceImpl.getInstance();
 	private static String NAME_ID = "firstname";
 	private static String LASTNAME_ID = "lastname";
@@ -26,7 +26,7 @@ public class LogoutController extends HttpServlet {
 		session.setAttribute(LASTNAME_ID, null);
 		session.setAttribute(PASS_ID, null);
 		session.setAttribute(BIRTHDAY_ID, null);
-		req.getRequestDispatcher(req.getHeader("referer"));
+		resp.sendRedirect("home");
 	}
 
 }

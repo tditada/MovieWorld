@@ -71,9 +71,7 @@ public class PSQLMovieDAO implements MovieDAO {
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						true);
 
-				if (movie.isPersisted()) {
-					statement.addParameter(movie.getId());
-				}
+
 
 				statement.addParameter(movie.getTitle());
 				statement.addParameter(movie.getCreationDate());
@@ -82,8 +80,12 @@ public class PSQLMovieDAO implements MovieDAO {
 				statement.addParameter(movie.getDirector().getName());
 				statement.addParameter(movie.getRuntimeInMins());
 				statement.addParameter(movie.getSummary());
-				statement.addParameter(movie.getAverageScore());
+				statement.addParameter(movie.getTotalScore());
 				statement.addParameter(movie.getTotalComments());
+
+				if (movie.isPersisted()) {
+					statement.addParameter(movie.getId());
+				}
 
 				int result = statement.executeUpdate();
 

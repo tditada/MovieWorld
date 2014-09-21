@@ -20,3 +20,7 @@ span.glyphicon-link {
 .black-link {
 	color: #333 !important;
 }
+
+#commentText{
+	width: 80%;
+}

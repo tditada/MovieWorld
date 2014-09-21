@@ -46,5 +46,10 @@ public class CommentServiceImpl implements CommentService {
 		movie.addComment(comment);
 		movieDAO.save(movie);
 	}
+	
+	@Override
+	public List<Comment> getCommentsFor(Movie movie) {
+		return commentDAO.getAllByMovie(movie);
+	}
 
 }

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.controller;
+package ar.edu.itba.paw.g4.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,7 +13,7 @@ import ar.edu.itba.paw.g4.service.MovieService;
 import ar.edu.itba.paw.g4.service.impl.MovieServiceImpl;
 
 @SuppressWarnings("serial")
-public class MovieHomeController extends HttpServlet {
+public class MovieHomeServlet extends HttpServlet {
 	private static final String TOP_MOVIES_ID = "topMovies";
 	private static final String RELEASES_ID = "releases";
 	private static final String NEW_ADDITIONS_ID = "newAdditions";

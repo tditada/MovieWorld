@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.controller;
+package ar.edu.itba.paw.g4.servlet;
 
 import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 
@@ -18,7 +18,7 @@ import ar.edu.itba.paw.g4.service.MovieService;
 import ar.edu.itba.paw.g4.service.impl.MovieServiceImpl;
 
 @SuppressWarnings("serial")
-public class MovieListController extends HttpServlet {
+public class MovieListServlet extends HttpServlet {
 	private static final String GENRES_ID = "genres";
 	private static final String DIRECTORS_ID = "directors";
 	private static final String MOVIES_ID = "movies";

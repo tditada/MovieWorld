@@ -6,6 +6,9 @@
 <%@ include file="navbarEnd.jsp"%>
 
 <div class="container">
+	<form> 
+		<input type="hidden" id="commentMovie" name="commentMovie" value="${movie.id}"> 
+	</form> 
 	<div class="page-header">
 		<h1>
 			<c:out value="${movie.title}" />
@@ -59,9 +62,70 @@
 						<c:out value="${movie.summary}" />
 					</p>
 				</dd>
-			</dl>
-		</div>
+		</dl>
+	
 	</div>
+	</div>
+		<div class="panel panel-default">
+				<div class="panel-heading">
+				<h3 class="panel-title">Comments</h3>
+				</div>
+				<c:forEach items="${comments}" var="comment">
+					<div class="panel-body">
+						<dl class="dl-horizontal">
+						<dt>User</dt>
+						<dd><c:out value="${comment.user.firstName}" /></dd>
+						<dt>Score</dt>
+						<dd>
+							<c:forEach begin="1" end="${comment.score}">
+								<span class="glyphicon glyphicon-star"></span>
+							</c:forEach>
+							<c:if test="${comment.score < 5}">
+								<c:forEach begin="${comment.score}" end="4">
+									<span class="glyphicon glyphicon-star-empty"></span>
+								</c:forEach>
+							</c:if>
+						</dd>
+						<dt>Date</dt>
+						<dd>
+							<joda:format value="${comment.creationDate}" style="M-" />
+						</dd>
+						<dt>Comment</dt>
+						<dd>
+							<c:out value="${comment.text}" />
+						</dd>
+						</dl>
+					</div>
+				</c:forEach>
+			</div>
+	<c:if test="${not empty user}">
+		<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">Write a Comment</h4>
+		</div>
+		</p>
+		<dl class="dl-horizontal">
+			<form role="form" action="comment" method="POST">
+				<dt>Score</dt>
+				<dd>			
+					<div class="form-group">
+		                  <div class="input-group">
+		                        <input type="number" min="1" max="5" class="form-control" name="commentScore" id="commentScore" required>
+		                    </div>
+		            </div>
+					</dd>
+					<dt>Comment</dt>
+					<dd>
+					<div class="form-group">
+					    <input type="text" name="commentText" id="commentText" class="form-control input-lg" placeholder="Comment">
+					</div>
+					</dd>
+					 <dd> <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-info center">
+				</dd>
+			</form>
+		</dl>
+			</div>
+	</c:if>
 </div>
 
 <%@ include file="footer.jsp"%>
