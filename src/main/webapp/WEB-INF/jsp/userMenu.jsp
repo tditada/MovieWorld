@@ -11,7 +11,7 @@
 		<ul class="dropdown-menu" role="menu">
 			<c:choose>
 				<c:when test="${empty user}">
-					<li><a href="login">Login</a></li>
+					<li><a href="login">Login/Register</a></li>
 				</c:when>
 				<c:otherwise>
 					<li><a href="me/comments/all">My Comments</a></li>

@@ -71,8 +71,6 @@ public class PSQLMovieDAO implements MovieDAO {
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						true);
 
-
-
 				statement.addParameter(movie.getTitle());
 				statement.addParameter(movie.getCreationDate());
 				statement.addParameter(movie.getReleaseDate());
@@ -239,10 +237,8 @@ public class PSQLMovieDAO implements MovieDAO {
 		return connection.run();
 	}
 
-	public List<Movie> getAllInOrderByAverageScore(Orderings ordering,
-			final int quantity) {
+	public List<Movie> getAllInOrderByTotalScore(Orderings ordering) {
 		checkArgument(ordering, notNull());
-		checkArgument(quantity >= 0);
 
 		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
 
@@ -250,11 +246,9 @@ public class PSQLMovieDAO implements MovieDAO {
 			protected List<Movie> handleConnection(Connection connection)
 					throws SQLException {
 				String query = "SELECT * FROM " + TABLE_NAME_ID + " ORDER BY "
-						+ TOTAL_SCORE_ID + " " + asSQLOrdering(Orderings.DESC)
-						+ " LIMIT ?";
+						+ TOTAL_SCORE_ID + " " + asSQLOrdering(Orderings.DESC);
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
-				statement.addParameter(quantity);
 
 				ResultSet results = statement.executeQuery();
 				return getMoviesFromResults(results);

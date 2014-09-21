@@ -38,8 +38,8 @@ public class RegistrationServlet extends HttpServlet {
 	private static String BASE_ERROR_ID = "error";
 
 	private static int MIN = 1;
-	private static int MIN_BIRTHDAY = 8;
-	private static int MAX_BIRTHDAY = 10;
+	private static int MIN_BIRTHDAY_STR_LEN = 8;
+	private static int MAX_BIRTHDAY_STR_LEN = 10;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -119,7 +119,7 @@ public class RegistrationServlet extends HttpServlet {
 		return OK;
 	}
 
-	public static boolean validateRegister(String name, String lastName,
+	private boolean validateRegister(String name, String lastName,
 			String email, String password, String secondPassword,
 			String birthday, List<Boolean> errors) {
 		validateLengthInRangeAndOther(name, MIN, User.MAX_NAME_LENGTH, errors,
@@ -137,8 +137,9 @@ public class RegistrationServlet extends HttpServlet {
 				User.MAX_PASSWORD_LENGTH, errors,
 				RegistrationField.SECONDPASSWORD.ordinal(),
 				password.equals(secondPassword));
-		validateLengthInRangeAndOther(birthday, MIN_BIRTHDAY, MAX_BIRTHDAY,
-				errors, RegistrationField.BIRTHDAY.ordinal(), birthday != null);
+		validateLengthInRangeAndOther(birthday, MIN_BIRTHDAY_STR_LEN,
+				MAX_BIRTHDAY_STR_LEN, errors,
+				RegistrationField.BIRTHDAY.ordinal(), birthday != null);
 
 		return !(errors.get(LoginField.EMAIL.ordinal())
 				|| errors.get(LoginField.PASSWORD.ordinal())
@@ -148,9 +149,8 @@ public class RegistrationServlet extends HttpServlet {
 					.get(RegistrationField.BIRTHDAY.ordinal()));
 	}
 
-	private static void validateLengthInRangeAndOther(String param, int min,
-			int max, List<Boolean> errors, int fieldValue,
-			boolean secondValidation) {
+	private void validateLengthInRangeAndOther(String param, int min, int max,
+			List<Boolean> errors, int fieldValue, boolean secondValidation) {
 		if (!(param.length() >= min && param.length() <= max)
 				|| !secondValidation) {
 			errors.add(fieldValue, true);
@@ -159,7 +159,7 @@ public class RegistrationServlet extends HttpServlet {
 		}
 	}
 
-	private static void validateLengthInRange(String param, int min, int max,
+	private void validateLengthInRange(String param, int min, int max,
 			List<Boolean> errors, int fieldValue) {
 		validateLengthInRangeAndOther(param, min, max, errors, fieldValue, true);
 	}

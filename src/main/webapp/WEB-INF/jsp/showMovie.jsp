@@ -72,7 +72,14 @@
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">Comments</h3>
+			<h3 class="panel-title">
+				<c:choose>
+					<c:when test="${movie.totalComments > 0}">
+						<c:out value="${movie.totalComments} Comments" />
+					</c:when>
+					<c:otherwise>No Comments</c:otherwise>
+				</c:choose>
+			</h3>
 		</div>
 		<c:forEach items="${comments}" var="comment">
 			<div class="panel-body">
@@ -80,6 +87,7 @@
 					<dt>User</dt>
 					<dd>
 						<c:out value="${comment.user.firstName}" />
+						<c:out value=" ${comment.user.lastName}" />
 					</dd>
 					<dt>Score</dt>
 					<dd>
@@ -123,8 +131,9 @@
 					<dt>Comment</dt>
 					<dd>
 						<div class="form-group">
-							<input type="text" name="commentText" id="commentText"
-								class="form-control input-lg" placeholder="Comment">
+							<textarea name="commentText" id="commentText"
+								class="form-control input-lg" placeholder="Comment" rows=5>
+								</textarea>
 						</div>
 					</dd>
 					<dd>
