@@ -63,14 +63,19 @@ public class RegistrationServlet extends HttpServlet {
 
 		DateTime birthDate = new DateTime();
 		boolean dateError = false;
+		boolean emailError =false;
 		if (formatDate(req, birthDate) == ERROR) {
 			req.setAttribute(
 					BASE_ERROR_ID + RegistrationField.BIRTHDAY.ordinal(), true);
 			dateError = true;
 		}
-
+		if(validFormatEmail(email)==ERROR){
+			emailError=true;
+			req.setAttribute(BASE_ERROR_ID + RegistrationField.EMAIL.ordinal(), true);
+		}
+		
 		if (!validateRegister(name, lastName, email, password, secondPassword,
-				birthday, errors) || dateError) {
+				birthday, errors) || dateError || emailError) {
 			for (int i = 0; i < errors.size(); i++) {
 				int fieldEnum = RegistrationField.values()[i].ordinal();
 				if (req.getAttribute(BASE_ERROR_ID + fieldEnum) == null) {
@@ -114,6 +119,14 @@ public class RegistrationServlet extends HttpServlet {
 					.forPattern("mm-dd-yyyy");
 			birthDate = formatter.parseDateTime(req.getParameter(BIRTHDAY_ID));
 		} catch (IllegalArgumentException e) {
+			return ERROR;
+		}
+		return OK;
+	}
+	public int validFormatEmail(String email){
+		try{
+			EmailAddress.buildFrom(email);
+		}catch(IllegalArgumentException e){
 			return ERROR;
 		}
 		return OK;
