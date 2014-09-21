@@ -21,15 +21,15 @@ import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
 
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
-	private UserService userService = UserServiceImpl.getInstance();
-	private static String NAME_ID = "firstname";
-	private static String LASTNAME_ID = "lastname";
-	private static String EMAIL_ID = "email";
-	private static String PASS_ID = "password";
-	private static String BIRTHDAY_ID = "birthday";
+	private final UserService userService = UserServiceImpl.getInstance();
+	private static final String NAME_ID = "firstname";
+	private static final String LASTNAME_ID = "lastname";
+	private static final String EMAIL_ID = "email";
+	private static final String PASS_ID = "password";
+	private static final String BIRTHDAY_ID = "birthday";
 
-	private static String REFERER_ID = "referer";
-	private static String BASE_ERROR_ID = "error";
+	private static final String REFERER_ID = "referer";
+	private static final String BASE_ERROR_ID = "error";
 
 	private static final int MIN = 1;
 
@@ -39,8 +39,6 @@ public class LoginServlet extends HttpServlet {
 		req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
 	}
 
-	// TODO: Validaciones (que el jsp verifique)
-	// ¿Manejo de errores?
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -103,7 +101,7 @@ public class LoginServlet extends HttpServlet {
 	private void createUserSession(User user, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.setAttribute(NAME_ID, user.getFirstName());
-		session.setAttribute(EMAIL_ID, user.getEmail());
+		session.setAttribute(EMAIL_ID, user.getEmail().asTextAddress());
 		session.setAttribute(LASTNAME_ID, user.getLastName());
 		session.setAttribute(PASS_ID, user.getPassword());
 		session.setAttribute(BIRTHDAY_ID, user.getBirthDate());

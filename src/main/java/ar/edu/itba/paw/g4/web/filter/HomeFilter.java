@@ -14,20 +14,18 @@ public class HomeFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		String redirectUrl = ((HttpServletResponse) response)
-				.encodeRedirectURL("home");
-		((HttpServletResponse) response).sendRedirect(redirectUrl);
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
+		String redirectUrl = httpResponse.encodeRedirectURL("home");
+		httpResponse.sendRedirect(redirectUrl);
 	}
 
 	@Override
 	public void destroy() {
-
 	}
 
 }

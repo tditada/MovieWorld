@@ -11,7 +11,6 @@ public class DatabaseConnectionManager {
 	public static Connection getConnection() {
 		Connection connection = null;
 		try {
-
 			String url = DatabaseSettings.getUrl();
 			String username = DatabaseSettings.getUsername();
 			String password = DatabaseSettings.getPassword();

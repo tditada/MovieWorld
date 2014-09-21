@@ -27,11 +27,11 @@ public class MovieServlet extends HttpServlet {
 	public static final String MOVIE_ID = "movie";
 	public static final String COMMENT_LIST_ID = "comments";
 	private static final String USER_ID = "user";
-	// public static String LAST_MOVIE="lastMovie";
 	public static final String ABLE_TO_COMMENT_ID = "ableToComment";
 
-	private MovieService movieService = MovieServiceImpl.getInstance();
-	private CommentService commentService = CommentServiceImpl.getInstance();
+	private final MovieService movieService = MovieServiceImpl.getInstance();
+	private final CommentService commentService = CommentServiceImpl
+			.getInstance();
 
 	@Override
 	protected void doGet(HttpServletRequest request,

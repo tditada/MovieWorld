@@ -19,38 +19,6 @@ import ar.edu.itba.paw.g4.util.persist.Orderings;
 import com.google.common.base.Converter;
 
 public class PSQLQueryHelpers {
-	public static String list(String... attributes) {
-		String attributesStr = "";
-		for (String attribute : attributes) {
-			attributesStr += attribute + ",";
-		}
-		return attributesStr.substring(0, attributesStr.length() - 1);
-	}
-
-	public static String set(String attribute, String value) {
-		return attribute + "=" + value;
-	}
-
-	public static String areEqual(String statement1, String statement2) {
-		return statement1 + "=" + statement2;
-	}
-
-	public static String countAll() {
-		return "COUNT(*)";
-	}
-
-	public static String average(String attributeName) {
-		return "AVG(" + attributeName + ")";
-	}
-
-	public static String as(String queryExpression, String renaming) {
-		return "(" + queryExpression + ") AS " + renaming;
-	}
-
-	public static String fullName(String tableName, String attributeName) {
-		return tableName + "." + attributeName;
-	}
-
 	public static String asSQLOrdering(Orderings ordering) {
 		switch (ordering) {
 		case ASC:
