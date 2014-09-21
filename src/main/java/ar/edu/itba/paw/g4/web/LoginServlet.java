@@ -22,8 +22,8 @@ import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
 	private final UserService userService = UserServiceImpl.getInstance();
-	private static final String NAME_ID = "firstname";
-	private static final String LASTNAME_ID = "lastname";
+	private static final String FIRST_NAME_ID = "firstname";
+	private static final String LAST_NAME_ID = "lastname";
 	private static final String EMAIL_ID = "email";
 	private static final String PASS_ID = "password";
 	private static final String BIRTHDAY_ID = "birthday";
@@ -100,9 +100,9 @@ public class LoginServlet extends HttpServlet {
 
 	private void createUserSession(User user, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		session.setAttribute(NAME_ID, user.getFirstName());
-		session.setAttribute(EMAIL_ID, user.getEmail().asTextAddress());
-		session.setAttribute(LASTNAME_ID, user.getLastName());
+		session.setAttribute(FIRST_NAME_ID, user.getFirstName());
+		session.setAttribute(EMAIL_ID, user.getEmail());
+		session.setAttribute(LAST_NAME_ID, user.getLastName());
 		session.setAttribute(PASS_ID, user.getPassword());
 		session.setAttribute(BIRTHDAY_ID, user.getBirthDate());
 	}

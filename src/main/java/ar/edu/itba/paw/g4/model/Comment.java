@@ -7,10 +7,10 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNor
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.g4.model.builder.CommentBuilder;
 import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class Comment extends Entity {
@@ -23,7 +23,7 @@ public class Comment extends Entity {
 	private Movie movie;
 	private DateTime creationDate;
 
-	@GeneratePojoBuilder
+	// @GeneratePojoBuilder
 	public Comment(String text, int score, User user, Movie movie,
 			DateTime creationDate) {
 		checkArgument(score >= MIN_SCORE && score <= MAX_SCORE);
