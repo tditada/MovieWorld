@@ -18,15 +18,15 @@ import ar.edu.itba.paw.g4.service.CommentService;
 public class CommentServiceImpl implements CommentService {
 	private static final CommentService instance = new CommentServiceImpl();
 
+	private final CommentDAO commentDAO = PSQLCommentDAO.getInstance();
+	private final MovieDAO movieDAO = PSQLMovieDAO.getInstance();
+
 	public static CommentService getInstance() {
 		return instance;
 	}
 
 	private CommentServiceImpl() {
 	}
-
-	private final CommentDAO commentDAO = PSQLCommentDAO.getInstance();
-	private final MovieDAO movieDAO = PSQLMovieDAO.getInstance();
 
 	@Override
 	public List<Comment> getCommentsOf(User user) {
@@ -46,9 +46,10 @@ public class CommentServiceImpl implements CommentService {
 		movie.addComment(comment);
 		movieDAO.save(movie);
 	}
-	
+
 	@Override
 	public List<Comment> getCommentsFor(Movie movie) {
+		checkArgument(movie, notNull());
 		return commentDAO.getAllByMovie(movie);
 	}
 

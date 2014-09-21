@@ -17,10 +17,10 @@ import java.util.Collection;
 import org.joda.time.DateTime;
 
 public class PSQLStatement {
-	private Connection connection;
-	private PreparedStatement statement;
+	private final Connection connection;
+	private final PreparedStatement statement;
 	private int parameterCount = 0;
-	private boolean update;
+	private final boolean update;
 
 	public PSQLStatement(Connection connection, String sql, boolean update)
 			throws SQLException {

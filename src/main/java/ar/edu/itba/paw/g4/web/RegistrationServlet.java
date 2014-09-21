@@ -24,22 +24,22 @@ import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
 
 @SuppressWarnings("serial")
 public class RegistrationServlet extends HttpServlet {
-	// TODO: mover y que no se pise con otros errors mismo nombre
-	private static int ERROR = -1;
-	private static int OK = 0;
+	private static final int ERROR = -1;
+	private static final int OK = 0;
 
-	private UserService userservice = UserServiceImpl.getInstance();
-	private static String NAME_ID = "firstname";
-	private static String LASTNAME_ID = "lastname";
-	private static String EMAIL_ID = "email";
-	private static String PASSWORD_ID = "password";
-	private static String SECONDPASSWORD_ID = "secondPassword";
-	private static String BIRTHDAY_ID = "birthday";
-	private static String BASE_ERROR_ID = "error";
+	private static final int MIN = 1;
+	private static final int MIN_BIRTHDAY_STR_LEN = 8;
+	private static final int MAX_BIRTHDAY_STR_LEN = 10;
 
-	private static int MIN = 1;
-	private static int MIN_BIRTHDAY_STR_LEN = 8;
-	private static int MAX_BIRTHDAY_STR_LEN = 10;
+	private static final String FIRST_NAME_ID = "firstname";
+	private static final String LAST_NAME_ID = "lastname";
+	private static final String EMAIL_ID = "email";
+	private static final String PASSWORD_ID = "password";
+	private static final String SECOND_PASSWORD_ID = "secondPassword";
+	private static final String BIRTHDAY_ID = "birthday";
+	private static final String BASE_ERROR_ID = "error";
+
+	private final UserService userservice = UserServiceImpl.getInstance();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -52,11 +52,11 @@ public class RegistrationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		String name = req.getParameter(NAME_ID);
-		String lastName = req.getParameter(LASTNAME_ID);
+		String name = req.getParameter(FIRST_NAME_ID);
+		String lastName = req.getParameter(LAST_NAME_ID);
 		String email = req.getParameter(EMAIL_ID);
 		String password = req.getParameter(PASSWORD_ID);
-		String secondPassword = req.getParameter(SECONDPASSWORD_ID);
+		String secondPassword = req.getParameter(SECOND_PASSWORD_ID);
 		String birthday = req.getParameter(BIRTHDAY_ID);
 
 		List<Boolean> errors = new LinkedList<Boolean>();
@@ -102,8 +102,8 @@ public class RegistrationServlet extends HttpServlet {
 
 	private void setAttributes(HttpServletRequest req, String name,
 			String lastName, String email, String birthday) {
-		setAttribute(req, NAME_ID, name);
-		setAttribute(req, LASTNAME_ID, lastName);
+		setAttribute(req, FIRST_NAME_ID, name);
+		setAttribute(req, LAST_NAME_ID, lastName);
 		setAttribute(req, EMAIL_ID, email);
 		setAttribute(req, BIRTHDAY_ID, birthday);
 	}

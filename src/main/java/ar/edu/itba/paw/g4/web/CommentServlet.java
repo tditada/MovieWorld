@@ -18,9 +18,11 @@ import ar.edu.itba.paw.g4.web.filter.UserFilter;
 
 @SuppressWarnings("serial")
 public class CommentServlet extends HttpServlet {
-	private static String COMMENTTEXT_ID = "commentText";
+	private static final String COMMENT_TEXT_ID = "commentText";
+	private static final String COMMENT_SCORE_ID = "commentScore";
 
-	private CommentService commentService = CommentServiceImpl.getInstance();
+	private final CommentService commentService = CommentServiceImpl
+			.getInstance();
 
 	@Override
 	protected void doPost(HttpServletRequest request,
@@ -28,8 +30,8 @@ public class CommentServlet extends HttpServlet {
 		Movie movie = (Movie) request.getAttribute(MovieServlet.MOVIE_ID);
 
 		User user = (User) (request.getAttribute(UserFilter.USER_ID));
-		String text = request.getParameter(COMMENTTEXT_ID);
-		Integer score = Integer.valueOf(request.getParameter("commentScore"));
+		String text = request.getParameter(COMMENT_TEXT_ID);
+		Integer score = Integer.valueOf(request.getParameter(COMMENT_SCORE_ID));
 		DateTime creationDate = DateTime.now();
 
 		Comment comment = Comment.builder().withMovie(movie).withUser(user)

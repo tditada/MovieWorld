@@ -21,7 +21,7 @@ public class MovieHomeServlet extends HttpServlet {
 	private static final int TOP_MOVIES_QUANTITY = 5;
 	private static final int NEW_ADDITIONS_QUANTITY = 5;
 
-	private MovieService movieService = MovieServiceImpl.getInstance();
+	private final MovieService movieService = MovieServiceImpl.getInstance();
 
 	@Override
 	protected void doGet(HttpServletRequest request,

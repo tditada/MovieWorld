@@ -46,6 +46,7 @@ public class MovieServiceImpl implements MovieService {
 		return movieDAO.getNewestNByCreationDate(quantity);
 	}
 
+	@Override
 	public List<Movie> getTopMovies(int quantity) {
 		checkArgument(quantity > 0);
 		List<Movie> movies = movieDAO.getAllInOrderByTotalScore(Orderings.DESC);
@@ -63,7 +64,6 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public List<Movie> getAllMoviesByDirector(Director director) {
 		checkArgument(director, notNull());
-		// TODO: tiene sentido aca chequear si existe o no el director?
 		return movieDAO.getAllByDirector(director);
 	}
 

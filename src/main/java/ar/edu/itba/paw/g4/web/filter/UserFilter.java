@@ -17,15 +17,15 @@ import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
 
 public class UserFilter implements Filter {
-	public UserService userService = UserServiceImpl.getInstance();
-	public static String NAME_ID = "firstname";
-	public static String LASTNAME_ID = "lastname";
-	public static String EMAIL_ID = "email";
-	public static String PASS_ID = "password";
-	// private static String PASS2_ID = "secondPassword";
-	public static String BIRTHDAY_ID = "birthday";
+	private static final String FIRST_NAME_ID = "firstname";
+	private static final String LAST_NAME_ID = "lastname";
+	private static final String EMAIL_ID = "email";
+	private static final String PASS_ID = "password";
+	private static final String BIRTHDAY_ID = "birthday";
 
-	public static String USER_ID = "user";
+	public static final String USER_ID = "user";
+
+	private final UserService userService = UserServiceImpl.getInstance();
 
 	@Override
 	public void init(FilterConfig fil) throws ServletException {
@@ -33,7 +33,6 @@ public class UserFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		// Auto-generated method stub
 	}
 
 	@Override
@@ -55,8 +54,8 @@ public class UserFilter implements Filter {
 	}
 
 	private boolean SessionAttributesAreNull(HttpSession session) {
-		return session.getAttribute(NAME_ID) == null
-				&& session.getAttribute(LASTNAME_ID) == null
+		return session.getAttribute(FIRST_NAME_ID) == null
+				&& session.getAttribute(LAST_NAME_ID) == null
 				&& session.getAttribute(EMAIL_ID) == null
 				&& session.getAttribute(PASS_ID) == null
 				&& session.getAttribute(BIRTHDAY_ID) == null;
