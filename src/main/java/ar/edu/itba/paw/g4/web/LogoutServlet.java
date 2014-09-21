@@ -18,8 +18,8 @@ public class LogoutServlet extends HttpServlet {
 	private static String BIRTHDAY_ID = "birthday";
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		session.setAttribute(NAME_ID, null);
 		session.setAttribute(EMAIL_ID, null);
