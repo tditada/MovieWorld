@@ -109,9 +109,8 @@
 			<div class="panel-heading">
 				<h4 class="panel-title">Write a Comment</h4>
 			</div>
-			</p>
-			<dl class="dl-horizontal">
-				<form role="form" action="comment" method="POST">
+			<form role="form" action="comment" method="POST">
+				<dl class="dl-horizontal">
 					<dt>Score</dt>
 					<dd>
 						<div class="form-group">
@@ -132,8 +131,8 @@
 						<input type="submit" name="submit" id="submit" value="Submit"
 							class="btn btn-info center">
 					</dd>
-				</form>
-			</dl>
+				</dl>
+			</form>
 		</div>
 	</c:if>
 </div>
