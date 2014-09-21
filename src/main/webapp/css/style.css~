@@ -14,12 +14,13 @@ span.glyphicon-link {
 	z-index: 10 !important;
 }
 
-<<<<<<< HEAD
 .ui-datepicker-month, .ui-datepicker-year{
 	color:black;
 }
-=======
 .black-link {
 	color: #333 !important;
 }
->>>>>>> 78d2444fef854dae5a519e1a036c5cea1c54acb4
+
+#commentText{
+	height: 200%;
+}

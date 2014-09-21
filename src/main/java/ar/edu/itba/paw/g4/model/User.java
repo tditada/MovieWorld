@@ -6,6 +6,8 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+import static org.apache.commons.lang3.StringUtils.isAlphaSpace;
+import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.joda.time.DateTime;
@@ -23,15 +25,19 @@ public class User extends Entity {
 	private String password;
 	private DateTime birthDate;
 
+	public static boolean isValidNonArtisticName(String name) {
+		return neitherNullNorEmpty().apply(name)
+				&& name.length() <= MAX_NAME_LENGTH && isAlphaSpace(name)
+				&& normalizeSpace(name).equals(name);
+	}
+
 	@GeneratePojoBuilder
 	public User(String firstName, String lastName, EmailAddress email,
 			String password, DateTime birthDate) {
 		checkArgument(email, notNull());
 		checkArgument(birthDate, notNull());
-		checkArgument(firstName, neitherNullNorEmpty());
-		checkArgument(firstName.length() <= MAX_NAME_LENGTH);
-		checkArgument(lastName, neitherNullNorEmpty());
-		checkArgument(lastName.length() <= MAX_NAME_LENGTH);
+		checkArgument(isValidNonArtisticName(firstName));
+		checkArgument(isValidNonArtisticName(lastName));
 		checkArgument(password, notNull());
 		checkArgument(password.length() >= MIN_PASSWORD_LENGTH
 				&& password.length() <= MAX_PASSWORD_LENGTH);

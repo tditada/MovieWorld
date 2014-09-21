@@ -1,5 +1,4 @@
 <%@ include file="header.jsp"%>
-<%@ include file="headerend.jsp"%>
 
 <%@ include file="navbarStart.jsp"%>
 <ul class="nav navbar-nav">
@@ -35,22 +34,6 @@
 								</small></td>
 							</tr>
 						</c:forEach>
-						<!-- 				<ul class="list-group"> -->
-						<%-- 					<c:forEach items="${topMovies}" var="topMovie"> --%>
-						<!-- 						<li class="list-group-item"><a -->
-						<%-- 							href="<c:out --%>
-						<%-- 								value="movies/detail?id=${topMovie.id}" />"> --%>
-						<%-- 								<c:out value="${topMovie.title}" /> --%>
-						<%-- 						</a> <c:forEach begin="1" end="${topMovie.averageScore}"> --%>
-						<!-- 								<span class="glyphicon glyphicon-star"></span> -->
-						<%-- 							</c:forEach> <c:if test="${topMovie.averageScore < 5}"> --%>
-						<%-- 								<c:forEach begin="${topMovie.averageScore}" end="4"> --%>
-						<!-- 									<span class="glyphicon glyphicon-star-empty"></span> -->
-						<%-- 								</c:forEach> --%>
-						<%-- 							</c:if> <small> <c:out value="(${topMovie.averageScore}/5)" /> --%>
-						<!-- 						</small></li> -->
-						<%-- 					</c:forEach> --%>
-						<!-- 				</ul> -->
 					</tbody>
 				</table>
 			</div>

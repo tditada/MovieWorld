@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.controller;
+package ar.edu.itba.paw.g4.web;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +16,7 @@ import ar.edu.itba.paw.g4.service.CommentService;
 import ar.edu.itba.paw.g4.service.impl.CommentServiceImpl;
 
 @SuppressWarnings("serial")
-public class UserCommentsController extends HttpServlet {
+public class UserCommentsServlet extends HttpServlet {
 	private CommentService commentService = CommentServiceImpl.getInstance();
 	private static String USER_ID = "user";
 

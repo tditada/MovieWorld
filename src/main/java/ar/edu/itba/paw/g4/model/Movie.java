@@ -23,7 +23,7 @@ public class Movie extends Entity {
 	public static final int DAYS_AS_RELEASE = 6;
 	public static final int MAX_TITLE_LENGTH = 255;
 
-	private String title;
+	private String title; // artistic name for movie, so no special rules (other than length) apply
 	private DateTime creationDate;
 	private DateTime releaseDate;
 	private List<MovieGenres> genres;
@@ -68,6 +68,10 @@ public class Movie extends Entity {
 		return totalComments;
 	}
 
+	public int getTotalScore(){
+		return totalScore;
+	}
+	
 	public int getAverageScore() {
 		if (totalComments == 0) {
 			return 0;

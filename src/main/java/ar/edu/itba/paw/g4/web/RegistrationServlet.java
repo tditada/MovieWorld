@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.controller;
+package ar.edu.itba.paw.g4.web;
 
 import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 
@@ -23,7 +23,7 @@ import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
 
 @SuppressWarnings("serial")
-public class RegistrationController extends HttpServlet {
+public class RegistrationServlet extends HttpServlet {
 	// TODO: mover y que no se pise con otros errors mismo nombre
 	private static int ERROR = -1;
 	private static int OK = 0;
@@ -38,8 +38,8 @@ public class RegistrationController extends HttpServlet {
 	private static String BASE_ERROR_ID = "error";
 
 	private static int MIN = 1;
-	private static int MIN_BIRTHDAY = 8;
-	private static int MAX_BIRTHDAY = 10;
+	private static int MIN_BIRTHDAY_STR_LEN = 8;
+	private static int MAX_BIRTHDAY_STR_LEN = 10;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -119,13 +119,15 @@ public class RegistrationController extends HttpServlet {
 		return OK;
 	}
 
-	public static boolean validateRegister(String name, String lastName,
+	private boolean validateRegister(String name, String lastName,
 			String email, String password, String secondPassword,
 			String birthday, List<Boolean> errors) {
 		validateLengthInRangeAndOther(name, MIN, User.MAX_NAME_LENGTH, errors,
-				RegistrationField.NAME.ordinal(), isAlpha(name));
+				RegistrationField.NAME.ordinal(),
+				User.isValidNonArtisticName(name));
 		validateLengthInRangeAndOther(lastName, MIN, User.MAX_NAME_LENGTH,
-				errors, RegistrationField.LASTNAME.ordinal(), isAlpha(lastName));
+				errors, RegistrationField.LASTNAME.ordinal(),
+				User.isValidNonArtisticName(lastName));
 		validateLengthInRange(email, MIN, EmailAddress.MAX_LENGTH, errors,
 				RegistrationField.EMAIL.ordinal());
 		validateLengthInRange(password, User.MIN_PASSWORD_LENGTH,
@@ -135,8 +137,9 @@ public class RegistrationController extends HttpServlet {
 				User.MAX_PASSWORD_LENGTH, errors,
 				RegistrationField.SECONDPASSWORD.ordinal(),
 				password.equals(secondPassword));
-		validateLengthInRangeAndOther(birthday, MIN_BIRTHDAY, MAX_BIRTHDAY,
-				errors, RegistrationField.BIRTHDAY.ordinal(), birthday != null);
+		validateLengthInRangeAndOther(birthday, MIN_BIRTHDAY_STR_LEN,
+				MAX_BIRTHDAY_STR_LEN, errors,
+				RegistrationField.BIRTHDAY.ordinal(), birthday != null);
 
 		return !(errors.get(LoginField.EMAIL.ordinal())
 				|| errors.get(LoginField.PASSWORD.ordinal())
@@ -146,9 +149,8 @@ public class RegistrationController extends HttpServlet {
 					.get(RegistrationField.BIRTHDAY.ordinal()));
 	}
 
-	private static void validateLengthInRangeAndOther(String param, int min,
-			int max, List<Boolean> errors, int fieldValue,
-			boolean secondValidation) {
+	private void validateLengthInRangeAndOther(String param, int min, int max,
+			List<Boolean> errors, int fieldValue, boolean secondValidation) {
 		if (!(param.length() >= min && param.length() <= max)
 				|| !secondValidation) {
 			errors.add(fieldValue, true);
@@ -157,13 +159,9 @@ public class RegistrationController extends HttpServlet {
 		}
 	}
 
-	private static void validateLengthInRange(String param, int min, int max,
+	private void validateLengthInRange(String param, int min, int max,
 			List<Boolean> errors, int fieldValue) {
 		validateLengthInRangeAndOther(param, min, max, errors, fieldValue, true);
-	}
-
-	private static boolean isAlpha(String name) {// FIXME: nombres con tilde?
-		return name.matches("[a-zA-Z]+");
 	}
 
 	private enum RegistrationField {

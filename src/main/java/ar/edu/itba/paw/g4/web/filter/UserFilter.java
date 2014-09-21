@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.filter;
+package ar.edu.itba.paw.g4.web.filter;
 
 import java.io.IOException;
 
@@ -17,15 +17,15 @@ import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
 
 public class UserFilter implements Filter {
-	private UserService userService = UserServiceImpl.getInstance();
-	private static String NAME_ID = "firstname";
-	private static String LASTNAME_ID = "lastname";
-	private static String EMAIL_ID = "email";
-	private static String PASS_ID = "password";
+	public UserService userService = UserServiceImpl.getInstance();
+	public static String NAME_ID = "firstname";
+	public static String LASTNAME_ID = "lastname";
+	public static String EMAIL_ID = "email";
+	public static String PASS_ID = "password";
 	// private static String PASS2_ID = "secondPassword";
-	private static String BIRTHDAY_ID = "birthday";
+	public static String BIRTHDAY_ID = "birthday";
 
-	private static String USER_ID = "user";
+	public static String USER_ID = "user";
 
 	@Override
 	public void init(FilterConfig fil) throws ServletException {

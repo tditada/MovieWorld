@@ -3,63 +3,72 @@
 	<!-- Servlets -->
 	<servlet>
 		<servlet-name>Index</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.IndexController
+		<servlet-class>ar.edu.itba.paw.g4.web.IndexServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>MoviesHome</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.MovieHomeController
+		<servlet-class>ar.edu.itba.paw.g4.web.MovieHomeServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>MovieList</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.MovieListController
+		<servlet-class>ar.edu.itba.paw.g4.web.MovieListServlet
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>Comment</servlet-name>
+		<servlet-class>ar.edu.itba.paw.g4.web.CommentServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>MovieDetail</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.MovieDetailController
+		<servlet-class>ar.edu.itba.paw.g4.web.MovieServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Login</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.LoginController
+		<servlet-class>ar.edu.itba.paw.g4.web.LoginServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Logout</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.LogoutController
+		<servlet-class>ar.edu.itba.paw.g4.web.LogoutServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Registration</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.RegistrationController
+		<servlet-class>ar.edu.itba.paw.g4.web.RegistrationServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Error</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.ErrorController
+		<servlet-class>ar.edu.itba.paw.g4.web.ErrorServlet
 		</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>UserComments</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.controller.UserCommentsController
+		<servlet-class>ar.edu.itba.paw.g4.web.UserCommentsServlet
 		</servlet-class>
 	</servlet>
 
 	<!-- Filters -->
 	<filter>
 		<filter-name>FatalError</filter-name>
-		<filter-class>ar.edu.itba.paw.g4.filter.FatalErrorFilter
+		<filter-class>ar.edu.itba.paw.g4.web.filter.FatalErrorFilter
 		</filter-class>
 	</filter>
 	<filter>
 		<filter-name>HomeFilter</filter-name>
-		<filter-class>ar.edu.itba.paw.g4.filter.HomeFilter</filter-class>
+		<filter-class>ar.edu.itba.paw.g4.web.filter.HomeFilter</filter-class>
 	</filter>
 	<filter>
 		<filter-name>UserFilter</filter-name>
-		<filter-class>ar.edu.itba.paw.g4.filter.UserFilter</filter-class>
+		<filter-class>ar.edu.itba.paw.g4.web.filter.UserFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>LastMovieFilter</filter-name>
+		<filter-class>ar.edu.itba.paw.g4.web.filter.LastMovieFilter</filter-class>
 	</filter>
 
 	<!-- Mappings -->
@@ -75,6 +84,10 @@
 		<filter-name>UserFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<filter-mapping>
+		<filter-name>LastMovieFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	<servlet-mapping>
 		<servlet-name>Index</servlet-name>
 		<url-pattern>/index</url-pattern>
@@ -82,6 +95,10 @@
 	<servlet-mapping>
 		<servlet-name>MoviesHome</servlet-name>
 		<url-pattern>/home</url-pattern>
+	</servlet-mapping>
+		<servlet-mapping>
+		<servlet-name>Comment</servlet-name>
+		<url-pattern>/comment</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>MovieList</servlet-name>

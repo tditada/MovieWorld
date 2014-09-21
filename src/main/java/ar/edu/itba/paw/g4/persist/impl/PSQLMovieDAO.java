@@ -65,12 +65,12 @@ public class PSQLMovieDAO implements MovieDAO {
 				if (!movie.isPersisted()) {
 					query = insertQuery(TABLE_NAME_ID, columns);
 				} else {
-					columns.add(ID_ATTR_ID);
-					query = updateQuery(TABLE_NAME_ID, columns);
+					query = updateQuery(TABLE_NAME_ID, ID_ATTR_ID, columns);
 				}
 
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						true);
+
 				statement.addParameter(movie.getTitle());
 				statement.addParameter(movie.getCreationDate());
 				statement.addParameter(movie.getReleaseDate());
@@ -78,7 +78,7 @@ public class PSQLMovieDAO implements MovieDAO {
 				statement.addParameter(movie.getDirector().getName());
 				statement.addParameter(movie.getRuntimeInMins());
 				statement.addParameter(movie.getSummary());
-				statement.addParameter(movie.getAverageScore());
+				statement.addParameter(movie.getTotalScore());
 				statement.addParameter(movie.getTotalComments());
 
 				if (movie.isPersisted()) {
@@ -209,7 +209,8 @@ public class PSQLMovieDAO implements MovieDAO {
 	}
 
 	@Override
-	public List<Movie> getAllInOrderByReleaseDateInRange(final Orderings ordering, final DateTime fromDate,
+	public List<Movie> getAllInOrderByReleaseDateInRange(
+			final Orderings ordering, final DateTime fromDate,
 			final DateTime toDate) {
 		checkArgument(fromDate, notNull());
 		checkArgument(toDate, notNull());
@@ -236,10 +237,8 @@ public class PSQLMovieDAO implements MovieDAO {
 		return connection.run();
 	}
 
-	public List<Movie> getAllInOrderByAverageScore(Orderings ordering,
-			final int quantity) {
+	public List<Movie> getAllInOrderByTotalScore(Orderings ordering) {
 		checkArgument(ordering, notNull());
-		checkArgument(quantity >= 0);
 
 		DatabaseConnection<List<Movie>> connection = new DatabaseConnection<List<Movie>>() {
 
@@ -247,11 +246,9 @@ public class PSQLMovieDAO implements MovieDAO {
 			protected List<Movie> handleConnection(Connection connection)
 					throws SQLException {
 				String query = "SELECT * FROM " + TABLE_NAME_ID + " ORDER BY "
-						+ TOTAL_SCORE_ID + " " + asSQLOrdering(Orderings.DESC)
-						+ " LIMIT ?";
+						+ TOTAL_SCORE_ID + " " + asSQLOrdering(Orderings.DESC);
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
-				statement.addParameter(quantity);
 
 				ResultSet results = statement.executeQuery();
 				return getMoviesFromResults(results);

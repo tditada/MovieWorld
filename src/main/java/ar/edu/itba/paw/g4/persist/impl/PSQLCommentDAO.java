@@ -54,21 +54,21 @@ public class PSQLCommentDAO implements CommentDAO {
 				if (!comment.isPersisted()) {
 					query = insertQuery(COMMENT_TABLE_ID, columns);
 				} else {
-					columns.add(ID_ATTR_ID);
-					query = updateQuery(COMMENT_TABLE_ID, columns);
+					query = updateQuery(COMMENT_TABLE_ID, ID_ATTR_ID, columns);
 				}
 
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						true);
+
+				if (comment.isPersisted()) {
+					statement.addParameter(comment.getId());
+				}
+				
 				statement.addParameter(comment.getScore());
 				statement.addParameter(comment.getText());
 				statement.addParameter(comment.getCreationDate());
 				statement.addParameter(comment.getUser().getId());
 				statement.addParameter(comment.getMovie().getId());
-
-				if (comment.isPersisted()) {
-					statement.addParameter(comment.getId());
-				}
 
 				int result = statement.executeUpdate();
 

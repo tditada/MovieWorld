@@ -1,12 +1,10 @@
-<%@ page contentType="text/html"%>
-<%@ page pageEncoding="UTF-8"%>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags"%>
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
+<meta charset=UTF-8>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MovieWorld</title>
@@ -34,5 +32,5 @@
 <script type="text/javascript" src="js/enable-bootstrap-select.js"></script>
 <script type="text/javascript" src="js/enable-datepickers.js"></script>
 <script type="text/javascript" src="js/logout.js"></script>
-<!-- </head> -->
-<!-- <body> -->
+</head>
+<body>

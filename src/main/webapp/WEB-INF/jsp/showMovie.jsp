@@ -1,11 +1,17 @@
 <%@ include file="header.jsp"%>
-<%@ include file="headerend.jsp"%>
 
 <%@ include file="navbarStart.jsp"%>
+<ul class="nav navbar-nav">
+	<li><a href="<c:out value="movies/list"/>">All movies</a></li>
+</ul>
 <%@ include file="userMenu.jsp"%>
 <%@ include file="navbarEnd.jsp"%>
 
 <div class="container">
+	<form>
+		<input type="hidden" id="commentMovie" name="commentMovie"
+			value="${movie.id}">
+	</form>
 	<div class="page-header">
 		<h1>
 			<c:out value="${movie.title}" />
@@ -60,8 +66,83 @@
 					</p>
 				</dd>
 			</dl>
+
 		</div>
 	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<c:choose>
+					<c:when test="${movie.totalComments > 0}">
+						<c:out value="${movie.totalComments} Comments" />
+					</c:when>
+					<c:otherwise>No Comments</c:otherwise>
+				</c:choose>
+			</h3>
+		</div>
+		<c:forEach items="${comments}" var="comment">
+			<div class="panel-body">
+				<dl class="dl-horizontal">
+					<dt>User</dt>
+					<dd>
+						<c:out value="${comment.user.firstName} ${comment.user.lastName}" />
+					</dd>
+					<dt>Score</dt>
+					<dd>
+						<c:forEach begin="1" end="${comment.score}">
+							<span class="glyphicon glyphicon-star"></span>
+						</c:forEach>
+						<c:if test="${comment.score < 5}">
+							<c:forEach begin="${comment.score}" end="4">
+								<span class="glyphicon glyphicon-star-empty"></span>
+							</c:forEach>
+						</c:if>
+						<small><c:out value="(${comment.score}/5)"></c:out></small>
+					</dd>
+					<dt>Date</dt>
+					<dd>
+						<joda:format value="${comment.creationDate}" style="M-" />
+					</dd>
+					<dt>Comment</dt>
+					<dd>
+						<c:out value="${comment.text}" />
+					</dd>
+				</dl>
+			</div>
+		</c:forEach>
+	</div>
+	<c:if test="${not empty user && ableToComment}">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">Write a Comment</h4>
+			</div>
+			<form role="form" action="comment" method="POST">
+				<dl class="dl-horizontal">
+					<dt>Score</dt>
+					<dd>
+						<div class="form-group">
+							<div class="input-group">
+								<input type="number" min="1" max="5" class="form-control"
+									name="commentScore" id="commentScore" required>
+							</div>
+						</div>
+					</dd>
+					<dt>Comment</dt>
+					<dd>
+						<div class="form-group">
+							<textarea name="commentText" id="commentText"
+								class="form-control input-lg" placeholder="Comment" rows=5>
+								</textarea>
+						</div>
+					</dd>
+					<dd>
+						<input type="submit" name="submit" id="submit" value="Submit"
+							class="btn btn-info center">
+					</dd>
+				</dl>
+			</form>
+		</div>
+	</c:if>
 </div>
 
 <%@ include file="footer.jsp"%>

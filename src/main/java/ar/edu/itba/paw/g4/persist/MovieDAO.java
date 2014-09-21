@@ -23,7 +23,7 @@ public interface MovieDAO extends GenericDAO<Movie> {
 	public List<Movie> getAllInOrderByReleaseDateInRange(Orderings ordering, DateTime fromDate,
 			DateTime toDate);
 
-	public List<Movie> getAllInOrderByAverageScore(Orderings ordering, int quantity);
+	public List<Movie> getAllInOrderByTotalScore(Orderings ordering);
 
 	public List<Director> getAllDirectorsOrderedByName(Orderings ordering);
 

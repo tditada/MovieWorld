@@ -2,8 +2,10 @@ package ar.edu.itba.paw.g4.service.impl;
 
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+import static com.google.common.collect.FluentIterable.from;
 import static org.joda.time.DateTime.now;
 
+import java.util.Comparator;
 import java.util.List;
 
 import ar.edu.itba.paw.g4.enums.MovieGenres;
@@ -46,7 +48,16 @@ public class MovieServiceImpl implements MovieService {
 
 	public List<Movie> getTopMovies(int quantity) {
 		checkArgument(quantity > 0);
-		return movieDAO.getAllInOrderByAverageScore(Orderings.DESC, quantity);
+		List<Movie> movies = movieDAO.getAllInOrderByTotalScore(Orderings.DESC);
+		List<Movie> topMovies = from(movies).toSortedList(
+				new Comparator<Movie>() {
+					@Override
+					public int compare(Movie movie1, Movie movie2) {
+						return movie2.getAverageScore()
+								- movie1.getAverageScore();
+					}
+				}).subList(0, quantity);
+		return topMovies;
 	}
 
 	@Override
@@ -76,5 +87,4 @@ public class MovieServiceImpl implements MovieService {
 	public List<Director> getAllDirectors() {
 		return movieDAO.getAllDirectorsOrderedByName(Orderings.ASC);
 	}
-
 }
