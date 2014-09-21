@@ -8,10 +8,10 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isAlphaSpace;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
-import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.g4.model.builder.UserBuilder;
 import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class User extends Entity {
@@ -31,7 +31,7 @@ public class User extends Entity {
 				&& normalizeSpace(name).equals(name);
 	}
 
-	@GeneratePojoBuilder
+	// @GeneratePojoBuilder
 	public User(String firstName, String lastName, EmailAddress email,
 			String password, DateTime birthDate) {
 		checkArgument(email, notNull());

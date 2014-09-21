@@ -11,19 +11,19 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.List;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
-
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
 import ar.edu.itba.paw.g4.enums.MovieGenres;
+import ar.edu.itba.paw.g4.model.builder.MovieBuilder;
 import ar.edu.itba.paw.g4.util.persist.Entity;
 
 public class Movie extends Entity {
 	public static final int DAYS_AS_RELEASE = 6;
 	public static final int MAX_TITLE_LENGTH = 255;
 
-	private String title; // artistic name for movie, so no special rules (other than length) apply
+	private String title; // artistic name for movie, so no special rules (other
+							// than length) apply
 	private DateTime creationDate;
 	private DateTime releaseDate;
 	private List<MovieGenres> genres;
@@ -33,7 +33,7 @@ public class Movie extends Entity {
 	private int totalScore;
 	private int totalComments;
 
-	@GeneratePojoBuilder
+	// @GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
 			List<MovieGenres> genres, Director director, int runtimeInMins,
 			String summary, int totalScore, int totalComments) {
@@ -68,10 +68,10 @@ public class Movie extends Entity {
 		return totalComments;
 	}
 
-	public int getTotalScore(){
+	public int getTotalScore() {
 		return totalScore;
 	}
-	
+
 	public int getAverageScore() {
 		if (totalComments == 0) {
 			return 0;

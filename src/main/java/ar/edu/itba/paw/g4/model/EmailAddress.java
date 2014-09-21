@@ -8,7 +8,7 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.regex.Pattern;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import ar.edu.itba.paw.g4.model.builder.EmailAddressBuilder;
 
 public class EmailAddress {
 	public static final int MAX_LENGTH = 100;
@@ -30,7 +30,7 @@ public class EmailAddress {
 		return new EmailAddress(parts[0], parts[1]);
 	}
 
-	@GeneratePojoBuilder
+	// @GeneratePojoBuilder
 	public EmailAddress(String localPart, String domainPart) {
 		checkArgument(localPart, neitherNullNorEmpty());
 		checkArgument(domainPart, neitherNullNorEmpty());

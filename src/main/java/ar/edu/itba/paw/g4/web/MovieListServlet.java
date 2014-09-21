@@ -25,7 +25,7 @@ public class MovieListServlet extends HttpServlet {
 	private static final String FILTER_BY_GENRE_ID = "genre";
 	private static final String FILTER_BY_DIRECTOR_ID = "director";
 
-	private MovieService movieService = MovieServiceImpl.getInstance();
+	private final MovieService movieService = MovieServiceImpl.getInstance();
 
 	@Override
 	protected void doGet(HttpServletRequest request,
