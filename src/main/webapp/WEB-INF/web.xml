@@ -59,6 +59,11 @@
 		</filter-class>
 	</filter>
 	<filter>
+		<filter-name>Encoding</filter-name>
+		<filter-class>ar.edu.itba.paw.g4.web.filter.EncodingFilter
+		</filter-class>
+	</filter>
+	<filter>
 		<filter-name>HomeFilter</filter-name>
 		<filter-class>ar.edu.itba.paw.g4.web.filter.HomeFilter</filter-class>
 	</filter>
@@ -79,6 +84,10 @@
 	<filter-mapping>
 		<filter-name>HomeFilter</filter-name>
 		<url-pattern>/</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>UserFilter</filter-name>
