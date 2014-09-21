@@ -1,5 +1,4 @@
 <%@ include file="header.jsp"%>
-<%@ include file="headerend.jsp"%>
 
 <%@ include file="navbarStart.jsp"%>
 <ul class="nav navbar-nav">

@@ -1,5 +1,4 @@
 <%@ include file="header.jsp"%>
-<%@ include file="headerend.jsp"%>
 
 <%@ include file="navbarStart.jsp"%>
 <ul class="nav navbar-nav">
@@ -86,8 +85,7 @@
 				<dl class="dl-horizontal">
 					<dt>User</dt>
 					<dd>
-						<c:out value="${comment.user.firstName}" />
-						<c:out value=" ${comment.user.lastName}" />
+						<c:out value="${comment.user.firstName} ${comment.user.lastName}" />
 					</dd>
 					<dt>Score</dt>
 					<dd>
@@ -99,6 +97,7 @@
 								<span class="glyphicon glyphicon-star-empty"></span>
 							</c:forEach>
 						</c:if>
+						<small><c:out value="(${comment.score}/5)"></c:out></small>
 					</dd>
 					<dt>Date</dt>
 					<dd>

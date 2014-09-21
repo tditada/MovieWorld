@@ -32,5 +32,5 @@
 <script type="text/javascript" src="js/enable-bootstrap-select.js"></script>
 <script type="text/javascript" src="js/enable-datepickers.js"></script>
 <script type="text/javascript" src="js/logout.js"></script>
-<!-- </head> -->
-<!-- <body> -->
+</head>
+<body>

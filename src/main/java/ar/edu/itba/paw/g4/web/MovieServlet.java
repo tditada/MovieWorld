@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.servlet;
+package ar.edu.itba.paw.g4.web;
 
 import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 
@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Comment;
@@ -23,9 +25,10 @@ import ar.edu.itba.paw.g4.service.impl.MovieServiceImpl;
 public class MovieServlet extends HttpServlet {
 	public static final String MOVIE_PARAM_ID = "id";
 	public static final String MOVIE_ID = "movie";
-	public static final String COMMENTLIST_ID ="comments";
-//	public static String LAST_MOVIE="lastMovie";
-	public static final String ABLETOCOMMENT_ID="ableToComment";
+	public static final String COMMENT_LIST_ID = "comments";
+	private static final String USER_ID = "user";
+	// public static String LAST_MOVIE="lastMovie";
+	public static final String ABLE_TO_COMMENT_ID = "ableToComment";
 
 	private MovieService movieService = MovieServiceImpl.getInstance();
 	private CommentService commentService = CommentServiceImpl.getInstance();
@@ -43,30 +46,34 @@ public class MovieServlet extends HttpServlet {
 																		 */
 		}
 		int movieId = Integer.valueOf(movieIdParam);
-		try{
-		Movie movie = movieService.getMovieById(movieId);
-		List<Comment> comments=commentService.getCommentsFor(movie);
-		request.setAttribute(COMMENTLIST_ID, comments);
-		request.setAttribute(MOVIE_ID, movie);
-		request.getSession().setAttribute(MOVIE_ID, movie);
-		request.setAttribute(ABLETOCOMMENT_ID, true);
-		
-		for(int i=0;i< comments.size();i++){
-			Comment comment = comments.get(i);
-			User user=comment.getUser();
-			User requestUser=(User)request.getAttribute("user");
-			if(requestUser!=null && user.getId().equals(requestUser.getId())){
-				request.setAttribute(ABLETOCOMMENT_ID, false);
+		try {
+			Movie movie = movieService.getMovieById(movieId);
+			List<Comment> comments = commentService.getCommentsFor(movie);
+			request.setAttribute(COMMENT_LIST_ID, comments);
+			request.setAttribute(MOVIE_ID, movie);
+			request.getSession().setAttribute(MOVIE_ID, movie);
+
+			boolean canComment = movie.getReleaseDate().isAfter(DateTime.now());
+			request.setAttribute(ABLE_TO_COMMENT_ID, canComment);
+
+			if (canComment) {
+				for (Comment comment : comments) {
+					User user = comment.getUser();
+					User requestUser = (User) request.getAttribute(USER_ID);
+					if (requestUser != null
+							&& user.getId().equals(requestUser.getId())) {
+						request.setAttribute(ABLE_TO_COMMENT_ID, false);
+					}
+				}
 			}
-		}
-		
-		request.getRequestDispatcher("/WEB-INF/jsp/showMovie.jsp").forward(
-				request, response);
-		}catch(ServiceException e){
-			manageError(e,request,response);
+
+			request.getRequestDispatcher("/WEB-INF/jsp/showMovie.jsp").forward(
+					request, response);
+		} catch (ServiceException e) {
+			manageError(e, request, response);
 		}
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

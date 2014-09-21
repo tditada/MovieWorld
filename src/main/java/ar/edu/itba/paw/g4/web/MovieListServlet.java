@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.servlet;
+package ar.edu.itba.paw.g4.web;
 
 import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.filter;
+package ar.edu.itba.paw.g4.web.filter;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import ar.edu.itba.paw.g4.model.Movie;
-import ar.edu.itba.paw.g4.servlet.MovieServlet;
+import ar.edu.itba.paw.g4.web.MovieServlet;
 
 public class LastMovieFilter implements Filter {
 

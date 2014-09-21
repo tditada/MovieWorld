@@ -1,5 +1,4 @@
 <%@ include file="header.jsp"%>
-<%@ include file="headerend.jsp"%>
 
 <%@ include file="navbarStart.jsp"%>
 <form class="navbar-form navbar-left" role="search" action="movies/list"
@@ -22,7 +21,7 @@
 				</option>
 			</c:forEach>
 		</select>
-		<button type="submit" class="btn btn-default">Apply filters</button>
+		<button type="submit" class="btn btn-default">Apply filter</button>
 	</div>
 </form>
 <%@ include file="userMenu.jsp"%>
