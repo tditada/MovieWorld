@@ -162,8 +162,9 @@ public class RegistrationServlet extends HttpServlet {
 		validateLengthInRangeAndOther(param, min, max, errors, fieldValue, true);
 	}
 
-	private static boolean isAlpha(String name) {// FIXME: nombres con tilde?
-		return name.matches("[a-zA-Z]+");
+	//FIXME: Aceptar ESPACIOS y TILDES
+	private static boolean isAlpha(String name) {
+		return name.matches("[a-zA-Z/ ]+");
 	}
 
 	private enum RegistrationField {
