@@ -109,33 +109,30 @@ public class PSQLQueryHelpers {
 		checkArgument(tableName, neitherNullNorEmpty());
 		checkArgument(columnNames, notNull(), notEmptyColl());
 
-		return "INSERT INTO " + tableName + toColumnNamesStr(columnNames)
-				+ " VALUES" + getVariablesStr(columnNames.size()) + ";";
+		String colNamesStr = "";
+		String varsStr = "";
+		for (String columnName : columnNames) {
+			colNamesStr += columnName + ",";
+			varsStr += "?,";
+		}
+		colNamesStr = colNamesStr.substring(0, colNamesStr.length() - 1);
+		varsStr = varsStr.substring(0, varsStr.length() - 1);
+
+		return "INSERT INTO " + tableName + "(" + colNamesStr + ") VALUES ("
+				+ varsStr + ");";
 	}
 
 	public static String updateQuery(String tableName, List<String> columnNames) {
 		checkArgument(tableName, neitherNullNorEmpty());
 		checkArgument(columnNames, notNull(), notEmptyColl());
 
-		return "UPDATE " + tableName + toColumnNamesStr(columnNames)
-				+ " SET VALUES" + getVariablesStr(columnNames.size()) + ";";
-	}
-
-	private static String toColumnNamesStr(List<String> columnNames) {
-		checkArgument(columnNames, notNull(), notEmptyColl());
-		String colNamesStr = "";
+		String varsAndParamsStr = "";
 		for (String columnName : columnNames) {
-			colNamesStr += columnName + ",";
+			varsAndParamsStr += columnName + "=?,";
 		}
-		return "(" + colNamesStr.substring(0, colNamesStr.length() - 1) + ")";
-	}
+		varsAndParamsStr = varsAndParamsStr.substring(0,
+				varsAndParamsStr.length() - 1);
 
-	private static String getVariablesStr(int length) {
-		checkArgument(length > 0);
-		String varsStr = "";
-		for (int i = 0; i < length; i++) {
-			varsStr += "?,";
-		}
-		return "(" + varsStr.substring(0, varsStr.length() - 1) + ")";
+		return "UPDATE " + tableName + " SET " + varsAndParamsStr + ";";
 	}
 }
