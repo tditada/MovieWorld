@@ -41,15 +41,15 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${movies}" var="movie" varStatus="status">
-					<%--<tr>TODO: queda mas lindo asi?	<td class="col-md-1">${status.index}</td> --%>
-					<td class="col-md-2"><joda:format value="${movie.releaseDate}"
-							style="M-" /></td>
-					<td class="col-md-2"><c:out value="${movie.director.name}" /></td>
-					<td class="col-md-4"><c:out value="${movie.title}" /></td>
-					<td class="col-md-1"><a
-						href="<c:out
+					<tr>
+						<td class="col-md-2"><joda:format
+								value="${movie.releaseDate}" style="M-" /></td>
+						<td class="col-md-2"><c:out value="${movie.director.name}" /></td>
+						<td class="col-md-4"><c:out value="${movie.title}" /></td>
+						<td class="col-md-1"><a
+							href="<c:out
 								value="movies/detail?id=${movie.id}" />"><span
-							class="glyphicon glyphicon-link"></span></a></td>
+								class="glyphicon glyphicon-link"></span></a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
