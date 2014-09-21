@@ -10,8 +10,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 public class Director {
 	private static final int MAX_NAME_LENGTH = 70;
 
-	private String name; // TODO: change this and User's first and last names to
-							// HumanName or sth like that
+	private String name; // artistic name, so no special conditions apply here
 
 	@GeneratePojoBuilder
 	public Director(String name) {

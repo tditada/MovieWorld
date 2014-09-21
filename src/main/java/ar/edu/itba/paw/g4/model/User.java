@@ -25,15 +25,7 @@ public class User extends Entity {
 	private String password;
 	private DateTime birthDate;
 
-	public static boolean isValidFirstName(String name) {
-		return isValidNonArtisticName(name);
-	}
-
-	public static boolean isValidLastName(String name) {
-		return isValidNonArtisticName(name);
-	}
-
-	private static boolean isValidNonArtisticName(String name) {
+	public static boolean isValidNonArtisticName(String name) {
 		return neitherNullNorEmpty().apply(name)
 				&& name.length() <= MAX_NAME_LENGTH && isAlphaSpace(name)
 				&& normalizeSpace(name).equals(name);
@@ -44,8 +36,8 @@ public class User extends Entity {
 			String password, DateTime birthDate) {
 		checkArgument(email, notNull());
 		checkArgument(birthDate, notNull());
-		checkArgument(isValidFirstName(firstName));
-		checkArgument(isValidLastName(lastName));
+		checkArgument(isValidNonArtisticName(firstName));
+		checkArgument(isValidNonArtisticName(lastName));
 		checkArgument(password, notNull());
 		checkArgument(password.length() >= MIN_PASSWORD_LENGTH
 				&& password.length() <= MAX_PASSWORD_LENGTH);

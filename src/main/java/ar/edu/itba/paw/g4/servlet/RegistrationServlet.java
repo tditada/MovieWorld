@@ -123,9 +123,11 @@ public class RegistrationServlet extends HttpServlet {
 			String email, String password, String secondPassword,
 			String birthday, List<Boolean> errors) {
 		validateLengthInRangeAndOther(name, MIN, User.MAX_NAME_LENGTH, errors,
-				RegistrationField.NAME.ordinal(), isAlpha(name));
+				RegistrationField.NAME.ordinal(),
+				User.isValidNonArtisticName(name));
 		validateLengthInRangeAndOther(lastName, MIN, User.MAX_NAME_LENGTH,
-				errors, RegistrationField.LASTNAME.ordinal(), isAlpha(lastName));
+				errors, RegistrationField.LASTNAME.ordinal(),
+				User.isValidNonArtisticName(lastName));
 		validateLengthInRange(email, MIN, EmailAddress.MAX_LENGTH, errors,
 				RegistrationField.EMAIL.ordinal());
 		validateLengthInRange(password, User.MIN_PASSWORD_LENGTH,
@@ -162,13 +164,7 @@ public class RegistrationServlet extends HttpServlet {
 		validateLengthInRangeAndOther(param, min, max, errors, fieldValue, true);
 	}
 
-	//FIXME: Aceptar ESPACIOS y TILDES
-	private static boolean isAlpha(String name) {
-		return name.matches("[a-zA-Z/ ]+");
-	}
-
 	private enum RegistrationField {
 		NAME, LASTNAME, EMAIL, PASSWORD, SECONDPASSWORD, BIRTHDAY;
 	}
 }
-
