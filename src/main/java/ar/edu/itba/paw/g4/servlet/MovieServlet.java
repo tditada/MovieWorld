@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Movie;
+import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.CommentService;
 import ar.edu.itba.paw.g4.service.MovieService;
 import ar.edu.itba.paw.g4.service.impl.CommentServiceImpl;
@@ -24,6 +25,7 @@ public class MovieServlet extends HttpServlet {
 	public static final String MOVIE_ID = "movie";
 	public static final String COMMENTLIST_ID ="comments";
 //	public static String LAST_MOVIE="lastMovie";
+	public static final String ABLETOCOMMENT_ID="ableToComment";
 
 	private MovieService movieService = MovieServiceImpl.getInstance();
 	private CommentService commentService = CommentServiceImpl.getInstance();
@@ -47,6 +49,16 @@ public class MovieServlet extends HttpServlet {
 		request.setAttribute(COMMENTLIST_ID, comments);
 		request.setAttribute(MOVIE_ID, movie);
 		request.getSession().setAttribute(MOVIE_ID, movie);
+		request.setAttribute(ABLETOCOMMENT_ID, true);
+		
+		for(int i=0;i< comments.size();i++){
+			Comment comment = comments.get(i);
+			User user=comment.getUser();
+			User requestUser=(User)request.getAttribute("user");
+			if(requestUser!=null && user.getId().equals(requestUser.getId())){
+				request.setAttribute(ABLETOCOMMENT_ID, false);
+			}
+		}
 		
 		request.getRequestDispatcher("/WEB-INF/jsp/showMovie.jsp").forward(
 				request, response);

@@ -42,35 +42,37 @@ public class LoginServlet extends HttpServlet {
 	// TODO: Validaciones (que el jsp verifique)
 	// ¿Manejo de errores?
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			String emailParam = req.getParameter(EMAIL_ID);
+			String emailParam = request.getParameter(EMAIL_ID);
 			EmailAddress email = EmailAddress.buildFrom(emailParam);
-			String password = req.getParameter(PASS_ID);
+			String password = request.getParameter(PASS_ID);
 			List<Boolean> errors = new LinkedList<Boolean>();
 
 			if (!isLoginValid(emailParam, password, errors)) {
 				for (int i = 0; i < errors.size(); i++) {
 					int fieldEnum = LoginField.values()[i].value;
-					req.setAttribute(BASE_ERROR_ID + fieldEnum, errors.get(i));
+					request.setAttribute(BASE_ERROR_ID + fieldEnum, errors.get(i));
 				}
-				req.setAttribute(EMAIL_ID, emailParam);
-				req.setAttribute(PASS_ID, password);
-				doGet(req, resp);
+				request.setAttribute(EMAIL_ID, emailParam);
+				request.setAttribute(PASS_ID, password);
+				doGet(request, response);
 			}
 
 			User user = userService.authenticate(email, password);
-			createUserSession(user, req);
-			if (req.getHeader(REFERER_ID).equals(
+			createUserSession(user, request);
+			if (request.getHeader(REFERER_ID).equals(
 					"http://localhost:8081/MovieWorld/login")) { // XXX
-				resp.sendRedirect("home");
+				String redirectUrl = ((HttpServletResponse) response)
+						.encodeRedirectURL("home");
+				((HttpServletResponse) response).sendRedirect(redirectUrl);
 
 			} else {
-				resp.sendRedirect(req.getHeader(REFERER_ID));
+				response.sendRedirect(request.getHeader(REFERER_ID));
 			}
 		} catch (ServiceException e) {
-			manageError(e, req, resp);
+			manageError(e, request, response);
 		}
 	}
 

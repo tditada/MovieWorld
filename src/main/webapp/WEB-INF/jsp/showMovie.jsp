@@ -104,7 +104,7 @@
 			</div>
 		</c:forEach>
 	</div>
-	<c:if test="${not empty user}">
+	<c:if test="${not empty user && ableToComment}">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title">Write a Comment</h4>

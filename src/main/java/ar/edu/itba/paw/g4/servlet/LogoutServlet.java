@@ -18,15 +18,17 @@ public class LogoutServlet extends HttpServlet {
 	private static String BIRTHDAY_ID = "birthday";
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = req.getSession();
+		HttpSession session = request.getSession();
 		session.setAttribute(NAME_ID, null);
 		session.setAttribute(EMAIL_ID, null);
 		session.setAttribute(LASTNAME_ID, null);
 		session.setAttribute(PASS_ID, null);
 		session.setAttribute(BIRTHDAY_ID, null);
-		resp.sendRedirect("home");
+		String redirectUrl = ((HttpServletResponse) response)
+				.encodeRedirectURL("home");
+		((HttpServletResponse) response).sendRedirect(redirectUrl);
 	}
 
 }
