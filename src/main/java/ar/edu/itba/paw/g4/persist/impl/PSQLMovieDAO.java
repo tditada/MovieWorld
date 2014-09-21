@@ -65,12 +65,16 @@ public class PSQLMovieDAO implements MovieDAO {
 				if (!movie.isPersisted()) {
 					query = insertQuery(TABLE_NAME_ID, columns);
 				} else {
-					columns.add(ID_ATTR_ID);
-					query = updateQuery(TABLE_NAME_ID, columns);
+					query = updateQuery(TABLE_NAME_ID, ID_ATTR_ID, columns);
 				}
 
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						true);
+
+				if (movie.isPersisted()) {
+					statement.addParameter(movie.getId());
+				}
+
 				statement.addParameter(movie.getTitle());
 				statement.addParameter(movie.getCreationDate());
 				statement.addParameter(movie.getReleaseDate());
@@ -80,10 +84,6 @@ public class PSQLMovieDAO implements MovieDAO {
 				statement.addParameter(movie.getSummary());
 				statement.addParameter(movie.getAverageScore());
 				statement.addParameter(movie.getTotalComments());
-
-				if (movie.isPersisted()) {
-					statement.addParameter(movie.getId());
-				}
 
 				int result = statement.executeUpdate();
 
@@ -209,7 +209,8 @@ public class PSQLMovieDAO implements MovieDAO {
 	}
 
 	@Override
-	public List<Movie> getAllInOrderByReleaseDateInRange(final Orderings ordering, final DateTime fromDate,
+	public List<Movie> getAllInOrderByReleaseDateInRange(
+			final Orderings ordering, final DateTime fromDate,
 			final DateTime toDate) {
 		checkArgument(fromDate, notNull());
 		checkArgument(toDate, notNull());
