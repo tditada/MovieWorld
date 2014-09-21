@@ -10,26 +10,24 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
-public class HomeFilter  implements Filter {
+public class HomeFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		
-		
+
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		 String redirectUrl = ((HttpServletResponse)response).encodeRedirectURL("home"); 
-		((HttpServletResponse)response).sendRedirect(redirectUrl);
-		chain.doFilter(request, response);		
+		String redirectUrl = ((HttpServletResponse) response)
+				.encodeRedirectURL("home");
+		((HttpServletResponse) response).sendRedirect(redirectUrl);
 	}
 
 	@Override
 	public void destroy() {
-		
-		
+
 	}
 
 }
