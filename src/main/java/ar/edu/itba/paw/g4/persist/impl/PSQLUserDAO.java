@@ -52,21 +52,21 @@ public class PSQLUserDAO implements UserDAO {
 				if (!user.isPersisted()) {
 					query = insertQuery(TABLE_NAME_ID, columns);
 				} else {
-					columns.add(ID_ATTR_ID);
-					query = updateQuery(TABLE_NAME_ID, columns);
+					query = updateQuery(TABLE_NAME_ID, ID_ATTR_ID, columns);
 				}
 
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						true);
+
+				if (user.isPersisted()) {
+					statement.addParameter(user.getId());
+				}
+
 				statement.addParameter(user.getFirstName());
 				statement.addParameter(user.getLastName());
 				statement.addParameter(user.getEmail().asTextAddress());
 				statement.addParameter(user.getPassword());
 				statement.addParameter(user.getBirthDate());
-
-				if (user.isPersisted()) {
-					statement.addParameter(user.getId());
-				}
 
 				int result = statement.executeUpdate();
 

@@ -110,7 +110,7 @@
 				<dd>			
 					<div class="form-group">
 		                  <div class="input-group">
-		                        <input type="number" min="1" max="5" class="form-control" name="commentScore" id="commentScore" placeholder="3" required>
+		                        <input type="number" min="1" max="5" class="form-control" name="commentScore" id="commentScore" required>
 		                    </div>
 		            </div>
 					</dd>

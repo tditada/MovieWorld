@@ -26,7 +26,7 @@ public class LogoutServlet extends HttpServlet {
 		session.setAttribute(LASTNAME_ID, null);
 		session.setAttribute(PASS_ID, null);
 		session.setAttribute(BIRTHDAY_ID, null);
-		req.getRequestDispatcher(req.getHeader("referer"));
+		resp.sendRedirect("home");
 	}
 
 }

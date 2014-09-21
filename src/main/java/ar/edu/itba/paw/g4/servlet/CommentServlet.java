@@ -25,13 +25,13 @@ public class CommentServlet extends HttpServlet {
 	private static String COMMENTTEXT_ID = "commentText";
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Movie movie=(Movie) req.getAttribute(MovieServlet.MOVIE_ID);
+		Movie movie=(Movie) request.getAttribute(MovieServlet.MOVIE_ID);
 		
-		User user=(User)(req.getAttribute(UserFilter.USER_ID));
-		String text=req.getParameter(COMMENTTEXT_ID);
-		Integer score=Integer.valueOf(req.getParameter("commentScore"));
+		User user=(User)(request.getAttribute(UserFilter.USER_ID));
+		String text=request.getParameter(COMMENTTEXT_ID);
+		Integer score=Integer.valueOf(request.getParameter("commentScore"));
 		DateTime date=DateTime.now();
 		
 		Comment comment = Comment.builder().withMovie(movie)
@@ -40,6 +40,6 @@ public class CommentServlet extends HttpServlet {
 						.withScore(score)
 						.withCreationDate(date).build();
 		commentService.addComment(comment);
-		resp.sendRedirect(resp.getHeader("referer"));
+		response.sendRedirect(request.getHeader("referer"));
 	}
 }

@@ -122,8 +122,10 @@ public class PSQLQueryHelpers {
 				+ varsStr + ");";
 	}
 
-	public static String updateQuery(String tableName, List<String> columnNames) {
+	public static String updateQuery(String tableName, String idColumnName,
+			List<String> columnNames) {
 		checkArgument(tableName, neitherNullNorEmpty());
+		checkArgument(idColumnName, neitherNullNorEmpty());
 		checkArgument(columnNames, notNull(), notEmptyColl());
 
 		String varsAndParamsStr = "";
@@ -133,6 +135,7 @@ public class PSQLQueryHelpers {
 		varsAndParamsStr = varsAndParamsStr.substring(0,
 				varsAndParamsStr.length() - 1);
 
-		return "UPDATE " + tableName + " SET " + varsAndParamsStr + ";";
+		return "UPDATE " + tableName + " SET " + varsAndParamsStr + " WHERE "
+				+ idColumnName + "=?;";
 	}
 }
