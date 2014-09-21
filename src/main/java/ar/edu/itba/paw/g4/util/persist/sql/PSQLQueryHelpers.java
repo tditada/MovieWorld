@@ -110,20 +110,16 @@ public class PSQLQueryHelpers {
 		checkArgument(columnNames, notNull(), notEmptyColl());
 
 		String colNamesStr = "";
+		String varsStr = "";
 		for (String columnName : columnNames) {
 			colNamesStr += columnName + ",";
-		}
-		colNamesStr = "(" + colNamesStr.substring(0, colNamesStr.length() - 1)
-				+ ")";
-
-		String varsStr = "";
-		for (int i = 0; i < columnNames.size(); i++) {
 			varsStr += "?,";
 		}
-		varsStr = "(" + varsStr.substring(0, varsStr.length() - 1) + ")";
+		colNamesStr = colNamesStr.substring(0, colNamesStr.length() - 1);
+		varsStr = varsStr.substring(0, varsStr.length() - 1);
 
-		return "INSERT INTO " + tableName + colNamesStr + " VALUES" + varsStr
-				+ ";";
+		return "INSERT INTO " + tableName + "(" + colNamesStr + ") VALUES ("
+				+ varsStr + ");";
 	}
 
 	public static String updateQuery(String tableName, List<String> columnNames) {
