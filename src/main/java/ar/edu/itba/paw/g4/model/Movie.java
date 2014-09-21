@@ -68,6 +68,10 @@ public class Movie extends Entity {
 		return totalComments;
 	}
 
+	public int getTotalScore(){
+		return totalScore;
+	}
+	
 	public int getAverageScore() {
 		if (totalComments == 0) {
 			return 0;

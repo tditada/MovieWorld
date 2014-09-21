@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.g4.servlet;
 
-import static ar.edu.itba.paw.g4.util.validation.Validations.validateRegister;
 import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
 
 import java.io.IOException;
@@ -16,12 +15,12 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import ar.edu.itba.paw.g4.enums.RegistrationField;
+import ar.edu.itba.paw.g4.enums.LoginField;
 import ar.edu.itba.paw.g4.exception.ServiceException;
+import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
-import ar.edu.itba.paw.g4.util.EmailAddress;
 
 @SuppressWarnings("serial")
 public class RegistrationServlet extends HttpServlet {
@@ -36,6 +35,11 @@ public class RegistrationServlet extends HttpServlet {
 	private static String PASSWORD_ID = "password";
 	private static String SECONDPASSWORD_ID = "secondPassword";
 	private static String BIRTHDAY_ID = "birthday";
+	private static String BASE_ERROR_ID = "error";
+
+	private static int MIN = 1;
+	private static int MIN_BIRTHDAY = 8;
+	private static int MAX_BIRTHDAY = 10;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -60,16 +64,17 @@ public class RegistrationServlet extends HttpServlet {
 		DateTime birthDate = new DateTime();
 		boolean dateError = false;
 		if (formatDate(req, birthDate) == ERROR) {
-			req.setAttribute("error" + RegistrationField.BIRTHDAY.value, true);
+			req.setAttribute(
+					BASE_ERROR_ID + RegistrationField.BIRTHDAY.ordinal(), true);
 			dateError = true;
 		}
 
 		if (!validateRegister(name, lastName, email, password, secondPassword,
 				birthday, errors) || dateError) {
 			for (int i = 0; i < errors.size(); i++) {
-				int fieldEnum = RegistrationField.values()[i].value;
-				if(req.getAttribute("error" + fieldEnum)==null){
-					req.setAttribute("error" + fieldEnum, errors.get(i));			
+				int fieldEnum = RegistrationField.values()[i].ordinal();
+				if (req.getAttribute(BASE_ERROR_ID + fieldEnum) == null) {
+					req.setAttribute(BASE_ERROR_ID + fieldEnum, errors.get(i));
 				}
 				if (errors.get(i)) {
 					setAttributes(req, name, lastName, email, birthday);
@@ -79,7 +84,8 @@ public class RegistrationServlet extends HttpServlet {
 			return;
 		}
 		User user = User.builder().withFirstName(name).withLastName(lastName)
-				.withPassword(password).withEmail(EmailAddress.build(email))
+				.withPassword(password)
+				.withEmail(EmailAddress.buildFrom(email))
 				.withBirthDate(birthDate).build();
 		try {
 			userservice.register(user);
@@ -112,4 +118,56 @@ public class RegistrationServlet extends HttpServlet {
 		}
 		return OK;
 	}
+
+	public static boolean validateRegister(String name, String lastName,
+			String email, String password, String secondPassword,
+			String birthday, List<Boolean> errors) {
+		validateLengthInRangeAndOther(name, MIN, User.MAX_NAME_LENGTH, errors,
+				RegistrationField.NAME.ordinal(), isAlpha(name));
+		validateLengthInRangeAndOther(lastName, MIN, User.MAX_NAME_LENGTH,
+				errors, RegistrationField.LASTNAME.ordinal(), isAlpha(lastName));
+		validateLengthInRange(email, MIN, EmailAddress.MAX_LENGTH, errors,
+				RegistrationField.EMAIL.ordinal());
+		validateLengthInRange(password, User.MIN_PASSWORD_LENGTH,
+				User.MAX_PASSWORD_LENGTH, errors,
+				RegistrationField.PASSWORD.ordinal());
+		validateLengthInRangeAndOther(secondPassword, User.MIN_PASSWORD_LENGTH,
+				User.MAX_PASSWORD_LENGTH, errors,
+				RegistrationField.SECONDPASSWORD.ordinal(),
+				password.equals(secondPassword));
+		validateLengthInRangeAndOther(birthday, MIN_BIRTHDAY, MAX_BIRTHDAY,
+				errors, RegistrationField.BIRTHDAY.ordinal(), birthday != null);
+
+		return !(errors.get(LoginField.EMAIL.ordinal())
+				|| errors.get(LoginField.PASSWORD.ordinal())
+				|| errors.get(RegistrationField.NAME.ordinal())
+				|| errors.get(RegistrationField.LASTNAME.ordinal())
+				|| errors.get(RegistrationField.SECONDPASSWORD.ordinal()) || errors
+					.get(RegistrationField.BIRTHDAY.ordinal()));
+	}
+
+	private static void validateLengthInRangeAndOther(String param, int min,
+			int max, List<Boolean> errors, int fieldValue,
+			boolean secondValidation) {
+		if (!(param.length() >= min && param.length() <= max)
+				|| !secondValidation) {
+			errors.add(fieldValue, true);
+		} else {
+			errors.add(fieldValue, false);
+		}
+	}
+
+	private static void validateLengthInRange(String param, int min, int max,
+			List<Boolean> errors, int fieldValue) {
+		validateLengthInRangeAndOther(param, min, max, errors, fieldValue, true);
+	}
+
+	private static boolean isAlpha(String name) {// FIXME: nombres con tilde?
+		return name.matches("[a-zA-Z]+");
+	}
+
+	private enum RegistrationField {
+		NAME, LASTNAME, EMAIL, PASSWORD, SECONDPASSWORD, BIRTHDAY;
+	}
 }
+

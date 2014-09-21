@@ -60,30 +60,31 @@ public class PSQLMovieDAO implements MovieDAO {
 				String query;
 				List<String> columns = Lists.newArrayList(TITLE_ID,
 						CREAT_DATE_ID, REL_DATE_ID, GENRES_ID, DIR_NAME_ID,
-						RUNTIME_ID, SUMMARY_ID, TOTAL_SCORE_ID,
-						TOTAL_COMMENTS_ID);
+						RUNTIME_ID, TOTAL_SCORE_ID,
+						TOTAL_COMMENTS_ID, SUMMARY_ID);
 				if (!movie.isPersisted()) {
 					query = insertQuery(TABLE_NAME_ID, columns);
 				} else {
-					columns.add(ID_ATTR_ID);
+					columns.add(0, ID_ATTR_ID);
+//					columns.add(ID_ATTR_ID);
 					query = updateQuery(TABLE_NAME_ID, columns);
 				}
 
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						true);
+				if (movie.isPersisted()) {
+					statement.addParameter(movie.getId());
+				}
 				statement.addParameter(movie.getTitle());
 				statement.addParameter(movie.getCreationDate());
 				statement.addParameter(movie.getReleaseDate());
 				statement.addParameter(movie.getGenres());
 				statement.addParameter(movie.getDirector().getName());
 				statement.addParameter(movie.getRuntimeInMins());
-				statement.addParameter(movie.getSummary());
-				statement.addParameter(movie.getAverageScore());
+				statement.addParameter(movie.getTotalScore());
 				statement.addParameter(movie.getTotalComments());
-
-				if (movie.isPersisted()) {
-					statement.addParameter(movie.getId());
-				}
+				statement.addParameter(movie.getSummary());
+		
 
 				int result = statement.executeUpdate();
 

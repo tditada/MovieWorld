@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.g4.filter.UserFilter;
 import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.User;
@@ -21,18 +22,24 @@ import ar.edu.itba.paw.g4.service.impl.MovieServiceImpl;
 public class CommentServlet extends HttpServlet {
 	CommentService commentService = CommentServiceImpl.getInstance();
 	MovieService movieService = MovieServiceImpl.getInstance();
+	private static String COMMENTTEXT_ID = "commentText";
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-//		(Integer.parseInt(req.getParameter("commentMovie"))
-//		Comment comment = Comment.builder().withMovie((Movie)movieService.getMovieById(Integer.valueOf(1)))
-//						.withUser((User) req.getSession().getAttribute("user"))
-//						.withText(req.getParameter("commentText"))
-//						.withScore(Integer.valueOf(req.getParameter("commentScore")))
-//						.withCreationDate(DateTime.now()).build();
-//		commentService.addComment(comment);
-		req.getRequestDispatcher(resp.getHeader("referer")).forward(
-				req, resp);
+		Movie movie=(Movie) req.getAttribute(MovieServlet.MOVIE_ID);
+		
+		User user=(User)(req.getAttribute(UserFilter.USER_ID));
+		String text=req.getParameter(COMMENTTEXT_ID);
+		Integer score=Integer.valueOf(req.getParameter("commentScore"));
+		DateTime date=DateTime.now();
+		
+		Comment comment = Comment.builder().withMovie(movie)
+						.withUser(user)
+						.withText(text)
+						.withScore(score)
+						.withCreationDate(date).build();
+		commentService.addComment(comment);
+		resp.sendRedirect(resp.getHeader("referer"));
 	}
 }

@@ -23,6 +23,7 @@ public class MovieServlet extends HttpServlet {
 	public static final String MOVIE_PARAM_ID = "id";
 	public static final String MOVIE_ID = "movie";
 	public static final String COMMENTLIST_ID ="comments";
+//	public static String LAST_MOVIE="lastMovie";
 
 	private MovieService movieService = MovieServiceImpl.getInstance();
 	private CommentService commentService = CommentServiceImpl.getInstance();
@@ -45,7 +46,8 @@ public class MovieServlet extends HttpServlet {
 		List<Comment> comments=commentService.getCommentsFor(movie);
 		request.setAttribute(COMMENTLIST_ID, comments);
 		request.setAttribute(MOVIE_ID, movie);
-
+		request.getSession().setAttribute(MOVIE_ID, movie);
+		
 		request.getRequestDispatcher("/WEB-INF/jsp/showMovie.jsp").forward(
 				request, response);
 		}catch(ServiceException e){
