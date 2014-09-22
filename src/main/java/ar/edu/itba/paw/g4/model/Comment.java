@@ -30,7 +30,7 @@ public class Comment extends Entity {
 		checkArgument(text, neitherNullNorEmpty());
 		checkArgument(user, notNull());
 		checkArgument(movie, notNull());
-		checkArgument(movie.getReleaseDate().isBefore(now()));
+		checkArgument(movie.isCommentable());
 
 		this.text = text;
 		this.score = score;

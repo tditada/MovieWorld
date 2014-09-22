@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.util.view;
+package ar.edu.itba.paw.g4.util.web;
 
 import java.io.IOException;
 

@@ -13,4 +13,6 @@ public interface CommentDAO extends GenericDAO<Comment> {
 
 	public List<Comment> getAllByUser(User user);
 
+	public List<Comment> getAllByMovieAndUser(Movie movie, User user);
+
 }

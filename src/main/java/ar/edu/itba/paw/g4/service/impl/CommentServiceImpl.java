@@ -37,11 +37,20 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
+
 		Movie movie = movieDAO.getById(comment.getMovie().getId());
 		if (movie == null) {
 			throw new ServiceException(
 					"Cannot comment on a movie not added to the system");
 		}
+
+		User user = comment.getUser();
+		if (!userCanCommentOnMovie(user, movie)) {
+			throw new ServiceException("User (id=" + user.getId()
+					+ ") has already commented on movie (id=" + movie.getId()
+					+ ")");
+		}
+
 		commentDAO.save(comment);
 		movie.addComment(comment);
 		movieDAO.save(movie);
@@ -53,4 +62,14 @@ public class CommentServiceImpl implements CommentService {
 		return commentDAO.getAllByMovie(movie);
 	}
 
+	@Override
+	public boolean userCanCommentOnMovie(User user, Movie movie) {
+		checkArgument(user, notNull());
+		checkArgument(movie, notNull());
+		if (!movie.isCommentable()) {
+			return false;
+		}
+		List<Comment> comments = commentDAO.getAllByMovieAndUser(movie, user);
+		return comments.isEmpty();
+	}
 }

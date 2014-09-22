@@ -91,6 +91,10 @@ public class Movie extends Entity {
 		return genres;
 	}
 
+	public boolean isCommentable() {
+		return DateTime.now().isAfter(releaseDate);
+	}
+
 	public Director getDirector() {
 		return director;
 	}

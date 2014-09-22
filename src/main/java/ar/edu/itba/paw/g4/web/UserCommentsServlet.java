@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
+import static ar.edu.itba.paw.g4.util.web.ErrorHelper.manageError;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.User;

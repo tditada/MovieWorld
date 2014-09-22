@@ -63,7 +63,7 @@ public class PSQLCommentDAO implements CommentDAO {
 				if (comment.isPersisted()) {
 					statement.addParameter(comment.getId());
 				}
-				
+
 				statement.addParameter(comment.getScore());
 				statement.addParameter(comment.getText());
 				statement.addParameter(comment.getCreationDate());
@@ -158,6 +158,31 @@ public class PSQLCommentDAO implements CommentDAO {
 		return connection.run();
 	}
 
+	@Override
+	public List<Comment> getAllByMovieAndUser(final Movie movie, final User user) {
+		DatabaseConnection<List<Comment>> connection = new DatabaseConnection<List<Comment>>() {
+
+			@Override
+			protected List<Comment> handleConnection(Connection connection)
+					throws SQLException {
+				String query = "SELECT * FROM " + COMMENT_TABLE_ID + " WHERE "
+						+ MOVIE_ID_ATTR_ID + "=? AND " + USER_ID_ATTR_ID + "=?";
+				PSQLStatement statement = new PSQLStatement(connection, query,
+						false);
+				statement.addParameter(movie.getId());
+				statement.addParameter(user.getId());
+
+				ResultSet results = statement.executeQuery();
+				List<Comment> comments = new LinkedList<>();
+				while (results.next()) {
+					comments.add(getCommentFromResults(results));
+				}
+				return comments;
+			}
+		};
+		return connection.run();
+	}
+
 	private Comment getCommentFromResults(ResultSet results)
 			throws SQLException {
 		Movie movie = movieDAO.getById(getInt(results, MOVIE_ID_ATTR_ID));
@@ -171,4 +196,5 @@ public class PSQLCommentDAO implements CommentDAO {
 		comment.setId(getInt(results, ID_ATTR_ID));
 		return comment;
 	}
+
 }

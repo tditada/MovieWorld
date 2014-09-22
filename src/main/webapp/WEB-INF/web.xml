@@ -2,11 +2,6 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
 	<!-- Servlets -->
 	<servlet>
-		<servlet-name>Index</servlet-name>
-		<servlet-class>ar.edu.itba.paw.g4.web.IndexServlet
-		</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>MoviesHome</servlet-name>
 		<servlet-class>ar.edu.itba.paw.g4.web.MovieHomeServlet
 		</servlet-class>
@@ -73,14 +68,15 @@
 	</filter>
 	<filter>
 		<filter-name>LastMovieFilter</filter-name>
-		<filter-class>ar.edu.itba.paw.g4.web.filter.LastMovieFilter</filter-class>
+		<filter-class>ar.edu.itba.paw.g4.web.filter.LastMovieFilter
+		</filter-class>
 	</filter>
 
 	<!-- Mappings -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>FatalError</filter-name> -->
-<!-- 		<url-pattern>/*</url-pattern> -->
-<!-- 	</filter-mapping> -->
+	<!-- <filter-mapping> -->
+	<!-- <filter-name>FatalError</filter-name> -->
+	<!-- <url-pattern>/*</url-pattern> -->
+	<!-- </filter-mapping> -->
 	<filter-mapping>
 		<filter-name>HomeFilter</filter-name>
 		<url-pattern>/</url-pattern>
@@ -98,14 +94,10 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<servlet-mapping>
-		<servlet-name>Index</servlet-name>
-		<url-pattern>/index</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>MoviesHome</servlet-name>
 		<url-pattern>/home</url-pattern>
 	</servlet-mapping>
-		<servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>Comment</servlet-name>
 		<url-pattern>/comment</url-pattern>
 	</servlet-mapping>
@@ -128,10 +120,6 @@
 	<servlet-mapping>
 		<servlet-name>Registration</servlet-name>
 		<url-pattern>/registration</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Error</servlet-name>
-		<url-pattern>/error</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>UserComments</servlet-name>

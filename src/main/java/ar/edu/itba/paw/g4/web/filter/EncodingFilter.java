@@ -9,24 +9,25 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-public class EncodingFilter implements Filter{
+public class EncodingFilter implements Filter {
+	private static final String ENCODING_ID = "UTF-8";
 
 	@Override
 	public void destroy() {
-		
+
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding(ENCODING_ID);
 		chain.doFilter(request, response);
-		
+		response.setCharacterEncoding(ENCODING_ID);
 	}
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
-		
+
 	}
 
 }

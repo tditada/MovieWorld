@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.g4.web;
 
-import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
+import static ar.edu.itba.paw.g4.util.web.ErrorHelper.manageError;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,8 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Comment;
@@ -39,11 +37,7 @@ public class MovieServlet extends HttpServlet {
 
 		String movieIdParam = request.getParameter(MOVIE_PARAM_ID);
 		if (movieIdParam == null) {
-			response.sendRedirect(response.encodeRedirectURL("index"));/*
-																		 * TODO:
-																		 * check
-																		 * !
-																		 */
+			response.sendRedirect(response.encodeRedirectURL("index"));
 		}
 		int movieId = Integer.valueOf(movieIdParam);
 		try {
@@ -53,19 +47,12 @@ public class MovieServlet extends HttpServlet {
 			request.setAttribute(MOVIE_ID, movie);
 			request.getSession().setAttribute(MOVIE_ID, movie);
 
-			boolean canComment = movie.getReleaseDate().isAfter(DateTime.now());
-			request.setAttribute(ABLE_TO_COMMENT_ID, canComment);
-
-			if (canComment) {
-				for (Comment comment : comments) {
-					User user = comment.getUser();
-					User requestUser = (User) request.getAttribute(USER_ID);
-					if (requestUser != null
-							&& user.getId().equals(requestUser.getId())) {
-						request.setAttribute(ABLE_TO_COMMENT_ID, false);
-					}
-				}
+			User user = (User) request.getAttribute(USER_ID);
+			boolean canComment = false;
+			if (user != null) {
+				canComment = commentService.userCanCommentOnMovie(user, movie);
 			}
+			request.setAttribute(ABLE_TO_COMMENT_ID, canComment);
 
 			request.getRequestDispatcher("/WEB-INF/jsp/showMovie.jsp").forward(
 					request, response);

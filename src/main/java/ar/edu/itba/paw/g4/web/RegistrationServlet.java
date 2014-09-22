@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.g4.web;
 
-import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
+import static ar.edu.itba.paw.g4.util.web.ErrorHelper.manageError;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -21,6 +21,7 @@ import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
+import ar.edu.itba.paw.g4.util.web.SessionHelper;
 
 @SuppressWarnings("serial")
 public class RegistrationServlet extends HttpServlet {
@@ -38,54 +39,61 @@ public class RegistrationServlet extends HttpServlet {
 	private static final String SECOND_PASSWORD_ID = "secondPassword";
 	private static final String BIRTHDAY_ID = "birthday";
 	private static final String BASE_ERROR_ID = "error";
+	private static final String USER_ID = "user";
 
 	private final UserService userservice = UserServiceImpl.getInstance();
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		req.getRequestDispatcher("/WEB-INF/jsp/registration.jsp").forward(req,
-				resp);
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		if (request.getAttribute(USER_ID) != null) {
+			String redirectUrl = response.encodeRedirectURL("home");
+			response.sendRedirect(redirectUrl);
+		} else {
+			request.getRequestDispatcher("/WEB-INF/jsp/registration.jsp")
+					.forward(request, response);
+		}
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-
-		String name = req.getParameter(FIRST_NAME_ID);
-		String lastName = req.getParameter(LAST_NAME_ID);
-		String email = req.getParameter(EMAIL_ID);
-		String password = req.getParameter(PASSWORD_ID);
-		String secondPassword = req.getParameter(SECOND_PASSWORD_ID);
-		String birthday = req.getParameter(BIRTHDAY_ID);
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String name = request.getParameter(FIRST_NAME_ID);
+		String lastName = request.getParameter(LAST_NAME_ID);
+		String email = request.getParameter(EMAIL_ID);
+		String password = request.getParameter(PASSWORD_ID);
+		String secondPassword = request.getParameter(SECOND_PASSWORD_ID);
+		String birthday = request.getParameter(BIRTHDAY_ID);
 
 		List<Boolean> errors = new LinkedList<Boolean>();
 
 		DateTime birthDate = new DateTime();
 		boolean dateError = false;
-		boolean emailError =false;
-		if (formatDate(req, birthDate) == ERROR) {
-			req.setAttribute(
+		boolean emailError = false;
+		if (formatDate(request, birthDate) == ERROR) {
+			request.setAttribute(
 					BASE_ERROR_ID + RegistrationField.BIRTHDAY.ordinal(), true);
 			dateError = true;
 		}
-		if(validFormatEmail(email)==ERROR){
-			emailError=true;
-			req.setAttribute(BASE_ERROR_ID + RegistrationField.EMAIL.ordinal(), true);
+		if (validFormatEmail(email) == ERROR) {
+			emailError = true;
+			request.setAttribute(
+					BASE_ERROR_ID + RegistrationField.EMAIL.ordinal(), true);
 		}
-		
+
 		if (!validateRegister(name, lastName, email, password, secondPassword,
 				birthday, errors) || dateError || emailError) {
 			for (int i = 0; i < errors.size(); i++) {
 				int fieldEnum = RegistrationField.values()[i].ordinal();
-				if (req.getAttribute(BASE_ERROR_ID + fieldEnum) == null) {
-					req.setAttribute(BASE_ERROR_ID + fieldEnum, errors.get(i));
+				if (request.getAttribute(BASE_ERROR_ID + fieldEnum) == null) {
+					request.setAttribute(BASE_ERROR_ID + fieldEnum,
+							errors.get(i));
 				}
 				if (errors.get(i)) {
-					setAttributes(req, name, lastName, email, birthday);
+					setAttributes(request, name, lastName, email, birthday);
 				}
 			}
-			doGet(req, resp);
+			doGet(request, response);
 			return;
 		}
 		User user = User.builder().withFirstName(name).withLastName(lastName)
@@ -94,10 +102,11 @@ public class RegistrationServlet extends HttpServlet {
 				.withBirthDate(birthDate).build();
 		try {
 			userservice.register(user);
-			String redirectUrl = resp.encodeRedirectURL("login");
-			resp.sendRedirect(redirectUrl);
+			SessionHelper.createUserSession(user, request);
+			String redirectUrl = response.encodeRedirectURL("home");
+			response.sendRedirect(redirectUrl);
 		} catch (ServiceException e) {
-			manageError(e, req, resp);
+			manageError(e, request, response);
 		}
 	}
 
@@ -124,10 +133,11 @@ public class RegistrationServlet extends HttpServlet {
 		}
 		return OK;
 	}
-	public int validFormatEmail(String email){
-		try{
+
+	public int validFormatEmail(String email) {
+		try {
 			EmailAddress.buildFrom(email);
-		}catch(IllegalArgumentException e){
+		} catch (IllegalArgumentException e) {
 			return ERROR;
 		}
 		return OK;

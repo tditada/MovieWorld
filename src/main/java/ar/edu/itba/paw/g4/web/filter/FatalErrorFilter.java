@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.g4.web.filter;
 
-import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
+import static ar.edu.itba.paw.g4.util.web.ErrorHelper.manageError;
 
 import java.io.IOException;
 

@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.g4.web;
 
-import static ar.edu.itba.paw.g4.util.view.ErrorHelper.manageError;
+import static ar.edu.itba.paw.g4.util.web.ErrorHelper.manageError;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import ar.edu.itba.paw.g4.enums.LoginField;
 import ar.edu.itba.paw.g4.exception.ServiceException;
@@ -18,15 +17,13 @@ import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.service.impl.UserServiceImpl;
+import ar.edu.itba.paw.g4.util.web.SessionHelper;
 
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
 	private final UserService userService = UserServiceImpl.getInstance();
-	private static final String FIRST_NAME_ID = "firstname";
-	private static final String LAST_NAME_ID = "lastname";
 	private static final String EMAIL_ID = "email";
 	private static final String PASS_ID = "password";
-	private static final String BIRTHDAY_ID = "birthday";
 
 	private static final String REFERER_ID = "referer";
 	private static final String BASE_ERROR_ID = "error";
@@ -60,7 +57,7 @@ public class LoginServlet extends HttpServlet {
 			}
 
 			User user = userService.authenticate(email, password);
-			createUserSession(user, request);
+			SessionHelper.createUserSession(user, request);
 
 			String[] splitReferer = request.getHeader(REFERER_ID).split("/");
 			String refererEnd = splitReferer[splitReferer.length - 1];
@@ -96,15 +93,6 @@ public class LoginServlet extends HttpServlet {
 		}
 		return !(errors.get(LoginField.EMAIL.value) || errors
 				.get(LoginField.PASSWORD.value));
-	}
-
-	private void createUserSession(User user, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		session.setAttribute(FIRST_NAME_ID, user.getFirstName());
-		session.setAttribute(EMAIL_ID, user.getEmail());
-		session.setAttribute(LAST_NAME_ID, user.getLastName());
-		session.setAttribute(PASS_ID, user.getPassword());
-		session.setAttribute(BIRTHDAY_ID, user.getBirthDate());
 	}
 
 }
