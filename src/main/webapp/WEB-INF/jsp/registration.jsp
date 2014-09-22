@@ -89,7 +89,7 @@
 					</c:if>
 				</div>
 				<input type="submit" name="submit" id="submit" value="Submit"
-					class="btn btn-info pull-right">
+					class="btn btn-primary pull-right">
 			</form>
 		</div>
 	</div>

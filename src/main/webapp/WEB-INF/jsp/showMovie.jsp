@@ -116,31 +116,31 @@
 			<div class="panel-heading">
 				<h4 class="panel-title">Write a Comment</h4>
 			</div>
-			<form role="form" action="comment" method="POST">
-				<dl class="dl-horizontal">
-					<dt>Score</dt>
-					<dd>
-						<div class="form-group">
-							<div class="input-group">
-								<input type="number" min="1" max="5" class="form-control"
-									name="commentScore" id="commentScore" required>
-							</div>
+			<div class="panel-body">
+				<form role="form" action="comment" method="POST">
+					<div class="form-group">
+						<label for="commentScore" class="col-sm-2 control-label">Score</label>
+						<div class="input-group">
+							<input type="number" min="1" max="5" class="form-control"
+								name="commentScore" id="commentScore" required>
 						</div>
-					</dd>
-					<dt>Comment</dt>
-					<dd>
-						<div class="form-group">
+					</div>
+					<div class="form-group">
+						<label for="commentText" class="col-sm-2 control-label">Comment</label>
+						<div class="input-group">
 							<textarea name="commentText" id="commentText"
-								class="form-control input-lg" placeholder="Comment" rows=5>
-								</textarea>
+								class="form-control" placeholder="Comment" rows=5
+								style="width: 399px; height: 120px;"></textarea>
 						</div>
-					</dd>
-					<dd>
-						<input type="submit" name="submit" id="submit" value="Submit"
-							class="btn btn-info center">
-					</dd>
-				</dl>
-			</form>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<input type="submit" name="submit" id="submit" value="Submit"
+								class="btn btn-primary">
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
 	</c:if>
 </div>
