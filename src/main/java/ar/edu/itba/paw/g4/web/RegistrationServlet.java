@@ -94,7 +94,8 @@ public class RegistrationServlet extends HttpServlet {
 				.withBirthDate(birthDate).build();
 		try {
 			userservice.register(user);
-			req.getRequestDispatcher("login").forward(req, resp);
+			String redirectUrl = resp.encodeRedirectURL("login");
+			resp.sendRedirect(redirectUrl);
 		} catch (ServiceException e) {
 			manageError(e, req, resp);
 		}
