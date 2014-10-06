@@ -11,6 +11,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
+		<!-- Spring MVC -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>4.1.1.RELEASE</version>
+		</dependency>
 		<!-- View -->
 		<dependency>
 			<groupId>joda-time</groupId>
