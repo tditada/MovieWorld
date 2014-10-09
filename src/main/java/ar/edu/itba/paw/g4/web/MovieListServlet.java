@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ar.edu.itba.paw.g4.enums.MovieGenres;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.Movie;
+import ar.edu.itba.paw.g4.model.MovieGenres;
 import ar.edu.itba.paw.g4.service.MovieService;
 import ar.edu.itba.paw.g4.service.impl.MovieServiceImpl;
 

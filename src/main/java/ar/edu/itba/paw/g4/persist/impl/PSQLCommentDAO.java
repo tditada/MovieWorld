@@ -1,6 +1,10 @@
 package ar.edu.itba.paw.g4.persist.impl;
 
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.*;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getInt;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
@@ -9,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Movie;
@@ -21,6 +27,7 @@ import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;
 
 import com.google.common.collect.Lists;
 
+@Repository
 public class PSQLCommentDAO implements CommentDAO {
 	private static final String COMMENT_TABLE_ID = "comments";
 	private static final String SCORE_ID = "score";
@@ -30,14 +37,13 @@ public class PSQLCommentDAO implements CommentDAO {
 	private static final String MOVIE_ID_ATTR_ID = "movieId";
 	private static final String ID_ATTR_ID = "commentId";
 
-	private static final CommentDAO instance = new PSQLCommentDAO();
+	private MovieDAO movieDAO;
+	private UserDAO userDAO;
 
-	public static CommentDAO getInstance() {
-		return instance;
+	PSQLCommentDAO(MovieDAO movieDAO, UserDAO userDAO) {
+		this.movieDAO = movieDAO;
+		this.userDAO = userDAO;
 	}
-
-	private static final MovieDAO movieDAO = PSQLMovieDAO.getInstance();
-	private static final UserDAO userDAO = PSQLUserDAO.getInstance();
 
 	@Override
 	public void save(final Comment comment) {
@@ -196,5 +202,4 @@ public class PSQLCommentDAO implements CommentDAO {
 		comment.setId(getInt(results, ID_ATTR_ID));
 		return comment;
 	}
-
 }

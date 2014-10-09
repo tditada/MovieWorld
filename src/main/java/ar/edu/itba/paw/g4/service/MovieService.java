@@ -2,9 +2,9 @@ package ar.edu.itba.paw.g4.service;
 
 import java.util.List;
 
-import ar.edu.itba.paw.g4.enums.MovieGenres;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.Movie;
+import ar.edu.itba.paw.g4.model.MovieGenres;
 
 public interface MovieService {
 	public List<Movie> getMovieList();

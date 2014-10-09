@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.enums;
+package ar.edu.itba.paw.g4.web;
 
 public enum LoginField {
 	EMAIL(0), PASSWORD(1);

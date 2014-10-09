@@ -5,27 +5,26 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.CommentDAO;
 import ar.edu.itba.paw.g4.persist.MovieDAO;
-import ar.edu.itba.paw.g4.persist.impl.PSQLCommentDAO;
-import ar.edu.itba.paw.g4.persist.impl.PSQLMovieDAO;
 import ar.edu.itba.paw.g4.service.CommentService;
 
+@Service
 public class CommentServiceImpl implements CommentService {
-	private static final CommentService instance = new CommentServiceImpl();
+	private CommentDAO commentDAO;
+	private MovieDAO movieDAO;
 
-	private final CommentDAO commentDAO = PSQLCommentDAO.getInstance();
-	private final MovieDAO movieDAO = PSQLMovieDAO.getInstance();
-
-	public static CommentService getInstance() {
-		return instance;
-	}
-
-	private CommentServiceImpl() {
+	@Autowired
+	CommentServiceImpl(CommentDAO commentDAO, MovieDAO movieDAO) {
+		this.commentDAO = commentDAO;
+		this.movieDAO = movieDAO;
 	}
 
 	@Override

@@ -2,23 +2,23 @@ package ar.edu.itba.paw.g4.service.impl;
 
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.UserDAO;
-import ar.edu.itba.paw.g4.persist.impl.PSQLUserDAO;
 import ar.edu.itba.paw.g4.service.UserService;
 
+@Service
 public class UserServiceImpl implements UserService {
-	private static UserService instance = new UserServiceImpl();
+	private UserDAO userDAO;
 
-	private final UserDAO userDAO = PSQLUserDAO.getInstance();
-
-	private UserServiceImpl() {
-	}
-
-	public static UserService getInstance() {
-		return instance;
+	@Autowired
+	UserServiceImpl(UserDAO userDAO) {
+		this.userDAO = userDAO;
 	}
 
 	@Override

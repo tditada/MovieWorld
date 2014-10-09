@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.UserDAO;
@@ -22,6 +24,7 @@ import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;
 
 import com.google.common.collect.Lists;
 
+@Repository
 public class PSQLUserDAO implements UserDAO {
 	private static final String TABLE_NAME_ID = "users";
 	private static final String FIRST_NAME_ID = "firstName";
@@ -30,12 +33,6 @@ public class PSQLUserDAO implements UserDAO {
 	private static final String PASSWD_ID = "password";
 	private static final String BIRTH_DATE_ID = "birthDate";
 	private static final String ID_ATTR_ID = "userId";
-
-	private static final PSQLUserDAO instance = new PSQLUserDAO();
-
-	public static PSQLUserDAO getInstance() {
-		return instance;
-	}
 
 	@Override
 	public void save(final User user) {

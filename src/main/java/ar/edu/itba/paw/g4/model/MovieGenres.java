@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.enums;
+package ar.edu.itba.paw.g4.model;
 
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import ar.edu.itba.paw.g4.util.EnumHelpers;

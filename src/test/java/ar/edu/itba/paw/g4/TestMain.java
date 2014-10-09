@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.enums.MovieGenres;
 import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.Movie;
+import ar.edu.itba.paw.g4.model.MovieGenres;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.CommentDAO;
 import ar.edu.itba.paw.g4.persist.MovieDAO;

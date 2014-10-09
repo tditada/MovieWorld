@@ -14,7 +14,6 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
-import ar.edu.itba.paw.g4.enums.MovieGenres;
 import ar.edu.itba.paw.g4.model.builder.MovieBuilder;
 import ar.edu.itba.paw.g4.util.persist.Entity;
 

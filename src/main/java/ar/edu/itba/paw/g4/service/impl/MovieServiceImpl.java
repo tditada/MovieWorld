@@ -8,24 +8,23 @@ import static org.joda.time.DateTime.now;
 import java.util.Comparator;
 import java.util.List;
 
-import ar.edu.itba.paw.g4.enums.MovieGenres;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.Movie;
+import ar.edu.itba.paw.g4.model.MovieGenres;
 import ar.edu.itba.paw.g4.persist.MovieDAO;
-import ar.edu.itba.paw.g4.persist.impl.PSQLMovieDAO;
 import ar.edu.itba.paw.g4.service.MovieService;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
+@Service
 public class MovieServiceImpl implements MovieService {
-	private static final MovieService instance = new MovieServiceImpl();
+	private MovieDAO movieDAO;
 
-	private MovieDAO movieDAO = PSQLMovieDAO.getInstance();
-
-	public static MovieService getInstance() {
-		return instance;
-	}
-
-	private MovieServiceImpl() {
+	@Autowired
+	MovieServiceImpl(MovieDAO movieDAO) {
+		this.movieDAO = movieDAO;
 	}
 
 	@Override

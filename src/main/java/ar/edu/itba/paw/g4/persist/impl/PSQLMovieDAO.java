@@ -18,10 +18,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.springframework.stereotype.Repository;
 
-import ar.edu.itba.paw.g4.enums.MovieGenres;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.Movie;
+import ar.edu.itba.paw.g4.model.MovieGenres;
 import ar.edu.itba.paw.g4.persist.MovieDAO;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 import ar.edu.itba.paw.g4.util.persist.sql.DatabaseConnection;
@@ -29,6 +30,7 @@ import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;
 
 import com.google.common.collect.Lists;
 
+@Repository
 public class PSQLMovieDAO implements MovieDAO {
 	private static final String TABLE_NAME_ID = "movies";
 	private static final String TITLE_ID = "title";
@@ -41,12 +43,6 @@ public class PSQLMovieDAO implements MovieDAO {
 	private static final String ID_ATTR_ID = "movieId";
 	private static final String TOTAL_SCORE_ID = "totalScore";
 	private static final String TOTAL_COMMENTS_ID = "totalComments";
-
-	private static final MovieDAO instance = new PSQLMovieDAO();
-
-	public static MovieDAO getInstance() {
-		return instance;
-	}
 
 	@Override
 	public void save(final Movie movie) {
