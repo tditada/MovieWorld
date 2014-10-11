@@ -1,6 +1,6 @@
-<%@ include file="header.jsp"%>
+<%@ include file="../header.jsp"%>
 
-<%@ include file="navbarStart.jsp"%>
+<%@ include file="../nav/start.jsp"%>
 <form class="navbar-form navbar-left" role="search" action="movies/list"
 	method="get">
 	<div class="form-group">
@@ -24,8 +24,8 @@
 		<button type="submit" class="btn btn-default">Apply filter</button>
 	</div>
 </form>
-<%@ include file="userMenu.jsp"%>
-<%@ include file="navbarEnd.jsp"%>
+<%@ include file="../nav/userMenu.jsp"%>
+<%@ include file="../nav/end.jsp"%>
 
 <div class="container">
 	<div class="well">
@@ -47,7 +47,7 @@
 						<td class="col-md-4"><c:out value="${movie.title}" /></td>
 						<td class="col-md-1"><a
 							href="<c:out
-								value="movies/detail?id=${movie.id}" />"><span
+								value="app/movies/detail?id=${movie.id}" />"><span
 								class="glyphicon glyphicon-link"></span></a></td>
 					</tr>
 				</c:forEach>
@@ -55,4 +55,4 @@
 		</table>
 	</div>
 </div>
-<%@ include file="footer.jsp"%>
+<%@ include file="../footer.jsp"%>

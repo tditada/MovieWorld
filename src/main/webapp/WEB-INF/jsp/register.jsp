@@ -1,14 +1,14 @@
 <%@ include file="header.jsp"%>
-<%@ include file="navbarStart.jsp"%>
+<%@ include file="nav/start.jsp"%>
 <ul class="nav navbar-nav">
-	<li><a href="<c:out value="movies/list"/>">All movies</a></li>
+	<li><a href="<c:out value="app/movies/list"/>">All movies</a></li>
 </ul>
-<%@ include file="userMenu.jsp"%>
-<%@ include file="navbarEnd.jsp"%>
+<%@ include file="nav/userMenu.jsp"%>
+<%@ include file="nav/end.jsp"%>
 <div class="container">
 	<div class="row">
 		<div class="col-lg-6">
-			<form role="form" action="registration" method="POST">
+			<form role="form" action="register" method="POST">
 				<div class="form-group">
 					<label for="firstname">Enter Name</label>
 					<div class="input-group">

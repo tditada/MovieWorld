@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.g4.web.controller;
 
-import static ar.edu.itba.paw.g4.util.web.ErrorHelpers.errorViewRedirect;
+import static ar.edu.itba.paw.g4.web.ErrorHelpers.errorViewRedirect;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class CommentController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String comment(
-			@RequestParam(value = MovieController.MOVIE_ID, required = true) Movie movie,
+			@RequestParam(value = MoviesController.MOVIE_ID, required = true) Movie movie,
 			@RequestParam(value = UserFilter.USER_ID, required = true) User user,
 			@RequestParam(value = COMMENT_TEXT_ID, required = true) String text,
 			@RequestParam(value = COMMENT_SCORE_ID, required = true) int score) {
@@ -47,7 +47,7 @@ public class CommentController {
 		commentService.addComment(comment);
 
 		// FIXME response.sendRedirect(request.getHeader("referer"));
-		return "redirect:movies/detail?" + MovieController.MOVIE_ID + "="
+		return "redirect:movies/detail?" + MoviesController.MOVIE_ID + "="
 				+ movie.getId();
 	}
 
@@ -58,7 +58,7 @@ public class CommentController {
 			List<Comment> commentList = commentService.getCommentsOf(user);
 			ModelAndView mav = new ModelAndView();
 			mav.addObject(COMMENTS_ID, commentList);
-			mav.setViewName("userComments");
+			mav.setViewName("user/comments");
 			return mav;
 		} catch (ServiceException e) {
 			return errorViewRedirect(e);

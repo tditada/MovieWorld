@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.filter.GenericFilterBean;
 
 import ar.edu.itba.paw.g4.model.Movie;
-import ar.edu.itba.paw.g4.web.controller.MovieController;
+import ar.edu.itba.paw.g4.web.controller.MoviesController;
 
 public class LastMovieFilter extends GenericFilterBean {
 
@@ -20,9 +20,9 @@ public class LastMovieFilter extends GenericFilterBean {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		Movie movie = (Movie) httpRequest.getSession().getAttribute(
-				MovieController.MOVIE_ID);
+				MoviesController.MOVIE_ID);
 		if (movie != null) {
-			httpRequest.setAttribute(MovieController.MOVIE_ID, movie);
+			httpRequest.setAttribute(MoviesController.MOVIE_ID, movie);
 		}
 		chain.doFilter(request, response);
 	}

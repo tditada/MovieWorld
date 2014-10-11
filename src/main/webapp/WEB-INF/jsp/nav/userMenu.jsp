@@ -11,10 +11,11 @@
 		<ul class="dropdown-menu" role="menu">
 			<c:choose>
 				<c:when test="${empty user}">
-					<li><a href="login">Login/Register</a></li>
+					<li><a href="app/login">Login/Register</a></li>
 				</c:when>
 				<c:otherwise>
-					<li><a href="me/comments/all">My Comments</a></li>
+					<!-- TODO: check! -->
+					<li><a href="app/me/comments/all">My Comments</a></li>
 					<li class="divider"></li>
 					<li><a class="btn-link black-link logout">Logout</a></li>
 				</c:otherwise>

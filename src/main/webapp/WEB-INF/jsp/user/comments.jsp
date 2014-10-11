@@ -1,10 +1,10 @@
-<%@ include file="header.jsp"%>
-<%@ include file="navbarStart.jsp"%>
+<%@ include file="../header.jsp"%>
+<%@ include file="../nav/start.jsp"%>
 <ul class="nav navbar-nav">
-	<li><a href="<c:out value="movies/list"/>">All movies</a></li>
+	<li><a href="<c:out value="app/movies/list"/>">All movies</a></li>
 </ul>
-<%@ include file="userMenu.jsp"%>
-<%@ include file="navbarEnd.jsp"%>
+<%@ include file="../nav/userMenu.jsp"%>
+<%@ include file="../nav/end.jsp"%>
 <div class="container">
 	<div class="row">
 		<div class="page-header">
@@ -14,7 +14,7 @@
 			<div class="panel panel-default">
 				<c:forEach items="${comments}" var="comment">
 					<div class="panel-heading">
-						<a href="<c:out	value="movies/detail?id=${comment.movie.id}" />">
+						<a href="<c:out	value="app/movies/detail?id=${comment.movie.id}" />">
 							<c:out value="${comment.movie.title}" />
 						</a>
 					</div>
@@ -46,4 +46,4 @@
 		</div>
 	</div>
 </div>
-<%@ include file="footer.jsp"%>
+<%@ include file="../footer.jsp"%>

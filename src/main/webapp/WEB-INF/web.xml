@@ -9,15 +9,9 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>spring</servlet-name>
-		<url-pattern>/bin/*</url-pattern>
-		<!-- <url-pattern>/*</url-pattern> -->
-	</servlet-mapping>
-
 	<!-- Filters -->
 	<filter>
-		<filter-name>fatalError</filter-name>
+		<filter-name>fatalErrorFilter</filter-name>
 		<filter-class>ar.edu.itba.paw.g4.web.filter.FatalErrorFilter</filter-class>
 	</filter>
 	<filter>
@@ -46,6 +40,7 @@
 		</init-param>
 	</filter>
 
+	<!-- Mappings -->
 	<filter-mapping>
 		<filter-name>homeRedirectFilter</filter-name>
 		<url-pattern>/</url-pattern>
@@ -54,13 +49,19 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- <filter-mapping> -->
-	<!-- <filter-name>userFilter</filter-name> -->
-	<!-- <url-pattern>/*</url-pattern> -->
-	<!-- </filter-mapping> -->
+	<filter-mapping>
+		<filter-name>userFilter</filter-name>
+		<url-pattern>/app/*</url-pattern>
+	</filter-mapping>
 	<filter-mapping>
 		<filter-name>lastMovieFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/app/*</url-pattern>
 	</filter-mapping>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/app/*</url-pattern>
+		<!-- <url-pattern>/*</url-pattern> -->
+	</servlet-mapping>
 
 </web-app>

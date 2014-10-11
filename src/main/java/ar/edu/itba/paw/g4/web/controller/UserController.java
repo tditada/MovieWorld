@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.g4.web.controller;
 
-import static ar.edu.itba.paw.g4.util.web.ErrorHelpers.errorViewRedirect;
+import static ar.edu.itba.paw.g4.web.ErrorHelpers.errorViewRedirect;
 import static ar.edu.itba.paw.g4.web.form.RegistrationForm.RegistrationFormFields.FIRST_NAME;
 import static ar.edu.itba.paw.g4.web.form.RegistrationForm.RegistrationFormFields.LAST_NAME;
 
@@ -47,7 +47,7 @@ public class UserController {
 		if (user != null) {
 			mav.setViewName("redirect:home");
 		} else {
-			mav.setViewName("registration");
+			mav.setViewName("register");
 		}
 		return mav;
 	}
@@ -62,7 +62,7 @@ public class UserController {
 		if (!form.isValid()) {
 			// TODO: check!
 			mav.addAllObjects(allRequestParams);
-			mav.setViewName("redirect:registration");
+			mav.setViewName("redirect:register");
 			return mav;
 		}
 

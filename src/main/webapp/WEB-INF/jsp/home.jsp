@@ -1,11 +1,11 @@
 <%@ include file="header.jsp"%>
 
-<%@ include file="navbarStart.jsp"%>
+<%@ include file="nav/start.jsp"%>
 <ul class="nav navbar-nav">
-	<li><a href="<c:out value="movies/list"/>">All movies</a></li>
+	<li><a href="<c:out value="app/movies/list"/>">All movies</a></li>
 </ul>
-<%@ include file="userMenu.jsp"%>
-<%@ include file="navbarEnd.jsp"%>
+<%@ include file="nav/userMenu.jsp"%>
+<%@ include file="nav/end.jsp"%>
 
 <div class="container">
 	<div class="row">
@@ -21,7 +21,7 @@
 							<tr>
 								<td><a
 									href="<c:out
-								value="movies/detail?id=${topMovie.id}" />">
+								value="app/movies/detail?id=${topMovie.id}" />">
 										<c:out value="${topMovie.title}" />
 								</a></td>
 								<td><c:forEach begin="1" end="${topMovie.averageScore}">
@@ -56,7 +56,7 @@
 										style="M-" /></td>
 								<td class="text-center"><a
 									href="<c:out
-								value="movies/detail?id=${newAddition.id}" />">
+								value="app/movies/detail?id=${newAddition.id}" />">
 										<c:out value="${newAddition.title}" />
 								</a></td>
 								<td class="text-center"><c:out
@@ -77,7 +77,7 @@
 						<div class="panel-heading">
 							<a
 								href="<c:out
-								value="movies/detail?id=${release.id}" />">
+								value="app/movies/detail?id=${release.id}" />">
 								<c:out value="${release.title}" />
 							</a>
 						</div>

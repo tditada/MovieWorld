@@ -1,11 +1,11 @@
-<%@ include file="header.jsp"%>
+<%@ include file="../header.jsp"%>
 
-<%@ include file="navbarStart.jsp"%>
+<%@ include file="../nav/start.jsp"%>
 <ul class="nav navbar-nav">
-	<li><a href="<c:out value="movies/list"/>">All movies</a></li>
+	<li><a href="<c:out value="app/movies/list"/>">All movies</a></li>
 </ul>
-<%@ include file="userMenu.jsp"%>
-<%@ include file="navbarEnd.jsp"%>
+<%@ include file="../nav/userMenu.jsp"%>
+<%@ include file="../nav/end.jsp"%>
 
 <div class="container">
 	<form>
@@ -30,13 +30,13 @@
 				<dd class="text-capitalize">
 					<c:forEach items="${movie.genres}" var="genre" varStatus="status">
 						<c:if test="${status.index > 0}">,</c:if>
-						<a href="<c:url value="movies/list?genre=${genre}"/>"><c:out
+						<a href="<c:url value="app/movies/list?genre=${genre}"/>"><c:out
 								value="${genre.genreName}" /></a>
 					</c:forEach>
 				</dd>
 				<dt>Director</dt>
 				<dd>
-					<c:url value="movies/list" var="directorUrl">
+					<c:url value="app/movies/list" var="directorUrl">
 						<c:param name="director" value="${movie.director.name}" />
 					</c:url>
 					<a href="${directorUrl}"><c:out value="${movie.director.name}" /></a>
@@ -145,4 +145,4 @@
 	</c:if>
 </div>
 
-<%@ include file="footer.jsp"%>
+<%@ include file="../footer.jsp"%>

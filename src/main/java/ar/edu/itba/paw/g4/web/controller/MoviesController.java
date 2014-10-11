@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.g4.web.controller;
 
-import static ar.edu.itba.paw.g4.util.web.ErrorHelpers.errorViewRedirect;
+import static ar.edu.itba.paw.g4.web.ErrorHelpers.errorViewRedirect;
 
 import java.util.List;
 
@@ -22,8 +22,8 @@ import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.CommentService;
 import ar.edu.itba.paw.g4.service.MovieService;
 
-@Controller("movies")
-public class MovieController {
+@Controller
+public class MoviesController {
 	public static final String MOVIE_PARAM_ID = "id";
 	public static final String MOVIE_ID = "movie";
 	public static final String COMMENT_LIST_ID = "comments";
@@ -40,7 +40,7 @@ public class MovieController {
 	private CommentService commentService;
 
 	@Autowired
-	MovieController(MovieService movieService, CommentService commentService) {
+	MoviesController(MovieService movieService, CommentService commentService) {
 		this.movieService = movieService;
 		this.commentService = commentService;
 	}
@@ -66,7 +66,7 @@ public class MovieController {
 			mav.addObject(GENRES_ID, MovieGenres.values());
 			mav.addObject(DIRECTORS_ID, movieService.getAllDirectors());
 			mav.addObject(MOVIES_ID, movies);
-			mav.setViewName("showMovies");
+			mav.setViewName("movies/all");
 			return mav;
 		} catch (ServiceException e) {
 			return errorViewRedirect(e);
@@ -78,7 +78,7 @@ public class MovieController {
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		if (movieId == null) {
-			mav.setViewName("redirect:index");
+			mav.setViewName("redirect:index");// TODO: check!
 			return mav;
 		}
 		try {
@@ -96,7 +96,7 @@ public class MovieController {
 			}
 			mav.addObject(CAN_COMMENT_ID, canComment);
 
-			mav.setViewName("showMovie");
+			mav.setViewName("movies/single");
 			return mav;
 		} catch (ServiceException e) {
 			return errorViewRedirect(e);
