@@ -5,13 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.service.MovieService;
 
 @Controller
-public class HomeController {
+public class GeneralController {
 	public static final String TOP_MOVIES_ID = "topMovies";
 	public static final String RELEASES_ID = "releases";
 	public static final String NEW_ADDITIONS_ID = "newAdditions";
@@ -22,12 +23,12 @@ public class HomeController {
 	private MovieService movieService;
 
 	@Autowired
-	HomeController(MovieService movieService) {
+	GeneralController(MovieService movieService) {
 		this.movieService = movieService;
 	}
 
-	@RequestMapping("home")
-	public ModelAndView show() {
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView home() {
 		List<Movie> topMovies = movieService.getTopMovies(TOP_MOVIES_QUANTITY);
 
 		ModelAndView mav = new ModelAndView();

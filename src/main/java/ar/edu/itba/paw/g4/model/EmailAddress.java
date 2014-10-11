@@ -30,6 +30,15 @@ public class EmailAddress {
 		return new EmailAddress(parts[0], parts[1]);
 	}
 
+	public static boolean isValidAddress(String address) {
+		try {
+			buildFrom(address);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	// @GeneratePojoBuilder
 	public EmailAddress(String localPart, String domainPart) {
 		checkArgument(localPart, neitherNullNorEmpty());

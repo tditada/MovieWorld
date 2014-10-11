@@ -6,6 +6,8 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+import static com.google.common.collect.BoundType.CLOSED;
+import static com.google.common.collect.Range.range;
 import static org.apache.commons.lang3.StringUtils.isAlphaSpace;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 
@@ -14,10 +16,15 @@ import org.joda.time.DateTime;
 import ar.edu.itba.paw.g4.model.builder.UserBuilder;
 import ar.edu.itba.paw.g4.util.persist.Entity;
 
+import com.google.common.collect.Range;
+
 public class User extends Entity {
 	public static final int MIN_PASSWORD_LENGTH = 10;
 	public static final int MAX_PASSWORD_LENGTH = 255;
 	public static final int MAX_NAME_LENGTH = 35;
+
+	private static final Range<Integer> PASSWORD_LENGTH_RANGE = range(
+			MIN_PASSWORD_LENGTH, CLOSED, MAX_PASSWORD_LENGTH, CLOSED);
 
 	private String firstName;
 	private String lastName;
@@ -31,6 +38,11 @@ public class User extends Entity {
 				&& normalizeSpace(name).equals(name);
 	}
 
+	public static boolean isValidPassword(String password) {
+		return notNull().apply(password)
+				&& PASSWORD_LENGTH_RANGE.contains(password.length());
+	}
+
 	// @GeneratePojoBuilder
 	public User(String firstName, String lastName, EmailAddress email,
 			String password, DateTime birthDate) {
@@ -39,8 +51,7 @@ public class User extends Entity {
 		checkArgument(isValidNonArtisticName(firstName));
 		checkArgument(isValidNonArtisticName(lastName));
 		checkArgument(password, notNull());
-		checkArgument(password.length() >= MIN_PASSWORD_LENGTH
-				&& password.length() <= MAX_PASSWORD_LENGTH);
+		checkArgument(PASSWORD_LENGTH_RANGE.contains(password.length()));
 
 		this.firstName = firstName;
 		this.lastName = lastName;
