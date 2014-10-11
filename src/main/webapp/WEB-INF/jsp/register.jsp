@@ -8,7 +8,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-6">
-			<form role="form" action="register" method="POST">
+			<form role="form" action="app/user/register" method="POST">
 				<div class="form-group">
 					<label for="firstname">Enter Name</label>
 					<div class="input-group">

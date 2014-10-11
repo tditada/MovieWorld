@@ -117,7 +117,7 @@
 				<h4 class="panel-title">Write a Comment</h4>
 			</div>
 			<div class="panel-body">
-				<form role="form" action="comment" method="POST">
+				<form role="form" action="app/comment" method="POST">
 					<div class="form-group">
 						<label for="commentScore" class="col-sm-2 control-label">Score</label>
 						<div class="input-group">

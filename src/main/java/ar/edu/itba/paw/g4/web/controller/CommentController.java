@@ -1,18 +1,12 @@
 package ar.edu.itba.paw.g4.web.controller;
 
-import static ar.edu.itba.paw.g4.web.ErrorHelpers.errorViewRedirect;
-
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.User;
@@ -23,8 +17,6 @@ import ar.edu.itba.paw.g4.web.filter.UserFilter;
 public class CommentController {
 	private static final String COMMENT_TEXT_ID = "commentText";
 	private static final String COMMENT_SCORE_ID = "commentScore";
-	private static final String USER_ID = "user";
-	private static final String COMMENTS_ID = "comments";
 
 	private CommentService commentService;
 
@@ -47,21 +39,7 @@ public class CommentController {
 		commentService.addComment(comment);
 
 		// FIXME response.sendRedirect(request.getHeader("referer"));
-		return "redirect:movies/detail?" + MoviesController.MOVIE_ID + "="
+		return "redirect:/app/movies/detail?" + MoviesController.MOVIE_ID + "="
 				+ movie.getId();
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "me/comments/all")
-	public ModelAndView userComments(
-			@RequestParam(value = USER_ID, required = true) User user) {
-		try {
-			List<Comment> commentList = commentService.getCommentsOf(user);
-			ModelAndView mav = new ModelAndView();
-			mav.addObject(COMMENTS_ID, commentList);
-			mav.setViewName("user/comments");
-			return mav;
-		} catch (ServiceException e) {
-			return errorViewRedirect(e);
-		}
 	}
 }

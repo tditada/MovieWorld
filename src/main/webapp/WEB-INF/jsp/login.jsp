@@ -6,7 +6,7 @@
 <%@ include file="nav/userMenu.jsp"%>
 <%@ include file="nav/end.jsp"%>
 <div id="form">
-	<form class="col-md-5" action="login" method="POST">
+	<form class="col-md-5" action="app/user/login" method="POST">
 		<c:if test="${error0 or error1}">
 			<p>Invalid email or password</p>
 		</c:if>
@@ -21,7 +21,7 @@
 		<div class="form-group">
 			<button class="btn btn-primary btn-lg btn-block">Sign In</button>
 			<span class="pull-right"><a
-				href="<c:url value="app/register"/>">Register</a></span>
+				href="<c:url value="app/user/register"/>">Register</a></span>
 		</div>
 	</form>
 </div>

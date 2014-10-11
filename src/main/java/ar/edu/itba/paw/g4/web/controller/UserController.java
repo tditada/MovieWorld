@@ -4,6 +4,7 @@ import static ar.edu.itba.paw.g4.web.ErrorHelpers.errorViewRedirect;
 import static ar.edu.itba.paw.g4.web.form.RegistrationForm.RegistrationFormFields.FIRST_NAME;
 import static ar.edu.itba.paw.g4.web.form.RegistrationForm.RegistrationFormFields.LAST_NAME;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.exception.ServiceException;
+import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.User;
+import ar.edu.itba.paw.g4.service.CommentService;
 import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.web.form.LoginForm;
 import ar.edu.itba.paw.g4.web.form.LoginForm.LoginFormFields;
@@ -27,6 +30,7 @@ import ar.edu.itba.paw.g4.web.form.RegistrationForm.RegistrationFormFields;
 @Controller
 public class UserController {
 	private static final String USER_ID = "user";
+	private static final String COMMENTS_ID = "comments";
 
 	private static final String FIRST_NAME_ID = "firstname";
 	private static final String LAST_NAME_ID = "lastname";
@@ -35,24 +39,26 @@ public class UserController {
 	private static final String PASS_ID = "password";
 
 	private UserService userService;
+	private CommentService commentService;
 
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(UserService userService, CommentService commentService) {
 		this.userService = userService;
+		this.commentService = commentService;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "registration")
+	@RequestMapping(method = RequestMethod.GET, value = "register")
 	public ModelAndView showRegistration(@RequestParam(USER_ID) User user) {
 		ModelAndView mav = new ModelAndView();
 		if (user != null) {
-			mav.setViewName("redirect:home");
+			mav.setViewName("redirect:/app/home");
 		} else {
 			mav.setViewName("register");
 		}
 		return mav;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "registration")
+	@RequestMapping(method = RequestMethod.POST, value = "register")
 	public ModelAndView register(
 			@RequestParam Map<String, String> allRequestParams, ModelMap model,
 			HttpSession session) {
@@ -62,7 +68,7 @@ public class UserController {
 		if (!form.isValid()) {
 			// TODO: check!
 			mav.addAllObjects(allRequestParams);
-			mav.setViewName("redirect:register");
+			mav.setViewName("redirect:/app/register");
 			return mav;
 		}
 
@@ -77,7 +83,7 @@ public class UserController {
 		try {
 			userService.register(user);
 			updateSession(user, session);
-			mav.setViewName("redirect:home");
+			mav.setViewName("redirect:/app/home");
 			return mav;
 		} catch (ServiceException e) {
 			return errorViewRedirect(e);
@@ -114,7 +120,7 @@ public class UserController {
 
 			if (!form.isValid()) {
 				mav.addAllObjects(form.getErrors());
-				mav.setViewName("redirect:login");
+				mav.setViewName("redirect:/app/login");
 				return mav;
 			}
 
@@ -136,7 +142,7 @@ public class UserController {
 
 			// return "redirect:home";
 
-			mav.setViewName("redirect:home");
+			mav.setViewName("redirect:/app/home");
 			return mav;
 		} catch (ServiceException e) {
 			return errorViewRedirect(e);
@@ -152,7 +158,21 @@ public class UserController {
 		session.setAttribute(PASS_ID, null);
 		session.setAttribute(BIRTHDAY_ID, null);
 
-		return "redirect:home";
+		return "redirect:/app/home";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "comments/all")
+	public ModelAndView userComments(
+			@RequestParam(value = USER_ID, required = true) User user) {
+		try {
+			List<Comment> commentList = commentService.getCommentsOf(user);
+			ModelAndView mav = new ModelAndView();
+			mav.addObject(COMMENTS_ID, commentList);
+			mav.setViewName("user/comments");
+			return mav;
+		} catch (ServiceException e) {
+			return errorViewRedirect(e);
+		}
 	}
 
 	private void updateSession(User user, HttpSession session) {

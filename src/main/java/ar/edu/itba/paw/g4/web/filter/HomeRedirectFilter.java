@@ -16,7 +16,7 @@ public class HomeRedirectFilter extends OncePerRequestFilter {
 			HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		String redirectUrl = httpResponse.encodeRedirectURL("home");
+		String redirectUrl = httpResponse.encodeRedirectURL("app/home");
 		httpResponse.sendRedirect(redirectUrl);
 	}
 

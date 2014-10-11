@@ -1,7 +1,7 @@
 <%@ include file="../header.jsp"%>
 
 <%@ include file="../nav/start.jsp"%>
-<form class="navbar-form navbar-left" role="search" action="movies/list"
+<form class="navbar-form navbar-left" role="search" action="app/movies/list"
 	method="get">
 	<div class="form-group">
 		<select class="selectpicker" title="Filter by genre"

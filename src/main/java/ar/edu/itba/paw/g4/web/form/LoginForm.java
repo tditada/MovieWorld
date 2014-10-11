@@ -44,7 +44,7 @@ public class LoginForm extends AbstractForm<LoginFormFields> {
 	}
 
 	public EmailAddress getEmailAddress() {
-		return EmailAddress.buildFrom(LoginFormFields.EMAIL.id);
+		return EmailAddress.buildFrom(getFieldValue(LoginFormFields.EMAIL));
 	}
 
 	public enum LoginFormFields {

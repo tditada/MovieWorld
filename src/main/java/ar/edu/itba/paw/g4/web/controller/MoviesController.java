@@ -47,8 +47,8 @@ public class MoviesController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView list(
-			@RequestParam(FILTER_BY_GENRE_ID) String genreName,
-			@RequestParam(FILTER_BY_DIRECTOR_ID) String directorName) {
+			@RequestParam(value = FILTER_BY_GENRE_ID, required = false) String genreName,
+			@RequestParam(value = FILTER_BY_DIRECTOR_ID, required = false) String directorName) {
 		try {
 			List<Movie> movies;
 			if (genreName == null && directorName == null) {
@@ -78,7 +78,7 @@ public class MoviesController {
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		if (movieId == null) {
-			mav.setViewName("redirect:index");// TODO: check!
+			mav.setViewName("redirect:/app/index");// TODO: check!
 			return mav;
 		}
 		try {
