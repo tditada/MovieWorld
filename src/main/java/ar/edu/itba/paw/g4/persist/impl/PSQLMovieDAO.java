@@ -44,6 +44,9 @@ public class PSQLMovieDAO implements MovieDAO {
 	private static final String TOTAL_SCORE_ID = "totalScore";
 	private static final String TOTAL_COMMENTS_ID = "totalComments";
 
+	public PSQLMovieDAO() {
+	}
+
 	@Override
 	public void save(final Movie movie) {
 		checkArgument(movie, notNull());

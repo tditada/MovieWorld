@@ -1,14 +1,18 @@
-package ar.edu.itba.paw.g4.web;
+package ar.edu.itba.paw.g4.web.controller;
+
+import static ar.edu.itba.paw.g4.util.web.ErrorHelpers.errorViewRedirect;
 
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.User;
@@ -24,6 +28,7 @@ public class CommentController {
 
 	private CommentService commentService;
 
+	@Autowired
 	public CommentController(CommentService commentService) {
 		this.commentService = commentService;
 	}
@@ -49,14 +54,14 @@ public class CommentController {
 	@RequestMapping(method = RequestMethod.GET, value = "me/comments/all")
 	public ModelAndView userComments(
 			@RequestParam(value = USER_ID, required = true) User user) {
-		// try {
-		List<Comment> commentList = commentService.getCommentsOf(user);
-		ModelAndView mav = new ModelAndView();
-		mav.addObject(COMMENTS_ID, commentList);
-		mav.setViewName("/WEB-INF/jsp/userComments.jsp");
-		return mav;
-		// TODO } catch (ServiceException e) {
-		// manageError(e, req, resp);
-		// }
+		try {
+			List<Comment> commentList = commentService.getCommentsOf(user);
+			ModelAndView mav = new ModelAndView();
+			mav.addObject(COMMENTS_ID, commentList);
+			mav.setViewName("userComments");
+			return mav;
+		} catch (ServiceException e) {
+			return errorViewRedirect(e);
+		}
 	}
 }

@@ -34,6 +34,9 @@ public class PSQLUserDAO implements UserDAO {
 	private static final String BIRTH_DATE_ID = "birthDate";
 	private static final String ID_ATTR_ID = "userId";
 
+	public PSQLUserDAO() {
+	}
+
 	@Override
 	public void save(final User user) {
 		checkArgument(user, notNull());

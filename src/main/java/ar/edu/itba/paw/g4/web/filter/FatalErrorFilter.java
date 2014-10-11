@@ -1,28 +1,22 @@
 package ar.edu.itba.paw.g4.web.filter;
 
-import static ar.edu.itba.paw.g4.util.web.ErrorHelper.manageError;
+import static ar.edu.itba.paw.g4.util.web.ErrorHelpers.manageError;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class FatalErrorFilter implements Filter {
+import org.springframework.web.filter.OncePerRequestFilter;
+
+public class FatalErrorFilter extends OncePerRequestFilter {
 
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-
-	}
-
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
+	protected void doFilterInternal(HttpServletRequest request,
+			HttpServletResponse response, FilterChain chain)
+			throws ServletException, IOException {
 		try {
 			chain.doFilter(request, response);
 		} catch (Exception e) {
@@ -30,11 +24,6 @@ public class FatalErrorFilter implements Filter {
 			manageError(error, (HttpServletRequest) request,
 					(HttpServletResponse) response);
 		}
-	}
-
-	@Override
-	public void destroy() {
-
 	}
 
 }

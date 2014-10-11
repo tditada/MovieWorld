@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.web;
+package ar.edu.itba.paw.g4.web.controller;
 
 import java.util.List;
 
@@ -29,9 +29,8 @@ public class GeneralController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home() {
-		List<Movie> topMovies = movieService.getTopMovies(TOP_MOVIES_QUANTITY);
-
 		ModelAndView mav = new ModelAndView();
+		List<Movie> topMovies = movieService.getTopMovies(TOP_MOVIES_QUANTITY);
 		mav.addObject(TOP_MOVIES_ID, topMovies);
 
 		List<Movie> newAdditions = movieService
@@ -41,7 +40,7 @@ public class GeneralController {
 		List<Movie> releases = movieService.getReleases();
 		mav.addObject(RELEASES_ID, releases);
 
-		mav.setViewName("/WEB-INF/jsp/moviesHome.jsp");
+		mav.setViewName("moviesHome");
 		return mav;
 	}
 }

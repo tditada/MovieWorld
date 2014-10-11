@@ -1,4 +1,6 @@
-package ar.edu.itba.paw.g4.web;
+package ar.edu.itba.paw.g4.web.controller;
+
+import static ar.edu.itba.paw.g4.util.web.ErrorHelpers.errorViewRedirect;
 
 import java.util.List;
 
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.Movie;
@@ -46,29 +49,28 @@ public class MovieController {
 	public ModelAndView list(
 			@RequestParam(FILTER_BY_GENRE_ID) String genreName,
 			@RequestParam(FILTER_BY_DIRECTOR_ID) String directorName) {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject(GENRES_ID, MovieGenres.values());
-		mav.addObject(DIRECTORS_ID, movieService.getAllDirectors());
+		try {
+			List<Movie> movies;
+			if (genreName == null && directorName == null) {
+				movies = movieService.getMovieList();
+			} else if (genreName != null) {
+				MovieGenres filterGenre = MovieGenres.valueOf(genreName);
+				movies = movieService.getAllMoviesByGenre(filterGenre);
+			} else {
+				Director director = Director.builder().withName(directorName)
+						.build();
+				movies = movieService.getAllMoviesByDirector(director);
+			}
 
-		List<Movie> movies;
-		// try {
-		if (genreName == null && directorName == null) {
-			movies = movieService.getMovieList();
-		} else if (genreName != null) {
-			MovieGenres filterGenre = MovieGenres.valueOf(genreName);
-			movies = movieService.getAllMoviesByGenre(filterGenre);
-		} else {
-			Director director = Director.builder().withName(directorName)
-					.build();
-			movies = movieService.getAllMoviesByDirector(director);
+			ModelAndView mav = new ModelAndView();
+			mav.addObject(GENRES_ID, MovieGenres.values());
+			mav.addObject(DIRECTORS_ID, movieService.getAllDirectors());
+			mav.addObject(MOVIES_ID, movies);
+			mav.setViewName("showMovies");
+			return mav;
+		} catch (ServiceException e) {
+			return errorViewRedirect(e);
 		}
-		mav.addObject(MOVIES_ID, movies);
-
-		mav.setViewName("/WEB-INF/jsp/showMovies.jsp");
-		return mav;
-		// } catch (ServiceException e) {
-		// // TODO manageError(e, request, response);
-		// }
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -79,25 +81,25 @@ public class MovieController {
 			mav.setViewName("redirect:index");
 			return mav;
 		}
-		// try {
-		Movie movie = movieService.getMovieById(movieId);
-		List<Comment> comments = commentService.getCommentsFor(movie);
-		mav.addObject(COMMENT_LIST_ID, comments);
-		mav.addObject(MOVIE_ID, movie);
+		try {
+			Movie movie = movieService.getMovieById(movieId);
+			List<Comment> comments = commentService.getCommentsFor(movie);
+			mav.addObject(COMMENT_LIST_ID, comments);
+			mav.addObject(MOVIE_ID, movie);
 
-		session.setAttribute(MOVIE_ID, movie);
+			session.setAttribute(MOVIE_ID, movie);
 
-		User user = (User) session.getAttribute(USER_ID);
-		boolean canComment = false;
-		if (user != null) {
-			canComment = commentService.userCanCommentOnMovie(user, movie);
+			User user = (User) session.getAttribute(USER_ID);
+			boolean canComment = false;
+			if (user != null) {
+				canComment = commentService.userCanCommentOnMovie(user, movie);
+			}
+			mav.addObject(CAN_COMMENT_ID, canComment);
+
+			mav.setViewName("showMovie");
+			return mav;
+		} catch (ServiceException e) {
+			return errorViewRedirect(e);
 		}
-		mav.addObject(CAN_COMMENT_ID, canComment);
-
-		mav.setViewName("/WEB-INF/jsp/showMovie.jsp");
-		return mav;
-		// } catch (ServiceException e) {
-		// TODO manageError(e, request, response);
-		// }
 	}
 }

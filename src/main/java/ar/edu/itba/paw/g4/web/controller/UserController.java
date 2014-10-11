@@ -1,5 +1,6 @@
-package ar.edu.itba.paw.g4.web;
+package ar.edu.itba.paw.g4.web.controller;
 
+import static ar.edu.itba.paw.g4.util.web.ErrorHelpers.errorViewRedirect;
 import static ar.edu.itba.paw.g4.web.form.RegistrationForm.RegistrationFormFields.FIRST_NAME;
 import static ar.edu.itba.paw.g4.web.form.RegistrationForm.RegistrationFormFields.LAST_NAME;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.web.form.LoginForm;
@@ -45,7 +47,7 @@ public class UserController {
 		if (user != null) {
 			mav.setViewName("redirect:home");
 		} else {
-			mav.setViewName("/WEB-INF/jsp/registration.jsp");
+			mav.setViewName("registration");
 		}
 		return mav;
 	}
@@ -72,20 +74,20 @@ public class UserController {
 						form.getFieldValue(RegistrationFormFields.PASSWORD))
 				.withEmail(form.getEmailAddress())
 				.withBirthDate(form.getBirthDate()).build();
-		// try {
-		userService.register(user);
-		updateSession(user, session);
-		mav.setViewName("redirect:home");
-		return mav;
-		// TODO } catch (ServiceException e) {
-		// manageError(e, request, response);
-		// }
+		try {
+			userService.register(user);
+			updateSession(user, session);
+			mav.setViewName("redirect:home");
+			return mav;
+		} catch (ServiceException e) {
+			return errorViewRedirect(e);
+		}
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "login")
 	public ModelAndView showLogin() {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/WEB-INF/jsp/login.jsp");
+		mav.setViewName("login");
 		return mav;
 	}
 
@@ -93,52 +95,52 @@ public class UserController {
 	public ModelAndView login(
 			@RequestParam Map<String, String> allRequestParams, ModelMap model,
 			HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		// try {
-		LoginForm form = LoginForm.extractFrom(allRequestParams);
-		// EmailAddress emailAddress = EmailAddress.buildFrom(email);
+		try {
+			ModelAndView mav = new ModelAndView();
+			LoginForm form = LoginForm.extractFrom(allRequestParams);
+			// EmailAddress emailAddress = EmailAddress.buildFrom(email);
 
-		// List<Boolean> errors = new LinkedList<Boolean>();
-		// if (!isLoginValid(email, password, errors)) {
-		// for (int i = 0; i < errors.size(); i++) {
-		// int fieldEnum = LoginField.values()[i].value;
-		// mav.addObject(BASE_ERROR_ID + fieldEnum, errors.get(i));
-		// }
-		// mav.addObject(EMAIL_ID, email);
-		// mav.addObject(PASS_ID, password);
+			// List<Boolean> errors = new LinkedList<Boolean>();
+			// if (!isLoginValid(email, password, errors)) {
+			// for (int i = 0; i < errors.size(); i++) {
+			// int fieldEnum = LoginField.values()[i].value;
+			// mav.addObject(BASE_ERROR_ID + fieldEnum, errors.get(i));
+			// }
+			// mav.addObject(EMAIL_ID, email);
+			// mav.addObject(PASS_ID, password);
 
-		// return "redirect:login";
-		// }
+			// return "redirect:login";
+			// }
 
-		if (!form.isValid()) {
-			mav.addAllObjects(form.getErrors());
-			mav.setViewName("redirect:login");
+			if (!form.isValid()) {
+				mav.addAllObjects(form.getErrors());
+				mav.setViewName("redirect:login");
+				return mav;
+			}
+
+			// User user = userService.authenticate(emailAddress, password);
+			User user = userService.authenticate(form.getEmailAddress(),
+					form.getFieldValue(LoginFormFields.PASSWORD));
+			updateSession(user, session);
+
+			// TODO
+			// String[] splitReferer = request.getHeader(REFERER_ID).split("/");
+			// String refererEnd = splitReferer[splitReferer.length - 1];
+			// if (refererEnd.equals("login")) {
+			// String redirectUrl = ((HttpServletResponse) response)
+			// .encodeRedirectURL("home");
+			// ((HttpServletResponse) response).sendRedirect(redirectUrl);
+			// } else {
+			// return response.sendRedirect(request.getHeader(REFERER_ID));
+			// }
+
+			// return "redirect:home";
+
+			mav.setViewName("redirect:home");
 			return mav;
+		} catch (ServiceException e) {
+			return errorViewRedirect(e);
 		}
-
-		// User user = userService.authenticate(emailAddress, password);
-		User user = userService.authenticate(form.getEmailAddress(),
-				form.getFieldValue(LoginFormFields.PASSWORD));
-		updateSession(user, session);
-
-		// TODO
-		// String[] splitReferer = request.getHeader(REFERER_ID).split("/");
-		// String refererEnd = splitReferer[splitReferer.length - 1];
-		// if (refererEnd.equals("login")) {
-		// String redirectUrl = ((HttpServletResponse) response)
-		// .encodeRedirectURL("home");
-		// ((HttpServletResponse) response).sendRedirect(redirectUrl);
-		// } else {
-		// return response.sendRedirect(request.getHeader(REFERER_ID));
-		// }
-
-		// return "redirect:home";
-
-		mav.setViewName("redirect:home");
-		return mav;
-		// TODO } catch (ServiceException e) {
-		// manageError(e, request, response);
-		// }
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

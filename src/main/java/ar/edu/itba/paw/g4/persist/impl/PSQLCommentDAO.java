@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.Comment;
@@ -40,6 +41,7 @@ public class PSQLCommentDAO implements CommentDAO {
 	private MovieDAO movieDAO;
 	private UserDAO userDAO;
 
+	@Autowired
 	PSQLCommentDAO(MovieDAO movieDAO, UserDAO userDAO) {
 		this.movieDAO = movieDAO;
 		this.userDAO = userDAO;
