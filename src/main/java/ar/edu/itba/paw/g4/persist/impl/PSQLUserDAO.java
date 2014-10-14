@@ -3,7 +3,8 @@ package ar.edu.itba.paw.g4.persist.impl;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getDateTime;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getEmailAddress;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getInt;
-import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getString;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getNonArtisticName;
+import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.getPassword;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.insertQuery;
 import static ar.edu.itba.paw.g4.util.persist.sql.PSQLQueryHelpers.updateQuery;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
@@ -62,10 +63,10 @@ public class PSQLUserDAO implements UserDAO {
 					statement.addParameter(user.getId());
 				}
 
-				statement.addParameter(user.getFirstName());
-				statement.addParameter(user.getLastName());
+				statement.addParameter(user.getFirstName().getNameString());
+				statement.addParameter(user.getLastName().getNameString());
 				statement.addParameter(user.getEmail().asTextAddress());
-				statement.addParameter(user.getPassword());
+				statement.addParameter(user.getPassword().getPasswordString());
 				statement.addParameter(user.getBirthDate());
 
 				int result = statement.executeUpdate();
@@ -134,9 +135,9 @@ public class PSQLUserDAO implements UserDAO {
 
 	private User getUserFromResults(ResultSet results) throws SQLException {
 		User user = User.builder()
-				.withFirstName(getString(results, FIRST_NAME_ID))
-				.withLastName(getString(results, LAST_NAME_ID))
-				.withPassword(getString(results, PASSWD_ID))
+				.withFirstName(getNonArtisticName(results, FIRST_NAME_ID))
+				.withLastName(getNonArtisticName(results, LAST_NAME_ID))
+				.withPassword(getPassword(results, PASSWD_ID))
 				.withEmail(getEmailAddress(results, EMAIL_ADDR_ID))
 				.withBirthDate(getDateTime(results, BIRTH_DATE_ID)).build();
 		user.setId(getInt(results, ID_ATTR_ID));

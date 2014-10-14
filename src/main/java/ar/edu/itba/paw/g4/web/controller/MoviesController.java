@@ -23,6 +23,7 @@ import ar.edu.itba.paw.g4.service.CommentService;
 import ar.edu.itba.paw.g4.service.MovieService;
 
 @Controller
+@RequestMapping("/movies")
 public class MoviesController {
 	public static final String MOVIE_PARAM_ID = "id";
 	public static final String MOVIE_ID = "movie";
@@ -45,7 +46,7 @@ public class MoviesController {
 		this.commentService = commentService;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public ModelAndView list(
 			@RequestParam(value = FILTER_BY_GENRE_ID, required = false) String genreName,
 			@RequestParam(value = FILTER_BY_DIRECTOR_ID, required = false) String directorName) {
@@ -73,7 +74,7 @@ public class MoviesController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "detail", method = RequestMethod.GET)
 	public ModelAndView detail(@RequestParam(MOVIE_PARAM_ID) Integer movieId,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();

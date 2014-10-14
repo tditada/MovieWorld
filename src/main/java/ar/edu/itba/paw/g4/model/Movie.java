@@ -11,6 +11,8 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.List;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
@@ -32,7 +34,7 @@ public class Movie extends Entity {
 	private int totalScore;
 	private int totalComments;
 
-	// @GeneratePojoBuilder
+	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
 			List<MovieGenres> genres, Director director, int runtimeInMins,
 			String summary, int totalScore, int totalComments) {

@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <head>
 <meta charset=UTF-8>

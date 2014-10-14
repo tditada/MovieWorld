@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.EmailAddress;
+import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.persist.UserDAO;
 import ar.edu.itba.paw.g4.service.UserService;
@@ -46,12 +47,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User authenticate(EmailAddress email, String pass) {
+	public User authenticate(EmailAddress email, Password password) {
 		checkArgument(email, notNull());
-		checkArgument(pass, notNull());
+		checkArgument(password, notNull());
 
 		User user = getUserByEmail(email);
-		if (!user.getPassword().equals(pass)) {
+		if (!user.getPassword().equals(password)) {
 			throw new ServiceException("Wrong Password");
 		}
 		return user;

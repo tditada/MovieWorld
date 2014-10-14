@@ -5,6 +5,7 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 import ar.edu.itba.paw.g4.model.builder.DirectorBuilder;
 
 public class Director {
@@ -12,7 +13,7 @@ public class Director {
 
 	private String name; // artistic name, so no special conditions apply here
 
-	// @GeneratePojoBuilder
+	@GeneratePojoBuilder
 	public Director(String name) {
 		checkArgument(name, neitherNullNorEmpty());
 		checkArgument(name.length() <= MAX_NAME_LENGTH);

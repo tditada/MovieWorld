@@ -13,6 +13,8 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.EmailAddress;
+import ar.edu.itba.paw.g4.model.NonArtisticName;
+import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.util.EnumHelpers;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
@@ -38,6 +40,16 @@ public class PSQLQueryHelpers {
 			throws SQLException {
 		Timestamp timestamp = resultSet.getTimestamp(columnName);
 		return new DateTime(timestamp);
+	}
+
+	public static NonArtisticName getNonArtisticName(ResultSet resultSet,
+			String columnName) throws SQLException {
+		return new NonArtisticName(getString(resultSet, columnName));
+	}
+	
+	public static Password getPassword(ResultSet resultSet,
+			String columnName) throws SQLException {
+		return new Password(getString(resultSet, columnName));
 	}
 
 	public static <T> T[] getArray(ResultSet resultSet, String columnName,

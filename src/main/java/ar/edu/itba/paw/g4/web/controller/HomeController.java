@@ -12,6 +12,7 @@ import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.service.MovieService;
 
 @Controller
+@RequestMapping("/home")
 public class HomeController {
 	public static final String TOP_MOVIES_ID = "topMovies";
 	public static final String RELEASES_ID = "releases";

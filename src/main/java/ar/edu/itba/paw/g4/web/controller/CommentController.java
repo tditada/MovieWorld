@@ -14,6 +14,7 @@ import ar.edu.itba.paw.g4.service.CommentService;
 import ar.edu.itba.paw.g4.web.filter.UserFilter;
 
 @Controller
+@RequestMapping("/comment")
 public class CommentController {
 	private static final String COMMENT_TEXT_ID = "commentText";
 	private static final String COMMENT_SCORE_ID = "commentScore";

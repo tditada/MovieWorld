@@ -1,102 +1,93 @@
 package ar.edu.itba.paw.g4.web.form;
 
-import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
-import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
-
-import java.util.Map;
+import javax.validation.constraints.NotNull;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import ar.edu.itba.paw.g4.model.EmailAddress;
+import ar.edu.itba.paw.g4.model.NonArtisticName;
+import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.model.User;
-import ar.edu.itba.paw.g4.web.form.RegistrationForm.RegistrationFormFields;
 
-public class RegistrationForm extends AbstractForm<RegistrationFormFields> {
-	private static final String DATE_TIME_FORMAT = "mm-dd-yyyy";
-	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat
-			.forPattern(DATE_TIME_FORMAT);
+public class RegistrationForm {
+	@NotNull
+	private NonArtisticName firstName;
+	@NotNull
+	private NonArtisticName lastName;
+	@NotNull
+	private EmailAddress email;
+	@NotNull
+	private Password password;
+	@NotNull
+	private Password passwordConfirmation;
+	@NotNull
+	private DateTime birthDate;
 
-	private Map<String, String> params;
-
-	public static RegistrationForm extractFrom(Map<String, String> params) {
-		checkArgument(params, notNull());
-		return new RegistrationForm(params);
+	public RegistrationForm() {
 	}
 
-	private RegistrationForm(Map<String, String> params) {
-		super(RegistrationFormFields.class);
-		this.params = params;
+	public RegistrationForm(NonArtisticName firstName,
+			NonArtisticName lastName, EmailAddress email, Password password,
+			Password passwordConfirmation, DateTime birthDate) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.passwordConfirmation = passwordConfirmation;
+		this.birthDate = birthDate;
 	}
 
-	@Override
-	public boolean isValidField(RegistrationFormFields field) {
-		String fieldValue = getFieldValue(field);
-		switch (field) {
-		case FIRST_NAME:
-			return User.isValidNonArtisticName(fieldValue);
-		case LAST_NAME:
-			return User.isValidNonArtisticName(fieldValue);
-		case EMAIL:
-			return EmailAddress.isValidAddress(fieldValue);
-		case PASSWORD:
-		case SECOND_PASSWORD:
-			return isValidPassword(fieldValue,
-					params.get(RegistrationFormFields.SECOND_PASSWORD));
-		case BIRTH_DATE:
-			return isValidBirthDate(fieldValue);
-		default:
-			// Should never happen
-			throw new IllegalArgumentException(
-					"There is no validation for field " + field);
-		}
+	public NonArtisticName getFirstName() {
+		return firstName;
 	}
 
-	public EmailAddress getEmailAddress() {
-		return EmailAddress
-				.buildFrom(getFieldValue(RegistrationFormFields.EMAIL));
+	public void setFirstName(NonArtisticName firstName) {
+		this.firstName = firstName;
+	}
+
+	public NonArtisticName getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(NonArtisticName lastName) {
+		this.lastName = lastName;
+	}
+
+	public EmailAddress getEmail() {
+		return email;
+	}
+
+	public void setEmail(EmailAddress email) {
+		this.email = email;
+	}
+
+	public Password getPassword() {
+		return password;
+	}
+
+	public void setPassword(Password password) {
+		this.password = password;
+	}
+
+	public Password getPasswordConfirmation() {
+		return passwordConfirmation;
+	}
+
+	public void setPasswordConfirmation(Password passwordConfirmation) {
+		this.passwordConfirmation = passwordConfirmation;
 	}
 
 	public DateTime getBirthDate() {
-		return dateTimeFormatter
-				.parseDateTime(getFieldValue(RegistrationFormFields.BIRTH_DATE));
+		return birthDate;
 	}
 
-	@Override
-	public String getFieldValue(RegistrationFormFields field) {
-		return params.get(field.id);
+	public void setBirthDate(DateTime birthDate) {
+		this.birthDate = birthDate;
 	}
 
-	@Override
-	public String getFieldKey(RegistrationFormFields field) {
-		return params.get(field.id);
+	public User build() {
+		return User.builder().withFirstName(firstName).withLastName(lastName)
+				.withPassword(password).withEmail(email)
+				.withBirthDate(birthDate).build();
 	}
-
-	private boolean isValidPassword(String password, String secondPassword) {
-		return User.isValidPassword(password)
-				&& password.equals(secondPassword);
-	}
-
-	private boolean isValidBirthDate(String birthDate) {
-		try {
-			dateTimeFormatter.parseDateTime(birthDate);
-			return true;
-		} catch (IllegalArgumentException e) {
-			return false;
-		}
-	}
-
-	public enum RegistrationFormFields {
-		FIRST_NAME("firstname"), LAST_NAME("lastname"), EMAIL("email"), PASSWORD(
-				"password"), SECOND_PASSWORD("secondPassword"), BIRTH_DATE(
-				"birthday");
-
-		private String id;
-
-		private RegistrationFormFields(String id) {
-			this.id = id;
-		}
-	}
-
 }

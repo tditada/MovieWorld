@@ -1,17 +1,15 @@
 package ar.edu.itba.paw.g4.web.controller;
 
 import static ar.edu.itba.paw.g4.web.ErrorHelpers.errorViewRedirect;
-import static ar.edu.itba.paw.g4.web.form.RegistrationForm.RegistrationFormFields.FIRST_NAME;
-import static ar.edu.itba.paw.g4.web.form.RegistrationForm.RegistrationFormFields.LAST_NAME;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,11 +21,12 @@ import ar.edu.itba.paw.g4.model.User;
 import ar.edu.itba.paw.g4.service.CommentService;
 import ar.edu.itba.paw.g4.service.UserService;
 import ar.edu.itba.paw.g4.web.form.LoginForm;
-import ar.edu.itba.paw.g4.web.form.LoginForm.LoginFormFields;
 import ar.edu.itba.paw.g4.web.form.RegistrationForm;
-import ar.edu.itba.paw.g4.web.form.RegistrationForm.RegistrationFormFields;
+import ar.edu.itba.paw.g4.web.form.validation.LoginFormValidator;
+import ar.edu.itba.paw.g4.web.form.validation.RegistrationFormValidator;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 	private static final String USER_ID = "user";
 	private static final String COMMENTS_ID = "comments";
@@ -40,46 +39,46 @@ public class UserController {
 
 	private UserService userService;
 	private CommentService commentService;
+	private RegistrationFormValidator registrationFormValidator;
+	private LoginFormValidator loginFormValidator;
 
 	@Autowired
-	public UserController(UserService userService, CommentService commentService) {
+	public UserController(UserService userService,
+			CommentService commentService, Validator validator,
+			RegistrationFormValidator registrationFormValidator,
+			LoginFormValidator loginFormValidator) {
 		this.userService = userService;
 		this.commentService = commentService;
+		this.registrationFormValidator = registrationFormValidator;
+		this.loginFormValidator = loginFormValidator;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "register")
-	public ModelAndView showRegistration(@RequestParam(USER_ID) User user) {
+	@RequestMapping(value = "register", method = RequestMethod.GET)
+	public ModelAndView showRegistration(
+			@RequestParam(value = USER_ID, required = false) User user) {
 		ModelAndView mav = new ModelAndView();
 		if (user != null) {
 			mav.setViewName("redirect:/app/home");
 		} else {
+			mav.addObject("registrationForm", new RegistrationForm());
 			mav.setViewName("register");
 		}
 		return mav;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "register")
-	public ModelAndView register(
-			@RequestParam Map<String, String> allRequestParams, ModelMap model,
-			HttpSession session) {
+	@RequestMapping(value = "register", method = RequestMethod.POST)
+	public ModelAndView register(RegistrationForm registrationForm,
+			Errors errors, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		RegistrationForm form = RegistrationForm.extractFrom(allRequestParams);
-
-		if (!form.isValid()) {
+		registrationFormValidator.validate(registrationForm, errors);
+		if (errors.hasErrors()) {
 			// TODO: check!
-			mav.addAllObjects(allRequestParams);
-			mav.setViewName("redirect:/app/register");
+			// mav.addAllObjects(allRequestParams);
+			mav.setViewName("redirect:/app/user/register");
 			return mav;
 		}
 
-		User user = User
-				.builder()
-				.withFirstName(form.getFieldValue(FIRST_NAME))
-				.withLastName(form.getFieldValue(LAST_NAME))
-				.withPassword(
-						form.getFieldValue(RegistrationFormFields.PASSWORD))
-				.withEmail(form.getEmailAddress())
-				.withBirthDate(form.getBirthDate()).build();
+		User user = registrationForm.build();
 		try {
 			userService.register(user);
 			updateSession(user, session);
@@ -90,20 +89,21 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "login")
+	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public ModelAndView showLogin() {
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("loginForm", new LoginForm());
 		mav.setViewName("login");
 		return mav;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "login")
-	public ModelAndView login(
-			@RequestParam Map<String, String> allRequestParams, ModelMap model,
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public ModelAndView login(LoginForm loginForm, Errors errors,
 			HttpSession session) {
 		try {
 			ModelAndView mav = new ModelAndView();
-			LoginForm form = LoginForm.extractFrom(allRequestParams);
+			// LoginForm form = LoginForm.extractFrom(allRequestParams);
+
 			// EmailAddress emailAddress = EmailAddress.buildFrom(email);
 
 			// List<Boolean> errors = new LinkedList<Boolean>();
@@ -118,15 +118,23 @@ public class UserController {
 			// return "redirect:login";
 			// }
 
-			if (!form.isValid()) {
-				mav.addAllObjects(form.getErrors());
+			// if (!form.isValid()) {
+			// mav.addAllObjects(form.getErrors());
+			// mav.setViewName("redirect:/app/login");
+			// return mav;
+			// }
+
+			loginFormValidator.validate(loginForm, errors);
+			if (errors.hasErrors()) {
+				// CHECK!
+				// mav.addAllObjects(loginForm.getErrors());
 				mav.setViewName("redirect:/app/login");
 				return mav;
 			}
 
 			// User user = userService.authenticate(emailAddress, password);
-			User user = userService.authenticate(form.getEmailAddress(),
-					form.getFieldValue(LoginFormFields.PASSWORD));
+			User user = userService.authenticate(loginForm.getEmail(),
+					loginForm.getPassword());
 			updateSession(user, session);
 
 			// TODO
@@ -149,7 +157,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = "logout", method = RequestMethod.POST)
 	public String logout(HttpSession session) {
 		// TODO: check!
 		session.setAttribute(FIRST_NAME_ID, null);
@@ -161,7 +169,7 @@ public class UserController {
 		return "redirect:/app/home";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "comments/all")
+	@RequestMapping(value = "comments", method = RequestMethod.GET)
 	public ModelAndView userComments(
 			@RequestParam(value = USER_ID, required = true) User user) {
 		try {

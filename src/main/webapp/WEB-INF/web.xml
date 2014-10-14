@@ -42,10 +42,10 @@
 
 	<!-- Mappings -->
 
-	<filter-mapping>
-		<filter-name>homeRedirectFilter</filter-name>
-		<url-pattern>/</url-pattern>
-	</filter-mapping>
+	<!-- <filter-mapping> -->
+	<!-- <filter-name>homeRedirectFilter</filter-name> -->
+	<!-- <url-pattern>/</url-pattern> -->
+	<!-- </filter-mapping> -->
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>

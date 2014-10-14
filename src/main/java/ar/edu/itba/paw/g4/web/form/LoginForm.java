@@ -1,59 +1,38 @@
 package ar.edu.itba.paw.g4.web.form;
 
-import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
-import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
-
-import java.util.Map;
+import javax.validation.constraints.NotNull;
 
 import ar.edu.itba.paw.g4.model.EmailAddress;
-import ar.edu.itba.paw.g4.model.User;
-import ar.edu.itba.paw.g4.web.form.LoginForm.LoginFormFields;
+import ar.edu.itba.paw.g4.model.Password;
 
-public class LoginForm extends AbstractForm<LoginFormFields> {
-	private Map<String, String> params;
+public class LoginForm {
+	@NotNull
+	private EmailAddress email;
+	@NotNull
+	private Password password;
 
-	public static LoginForm extractFrom(Map<String, String> params) {
-		checkArgument(params, notNull());
-		return new LoginForm(params);
+	public LoginForm() {
 	}
 
-	private LoginForm(Map<String, String> params) {
-		super(LoginFormFields.class);
-		this.params = params;
+	public LoginForm(EmailAddress email, Password password) {
+		this.email = email;
+		this.password = password;
 	}
 
-	@Override
-	protected boolean isValidField(LoginFormFields field) {
-		switch (field) {
-		case EMAIL:
-			return EmailAddress.isValidAddress(getFieldValue(field));
-		case PASSWORD:
-			return User.isValidPassword(getFieldValue(field));
-		}
-		return false;
+	public EmailAddress getEmail() {
+		return email;
 	}
 
-	@Override
-	public String getFieldKey(LoginFormFields field) {
-		return field.id;
+	public void setEmail(EmailAddress email) {
+		this.email = email;
 	}
 
-	@Override
-	public String getFieldValue(LoginFormFields field) {
-		return params.get(field.id);
+	public Password getPassword() {
+		return password;
 	}
 
-	public EmailAddress getEmailAddress() {
-		return EmailAddress.buildFrom(getFieldValue(LoginFormFields.EMAIL));
+	public void setPassword(Password password) {
+		this.password = password;
 	}
 
-	public enum LoginFormFields {
-		EMAIL("email"), PASSWORD("password");
-
-		private String id;
-
-		private LoginFormFields(String id) {
-			this.id = id;
-		}
-	}
 }

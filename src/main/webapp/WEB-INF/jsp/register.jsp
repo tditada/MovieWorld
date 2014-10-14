@@ -8,89 +8,73 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-6">
-			<form role="form" action="app/user/register" method="POST">
+			<form:form role="form" action="app/user/register" method="post"
+				commandName="registrationForm">
 				<div class="form-group">
-					<label for="firstname">Enter Name</label>
+					<label for="firstName">Enter Name</label>
 					<div class="input-group">
-						<input type="text" class="form-control" name="firstname"
-							id="firstname"
-							<c:if test="${not empty firstname}"> value="${firstname}" </c:if>
-							placeholder="Enter Name" required> <span
-							class="input-group-addon"><span
+						<form:input type="text" path="firstName" class="form-control"
+							name="firstName" id="firstName" placeholder="Enter Name" />
+						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-asterisk"></span> Required</span>
 					</div>
-					<c:if test="${error0}">
-						<div class="alert alert-danger" role="alert">Invalid first
-							name</div>
-					</c:if>
+					<form:errors path="firstName" class="alert alert-danger"
+						role="alert">Invalid first name</form:errors>
 				</div>
 				<div class="form-group">
-					<label for="lastname">Enter Last Name</label>
+					<label for="lastName">Enter Last Name</label>
 					<div class="input-group">
-						<input type="text" class="form-control" name="lastname"
-							id="lastname"
-							<c:if test="${not empty lastname}"> value="${lastname}" </c:if>
-							placeholder="Enter Last Name" required> <span
-							class="input-group-addon"><span
+						<form:input type="text" path="lastName" class="form-control"
+							name="lastName" id="lastName" placeholder="Enter Name" />
+						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-asterisk"></span> Required</span>
 					</div>
-					<c:if test="${error1}">
-						<div class="alert alert-danger" role="alert">Invalid last
-							name</div>
-					</c:if>
+					<form:errors path="lastName" class="alert alert-danger"
+						role="alert">Invalid last name</form:errors>
 				</div>
 				<div class="form-group">
 					<label for="email">Enter Email</label>
 					<div class="input-group">
-						<input type="email" class="form-control" id="email" name="email"
-							<c:if test="${not empty email}"> value="${email}" </c:if>
-							placeholder="Enter Email" required> <span
-							class="input-group-addon"><span
+						<form:input type="text" path="email" class="form-control"
+							name="email" id="email" placeholder="Enter Email" />
+						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-asterisk"></span> Required</span>
 					</div>
-					<c:if test="${error2}">
-						<div class="alert alert-danger" role="alert">Invalid Email</div>
-					</c:if>
+					<form:errors path="email" class="alert alert-danger" role="alert">Invalid email</form:errors>
 				</div>
 				<div class="form-group">
 					<label for="password">Enter Password</label>
 					<div class="input-group">
-						<input type="password" class="form-control" id="password"
-							name="password" placeholder="Enter Password" required> <span
-							class="input-group-addon"><span
-							class="glyphicon glyphicon-asterisk"></span> Required</span>
-					</div>
-					<c:if test="${error3}">
-						<div class="alert alert-danger" role="alert">Invalid
-							Password: must be over 10 characters and less than 255 characters</div>
-					</c:if>
-				</div>
-				<div class="form-group">
-					<label for="secondPassword">Confirm Password</label>
-					<div class="input-group">
-						<input type="password" class="form-control" id="secondPassword"
-							name="secondPassword" placeholder="Confirm Password" required>
+						<form:input type="password" path="password" class="form-control"
+							name="password" id="password" placeholder="Enter Password" />
 						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-asterisk"></span> Required</span>
 					</div>
-					<c:if test="${error4}">
-						<div class="alert alert-danger" role="alert">Passwords don't
-							match</div>
-					</c:if>
+					<form:errors path="password" class="alert alert-danger"
+						role="alert">Invalid Password: must be over 10 characters and less than 255 characters</form:errors>
 				</div>
 				<div class="form-group">
-					<label for="birthday">Enter Birthday</label> <input type="text"
-						name="birthday"
-						<c:if test="${not empty birthday}"> value="${birthday}" </c:if>
-						id="datepicker">
-					<c:if test="${error5}">
-						<div class="alert alert-danger" role="alert">Invalid
-							Birthday</div>
-					</c:if>
+					<label for="passwordConfirmation">Confirm Password</label>
+					<div class="input-group">
+						<form:input type="password" path="passwordConfirmation"
+							class="form-control" name="passwordConfirmation"
+							id="passwordConfirmation" placeholder="Enter Password" />
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-asterisk"></span> Required</span>
+					</div>
+					<form:errors path="passwordConfirmation" class="alert alert-danger"
+						role="alert">Passwords don't match</form:errors>
+				</div>
+				<div class="form-group">
+					<label for="birthDate">Enter Birthday</label>
+					<form:input type="text" name="birthDate" path="birthDate"
+						id="datepicker" />
+					<form:errors path="birthDate" class="alert alert-danger"
+						role="alert">Invalid Birthday</form:errors>
 				</div>
 				<input type="submit" name="submit" id="submit" value="Submit"
 					class="btn btn-primary pull-right">
-			</form>
+			</form:form>
 		</div>
 	</div>
 </div>

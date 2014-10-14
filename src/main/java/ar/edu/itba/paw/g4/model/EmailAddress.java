@@ -8,6 +8,7 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.regex.Pattern;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 import ar.edu.itba.paw.g4.model.builder.EmailAddressBuilder;
 
 public class EmailAddress {
@@ -30,7 +31,7 @@ public class EmailAddress {
 		return new EmailAddress(parts[0], parts[1]);
 	}
 
-	public static boolean isValidAddress(String address) {
+	public static boolean isValid(String address) {
 		try {
 			buildFrom(address);
 			return true;
@@ -39,7 +40,7 @@ public class EmailAddress {
 		}
 	}
 
-	// @GeneratePojoBuilder
+	@GeneratePojoBuilder
 	public EmailAddress(String localPart, String domainPart) {
 		checkArgument(localPart, neitherNullNorEmpty());
 		checkArgument(domainPart, neitherNullNorEmpty());
