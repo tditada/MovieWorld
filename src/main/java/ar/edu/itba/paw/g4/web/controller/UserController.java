@@ -10,9 +10,11 @@ import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.exception.ServiceException;
@@ -27,6 +29,7 @@ import ar.edu.itba.paw.g4.web.form.validation.RegistrationFormValidator;
 
 @Controller
 @RequestMapping("/user")
+@SessionAttributes({ "user" })
 public class UserController {
 	private static final String USER_ID = "user";
 
@@ -154,7 +157,7 @@ public class UserController {
 
 	@RequestMapping(value = "comments", method = RequestMethod.GET)
 	public ModelAndView userComments(
-			@RequestParam(value = USER_ID, required = true) User user) {
+			@ModelAttribute User user) {
 		try {
 			List<Comment> commentList = commentService.getCommentsOf(user);
 			ModelAndView mav = new ModelAndView();

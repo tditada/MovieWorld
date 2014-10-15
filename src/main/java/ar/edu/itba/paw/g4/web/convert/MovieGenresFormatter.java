@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import ar.edu.itba.paw.g4.model.MovieGenres;
 
 @Component
-public class MovieGenreFormatter implements Formatter<MovieGenres> {
+public class MovieGenresFormatter implements Formatter<MovieGenres> {
 
 	@Override
 	public MovieGenres parse(String arg0, Locale arg1) throws ParseException {

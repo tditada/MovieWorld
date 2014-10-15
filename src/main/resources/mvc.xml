@@ -30,7 +30,9 @@
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="formatters">
 			<set>
-				<ref bean="movieGenreFormatter" />
+				<ref bean="movieFormatter" />
+				<ref bean="directorFormatter" />
+				<ref bean="movieGenresFormatter" />
 				<ref bean="nonArtisticNameFormatter" />
 				<ref bean="passwordFormatter" />
 				<ref bean="emailFormatter" />

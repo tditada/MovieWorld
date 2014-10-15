@@ -2,6 +2,7 @@ package ar.edu.itba.paw.g4.model;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static com.google.common.collect.BoundType.CLOSED;
@@ -47,6 +48,12 @@ public class Password {
 			return false;
 		Password other = (Password) obj;
 		return areEqual(this.passwordString, other.passwordString);
+	}
+
+	@Override
+	public String toString() {
+		return toStringHelper(this).add("passwordString", passwordString)
+				.toString();
 	}
 
 }

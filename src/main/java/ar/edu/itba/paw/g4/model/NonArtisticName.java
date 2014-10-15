@@ -2,6 +2,7 @@ package ar.edu.itba.paw.g4.model;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isAlphaSpace;
@@ -42,6 +43,11 @@ public class NonArtisticName {
 			return false;
 		NonArtisticName other = (NonArtisticName) obj;
 		return areEqual(this.nameString, other.nameString);
+	}
+
+	@Override
+	public String toString() {
+		return toStringHelper(this).add("nameString", nameString).toString();
 	}
 
 }

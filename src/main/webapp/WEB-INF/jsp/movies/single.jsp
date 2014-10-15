@@ -85,7 +85,7 @@
 				<dl class="dl-horizontal">
 					<dt>User</dt>
 					<dd>
-						<c:out value="${comment.user.firstName} ${comment.user.lastName}" />
+						<c:out value="${comment.user.firstName.nameString} ${comment.user.lastName.nameString}" />
 					</dd>
 					<dt>Score</dt>
 					<dd>
