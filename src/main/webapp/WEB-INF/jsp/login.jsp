@@ -11,15 +11,17 @@
 			<div id="form">
 				<form:form action="app/user/login" method="post"
 					commandName="loginForm">
-					<form:errors path="*" class="alert alert-danger" role="alert">Invalid
-						email or password</form:errors>
+					<form:errors path="*">
+						<div class="alert alert-danger" role="alert">Invalid email
+							or password</div>
+					</form:errors>
 					<div class="form-group">
 						<form:input path="email" name="email" type="text"
-							class="form-control input-lg" placeholder="Email"/>
+							class="form-control input-lg" placeholder="Email" />
 					</div>
 					<div class="form-group">
 						<form:input path="password" name="password" type="password"
-							class="form-control input-lg" placeholder="Password"/>
+							class="form-control input-lg" placeholder="Password" />
 					</div>
 					<div class="form-group">
 						<button class="btn btn-primary btn-lg btn-block">Sign In</button>

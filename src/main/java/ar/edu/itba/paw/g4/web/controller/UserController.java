@@ -72,9 +72,7 @@ public class UserController {
 		ModelAndView mav = new ModelAndView();
 		registrationFormValidator.validate(registrationForm, errors);
 		if (errors.hasErrors()) {
-			// TODO: check!
-			// mav.addAllObjects(allRequestParams);
-			mav.setViewName("redirect:/app/user/register");
+			mav.setViewName("register");
 			return mav;
 		}
 
@@ -126,9 +124,7 @@ public class UserController {
 
 			loginFormValidator.validate(loginForm, errors);
 			if (errors.hasErrors()) {
-				// CHECK!
-				// mav.addAllObjects(loginForm.getErrors());
-				mav.setViewName("redirect:/app/login");
+				mav.setViewName("login");
 				return mav;
 			}
 

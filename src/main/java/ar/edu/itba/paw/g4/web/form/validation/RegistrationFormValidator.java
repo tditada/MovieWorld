@@ -4,16 +4,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.*;
 import ar.edu.itba.paw.g4.web.form.RegistrationForm;
 
 @Component
 public class RegistrationFormValidator implements Validator {
-	// private static final String FIRST_NAME_ID = "firstname";
-	// private static final String LAST_NAME_ID = "lastname";
-	// private static final String BIRTH_DATE_ID = "birthday";
-	// private static final String EMAIL_ID = "email";
-	// private static final String PASS_ID = "password";
-	private static final String PASS_CONFIRMATION_ID = "secondPassword";
+	private static final String FIRST_NAME_ID = "firstName";
+	private static final String LAST_NAME_ID = "lastName";
+	private static final String BIRTH_DATE_ID = "birthDate";
+	private static final String EMAIL_ID = "email";
+	private static final String PASSWORD_ID = "password";
+	private static final String PASSWORD_CONFIRMATION_ID = "passwordConfirmation";
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -39,9 +40,23 @@ public class RegistrationFormValidator implements Validator {
 		// if (!Password.isValid(form.getPassword())) {
 		// errors.rejectValue(PASS_ID, "invalid");
 		// }
+		checkSet(FIRST_NAME_ID, form.getFirstName(), errors);
+		checkSet(LAST_NAME_ID, form.getLastName(), errors);
+		checkSet(BIRTH_DATE_ID, form.getBirthDate(), errors);
+		checkSet(EMAIL_ID, form.getEmail(), errors);
+		checkSet(PASSWORD_ID, form.getEmail(), errors);
+		checkSet(PASSWORD_CONFIRMATION_ID, form.getPasswordConfirmation(),
+				errors);
 
-		if (!form.getPassword().equals(form.getPasswordConfirmation())) {
-			errors.rejectValue(PASS_CONFIRMATION_ID, "not.matching");
+		if (!areEqual(form.getPassword(), form.getPasswordConfirmation())) {
+			errors.rejectValue(PASSWORD_CONFIRMATION_ID, "not.matching",
+					"Passwords must match");
+		}
+	}
+
+	private void checkSet(String name, Object value, Errors errors) {
+		if (value == null) {
+			errors.rejectValue(name, "invalid", "invalid");
 		}
 	}
 }

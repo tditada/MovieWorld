@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.g4.web.form;
 
-import javax.validation.constraints.NotNull;
-
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.EmailAddress;
@@ -10,17 +8,11 @@ import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.model.User;
 
 public class RegistrationForm {
-	@NotNull
 	private NonArtisticName firstName;
-	@NotNull
 	private NonArtisticName lastName;
-	@NotNull
 	private EmailAddress email;
-	@NotNull
 	private Password password;
-	@NotNull
 	private Password passwordConfirmation;
-	@NotNull
 	private DateTime birthDate;
 
 	public RegistrationForm() {

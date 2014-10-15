@@ -18,8 +18,10 @@
 						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-asterisk"></span> Required</span>
 					</div>
-					<form:errors path="firstName" class="alert alert-danger"
-						role="alert">Invalid first name</form:errors>
+					<form:errors path="firstName">
+						<div class="alert alert-danger" role="alert">Invalid first
+							name</div>
+					</form:errors>
 				</div>
 				<div class="form-group">
 					<label for="lastName">Enter Last Name</label>
@@ -29,8 +31,10 @@
 						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-asterisk"></span> Required</span>
 					</div>
-					<form:errors path="lastName" class="alert alert-danger"
-						role="alert">Invalid last name</form:errors>
+					<form:errors path="lastName">
+						<div class="alert alert-danger" role="alert">Invalid last
+							name</div>
+					</form:errors>
 				</div>
 				<div class="form-group">
 					<label for="email">Enter Email</label>
@@ -40,7 +44,9 @@
 						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-asterisk"></span> Required</span>
 					</div>
-					<form:errors path="email" class="alert alert-danger" role="alert">Invalid email</form:errors>
+					<form:errors path="email">
+						<div class="alert alert-danger" role="alert">Invalid email</div>
+					</form:errors>
 				</div>
 				<div class="form-group">
 					<label for="password">Enter Password</label>
@@ -50,8 +56,10 @@
 						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-asterisk"></span> Required</span>
 					</div>
-					<form:errors path="password" class="alert alert-danger"
-						role="alert">Invalid Password: must be over 10 characters and less than 255 characters</form:errors>
+					<form:errors path="password">
+						<div class="alert alert-danger" role="alert">Invalid
+							Password: must be over 10 characters and less than 255 characters</div>
+					</form:errors>
 				</div>
 				<div class="form-group">
 					<label for="passwordConfirmation">Confirm Password</label>
@@ -62,15 +70,19 @@
 						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-asterisk"></span> Required</span>
 					</div>
-					<form:errors path="passwordConfirmation" class="alert alert-danger"
-						role="alert">Passwords don't match</form:errors>
+					<form:errors path="passwordConfirmation">
+						<div class="alert alert-danger" role="alert">Passwords don't
+							match</div>
+					</form:errors>
 				</div>
 				<div class="form-group">
 					<label for="birthDate">Enter Birthday</label>
 					<form:input type="text" name="birthDate" path="birthDate"
 						id="datepicker" />
-					<form:errors path="birthDate" class="alert alert-danger"
-						role="alert">Invalid Birthday</form:errors>
+					<form:errors path="birthDate">
+						<div class="alert alert-danger" role="alert">Invalid
+							Birthday</div>
+					</form:errors>
 				</div>
 				<input type="submit" name="submit" id="submit" value="Submit"
 					class="btn btn-primary pull-right">

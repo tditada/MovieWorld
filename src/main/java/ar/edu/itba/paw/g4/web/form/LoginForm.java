@@ -1,14 +1,10 @@
 package ar.edu.itba.paw.g4.web.form;
 
-import javax.validation.constraints.NotNull;
-
 import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.Password;
 
 public class LoginForm {
-	@NotNull
 	private EmailAddress email;
-	@NotNull
 	private Password password;
 
 	public LoginForm() {
@@ -34,5 +30,4 @@ public class LoginForm {
 	public void setPassword(Password password) {
 		this.password = password;
 	}
-
 }
