@@ -29,13 +29,6 @@ import ar.edu.itba.paw.g4.web.form.validation.RegistrationFormValidator;
 @RequestMapping("/user")
 public class UserController {
 	private static final String USER_ID = "user";
-	private static final String COMMENTS_ID = "comments";
-
-	private static final String FIRST_NAME_ID = "firstname";
-	private static final String LAST_NAME_ID = "lastname";
-	private static final String BIRTHDAY_ID = "birthday";
-	private static final String EMAIL_ID = "email";
-	private static final String PASS_ID = "password";
 
 	private UserService userService;
 	private CommentService commentService;
@@ -79,7 +72,7 @@ public class UserController {
 		User user = registrationForm.build();
 		try {
 			userService.register(user);
-			updateSession(user, session);
+			session.setAttribute(USER_ID, user);
 			mav.setViewName("redirect:/app/home");
 			return mav;
 		} catch (ServiceException e) {
@@ -131,7 +124,7 @@ public class UserController {
 			// User user = userService.authenticate(emailAddress, password);
 			User user = userService.authenticate(loginForm.getEmail(),
 					loginForm.getPassword());
-			updateSession(user, session);
+			session.setAttribute(USER_ID, user);
 
 			// TODO
 			// String[] splitReferer = request.getHeader(REFERER_ID).split("/");
@@ -155,13 +148,7 @@ public class UserController {
 
 	@RequestMapping(value = "logout", method = RequestMethod.POST)
 	public String logout(HttpSession session) {
-		// TODO: check!
-		session.setAttribute(FIRST_NAME_ID, null);
-		session.setAttribute(EMAIL_ID, null);
-		session.setAttribute(LAST_NAME_ID, null);
-		session.setAttribute(PASS_ID, null);
-		session.setAttribute(BIRTHDAY_ID, null);
-
+		session.setAttribute(USER_ID, null);
 		return "redirect:/app/home";
 	}
 
@@ -171,20 +158,11 @@ public class UserController {
 		try {
 			List<Comment> commentList = commentService.getCommentsOf(user);
 			ModelAndView mav = new ModelAndView();
-			mav.addObject(COMMENTS_ID, commentList);
+			mav.addObject("comments", commentList);
 			mav.setViewName("user/comments");
 			return mav;
 		} catch (ServiceException e) {
 			return errorViewRedirect(e);
 		}
-	}
-
-	private void updateSession(User user, HttpSession session) {
-		// TODO: Check!
-		session.setAttribute(FIRST_NAME_ID, user.getFirstName());
-		session.setAttribute(EMAIL_ID, user.getEmail());
-		session.setAttribute(LAST_NAME_ID, user.getLastName());
-		session.setAttribute(PASS_ID, user.getPassword());
-		session.setAttribute(BIRTHDAY_ID, user.getBirthDate());
 	}
 }
