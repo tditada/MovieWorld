@@ -1,6 +1,9 @@
 package ar.edu.itba.paw.g4.model;
 
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+
+import javax.persistence.Id;
+
 import ar.edu.itba.paw.g4.util.EnumHelpers;
 
 import com.google.common.base.Converter;
@@ -14,10 +17,11 @@ public enum MovieGenres {
 			"Documentary"), MUSIC("Music"), MUSICAL("Musical"), ANIMATION(
 			"Animation"), WESTERN("Western"), SCIFI("Sci-fi");
 
-	public static final int MAX_GENRE_LENGTH = 25;
-
+	private static final int MAX_GENRE_LENGTH = 25;
+	@Id
+	private int id;
 	private String name;
-
+	
 	private MovieGenres() {
 		checkArgument(this.name().length() < MAX_GENRE_LENGTH);
 	}

@@ -74,7 +74,7 @@ public class PSQLMovieDAO implements MovieDAO {
 				statement.addParameter(movie.getCreationDate());
 				statement.addParameter(movie.getReleaseDate());
 				statement.addParameter(movie.getGenres());
-				statement.addParameter(movie.getDirector().getName());
+				statement.addParameter(movie.getDirector());
 				statement.addParameter(movie.getRuntimeInMins());
 				statement.addParameter(movie.getSummary());
 				statement.addParameter(movie.getTotalScore());

@@ -6,7 +6,7 @@ import ar.edu.itba.paw.g4.util.persist.GenericDAO;
 
 public interface UserDAO extends GenericDAO<User> {
 	
-	public User getByEmail(final EmailAddress email);
+	public User getByEmail(final String string);
 	
 	public void save(final User user);
 	

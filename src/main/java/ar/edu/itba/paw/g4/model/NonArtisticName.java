@@ -12,6 +12,9 @@ public class NonArtisticName {
 	public static final int MAX_NAME_LENGTH = 35;
 
 	private String nameString;
+	
+	public NonArtisticName() {
+	}
 
 	public static boolean isValid(String name) {
 		return neitherNullNorEmpty().apply(name)

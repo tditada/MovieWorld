@@ -63,10 +63,10 @@ public class PSQLUserDAO implements UserDAO {
 					statement.addParameter(user.getId());
 				}
 
-				statement.addParameter(user.getFirstName().getNameString());
-				statement.addParameter(user.getLastName().getNameString());
-				statement.addParameter(user.getEmail().asTextAddress());
-				statement.addParameter(user.getPassword().getPasswordString());
+				statement.addParameter(user.getFirstName());
+				statement.addParameter(user.getLastName());
+				statement.addParameter(user.getEmail());
+				statement.addParameter(user.getPassword());
 				statement.addParameter(user.getBirthDate());
 
 				int result = statement.executeUpdate();
@@ -109,8 +109,19 @@ public class PSQLUserDAO implements UserDAO {
 		return connection.run();
 	}
 
+	private User getUserFromResults(ResultSet results) throws SQLException {
+		User user = User.builder()
+				.withFirstName(getNonArtisticName(results, FIRST_NAME_ID))
+				.withLastName(getNonArtisticName(results, LAST_NAME_ID))
+				.withPassword(getPassword(results, PASSWD_ID))
+				.withEmail(getEmailAddress(results, EMAIL_ADDR_ID))
+				.withBirthDate(getDateTime(results, BIRTH_DATE_ID)).build();
+		user.setId(getInt(results, ID_ATTR_ID));
+		return user;
+	}
+
 	@Override
-	public User getByEmail(final EmailAddress email) {
+	public User getByEmail(final String email) {
 		checkArgument(email, notNull());
 		DatabaseConnection<User> connection = new DatabaseConnection<User>() {
 
@@ -121,7 +132,7 @@ public class PSQLUserDAO implements UserDAO {
 						+ EMAIL_ADDR_ID + " = ?";
 				PSQLStatement statement = new PSQLStatement(connection, query,
 						false);
-				statement.addParameter(email.asTextAddress());
+				statement.addParameter(email);
 
 				ResultSet results = statement.executeQuery();
 				if (results.next()) {
@@ -131,16 +142,5 @@ public class PSQLUserDAO implements UserDAO {
 			}
 		};
 		return connection.run();
-	}
-
-	private User getUserFromResults(ResultSet results) throws SQLException {
-		User user = User.builder()
-				.withFirstName(getNonArtisticName(results, FIRST_NAME_ID))
-				.withLastName(getNonArtisticName(results, LAST_NAME_ID))
-				.withPassword(getPassword(results, PASSWD_ID))
-				.withEmail(getEmailAddress(results, EMAIL_ADDR_ID))
-				.withBirthDate(getDateTime(results, BIRTH_DATE_ID)).build();
-		user.setId(getInt(results, ID_ATTR_ID));
-		return user;
 	}
 }

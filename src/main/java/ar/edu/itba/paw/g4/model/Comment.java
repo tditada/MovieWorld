@@ -7,22 +7,39 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNor
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
+import org.hibernate.annotations.Check;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.builder.CommentBuilder;
-import ar.edu.itba.paw.g4.util.persist.Entity;
+import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
-public class Comment extends Entity {
+@Entity 
+@Table(name="comments")
+public class Comment extends PersistentEntity {
 	private static final int MIN_SCORE = 0;
 	private static final int MAX_SCORE = 5;
 
+	@Column(nullable=false)
 	private String text;
+	@Check(constraints="(score >= MIN_SCORE AND score <= MAX_SCORE)")
 	private int score;
-	private User user;
-	private Movie movie;
+	@Column(nullable=false)
 	private DateTime creationDate;
+	@ManyToOne
+	private Movie movie;
+	@ManyToOne
+	private User user;
+	
+	public Comment() {
+	}
 
 	@GeneratePojoBuilder
 	public Comment(String text, int score, User user, Movie movie,

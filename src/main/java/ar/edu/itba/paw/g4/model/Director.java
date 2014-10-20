@@ -13,6 +13,9 @@ public class Director {
 
 	private String name; // artistic name, so no special conditions apply here
 
+	public Director() {
+	}
+	
 	@GeneratePojoBuilder
 	public Director(String name) {
 		checkArgument(name, neitherNullNorEmpty());

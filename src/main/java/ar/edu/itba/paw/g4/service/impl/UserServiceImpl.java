@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 	public User getUserByEmail(EmailAddress email) {
 		checkArgument(email, notNull());
 
-		User user = userDAO.getByEmail(email);
+		User user = userDAO.getByEmail(email.asTextAddress());
 		if (user == null) {
 			throw new ServiceException("Invalid user");
 		}

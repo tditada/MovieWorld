@@ -19,8 +19,11 @@ public class EmailAddress {
 	private static final Pattern EMAIL_PATTERN = Pattern
 			.compile(EMAIL_PATTERN_STR);
 
-	private final String localPart;
-	private final String domainPart;
+	private String localPart;
+	private String domainPart;
+	
+	public EmailAddress() {
+	}
 
 	public static EmailAddress buildFrom(String address) {
 		checkArgument(address, neitherNullNorEmpty());
@@ -30,7 +33,8 @@ public class EmailAddress {
 		}
 		return new EmailAddress(parts[0], parts[1]);
 	}
-
+	
+	
 	public static boolean isValid(String address) {
 		try {
 			buildFrom(address);

@@ -5,49 +5,96 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.g4.model.NonArtisticName;
 import ar.edu.itba.paw.g4.model.builder.UserBuilder;
-import ar.edu.itba.paw.g4.util.persist.Entity;
+import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
-public class User extends Entity {
-	private NonArtisticName firstName;
-	private NonArtisticName lastName;
-	private EmailAddress email;
-	private Password password;
+@Entity
+@Table(name = "users",uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
+public class User extends PersistentEntity {
+	public static final int MIN_PASSWORD_LENGTH = 10;
+	public static final int MAX_PASSWORD_LENGTH = 255;
+	public static final int MAX_NAME_LENGTH = 35;
+	public static final int MAX_EMAIL_LENGTH = 100;
+
+//TODO: Ver por qué no compila el CLOSED y los metodos de validacion comentados
+//	private static final Range<Integer> PASSWORD_LENGTH_RANGE = range(
+//			MIN_PASSWORD_LENGTH, CLOSED, MAX_PASSWORD_LENGTH, CLOSED);
+	@Column(nullable=false,length=MAX_NAME_LENGTH)
+	private String firstName;
+	@Column(nullable=false,length=MAX_NAME_LENGTH)
+	private String lastName;
+	@Column(nullable=false, length=MAX_EMAIL_LENGTH)
+	private String email;
+	@Column(nullable=false, length=MAX_PASSWORD_LENGTH)
+	private String password;
+	@Column(nullable=false)
 	private DateTime birthDate;
+	
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	private Set<Comment> comments = new HashSet<Comment>();
+
+
+//	public static boolean isValidNonArtisticName(String name) {
+//		return neitherNullNorEmpty().apply(name)
+//				&& name.length() <= MAX_NAME_LENGTH && isAlphaSpace(name)
+//				&& normalizeSpace(name).equals(name);
+//	}
+//
+//	public static boolean isValidPassword(String password) {
+//		return notNull().apply(password)
+//				&& PASSWORD_LENGTH_RANGE.contains(password.length());
+//	}
+	
+	public User() {
+	}
+
 
 	@GeneratePojoBuilder
 	public User(NonArtisticName firstName, NonArtisticName lastName,
-			EmailAddress email, Password password, DateTime birthDate) {
+			String email, Password password, DateTime birthDate) {
+
 		checkArgument(email, notNull());
 		checkArgument(birthDate, notNull());
 		checkArgument(password, notNull());
 		checkArgument(firstName, notNull());
 		checkArgument(lastName, notNull());
 
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.firstName = firstName.getNameString();
+		this.lastName = lastName.getNameString();
 		this.email = email;
-		this.password = password;
+		this.password = password.getPasswordString();
 		this.birthDate = birthDate;
 	}
 
-	public NonArtisticName getFirstName() {
+	public String getFirstName() {
 		return firstName;
 	}
 
-	public NonArtisticName getLastName() {
+	public String getLastName() {
 		return lastName;
 	}
 
-	public EmailAddress getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
-	public Password getPassword() {
+	public String getPassword() {
 		return password;
 	}
 

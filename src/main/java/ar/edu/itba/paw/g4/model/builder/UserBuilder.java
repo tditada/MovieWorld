@@ -4,8 +4,8 @@ import javax.annotation.Generated;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.NonArtisticName;
+import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.model.User;
 
@@ -16,7 +16,7 @@ public class UserBuilder implements Cloneable {
 	protected boolean isSet$firstName$ar$edu$itba$paw$g4$model$NonArtisticName;
 	protected NonArtisticName value$lastName$ar$edu$itba$paw$g4$model$NonArtisticName;
 	protected boolean isSet$lastName$ar$edu$itba$paw$g4$model$NonArtisticName;
-	protected EmailAddress value$email$ar$edu$itba$paw$g4$model$EmailAddress;
+	protected String value$id$java$lang$String;
 	protected boolean isSet$email$ar$edu$itba$paw$g4$model$EmailAddress;
 	protected Password value$password$ar$edu$itba$paw$g4$model$Password;
 	protected boolean isSet$password$ar$edu$itba$paw$g4$model$Password;
@@ -65,8 +65,8 @@ public class UserBuilder implements Cloneable {
 	 *            the default value
 	 * @return this builder
 	 */
-	public UserBuilder withEmail(EmailAddress value) {
-		this.value$email$ar$edu$itba$paw$g4$model$EmailAddress = value;
+	public UserBuilder withEmail(String value) {
+		this.value$id$java$lang$String = value;
 		this.isSet$email$ar$edu$itba$paw$g4$model$EmailAddress = true;
 		return self;
 	}
@@ -145,7 +145,7 @@ public class UserBuilder implements Cloneable {
 			User result = new User(
 					value$firstName$ar$edu$itba$paw$g4$model$NonArtisticName,
 					value$lastName$ar$edu$itba$paw$g4$model$NonArtisticName,
-					value$email$ar$edu$itba$paw$g4$model$EmailAddress,
+					value$id$java$lang$String,
 					value$password$ar$edu$itba$paw$g4$model$Password,
 					value$birthDate$org$joda$time$DateTime);
 			if (isSet$id$java$lang$Integer) {

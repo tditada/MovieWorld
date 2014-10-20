@@ -9,31 +9,65 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
+import org.hibernate.annotations.Check;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
 import ar.edu.itba.paw.g4.model.builder.MovieBuilder;
-import ar.edu.itba.paw.g4.util.persist.Entity;
+import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
-public class Movie extends Entity {
+@Entity	
+@Table(name="movies",uniqueConstraints={@UniqueConstraint(columnNames={"title","director"})})
+public class Movie extends PersistentEntity {
 	public static final int DAYS_AS_RELEASE = 6;
 	public static final int MAX_TITLE_LENGTH = 255;
-
+	public static final int MAX_DIRECTOR_NAME = 70;
+	
+	@Column(nullable=false, length=MAX_TITLE_LENGTH)
 	private String title; // artistic name for movie, so no special rules (other
 							// than length) apply
+	@Column(nullable=false)
 	private DateTime creationDate;
+	@Column(nullable=false)
 	private DateTime releaseDate;
+	@Column(nullable=false)
+	@ElementCollection 
+	@Enumerated(EnumType.STRING)
 	private List<MovieGenres> genres;
-	private Director director;
+	@Column(nullable=false, length=MAX_DIRECTOR_NAME)
+	private String director;
+	@Check(constraints="runtimeInMins>0")
 	private int runtimeInMins;
+	@Column(nullable=false)
 	private String summary;
+	@Check(constraints="totalScore>=0")
 	private int totalScore;
+	@Check(constraints="totalComments>=0")
 	private int totalComments;
 
+
+	@OneToMany(mappedBy="movie", cascade=CascadeType.ALL)
+	private Set<Comment> comments = new HashSet<Comment>();
+
+	public Movie() {
+	}
+	
 	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
 			List<MovieGenres> genres, Director director, int runtimeInMins,
@@ -53,7 +87,7 @@ public class Movie extends Entity {
 		this.creationDate = creationDate;
 		this.releaseDate = releaseDate;
 		this.genres = genres;
-		this.director = director;
+		this.director = director.getName();
 		this.runtimeInMins = runtimeInMins;
 		this.summary = summary;
 		this.totalScore = totalScore;
@@ -96,7 +130,7 @@ public class Movie extends Entity {
 		return DateTime.now().isAfter(releaseDate);
 	}
 
-	public Director getDirector() {
+	public String getDirector() {
 		return director;
 	}
 

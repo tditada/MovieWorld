@@ -65,9 +65,9 @@ public class PSQLQueryHelpers {
 		return EnumHelpers.valuesOf(converter, stringValues);
 	}
 
-	public static EmailAddress getEmailAddress(ResultSet resultSet,
+	public static String getEmailAddress(ResultSet resultSet,
 			String columnName) throws SQLException {
-		return EmailAddress.buildFrom(resultSet.getString(columnName));
+		return resultSet.getString(columnName);
 	}
 
 	public static String getString(ResultSet resultSet, String columnName)

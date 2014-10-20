@@ -79,7 +79,7 @@ public class RegistrationForm {
 
 	public User build() {
 		return User.builder().withFirstName(firstName).withLastName(lastName)
-				.withPassword(password).withEmail(email)
+				.withPassword(password).withEmail(email.asTextAddress())
 				.withBirthDate(birthDate).build();
 	}
 }

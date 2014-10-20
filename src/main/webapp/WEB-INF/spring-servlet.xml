@@ -12,5 +12,8 @@
 
 	<!-- Spring-MVC Beans -->
 	<import resource="classpath:mvc.xml" />
+	
+	<!-- Beans relacionados con Spring-Hibernate -->
+	<import resource="classpath:data.xml" />
 
 </beans>

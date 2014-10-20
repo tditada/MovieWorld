@@ -18,6 +18,9 @@ public class Password {
 			MIN_PASSWORD_LENGTH, CLOSED, MAX_PASSWORD_LENGTH, CLOSED);
 
 	private String passwordString;
+	
+	public Password() {
+	}
 
 	public static boolean isValid(String password) {
 		return notNull().apply(password)
