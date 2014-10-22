@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.exception.ServiceException;
-import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Director;
-import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.MovieGenres;
-import ar.edu.itba.paw.g4.model.User;
+import ar.edu.itba.paw.g4.model.comment.Comment;
+import ar.edu.itba.paw.g4.model.movie.Movie;
+import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.service.CommentService;
 import ar.edu.itba.paw.g4.service.MovieService;
 

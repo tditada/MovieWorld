@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
-import ar.edu.itba.paw.g4.model.Movie;
+import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.service.MovieService;
 
 @Component

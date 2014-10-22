@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.model;
+package ar.edu.itba.paw.g4.model.comment;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
@@ -19,25 +19,28 @@ import org.hibernate.annotations.Check;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.builder.CommentBuilder;
+import ar.edu.itba.paw.g4.model.movie.Movie;
+import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
-@Entity 
-@Table(name="comments")
+@Entity
+@Table(name = "comments")
 public class Comment extends PersistentEntity {
 	private static final int MIN_SCORE = 0;
 	private static final int MAX_SCORE = 5;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String text;
-	@Check(constraints="(score >= MIN_SCORE AND score <= MAX_SCORE)")
+	@Check(constraints = "(score >=" + MIN_SCORE + " AND score <= " + MAX_SCORE
+			+ ")")
 	private int score;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private DateTime creationDate;
 	@ManyToOne
 	private Movie movie;
 	@ManyToOne
 	private User user;
-	
+
 	public Comment() {
 	}
 

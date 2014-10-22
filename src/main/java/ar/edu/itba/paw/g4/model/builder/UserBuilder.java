@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 import ar.edu.itba.paw.g4.model.NonArtisticName;
 import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.Password;
-import ar.edu.itba.paw.g4.model.User;
+import ar.edu.itba.paw.g4.model.user.User;
 
 @Generated("PojoBuilder")
 public class UserBuilder implements Cloneable {

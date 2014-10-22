@@ -4,9 +4,9 @@ import javax.annotation.Generated;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.model.Comment;
-import ar.edu.itba.paw.g4.model.Movie;
-import ar.edu.itba.paw.g4.model.User;
+import ar.edu.itba.paw.g4.model.comment.Comment;
+import ar.edu.itba.paw.g4.model.movie.Movie;
+import ar.edu.itba.paw.g4.model.user.User;
 
 @Generated("PojoBuilder")
 public class CommentBuilder implements Cloneable {

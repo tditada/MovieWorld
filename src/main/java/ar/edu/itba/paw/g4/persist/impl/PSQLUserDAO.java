@@ -18,7 +18,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.EmailAddress;
-import ar.edu.itba.paw.g4.model.User;
+import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.persist.UserDAO;
 import ar.edu.itba.paw.g4.util.persist.sql.DatabaseConnection;
 import ar.edu.itba.paw.g4.util.persist.sql.PSQLStatement;

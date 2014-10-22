@@ -8,9 +8,13 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isAlphaSpace;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class NonArtisticName {
 	public static final int MAX_NAME_LENGTH = 35;
 
+	
 	private String nameString;
 	
 	public NonArtisticName() {

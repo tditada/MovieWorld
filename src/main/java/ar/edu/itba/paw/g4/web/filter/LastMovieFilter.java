@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.filter.GenericFilterBean;
 
-import ar.edu.itba.paw.g4.model.Movie;
+import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.web.controller.MoviesController;
 
 public class LastMovieFilter extends GenericFilterBean {

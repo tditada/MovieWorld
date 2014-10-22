@@ -21,8 +21,8 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.Director;
-import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.MovieGenres;
+import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.persist.MovieDAO;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 import ar.edu.itba.paw.g4.util.persist.sql.DatabaseConnection;

@@ -5,7 +5,7 @@ import org.joda.time.DateTime;
 import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.NonArtisticName;
 import ar.edu.itba.paw.g4.model.Password;
-import ar.edu.itba.paw.g4.model.User;
+import ar.edu.itba.paw.g4.model.user.User;
 
 public class RegistrationForm {
 	private NonArtisticName firstName;

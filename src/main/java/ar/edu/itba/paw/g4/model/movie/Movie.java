@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.model;
+package ar.edu.itba.paw.g4.model.movie;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
@@ -13,9 +13,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,45 +31,55 @@ import org.hibernate.annotations.Check;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import ar.edu.itba.paw.g4.model.Director;
+import ar.edu.itba.paw.g4.model.MovieGenres;
 import ar.edu.itba.paw.g4.model.builder.MovieBuilder;
+import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
-@Entity	
-@Table(name="movies",uniqueConstraints={@UniqueConstraint(columnNames={"title","director"})})
+@Entity
+@Table(name = "movies", uniqueConstraints = { @UniqueConstraint(columnNames = {
+		"title", "director" }) })
 public class Movie extends PersistentEntity {
 	public static final int DAYS_AS_RELEASE = 6;
 	public static final int MAX_TITLE_LENGTH = 255;
-	public static final int MAX_DIRECTOR_NAME = 70;
-	
-	@Column(nullable=false, length=MAX_TITLE_LENGTH)
+
+	@Column(nullable = false, length = MAX_TITLE_LENGTH)
 	private String title; // artistic name for movie, so no special rules (other
 							// than length) apply
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private DateTime creationDate;
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private DateTime releaseDate;
-	@Column(nullable=false)
-	@ElementCollection 
+
+	@Column(nullable = false)
+	@ElementCollection
 	@Enumerated(EnumType.STRING)
 	private List<MovieGenres> genres;
-	@Column(nullable=false, length=MAX_DIRECTOR_NAME)
-	private String director;
-	@Check(constraints="runtimeInMins>0")
+
+	@Embedded
+	@AttributeOverride(name = "name", column = @Column(name = "director"))
+	private Director director;
+
+	@Check(constraints = "runtimeInMins > 0")
 	private int runtimeInMins;
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String summary;
-	@Check(constraints="totalScore>=0")
+
+	@Check(constraints = "totalScore >= 0")
 	private int totalScore;
-	@Check(constraints="totalComments>=0")
+
+	@Check(constraints = "totalComments >= 0")
 	private int totalComments;
 
-
-	@OneToMany(mappedBy="movie", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
 	private Set<Comment> comments = new HashSet<Comment>();
 
 	public Movie() {
 	}
-	
+
 	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
 			List<MovieGenres> genres, Director director, int runtimeInMins,
@@ -87,7 +99,7 @@ public class Movie extends PersistentEntity {
 		this.creationDate = creationDate;
 		this.releaseDate = releaseDate;
 		this.genres = genres;
-		this.director = director.getName();
+		this.director = director;
 		this.runtimeInMins = runtimeInMins;
 		this.summary = summary;
 		this.totalScore = totalScore;
@@ -130,7 +142,7 @@ public class Movie extends PersistentEntity {
 		return DateTime.now().isAfter(releaseDate);
 	}
 
-	public String getDirector() {
+	public Director getDirector() {
 		return director;
 	}
 

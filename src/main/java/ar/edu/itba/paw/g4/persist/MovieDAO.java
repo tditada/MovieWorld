@@ -5,8 +5,8 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.Director;
-import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.MovieGenres;
+import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.util.persist.GenericDAO;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 

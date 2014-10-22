@@ -7,8 +7,8 @@ import javax.annotation.Generated;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.Director;
-import ar.edu.itba.paw.g4.model.Movie;
 import ar.edu.itba.paw.g4.model.MovieGenres;
+import ar.edu.itba.paw.g4.model.movie.Movie;
 
 @Generated("PojoBuilder")
 public class MovieBuilder implements Cloneable {
