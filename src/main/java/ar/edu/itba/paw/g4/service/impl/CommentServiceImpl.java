@@ -11,33 +11,24 @@ import org.springframework.stereotype.Service;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.movie.Movie;
+import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 import ar.edu.itba.paw.g4.model.user.User;
-import ar.edu.itba.paw.g4.persist.CommentDAO;
-import ar.edu.itba.paw.g4.persist.MovieDAO;
 import ar.edu.itba.paw.g4.service.CommentService;
 
 @Service
 public class CommentServiceImpl implements CommentService {
-	private CommentDAO commentDAO;
-	private MovieDAO movieDAO;
+	private MovieRepo movies;
 
 	@Autowired
-	CommentServiceImpl(CommentDAO commentDAO, MovieDAO movieDAO) {
-		this.commentDAO = commentDAO;
-		this.movieDAO = movieDAO;
-	}
-
-	@Override
-	public List<Comment> getCommentsOf(User user) {
-		checkArgument(user, notNull());
-		return commentDAO.getAllByUser(user);
+	CommentServiceImpl(MovieRepo movies) {
+		this.movies = movies;
 	}
 
 	@Override
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
 
-		Movie movie = movieDAO.getById(comment.getMovie().getId());
+		Movie movie = movies.findById(comment.getMovie().getId());
 		if (movie == null) {
 			throw new ServiceException(
 					"Cannot comment on a movie not added to the system");
@@ -52,13 +43,7 @@ public class CommentServiceImpl implements CommentService {
 
 		commentDAO.save(comment);
 		movie.addComment(comment);
-		movieDAO.save(movie);
-	}
-
-	@Override
-	public List<Comment> getCommentsFor(Movie movie) {
-		checkArgument(movie, notNull());
-		return commentDAO.getAllByMovie(movie);
+		movies.save(movie);
 	}
 
 	@Override

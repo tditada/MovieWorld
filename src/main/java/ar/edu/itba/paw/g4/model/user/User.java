@@ -6,8 +6,8 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,7 +50,7 @@ public class User extends PersistentEntity {
 	private DateTime birthDate;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<Comment> comments = new HashSet<Comment>();
+	private Set<Comment> comments = new TreeSet<>();
 
 	public User() {
 	}
@@ -122,5 +122,9 @@ public class User extends PersistentEntity {
 
 	public static UserBuilder builder() {
 		return new UserBuilder();
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
 	}
 }

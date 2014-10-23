@@ -2,10 +2,7 @@ package ar.edu.itba.paw.g4.web.controller;
 
 import static ar.edu.itba.paw.g4.web.ErrorHelpers.errorViewRedirect;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
-import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +15,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.exception.ServiceException;
-import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.user.User;
-import ar.edu.itba.paw.g4.service.CommentService;
-import ar.edu.itba.paw.g4.service.UserService;
+import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.web.form.LoginForm;
 import ar.edu.itba.paw.g4.web.form.RegistrationForm;
 import ar.edu.itba.paw.g4.web.form.validation.LoginFormValidator;
@@ -33,18 +28,15 @@ import ar.edu.itba.paw.g4.web.form.validation.RegistrationFormValidator;
 public class UserController {
 	private static final String USER_ID = "user";
 
-	private UserService userService;
-	private CommentService commentService;
+	private UserRepo users;
 	private RegistrationFormValidator registrationFormValidator;
 	private LoginFormValidator loginFormValidator;
 
 	@Autowired
-	public UserController(UserService userService,
-			CommentService commentService, Validator validator,
+	public UserController(UserRepo users,
 			RegistrationFormValidator registrationFormValidator,
 			LoginFormValidator loginFormValidator) {
-		this.userService = userService;
-		this.commentService = commentService;
+		this.users = users;
 		this.registrationFormValidator = registrationFormValidator;
 		this.loginFormValidator = loginFormValidator;
 	}
@@ -74,7 +66,7 @@ public class UserController {
 
 		User user = registrationForm.build();
 		try {
-			userService.register(user);
+			users.register(user);
 			session.setAttribute(USER_ID, user);
 			mav.setViewName("redirect:/app/home");
 			return mav;
@@ -125,7 +117,7 @@ public class UserController {
 			}
 
 			// User user = userService.authenticate(emailAddress, password);
-			User user = userService.authenticate(loginForm.getEmail(),
+			User user = users.authenticate(loginForm.getEmail(),
 					loginForm.getPassword());
 			session.setAttribute(USER_ID, user);
 
@@ -156,14 +148,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "comments", method = RequestMethod.GET)
-	public ModelAndView userComments(
-			@ModelAttribute User user) {
+	public ModelAndView userComments(@ModelAttribute User user) {
 		try {
-			List<Comment> commentList = commentService.getCommentsOf(user);
-			ModelAndView mav = new ModelAndView();
-			mav.addObject("comments", commentList);
-			mav.setViewName("user/comments");
-			return mav;
+			return new ModelAndView("user/comments");
 		} catch (ServiceException e) {
 			return errorViewRedirect(e);
 		}

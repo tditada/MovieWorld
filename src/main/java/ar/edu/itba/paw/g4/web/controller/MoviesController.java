@@ -17,11 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.MovieGenres;
-import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.movie.Movie;
+import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.service.CommentService;
-import ar.edu.itba.paw.g4.service.MovieService;
+import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 @Controller
 @RequestMapping("/movies")
@@ -37,13 +37,13 @@ public class MoviesController {
 	private static final String DIRECTORS_ID = "directors";
 	private static final String MOVIES_ID = "movies";
 
-	private MovieService movieService;
 	private CommentService commentService;
+	private MovieRepo movies;
 
 	@Autowired
-	MoviesController(MovieService movieService, CommentService commentService) {
-		this.movieService = movieService;
+	MoviesController(CommentService commentService, MovieRepo movies) {
 		this.commentService = commentService;
+		this.movies = movies;
 	}
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
@@ -51,19 +51,20 @@ public class MoviesController {
 			@RequestParam(value = "genre", required = false) MovieGenres genre,
 			@RequestParam(value = "director", required = false) Director director) {
 		try {
-			List<Movie> movies;
+			List<Movie> movieList;
 			if (genre == null && director == null) {
-				movies = movieService.getMovieList();
+				movieList = movies.findAllByReleaseDate(Orderings.DESC);
 			} else if (genre != null) {
-				movies = movieService.getAllMoviesByGenre(genre);
+				movieList = movies.findAllByGenre(genre);
 			} else {
-				movies = movieService.getAllMoviesByDirector(director);
+				movieList = movies.findAllByDirector(director);
 			}
 
 			ModelAndView mav = new ModelAndView();
 			mav.addObject(GENRES_ID, MovieGenres.values());
-			mav.addObject(DIRECTORS_ID, movieService.getAllDirectors());
-			mav.addObject(MOVIES_ID, movies);
+			mav.addObject(DIRECTORS_ID,
+					movies.findAllDirectorsOrderedByName(Orderings.ASC));
+			mav.addObject(MOVIES_ID, movieList);
 			mav.setViewName("movies/all");
 			return mav;
 		} catch (ServiceException e) {
@@ -81,7 +82,6 @@ public class MoviesController {
 			return mav;
 		}
 		try {
-			List<Comment> comments = commentService.getCommentsFor(movie);
 
 			User user = (User) session.getAttribute("user");
 			boolean canComment = false;
@@ -91,7 +91,6 @@ public class MoviesController {
 
 			session.setAttribute(MOVIE_ID, movie);
 
-			mav.addObject(COMMENT_LIST_ID, comments);
 			mav.addObject(MOVIE_ID, movie);
 			mav.addObject(CAN_COMMENT_ID, canComment);
 			mav.setViewName("movies/single");

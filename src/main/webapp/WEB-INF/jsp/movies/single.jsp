@@ -80,7 +80,7 @@
 				</c:choose>
 			</h3>
 		</div>
-		<c:forEach items="${comments}" var="comment">
+		<c:forEach items="${movie.comments}" var="comment">
 			<div class="panel-body">
 				<dl class="dl-horizontal">
 					<dt>User</dt>

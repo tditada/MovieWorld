@@ -1,15 +1,16 @@
-package ar.edu.itba.paw.g4.service;
+package ar.edu.itba.paw.g4.model.user;
 
 import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.Password;
-import ar.edu.itba.paw.g4.model.user.User;
 
-public interface UserService {
+public interface UserRepo {
+	public User findById(final int id);
 
-	public User getUserByEmail(EmailAddress email);
+	public User findUserByEmail(String email);
+
+	public void save(final User user);
 
 	public void register(User user);
 
 	public User authenticate(EmailAddress email, Password password);
-
 }

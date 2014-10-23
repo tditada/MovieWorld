@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.model.movie.Movie;
-import ar.edu.itba.paw.g4.service.MovieService;
+import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 
 @Controller
 @RequestMapping("/home")
@@ -21,19 +21,19 @@ public class HomeController {
 	private static final int TOP_MOVIES_QUANTITY = 5;
 	private static final int NEW_ADDITIONS_QUANTITY = 5;
 
-	private MovieService movieService;
+	private MovieRepo movies;
 
 	@Autowired
-	HomeController(MovieService movieService) {
-		this.movieService = movieService;
+	HomeController(MovieRepo movies) {
+		this.movies = movies;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView show() {
-		List<Movie> topMovies = movieService.getTopMovies(TOP_MOVIES_QUANTITY);
-		List<Movie> newAdditions = movieService
-				.getNewAdditions(NEW_ADDITIONS_QUANTITY);
-		List<Movie> releases = movieService.getReleases();
+		List<Movie> topMovies = movies.findTopMovies(TOP_MOVIES_QUANTITY);
+		List<Movie> newAdditions = movies
+				.findNewAdditions(NEW_ADDITIONS_QUANTITY);
+		List<Movie> releases = movies.findReleases();
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject(TOP_MOVIES_ID, topMovies);

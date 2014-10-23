@@ -12,7 +12,7 @@
 		</div>
 		<div class="col-md-8">
 			<div class="panel panel-default">
-				<c:forEach items="${comments}" var="comment">
+				<c:forEach items="${user.comments}" var="comment">
 					<div class="panel-heading">
 						<a href="<c:out	value="app/movies/detail?id=${comment.movie.id}" />">
 							<c:out value="${comment.movie.title}" />

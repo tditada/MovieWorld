@@ -8,20 +8,25 @@ import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
 import ar.edu.itba.paw.g4.model.movie.Movie;
-import ar.edu.itba.paw.g4.service.MovieService;
+import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 
 @Component
 public class MovieFormatter implements Formatter<Movie> {
-	private MovieService movieService;
+	private MovieRepo movies;
 
 	@Autowired
-	public MovieFormatter(MovieService movieService) {
-		this.movieService = movieService;
+	public MovieFormatter(MovieRepo movies) {
+		this.movies = movies;
 	}
 
 	@Override
 	public Movie parse(String arg0, Locale arg1) throws ParseException {
-		return movieService.getMovieById(Integer.valueOf(arg0));
+		Movie movie = movies.findById(Integer.valueOf(arg0));
+		if (movie == null) {
+			throw new IllegalArgumentException("There is no movie with id="
+					+ arg0);
+		}
+		return movie;
 	}
 
 	@Override
