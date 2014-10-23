@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import ar.edu.itba.paw.g4.model.comment.Comment;
+import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.service.CommentService;

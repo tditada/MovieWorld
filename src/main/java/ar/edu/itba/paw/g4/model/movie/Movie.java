@@ -31,10 +31,11 @@ import org.hibernate.annotations.Check;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.MovieGenres;
 import ar.edu.itba.paw.g4.model.builder.MovieBuilder;
-import ar.edu.itba.paw.g4.model.comment.Comment;
+import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
 @Entity
@@ -138,8 +139,17 @@ public class Movie extends PersistentEntity {
 		return genres;
 	}
 
-	public boolean isCommentable() {
-		return DateTime.now().isAfter(releaseDate);
+	public boolean isCommentableBy(User user) {
+		checkArgument(user, notNull());
+		if (!DateTime.now().isAfter(releaseDate)) {
+			return false;
+		}
+		for (Comment c : comments) {
+			if (c.getUser().equals(user)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public Director getDirector() {
@@ -171,7 +181,8 @@ public class Movie extends PersistentEntity {
 				.add("creationDate", creationDate)
 				.add("releaseDate", releaseDate).add("genres", genres)
 				.add("director", director).add("durationInMins", runtimeInMins)
-				.add("summary", summary).add("totalScore", totalScore)
+				.add("summary", summary).add("comments", comments)
+				.add("totalScore", totalScore)
 				.add("totalComments", totalComments).toString();
 	}
 

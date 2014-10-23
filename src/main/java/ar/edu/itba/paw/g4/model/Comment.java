@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.model.comment;
+package ar.edu.itba.paw.g4.model;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
@@ -51,7 +51,7 @@ public class Comment extends PersistentEntity {
 		checkArgument(text, neitherNullNorEmpty());
 		checkArgument(user, notNull());
 		checkArgument(movie, notNull());
-		checkArgument(movie.isCommentable());
+		checkArgument(movie.isCommentableBy(user));
 
 		this.text = text;
 		this.score = score;

@@ -20,10 +20,10 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.NonArtisticName;
 import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.model.builder.UserBuilder;
-import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
 @Entity
@@ -96,7 +96,8 @@ public class User extends PersistentEntity {
 		return toStringHelper(this).add("id", getId())
 				.add("firstName", firstName).add("lastName", lastName)
 				.add("email", email).add("password", password)
-				.add("birthDate", birthDate).toString();
+				.add("birthDate", birthDate).add("comments", comments)
+				.toString();
 	}
 
 	@Override
@@ -126,5 +127,10 @@ public class User extends PersistentEntity {
 
 	public Set<Comment> getComments() {
 		return comments;
+	}
+
+	public void addComment(Comment comment) {
+		checkArgument(comment, notNull());
+		this.comments.add(comment);
 	}
 }
