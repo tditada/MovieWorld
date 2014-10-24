@@ -15,6 +15,10 @@
 						<div class="alert alert-danger" role="alert">Invalid email
 							or password</div>
 					</form:errors>
+					<c:if test="${not empty authFailed}">
+						<div class="alert alert-danger" role="alert">Invalid email
+							or password</div>
+					</c:if>
 					<div class="form-group">
 						<form:input path="email" name="email" type="text"
 							class="form-control input-lg" placeholder="Email" />

@@ -39,26 +39,26 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	@Override
 	public List<Movie> findAllByReleaseDate(Orderings ordering) {
 		checkArgument(ordering, notNull());
-		return find("from movie order by releaseDate "
+		return find("from Movie order by releaseDate "
 				+ asHQLOrdering(ordering));
 	}
 
 	@Override
 	public List<Movie> findAllByGenre(MovieGenres genre) {
 		checkArgument(genre, notNull());
-		return find("from movie where genre=?", genre);
+		return find("from Movie where genre=?", genre);
 	}
 
 	@Override
 	public List<Movie> findNewAdditions(int quantity) {
 		checkArgument(quantity > 0);
-		return find("from movie order by creationDate desc limit ?", quantity);
+		return find("from Movie order by creationDate desc limit " + quantity);
 	}
 
 	@Override
 	public List<Movie> findAllByDirector(Director director) {
 		checkArgument(director, notNull());
-		return find("from movie where director=?", director);
+		return find("from Movie where director=?", director);
 	}
 
 	@Override
@@ -69,27 +69,27 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 		checkArgument(toDate, notNull());
 		checkArgument(toDate.isAfter(fromDate));
 		return find(
-				"from movie where releaseDate>=? and releaseDate<=? order by releaseDate "
+				"from Movie where releaseDate>=? and releaseDate<=? order by releaseDate "
 						+ asHQLOrdering(ordering), fromDate, toDate);
 	}
 
 	@Override
 	public List<Movie> findAllInOrderByTotalScore(Orderings ordering) {
 		checkArgument(ordering, notNull());
-		return find("from movie order by totalScore " + asHQLOrdering(ordering));
+		return find("from Movie order by totalScore " + asHQLOrdering(ordering));
 	}
 
 	@Override
 	public List<Director> findAllDirectorsOrderedByName(Orderings ordering) {
 		checkArgument(ordering, notNull());
-		return find("from movie get director order by director "
+		return find("from Movie get director order by director "
 				+ asHQLOrdering(ordering));
 	}
 
 	@Override
 	public List<Movie> findTopMovies(int quantity) {
 		checkArgument(quantity > 0);
-		return find("from movie order by totalscore desc limit ?", quantity);
+		return find("from Movie order by totalScore desc limit " + quantity);
 		// TODO: check!
 		// List<Movie> movies =
 		// movieDAO.getAllInOrderByTotalScore(Orderings.DESC);
@@ -110,7 +110,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 		DateTime fromDate = toDate.minusDays(Movie.DAYS_AS_RELEASE);
 
 		return find(
-				"from movie where releaseDate>=? and releaseDate<=? order by releaseDate "
+				"from Movie where releaseDate>=? and releaseDate<=? order by releaseDate "
 						+ asHQLOrdering(Orderings.DESC), fromDate, toDate);
 	}
 }

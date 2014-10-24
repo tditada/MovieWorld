@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.g4.web.controller;
 
-import static ar.edu.itba.paw.g4.web.ErrorHelpers.errorViewRedirect;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.itba.paw.g4.exception.ServiceException;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.web.form.LoginForm;
@@ -26,6 +23,7 @@ import ar.edu.itba.paw.g4.web.form.validation.RegistrationFormValidator;
 @RequestMapping("/user")
 @SessionAttributes({ "user" })
 public class UserController {
+	private static final String AUTH_FAILED_ID = "authFailed";
 	private static final String USER_ID = "user";
 
 	private UserRepo users;
@@ -65,14 +63,10 @@ public class UserController {
 		}
 
 		User user = registrationForm.build();
-		try {
-			users.register(user);
-			session.setAttribute(USER_ID, user);
-			mav.setViewName("redirect:/app/home");
-			return mav;
-		} catch (ServiceException e) {
-			return errorViewRedirect(e);
-		}
+		users.register(user);
+		session.setAttribute(USER_ID, user);
+		mav.setViewName("redirect:/app/home");
+		return mav;
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
@@ -86,59 +80,59 @@ public class UserController {
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public ModelAndView login(LoginForm loginForm, Errors errors,
 			HttpSession session) {
-		try {
-			ModelAndView mav = new ModelAndView();
-			// LoginForm form = LoginForm.extractFrom(allRequestParams);
+		ModelAndView mav = new ModelAndView();
+		// LoginForm form = LoginForm.extractFrom(allRequestParams);
 
-			// EmailAddress emailAddress = EmailAddress.buildFrom(email);
+		// EmailAddress emailAddress = EmailAddress.buildFrom(email);
 
-			// List<Boolean> errors = new LinkedList<Boolean>();
-			// if (!isLoginValid(email, password, errors)) {
-			// for (int i = 0; i < errors.size(); i++) {
-			// int fieldEnum = LoginField.values()[i].value;
-			// mav.addObject(BASE_ERROR_ID + fieldEnum, errors.get(i));
-			// }
-			// mav.addObject(EMAIL_ID, email);
-			// mav.addObject(PASS_ID, password);
+		// List<Boolean> errors = new LinkedList<Boolean>();
+		// if (!isLoginValid(email, password, errors)) {
+		// for (int i = 0; i < errors.size(); i++) {
+		// int fieldEnum = LoginField.values()[i].value;
+		// mav.addObject(BASE_ERROR_ID + fieldEnum, errors.get(i));
+		// }
+		// mav.addObject(EMAIL_ID, email);
+		// mav.addObject(PASS_ID, password);
 
-			// return "redirect:login";
-			// }
+		// return "redirect:login";
+		// }
 
-			// if (!form.isValid()) {
-			// mav.addAllObjects(form.getErrors());
-			// mav.setViewName("redirect:/app/login");
-			// return mav;
-			// }
+		// if (!form.isValid()) {
+		// mav.addAllObjects(form.getErrors());
+		// mav.setViewName("redirect:/app/login");
+		// return mav;
+		// }
 
-			loginFormValidator.validate(loginForm, errors);
-			if (errors.hasErrors()) {
-				mav.setViewName("login");
-				return mav;
-			}
-
-			// User user = userService.authenticate(emailAddress, password);
-			User user = users.authenticate(loginForm.getEmail(),
-					loginForm.getPassword());
-			session.setAttribute(USER_ID, user);
-
-			// TODO
-			// String[] splitReferer = request.getHeader(REFERER_ID).split("/");
-			// String refererEnd = splitReferer[splitReferer.length - 1];
-			// if (refererEnd.equals("login")) {
-			// String redirectUrl = ((HttpServletResponse) response)
-			// .encodeRedirectURL("home");
-			// ((HttpServletResponse) response).sendRedirect(redirectUrl);
-			// } else {
-			// return response.sendRedirect(request.getHeader(REFERER_ID));
-			// }
-
-			// return "redirect:home";
-
-			mav.setViewName("redirect:/app/home");
+		loginFormValidator.validate(loginForm, errors);
+		if (errors.hasErrors()) {
+			mav.setViewName("login");
 			return mav;
-		} catch (ServiceException e) {
-			return errorViewRedirect(e);
 		}
+
+		// User user = userService.authenticate(emailAddress, password);
+		User user = users.authenticate(loginForm.getEmail(),
+				loginForm.getPassword());
+		if (user == null) {
+			mav.addObject(AUTH_FAILED_ID, true);
+			mav.setViewName("login");
+			return mav;
+		}
+		session.setAttribute(USER_ID, user);
+
+		// TODO
+		// String[] splitReferer = request.getHeader(REFERER_ID).split("/");
+		// String refererEnd = splitReferer[splitReferer.length - 1];
+		// if (refererEnd.equals("login")) {
+		// String redirectUrl = ((HttpServletResponse) response)
+		// .encodeRedirectURL("home");
+		// ((HttpServletResponse) response).sendRedirect(redirectUrl);
+		// } else {
+		// return response.sendRedirect(request.getHeader(REFERER_ID));
+		// }
+		// return "redirect:home";
+
+		mav.setViewName("redirect:/app/home");
+		return mav;
 	}
 
 	@RequestMapping(value = "logout", method = RequestMethod.POST)
@@ -149,10 +143,6 @@ public class UserController {
 
 	@RequestMapping(value = "comments", method = RequestMethod.GET)
 	public ModelAndView userComments(@ModelAttribute User user) {
-		try {
-			return new ModelAndView("user/comments");
-		} catch (ServiceException e) {
-			return errorViewRedirect(e);
-		}
+		return new ModelAndView("user/comments");
 	}
 }

@@ -31,7 +31,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo implements
 	public User findUserByEmail(String email) {
 		checkArgument(email, notNull());
 
-		List<User> users = find("from user where email=?", email);
+		List<User> users = find("from User where email=?", email);
 		if (users.isEmpty()) {
 			return null;
 		}
@@ -63,11 +63,11 @@ public class HibernateUserRepo extends AbstractHibernateRepo implements
 		checkArgument(password, notNull());
 
 		User user = findUserByEmail(email.asTextAddress());
-		if (!user.getPassword().equals(password)) {
+		if (user == null || !password.equals(user.getPassword())) {
 			// TODO: check!
-			throw new RuntimeException("Wrong Password");
+			// throw new RuntimeException("Wrong Password");
+			return null;
 		}
 		return user;
 	}
-
 }
