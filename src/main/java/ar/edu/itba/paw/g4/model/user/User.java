@@ -5,6 +5,7 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+import static org.joda.time.DateTime.now;
 
 import java.util.Collections;
 import java.util.Set;
@@ -65,6 +66,7 @@ public class User extends PersistentEntity {
 		checkArgument(email, notNull());
 		checkArgument(password, notNull());
 		checkArgument(birthDate, notNull());
+		checkArgument(birthDate.isBefore(now()));
 
 		this.firstName = firstName.getNameString();
 		this.lastName = lastName.getNameString();
@@ -140,7 +142,7 @@ public class User extends PersistentEntity {
 		}
 
 		comments.add(comment);
-		
+
 		Movie movie = comment.getMovie();
 		movie.addComment(comment);
 	}

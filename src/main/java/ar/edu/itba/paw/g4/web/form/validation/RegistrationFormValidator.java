@@ -1,10 +1,12 @@
 package ar.edu.itba.paw.g4.web.form.validation;
 
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
+import static org.joda.time.DateTime.now;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import static ar.edu.itba.paw.g4.util.ObjectHelpers.*;
 import ar.edu.itba.paw.g4.web.form.RegistrationForm;
 
 @Component
@@ -40,6 +42,7 @@ public class RegistrationFormValidator implements Validator {
 		// if (!Password.isValid(form.getPassword())) {
 		// errors.rejectValue(PASS_ID, "invalid");
 		// }
+
 		checkSet(FIRST_NAME_ID, form.getFirstName(), errors);
 		checkSet(LAST_NAME_ID, form.getLastName(), errors);
 		checkSet(BIRTH_DATE_ID, form.getBirthDate(), errors);
@@ -47,6 +50,11 @@ public class RegistrationFormValidator implements Validator {
 		checkSet(PASSWORD_ID, form.getEmail(), errors);
 		checkSet(PASSWORD_CONFIRMATION_ID, form.getPasswordConfirmation(),
 				errors);
+
+		if (!form.getBirthDate().isBefore(now())) {
+			errors.rejectValue(BIRTH_DATE_ID, "before.now",
+					"Invalid birth date");
+		}
 
 		if (!areEqual(form.getPassword(), form.getPasswordConfirmation())) {
 			errors.rejectValue(PASSWORD_CONFIRMATION_ID, "not.matching",
