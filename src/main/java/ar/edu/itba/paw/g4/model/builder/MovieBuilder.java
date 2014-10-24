@@ -29,8 +29,6 @@ public class MovieBuilder implements Cloneable {
 	protected boolean isSet$summary$java$lang$String;
 	protected int value$totalScore$int;
 	protected boolean isSet$totalScore$int;
-	protected int value$totalComments$int;
-	protected boolean isSet$totalComments$int;
 	protected Integer value$id$java$lang$Integer;
 	protected boolean isSet$id$java$lang$Integer;
 
@@ -146,19 +144,6 @@ public class MovieBuilder implements Cloneable {
 	}
 
 	/**
-	 * Sets the default value for the {@link Movie#totalComments} property.
-	 *
-	 * @param value
-	 *            the default value
-	 * @return this builder
-	 */
-	public MovieBuilder withTotalComments(int value) {
-		this.value$totalComments$int = value;
-		this.isSet$totalComments$int = true;
-		return self;
-	}
-
-	/**
 	 * Sets the default value for the {@link Movie#id} property.
 	 *
 	 * @param value
@@ -208,7 +193,7 @@ public class MovieBuilder implements Cloneable {
 					value$title$java$lang$String, value$genres$java$util$List,
 					value$director$ar$edu$itba$paw$g4$model$Director,
 					value$runtimeInMins$int, value$summary$java$lang$String,
-					value$totalScore$int, value$totalComments$int);
+					value$totalScore$int);
 			if (isSet$id$java$lang$Integer) {
 				result.setId(value$id$java$lang$Integer);
 			}

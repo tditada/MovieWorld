@@ -6,6 +6,7 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -24,6 +25,7 @@ import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.NonArtisticName;
 import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.model.builder.UserBuilder;
+import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
 @Entity
@@ -126,11 +128,20 @@ public class User extends PersistentEntity {
 	}
 
 	public Set<Comment> getComments() {
-		return comments;
+		return Collections.unmodifiableSet(comments);
 	}
 
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-		this.comments.add(comment);
+		checkArgument(comment.getMovie().isCommentableBy(this));
+
+		if (comments.contains(comment)) {
+			return;
+		}
+
+		comments.add(comment);
+		
+		Movie movie = comment.getMovie();
+		movie.addComment(comment);
 	}
 }

@@ -9,12 +9,12 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
@@ -72,10 +72,7 @@ public class Movie extends PersistentEntity {
 	@Check(constraints = "totalScore >= 0")
 	private int totalScore;
 
-	@Check(constraints = "totalComments >= 0")
-	private int totalComments;
-
-	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "movie")
 	private Set<Comment> comments = new HashSet<Comment>();
 
 	public Movie() {
@@ -84,7 +81,7 @@ public class Movie extends PersistentEntity {
 	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
 			List<MovieGenres> genres, Director director, int runtimeInMins,
-			String summary, int totalScore, int totalComments) {
+			String summary, int totalScore) {
 		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
 		checkArgument(releaseDate, notNull());
@@ -94,7 +91,6 @@ public class Movie extends PersistentEntity {
 		checkArgument(title.length() <= MAX_TITLE_LENGTH);
 		checkArgument(genres, notNull(), notEmptyColl(), noRepetitionsList());
 		checkArgument(totalScore >= 0);
-		checkArgument(totalComments >= 0);
 
 		this.title = title;
 		this.creationDate = creationDate;
@@ -104,27 +100,40 @@ public class Movie extends PersistentEntity {
 		this.runtimeInMins = runtimeInMins;
 		this.summary = summary;
 		this.totalScore = totalScore;
-		this.totalComments = totalComments;
 	}
 
 	public void addComment(Comment comment) {
+		checkArgument(comment, notNull());
+		checkArgument(isCommentableBy(comment.getUser()));
+
+		if (comments.contains(comment)) {
+			return;
+		}
+
+		comments.add(comment);
 		this.totalScore += comment.getScore();
-		this.totalComments++;
+
+		User user = comment.getUser();
+		user.addComment(comment);
 	}
 
 	public int getTotalComments() {
-		return totalComments;
+		return comments.size();
 	}
 
 	public int getTotalScore() {
 		return totalScore;
 	}
 
+	public Set<Comment> getComments() {
+		return Collections.unmodifiableSet(comments);
+	}
+
 	public int getAverageScore() {
-		if (totalComments == 0) {
+		if (getTotalComments() == 0) {
 			return 0;
 		}
-		return totalScore / totalComments;
+		return totalScore / getTotalComments();
 	}
 
 	public DateTime getCreationDate() {
@@ -136,7 +145,7 @@ public class Movie extends PersistentEntity {
 	}
 
 	public List<MovieGenres> getGenres() {
-		return genres;
+		return Collections.unmodifiableList(genres);
 	}
 
 	public boolean isCommentableBy(User user) {
@@ -182,8 +191,7 @@ public class Movie extends PersistentEntity {
 				.add("releaseDate", releaseDate).add("genres", genres)
 				.add("director", director).add("durationInMins", runtimeInMins)
 				.add("summary", summary).add("comments", comments)
-				.add("totalScore", totalScore)
-				.add("totalComments", totalComments).toString();
+				.add("totalScore", totalScore).toString();
 	}
 
 	@Override

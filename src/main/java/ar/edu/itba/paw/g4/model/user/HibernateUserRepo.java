@@ -2,18 +2,18 @@ package ar.edu.itba.paw.g4.model.user;
 
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
-import static org.joda.time.DateTime.now;
 
 import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.AbstractHibernateRepo;
-import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.EmailAddress;
 import ar.edu.itba.paw.g4.model.Password;
 
+@Repository
 public class HibernateUserRepo extends AbstractHibernateRepo implements
 		UserRepo {
 
@@ -70,12 +70,4 @@ public class HibernateUserRepo extends AbstractHibernateRepo implements
 		return user;
 	}
 
-	@Override
-	public void addComment(Comment comment) {
-		checkArgument(comment, notNull());
-		
-		User user = comment.getUser();
-		user.addComment(comment);
-
-	}
 }

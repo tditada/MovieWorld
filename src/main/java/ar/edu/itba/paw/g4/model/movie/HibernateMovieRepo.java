@@ -10,12 +10,14 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.AbstractHibernateRepo;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.MovieGenres;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
+@Repository
 public class HibernateMovieRepo extends AbstractHibernateRepo implements
 		MovieRepo {
 

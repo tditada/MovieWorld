@@ -12,9 +12,9 @@ import javax.persistence.MappedSuperclass;
 public abstract class PersistentEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private int id;
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -24,6 +24,6 @@ public abstract class PersistentEntity {
 	}
 
 	public boolean isPersisted() {
-		return id != null;
+		return id != 0;
 	}
 }

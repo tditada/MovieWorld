@@ -20,7 +20,6 @@ import ar.edu.itba.paw.g4.model.MovieGenres;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 import ar.edu.itba.paw.g4.model.user.User;
-import ar.edu.itba.paw.g4.service.CommentService;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 @Controller
@@ -37,12 +36,10 @@ public class MoviesController {
 	private static final String DIRECTORS_ID = "directors";
 	private static final String MOVIES_ID = "movies";
 
-	private CommentService commentService;
 	private MovieRepo movies;
 
 	@Autowired
-	MoviesController(CommentService commentService, MovieRepo movies) {
-		this.commentService = commentService;
+	MoviesController(MovieRepo movies) {
 		this.movies = movies;
 	}
 
@@ -86,7 +83,7 @@ public class MoviesController {
 			User user = (User) session.getAttribute("user");
 			boolean canComment = false;
 			if (user != null) {
-				canComment = commentService.userCanCommentOnMovie(user, movie);
+				canComment = movie.isCommentableBy(user);
 			}
 
 			session.setAttribute(MOVIE_ID, movie);
