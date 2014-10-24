@@ -41,6 +41,10 @@
 					</c:url>
 					<a href="${directorUrl}"><c:out value="${movie.director.name}" /></a>
 				</dd>
+				<dt>Release date</dt>
+				<dd>
+					<c:out value="${movie.releaseDate}" />
+				</dd>
 				<dt>Runtime</dt>
 				<dd>
 					<c:out value="${movie.runtimeInMins}" />
@@ -85,7 +89,8 @@
 				<dl class="dl-horizontal">
 					<dt>User</dt>
 					<dd>
-						<c:out value="${comment.user.firstName.nameString} ${comment.user.lastName.nameString}" />
+						<c:out
+							value="${comment.user.firstName.nameString} ${comment.user.lastName.nameString}" />
 					</dd>
 					<dt>Score</dt>
 					<dd>
