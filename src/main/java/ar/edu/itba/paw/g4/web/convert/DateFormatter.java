@@ -11,7 +11,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DateFormatter implements Formatter<DateTime> {
-	private static final String DATE_TIME_FORMAT = "mm-dd-yyyy";
+	private static final String DATE_TIME_FORMAT = "yy-MM-dd"; /*
+																 * IMPORTANT:
+																 * This is the
+																 * same as JS'
+																 * yy-mm-dd
+																 */
 	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat
 			.forPattern(DATE_TIME_FORMAT);
 

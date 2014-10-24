@@ -51,9 +51,9 @@ public class RegistrationFormValidator implements Validator {
 		checkSet(PASSWORD_CONFIRMATION_ID, form.getPasswordConfirmation(),
 				errors);
 
-		if (!form.getBirthDate().isBefore(now())) {
-			errors.rejectValue(BIRTH_DATE_ID, "before.now",
-					"Invalid birth date");
+		if (form.getBirthDate() != null && !form.getBirthDate().isBefore(now())) {
+			errors.rejectValue(BIRTH_DATE_ID, "after.now",
+					"Invalid birth date (after current date)");
 		}
 
 		if (!areEqual(form.getPassword(), form.getPasswordConfirmation())) {
