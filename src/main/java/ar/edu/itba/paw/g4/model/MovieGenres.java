@@ -18,10 +18,12 @@ public enum MovieGenres {
 			"Animation"), WESTERN("Western"), SCIFI("Sci-fi");
 
 	private static final int MAX_GENRE_LENGTH = 25;
+
 	@Id
 	private int id;
+
 	private String name;
-	
+
 	private MovieGenres() {
 		checkArgument(this.name().length() < MAX_GENRE_LENGTH);
 	}

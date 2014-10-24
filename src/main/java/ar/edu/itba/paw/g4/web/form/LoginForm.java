@@ -1,25 +1,25 @@
 package ar.edu.itba.paw.g4.web.form;
 
-import ar.edu.itba.paw.g4.model.EmailAddress;
+import ar.edu.itba.paw.g4.model.Email;
 import ar.edu.itba.paw.g4.model.Password;
 
 public class LoginForm {
-	private EmailAddress email;
+	private Email email;
 	private Password password;
 
 	public LoginForm() {
 	}
 
-	public LoginForm(EmailAddress email, Password password) {
+	public LoginForm(Email email, Password password) {
 		this.email = email;
 		this.password = password;
 	}
 
-	public EmailAddress getEmail() {
+	public Email getEmail() {
 		return email;
 	}
 
-	public void setEmail(EmailAddress email) {
+	public void setEmail(Email email) {
 		this.email = email;
 	}
 

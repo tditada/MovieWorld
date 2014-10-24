@@ -4,14 +4,12 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
-import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.noRepetitionsList;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -31,16 +29,15 @@ import org.hibernate.annotations.Check;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
-import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.MovieGenres;
-import ar.edu.itba.paw.g4.model.builder.MovieBuilder;
+import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
 @Entity
-@Table(name = "movies", uniqueConstraints = { @UniqueConstraint(columnNames = {
-		"title", "director" }) })
+@Table(name = "movies", uniqueConstraints = @UniqueConstraint(columnNames = {
+		"title", "director" }))
 public class Movie extends PersistentEntity {
 	public static final int DAYS_AS_RELEASE = 6;
 	public static final int MAX_TITLE_LENGTH = 255;
@@ -54,10 +51,10 @@ public class Movie extends PersistentEntity {
 	@Column(nullable = false)
 	private DateTime releaseDate;
 
-	@Column(nullable = false)
 	@ElementCollection
 	@Enumerated(EnumType.STRING)
-	private List<MovieGenres> genres;
+	@Column(nullable = false)
+	private Set<MovieGenres> genres;
 
 	@Embedded
 	@AttributeOverride(name = "name", column = @Column(name = "director"))
@@ -75,12 +72,12 @@ public class Movie extends PersistentEntity {
 	@OneToMany(mappedBy = "movie")
 	private Set<Comment> comments = new HashSet<Comment>();
 
-	public Movie() {
+	Movie() {
 	}
 
 	@GeneratePojoBuilder
-	public Movie(DateTime creationDate, DateTime releaseDate, String title,
-			List<MovieGenres> genres, Director director, int runtimeInMins,
+	Movie(DateTime creationDate, DateTime releaseDate, String title,
+			Set<MovieGenres> genres, Director director, int runtimeInMins,
 			String summary, int totalScore) {
 		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
@@ -89,7 +86,7 @@ public class Movie extends PersistentEntity {
 		checkArgument(summary, notNull());
 		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(title.length() <= MAX_TITLE_LENGTH);
-		checkArgument(genres, notNull(), notEmptyColl(), noRepetitionsList());
+		checkArgument(genres, notNull(), notEmptyColl());
 		checkArgument(totalScore >= 0);
 
 		this.title = title;
@@ -136,18 +133,6 @@ public class Movie extends PersistentEntity {
 		return totalScore / getTotalComments();
 	}
 
-	public DateTime getCreationDate() {
-		return creationDate;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public List<MovieGenres> getGenres() {
-		return Collections.unmodifiableList(genres);
-	}
-
 	public boolean isCommentableBy(User user) {
 		checkArgument(user, notNull());
 		if (!DateTime.now().isAfter(releaseDate)) {
@@ -159,6 +144,25 @@ public class Movie extends PersistentEntity {
 			}
 		}
 		return true;
+	}
+
+	public boolean isRelease() {
+		DateTime now = DateTime.now();
+		Interval releaseInterval = new Interval(now.minusDays(DAYS_AS_RELEASE),
+				now);
+		return releaseInterval.contains(releaseDate);
+	}
+
+	public DateTime getCreationDate() {
+		return creationDate;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public Set<MovieGenres> getGenres() {
+		return Collections.unmodifiableSet(genres);
 	}
 
 	public Director getDirector() {
@@ -175,13 +179,6 @@ public class Movie extends PersistentEntity {
 
 	public DateTime getReleaseDate() {
 		return releaseDate;
-	}
-
-	public boolean isRelease() {
-		DateTime now = DateTime.now();
-		Interval releaseInterval = new Interval(now.minusDays(DAYS_AS_RELEASE),
-				now);
-		return releaseInterval.contains(releaseDate);
 	}
 
 	@Override
