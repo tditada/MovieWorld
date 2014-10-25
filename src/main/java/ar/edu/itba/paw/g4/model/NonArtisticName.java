@@ -12,11 +12,10 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class NonArtisticName {
-	public static final int MAX_NAME_LENGTH = 35;
+	private static final int MAX_NAME_LENGTH = 35;
 
-	
 	private String nameString;
-	
+
 	public NonArtisticName() {
 	}
 
@@ -42,12 +41,15 @@ public class NonArtisticName {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		NonArtisticName other = (NonArtisticName) obj;
 		return areEqual(this.nameString, other.nameString);
 	}
