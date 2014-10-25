@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.g4.model.builder;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Generated;
 
@@ -19,8 +19,8 @@ public class MovieBuilder implements Cloneable {
 	protected boolean isSet$releaseDate$org$joda$time$DateTime;
 	protected String value$title$java$lang$String;
 	protected boolean isSet$title$java$lang$String;
-	protected List<MovieGenres> value$genres$java$util$List;
-	protected boolean isSet$genres$java$util$List;
+	protected Set<MovieGenres> value$genres$java$util$Set;
+	protected boolean isSet$genres$java$util$Set;
 	protected Director value$director$ar$edu$itba$paw$g4$model$Director;
 	protected boolean isSet$director$ar$edu$itba$paw$g4$model$Director;
 	protected int value$runtimeInMins$int;
@@ -85,9 +85,9 @@ public class MovieBuilder implements Cloneable {
 	 *            the default value
 	 * @return this builder
 	 */
-	public MovieBuilder withGenres(List<MovieGenres> value) {
-		this.value$genres$java$util$List = value;
-		this.isSet$genres$java$util$List = true;
+	public MovieBuilder withGenres(Set<MovieGenres> value) {
+		this.value$genres$java$util$Set = value;
+		this.isSet$genres$java$util$Set = true;
 		return self;
 	}
 
@@ -190,7 +190,7 @@ public class MovieBuilder implements Cloneable {
 		try {
 			Movie result = new Movie(value$creationDate$org$joda$time$DateTime,
 					value$releaseDate$org$joda$time$DateTime,
-					value$title$java$lang$String, value$genres$java$util$List,
+					value$title$java$lang$String, value$genres$java$util$Set,
 					value$director$ar$edu$itba$paw$g4$model$Director,
 					value$runtimeInMins$int, value$summary$java$lang$String,
 					value$totalScore$int);

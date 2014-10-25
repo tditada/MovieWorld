@@ -4,14 +4,11 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
-import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.noRepetitionsList;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -42,8 +39,8 @@ import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 @Table(name = "movies", uniqueConstraints = { @UniqueConstraint(columnNames = {
 		"title", "director" }) })
 public class Movie extends PersistentEntity {
-	public static final int DAYS_AS_RELEASE = 6;
-	public static final int MAX_TITLE_LENGTH = 255;
+	static final int DAYS_AS_RELEASE = 6;
+	private static final int MAX_TITLE_LENGTH = 255;
 
 	@Column(nullable = false, length = MAX_TITLE_LENGTH)
 	private String title; // artistic name for movie, so no special rules (other
@@ -57,7 +54,7 @@ public class Movie extends PersistentEntity {
 	@Column(nullable = false)
 	@ElementCollection
 	@Enumerated(EnumType.STRING)
-	private List<MovieGenres> genres;
+	private Set<MovieGenres> genres;
 
 	@Embedded
 	@AttributeOverride(name = "name", column = @Column(name = "director"))
@@ -73,14 +70,14 @@ public class Movie extends PersistentEntity {
 	private int totalScore;
 
 	@OneToMany(mappedBy = "movie")
-	private Set<Comment> comments = new HashSet<Comment>();
+	private Set<Comment> comments;
 
 	public Movie() {
 	}
 
 	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
-			List<MovieGenres> genres, Director director, int runtimeInMins,
+			Set<MovieGenres> genres, Director director, int runtimeInMins,
 			String summary, int totalScore) {
 		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
@@ -89,7 +86,7 @@ public class Movie extends PersistentEntity {
 		checkArgument(summary, notNull());
 		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(title.length() <= MAX_TITLE_LENGTH);
-		checkArgument(genres, notNull(), notEmptyColl(), noRepetitionsList());
+		checkArgument(genres, notNull(), notEmptyColl());
 		checkArgument(totalScore >= 0);
 
 		this.title = title;
@@ -144,8 +141,8 @@ public class Movie extends PersistentEntity {
 		return title;
 	}
 
-	public List<MovieGenres> getGenres() {
-		return Collections.unmodifiableList(genres);
+	public Set<MovieGenres> getGenres() {
+		return Collections.unmodifiableSet(genres);
 	}
 
 	public boolean isCommentableBy(User user) {
