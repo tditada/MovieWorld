@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.movie.Movie;
@@ -14,7 +13,6 @@ import ar.edu.itba.paw.g4.model.user.User;
 
 @Controller
 @RequestMapping("/comment")
-@SessionAttributes({ "user", "movie" })
 public class CommentController {
 	private static final String COMMENT_TEXT_ID = "commentText";
 	private static final String COMMENT_SCORE_ID = "commentScore";

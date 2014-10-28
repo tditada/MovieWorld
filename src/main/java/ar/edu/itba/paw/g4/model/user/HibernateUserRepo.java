@@ -31,8 +31,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo implements
 	public User findUserByEmail(Email email) {
 		checkArgument(email, notNull());
 
-		List<User> users = find("from User where email=?",
-				email.getTextAddress());
+		List<User> users = find("from User where email=?", email);
 		if (users.isEmpty()) {
 			return null;
 		}
