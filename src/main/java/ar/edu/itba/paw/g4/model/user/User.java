@@ -51,6 +51,10 @@ public class User extends PersistentEntity {
 	@Column(nullable = false)
 	private DateTime birthDate;
 
+//	TODO: Agregar constrain de que haya UN solo admin
+	@Column(nullable = false)
+	private boolean isAdmin;
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Comment> comments = new TreeSet<>();
 
@@ -59,7 +63,7 @@ public class User extends PersistentEntity {
 
 	@GeneratePojoBuilder
 	User(NonArtisticName firstName, NonArtisticName lastName, Email email,
-			Password password, DateTime birthDate) {
+			Password password, DateTime birthDate, boolean isAdmin) {
 		checkArgument(firstName, notNull());
 		checkArgument(lastName, notNull());
 		checkArgument(email, notNull());
@@ -72,6 +76,7 @@ public class User extends PersistentEntity {
 		this.email = email;
 		this.password = password;
 		this.birthDate = birthDate;
+		this.isAdmin= isAdmin;
 	}
 
 	public void addComment(Comment comment) {
@@ -106,6 +111,10 @@ public class User extends PersistentEntity {
 
 	public DateTime getBirthDate() {
 		return birthDate;
+	}
+	
+	public boolean getIsAdmin(){
+		return isAdmin;
 	}
 
 	public Set<Comment> getComments() {
