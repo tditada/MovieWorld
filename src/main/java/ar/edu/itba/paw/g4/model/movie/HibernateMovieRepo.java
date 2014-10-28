@@ -82,7 +82,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	@Override
 	public List<Director> findAllDirectorsOrderedByName(Orderings ordering) {
 		checkArgument(ordering, notNull());
-		return find("from Movie get director order by director "
+		return find("from Movie director order by Director "
 				+ asHQLOrdering(ordering));
 	}
 

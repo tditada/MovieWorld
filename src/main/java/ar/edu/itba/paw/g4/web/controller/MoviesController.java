@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.model.Director;
@@ -21,7 +20,6 @@ import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 @Controller
 @RequestMapping("/movies")
-@SessionAttributes({ "user", "movie" })
 public class MoviesController {
 	public static final String MOVIE_PARAM_ID = "id";
 
