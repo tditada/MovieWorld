@@ -31,7 +31,7 @@ public class MovieGenresSetFormatter implements Formatter<Set<MovieGenres>> {
 		Set <MovieGenres> movieGenresSet = new HashSet<MovieGenres>();
 		String[] genres = arg0.split(",");
 		for (String s:genres){
-//			StringUtils.strip(s," ");
+			StringUtils.strip(s," ");
 			movieGenresSet.add(MovieGenres.valueOf(s.toUpperCase()));
 		}
 		return movieGenresSet;

@@ -85,6 +85,7 @@ public class MoviesController {
 		mav.addObject("genres",s);
 		mav.addObject("releaseDate",movie.getReleaseDate().toString(dateTimeFormatter));
 		session.setAttribute(MOVIE_ID, movie.getId());
+		System.out.println(movie.getId());
 		mav.setViewName("movies/edit");
 		return mav;
 	}
@@ -93,7 +94,8 @@ public class MoviesController {
 		ModelAndView mav = new ModelAndView();
 		MovieFormValidator validator = new MovieFormValidator();
 		validator.validate(movieForm, errors);
-		Movie movie = movies.findById((int)session.getAttribute(MOVIES_ID));
+		int id=(int)session.getAttribute(MOVIE_ID);
+		Movie movie = movies.findById(id);
 		movie.updateMovie(movieForm.getfilmTitle(), movieForm.getfilmReleaseDate(), movieForm.getFilmGenres(), movieForm.getfilmDirector(), movieForm.getfilmSummary(), movieForm.getfilmRuntimeInMins());
 		mav.setViewName("redirect:/app/home");
 		return mav;
