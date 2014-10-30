@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -68,11 +71,19 @@ public class MoviesController {
 	
 	@RequestMapping(value="edit", method=RequestMethod.GET)
 	public ModelAndView edit(@RequestParam(value=MOVIE_PARAM_ID, required=true)int id, HttpSession session){
+		String DATE_TIME_FORMAT = "yyyy-MM-dd";
+		DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_TIME_FORMAT);
 		ModelAndView mav = new ModelAndView();
 		Movie movie= movies.findById(id);
 		mav.addObject(MOVIE_ID, movie);
-		//la idea es que la vista agarre el formulario de movies y settee todo como está en la movie
-		// Es el mismo formulario de movie/insert
+		mav.addObject("MovieForm", new MovieForm());
+		String s="";
+		for (MovieGenres mg:movie.getGenres()){
+			s=mg.getGenreName()+", ";
+		}
+		StringUtils.stripEnd(s, ", ");
+		mav.addObject("genres",s);
+		mav.addObject("releaseDate",movie.getReleaseDate().toString(dateTimeFormatter));
 		session.setAttribute(MOVIE_ID, movie.getId());
 		mav.setViewName("movies/edit");
 		return mav;

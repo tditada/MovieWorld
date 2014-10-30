@@ -16,7 +16,12 @@ public class MovieGenresSetFormatter implements Formatter<Set<MovieGenres>> {
 
 	@Override
 	public String print(Set<MovieGenres> arg0, Locale arg1) {
-		return arg0.toString();
+		String s="";
+		for (MovieGenres mg:arg0){
+			s=mg.getGenreName()+", ";
+		}
+		StringUtils.stripEnd(s, ", ");
+		return s;
 	}
 
 	@Override
