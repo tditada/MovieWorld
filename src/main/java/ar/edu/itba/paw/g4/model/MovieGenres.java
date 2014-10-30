@@ -30,4 +30,7 @@ public enum MovieGenres {
 	public String getGenreName() {
 		return name;
 	}
+//	public static void main(String[] args) {
+//		System.out.println(MovieGenres.valueOf("DOCUMENTARY"));
+//	}
 }

@@ -7,7 +7,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-6">
-			<form:form role="form" action="app/movie/insert" method="post"
+			<form:form role="form" action="app/movies/insert" method="post"
 				commandName="insertMovieForm">
 				<div class="form-group">
 					<label for="filmTitle">Film Title</label>
@@ -61,7 +61,7 @@
 					</form:errors>
 				</div>
 				<div class="form-group">
-					<label for="filmRuntimeInMins" class="control-label">Score</label>
+					<label for="filmRuntimeInMins" class="control-label">Runtime In Minutes</label>
 					<form:input type="number" min="1" path="filmRuntimeInMins"
 						class="form-control" name="filmRuntimeInMins" id="filmRuntimeInMins" />
 					<span class="input-group-addon"><span

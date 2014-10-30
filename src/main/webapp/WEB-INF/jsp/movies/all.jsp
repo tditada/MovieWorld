@@ -12,7 +12,8 @@
 					<c:out value="${genre.genreName}" />
 				</option>
 			</c:forEach>
-		</select> <select class="selectpicker" title="Filter by director"
+		</select>
+		<%-- <select class="selectpicker" title="Filter by director"
 			data-live-search="true" data-container="body" name="director">
 			<option disabled selected>Any director</option>
 			<c:forEach items="${directors}" var="director">
@@ -20,7 +21,7 @@
 					<c:out value="${director.name}" />
 				</option>
 			</c:forEach>
-		</select>
+		</select> --%>
 		<button type="submit" class="btn btn-default">Apply filter</button>
 	</div>
 </form>
@@ -36,6 +37,7 @@
 					<th class="col-md-2">Director</th>
 					<th class="col-md-4">Title</th>
 					<th class="col-md-1">Link</th>
+					<th class="col-md-1">Link</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -49,6 +51,8 @@
 							href="<c:out
 								value="app/movies/detail?id=${movie.id}" />"><span
 								class="glyphicon glyphicon-link"></span></a></td>
+						<td class="col-md-1"><a
+								class="btn-link black-link remove">delete</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -46,5 +46,11 @@ public abstract class AbstractHibernateRepo {
 		checkArgument(o, notNull());
 		return getSession().save(o);
 	}
+	
+	public void remove(Serializable id){
+		Session session=getSession();
+		Query q = session.createQuery("delete Entity where id ="+id);
+		q.executeUpdate();
+	}
 
 }

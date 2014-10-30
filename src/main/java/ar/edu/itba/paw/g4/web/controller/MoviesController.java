@@ -18,7 +18,8 @@ import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
-import ar.edu.itba.paw.g4.web.form.InsertMovieForm;
+import ar.edu.itba.paw.g4.web.form.MovieForm;
+import ar.edu.itba.paw.g4.web.form.validation.MovieFormValidator;
 
 @Controller
 @RequestMapping("/movies")
@@ -43,26 +44,53 @@ public class MoviesController {
 	@RequestMapping(value = "insert", method = RequestMethod.GET)
 	public ModelAndView insert() {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("insertMovieForm", new InsertMovieForm());
+		mav.addObject("insertMovieForm", new MovieForm());
 		mav.setViewName("movies/insert");
 		return mav;
 	}
 
 	@RequestMapping(value = "insert", method = RequestMethod.POST)
-	public ModelAndView insert(InsertMovieForm insertMovieForm, Errors errors,
+	public ModelAndView insert(MovieForm MovieForm, Errors errors,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-//		InsertMovieFormValidator.validate(insertMovieForm, errors);
-//		if (errors.hasErrors()) {
-//			mav.setViewName("/movies/insert");
-//			return mav;
-//		}
-//
-		Movie movie = insertMovieForm.build();
+		MovieFormValidator validator = new MovieFormValidator();
+		validator.validate(MovieForm, errors);
+		if (errors.hasErrors()) {
+			mav.setViewName("/movies/insert");
+			return mav;
+		}
+		
+		Movie movie = MovieForm.build();
 		movies.save(movie);
 		mav.setViewName("redirect:/app/home");
 		return mav;
 
+	}
+	
+	@RequestMapping(value="edit", method=RequestMethod.GET)
+	public ModelAndView edit(@RequestParam(value=MOVIE_PARAM_ID, required=true)int id){
+		ModelAndView mav = new ModelAndView();
+		Movie movie= movies.findById(id);
+		mav.addObject(MOVIE_ID, movie);
+		//la idea es que la vista agarre el formulario de movies y settee todo como está en la movie
+		// Es el mismo formulario de movie/insert
+		mav.setViewName("movies/edit");
+		return mav;
+	}
+	@RequestMapping(value="edit", method=RequestMethod.POST)
+	public ModelAndView edit(){
+		ModelAndView mav = new ModelAndView();
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="remove", method=RequestMethod.POST)
+	public ModelAndView remove(@RequestParam(value=MOVIE_PARAM_ID, required=false)String id){
+		ModelAndView mav = new ModelAndView();
+//		movies.remove(id);
+
+		mav.setViewName("redirect:/app/movies/all");
+		return mav;
 	}
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)

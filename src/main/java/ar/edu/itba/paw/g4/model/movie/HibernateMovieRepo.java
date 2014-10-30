@@ -114,4 +114,9 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 				"from Movie where releaseDate>=? and releaseDate<=? order by releaseDate "
 						+ asHQLOrdering(Orderings.DESC), fromDate, toDate);
 	}
+	
+	@Override
+	public void remove(String id) {
+		super.remove(id);
+	}
 }

@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.g4.web.form;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -8,7 +9,7 @@ import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.MovieGenres;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 
-public class InsertMovieForm {
+public class MovieForm {
 	private String filmTitle;
 	private Director filmDirector;
 	private String filmSummary;
@@ -17,7 +18,7 @@ public class InsertMovieForm {
 	// private DateTime filmCreationDate;
 	private DateTime filmReleaseDate;
 
-	public InsertMovieForm() {
+	public MovieForm() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -78,11 +79,20 @@ public class InsertMovieForm {
 	}
 
 	public Movie build() {
-		return Movie.builder().withCreationDate(DateTime.now())
+		try {
+			System.out.println("IM IN THE MOVIE BUILDER");
+			System.out.println(filmGenres);
+			Movie movie= Movie.builder().withCreationDate(DateTime.now())
 				.withDirector(filmDirector).withGenres(filmGenres)
 				.withReleaseDate(filmReleaseDate)
 				.withRuntimeInMins(filmRuntimeInMins).withSummary(filmSummary)
 				.withTitle(filmTitle).withTotalScore(0).build();
+			return movie;
+		} catch (Exception e){
+			System.out.println("Error in movie bulding");
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
