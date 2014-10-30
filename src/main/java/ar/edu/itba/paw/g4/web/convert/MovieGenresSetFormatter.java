@@ -20,7 +20,7 @@ public class MovieGenresSetFormatter implements Formatter<Set<MovieGenres>> {
 		for (MovieGenres mg:arg0){
 			s=mg.getGenreName()+", ";
 		}
-		StringUtils.stripEnd(s, ", ");
+		s=StringUtils.stripEnd(s, ", ");
 		return s;
 	}
 

@@ -21,6 +21,7 @@ import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
+import ar.edu.itba.paw.g4.web.convert.MovieGenresSetFormatter;
 import ar.edu.itba.paw.g4.web.form.MovieForm;
 import ar.edu.itba.paw.g4.web.form.validation.MovieFormValidator;
 
@@ -61,51 +62,59 @@ public class MoviesController {
 			mav.setViewName("/movies/insert");
 			return mav;
 		}
-		
+
 		Movie movie = MovieForm.build();
 		movies.save(movie);
 		mav.setViewName("redirect:/app/home");
 		return mav;
 
 	}
-	
-	@RequestMapping(value="edit", method=RequestMethod.GET)
-	public ModelAndView edit(@RequestParam(value=MOVIE_PARAM_ID, required=true)int id, HttpSession session){
+
+	// TODO: usar los formatters en lugar de encajar todo el código acá?
+	@RequestMapping(value = "edit", method = RequestMethod.GET)
+	public ModelAndView edit(
+			@RequestParam(value = MOVIE_PARAM_ID, required = true) int id,
+			HttpSession session) {
 		String DATE_TIME_FORMAT = "yyyy-MM-dd";
-		DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_TIME_FORMAT);
+
+		DateTimeFormatter dateTimeFormatter = DateTimeFormat
+				.forPattern(DATE_TIME_FORMAT);
 		ModelAndView mav = new ModelAndView();
-		Movie movie= movies.findById(id);
+		Movie movie = movies.findById(id);
+		MovieGenresSetFormatter formatter = new MovieGenresSetFormatter();
+		String s = formatter.print(movie.getGenres(), null);
+
+		session.setAttribute(MOVIE_ID, movie.getId());
 		mav.addObject(MOVIE_ID, movie);
 		mav.addObject("MovieForm", new MovieForm());
-		String s="";
-		for (MovieGenres mg:movie.getGenres()){
-			s=mg.getGenreName()+", ";
-		}
-		StringUtils.stripEnd(s, ", ");
-		mav.addObject("genres",s);
-		mav.addObject("releaseDate",movie.getReleaseDate().toString(dateTimeFormatter));
-		session.setAttribute(MOVIE_ID, movie.getId());
-		System.out.println(movie.getId());
+		mav.addObject("genres", s);
+		mav.addObject("releaseDate",
+				movie.getReleaseDate().toString(dateTimeFormatter));
 		mav.setViewName("movies/edit");
 		return mav;
 	}
-	@RequestMapping(value="edit", method=RequestMethod.POST)
-	public ModelAndView edit(MovieForm movieForm, Errors errors, HttpSession session){
+
+	@RequestMapping(value = "edit", method = RequestMethod.POST)
+	public ModelAndView edit(MovieForm movieForm, Errors errors,
+			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		MovieFormValidator validator = new MovieFormValidator();
 		validator.validate(movieForm, errors);
-		int id=(int)session.getAttribute(MOVIE_ID);
+		int id = (int) session.getAttribute(MOVIE_ID);
 		Movie movie = movies.findById(id);
-		movie.updateMovie(movieForm.getfilmTitle(), movieForm.getfilmReleaseDate(), movieForm.getFilmGenres(), movieForm.getfilmDirector(), movieForm.getfilmSummary(), movieForm.getfilmRuntimeInMins());
+		movie.updateMovie(movieForm.getfilmTitle(),
+				movieForm.getfilmReleaseDate(), movieForm.getFilmGenres(),
+				movieForm.getfilmDirector(), movieForm.getfilmSummary(),
+				movieForm.getfilmRuntimeInMins());
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
-	
 
-	@RequestMapping(value="remove", method=RequestMethod.POST)
-	public ModelAndView remove(@RequestParam(value=MOVIE_PARAM_ID, required=false)String id){
+	@RequestMapping(value = "remove", method = RequestMethod.POST)
+	public ModelAndView remove(
+			@RequestParam(value = MOVIE_PARAM_ID, required = false) String id) {
 		ModelAndView mav = new ModelAndView();
-//		movies.remove(id);
+		// movies.remove(id);
 
 		mav.setViewName("redirect:/app/movies/all");
 		return mav;
