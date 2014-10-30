@@ -1,8 +1,8 @@
 <%@ include file="../header.jsp"%>
 
 <%@ include file="../nav/start.jsp"%>
-<form class="navbar-form navbar-left" role="search" action="app/movies/list"
-	method="get">
+<form class="navbar-form navbar-left" role="search"
+	action="app/movies/list" method="get">
 	<div class="form-group">
 		<select class="selectpicker" title="Filter by genre"
 			data-live-search="true" data-container="body" name="genre">
@@ -36,8 +36,8 @@
 					<th class="col-md-2">Release Date</th>
 					<th class="col-md-2">Director</th>
 					<th class="col-md-4">Title</th>
-					<th class="col-md-1">Link</th>
-					<th class="col-md-1">Link</th>
+					<th class="col-md-1">Detail</th>
+					<th class="col-md-1">Delete</th>
 					<th class="col-md-1">Edit</th>
 				</tr>
 			</thead>
@@ -52,9 +52,13 @@
 							href="<c:out
 								value="app/movies/detail?id=${movie.id}" />"><span
 								class="glyphicon glyphicon-link"></span></a></td>
+						<td class="col-md-1"><form:form role="form"
+								action="app/movies/remove" method="post" commandName="remove">
+								<input type="hidden" name="id" id="id" value="${movie.id}"></input>
+								<input type="submit" name="delete" id="delete" value="delete"
+									class="btn btn-primary pull-right">
+							</form:form></td>
 						<td class="col-md-1"><a
-								class="btn-link black-link remove">delete</a></td>
-					<td class="col-md-1"><a
 							href="<c:out
 								value="app/movies/edit?id=${movie.id}" />">edit</a></td>
 					</tr>

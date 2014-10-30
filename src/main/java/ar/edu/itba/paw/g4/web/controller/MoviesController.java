@@ -114,9 +114,9 @@ public class MoviesController {
 	public ModelAndView remove(
 			@RequestParam(value = MOVIE_PARAM_ID, required = false) String id) {
 		ModelAndView mav = new ModelAndView();
-		// movies.remove(id);
+		movies.remove(id);
 
-		mav.setViewName("redirect:/app/movies/all");
+		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
 
