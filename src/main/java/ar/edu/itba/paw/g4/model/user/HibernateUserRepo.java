@@ -70,4 +70,13 @@ public class HibernateUserRepo extends AbstractHibernateRepo implements
 		}
 		return user;
 	}
+
+	@Override
+	public User getAdmin() {
+		List<User> users = find("from User where isAdmin=TRUE");
+		if (users.isEmpty()) {
+			return null;
+		}
+		return users.get(0);
+	}
 }

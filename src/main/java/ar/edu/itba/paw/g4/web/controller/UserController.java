@@ -23,6 +23,8 @@ import ar.edu.itba.paw.g4.web.form.validation.RegistrationFormValidator;
 public class UserController {
 	private static final String AUTH_FAILED_ID = "authFailed";
 	private static final String USER_ID = "user";
+	private static final String USER_PARAM_ID="user_id";
+	private static final int NO_USER=-1;
 
 	private UserRepo users;
 	private RegistrationFormValidator registrationFormValidator;
@@ -62,7 +64,7 @@ public class UserController {
 
 		User user = registrationForm.build();
 		users.register(user);
-		session.setAttribute(USER_ID, user);
+		session.setAttribute(USER_PARAM_ID, user.getId());
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
@@ -115,7 +117,8 @@ public class UserController {
 			mav.setViewName("login");
 			return mav;
 		}
-		session.setAttribute(USER_ID, user);
+		session.setAttribute(USER_PARAM_ID, user.getId());
+		mav.addObject(USER_ID, user);
 
 		// TODO
 		// String[] splitReferer = request.getHeader(REFERER_ID).split("/");
@@ -135,12 +138,17 @@ public class UserController {
 
 	@RequestMapping(value = "logout", method = RequestMethod.POST)
 	public String logout(HttpSession session) {
-		session.setAttribute(USER_ID, null);
+		session.setAttribute(USER_PARAM_ID, NO_USER);
 		return "redirect:/app/home";
 	}
 
+	//TODO: no está recibiendo bien el usuario esto.. aparece id=0 y todo en null
 	@RequestMapping(value = "comments", method = RequestMethod.GET)
-	public ModelAndView userComments(@ModelAttribute User user) {
-		return new ModelAndView("user/comments");
+	public ModelAndView userComments(@ModelAttribute User user, HttpSession session) {
+		ModelAndView mav= new ModelAndView();
+		System.out.println(user);
+		mav.addObject(USER_ID, user);
+		mav.setViewName("user/comments");
+		return mav;
 	}
 }
