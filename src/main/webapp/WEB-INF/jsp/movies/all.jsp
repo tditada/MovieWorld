@@ -38,6 +38,7 @@
 					<th class="col-md-4">Title</th>
 					<th class="col-md-1">Link</th>
 					<th class="col-md-1">Link</th>
+					<th class="col-md-1">Edit</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -53,6 +54,9 @@
 								class="glyphicon glyphicon-link"></span></a></td>
 						<td class="col-md-1"><a
 								class="btn-link black-link remove">delete</a></td>
+					<td class="col-md-1"><a
+							href="<c:out
+								value="app/movies/edit?id=${movie.id}" />">edit</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

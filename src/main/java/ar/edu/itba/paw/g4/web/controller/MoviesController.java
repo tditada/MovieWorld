@@ -44,14 +44,13 @@ public class MoviesController {
 	@RequestMapping(value = "insert", method = RequestMethod.GET)
 	public ModelAndView insert() {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("insertMovieForm", new MovieForm());
+		mav.addObject("MovieForm", new MovieForm());
 		mav.setViewName("movies/insert");
 		return mav;
 	}
 
 	@RequestMapping(value = "insert", method = RequestMethod.POST)
-	public ModelAndView insert(MovieForm MovieForm, Errors errors,
-			HttpSession session) {
+	public ModelAndView insert(MovieForm MovieForm, Errors errors) {
 		ModelAndView mav = new ModelAndView();
 		MovieFormValidator validator = new MovieFormValidator();
 		validator.validate(MovieForm, errors);
@@ -68,22 +67,28 @@ public class MoviesController {
 	}
 	
 	@RequestMapping(value="edit", method=RequestMethod.GET)
-	public ModelAndView edit(@RequestParam(value=MOVIE_PARAM_ID, required=true)int id){
+	public ModelAndView edit(@RequestParam(value=MOVIE_PARAM_ID, required=true)int id, HttpSession session){
 		ModelAndView mav = new ModelAndView();
 		Movie movie= movies.findById(id);
 		mav.addObject(MOVIE_ID, movie);
 		//la idea es que la vista agarre el formulario de movies y settee todo como está en la movie
 		// Es el mismo formulario de movie/insert
+		session.setAttribute(MOVIE_ID, movie.getId());
 		mav.setViewName("movies/edit");
 		return mav;
 	}
 	@RequestMapping(value="edit", method=RequestMethod.POST)
-	public ModelAndView edit(){
+	public ModelAndView edit(MovieForm movieForm, Errors errors, HttpSession session){
 		ModelAndView mav = new ModelAndView();
-		
+		MovieFormValidator validator = new MovieFormValidator();
+		validator.validate(movieForm, errors);
+		Movie movie = movies.findById((int)session.getAttribute(MOVIES_ID));
+		movie.updateMovie(movieForm.getfilmTitle(), movieForm.getfilmReleaseDate(), movieForm.getFilmGenres(), movieForm.getfilmDirector(), movieForm.getfilmSummary(), movieForm.getfilmRuntimeInMins());
+		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
 	
+
 	@RequestMapping(value="remove", method=RequestMethod.POST)
 	public ModelAndView remove(@RequestParam(value=MOVIE_PARAM_ID, required=false)String id){
 		ModelAndView mav = new ModelAndView();

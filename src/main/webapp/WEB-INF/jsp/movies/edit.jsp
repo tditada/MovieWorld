@@ -7,13 +7,13 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-6">
-			<form:form role="form" action="app/movies/insert" method="post"
+			<form:form role="form" action="app/movies/edit" method="post"
 				commandName="MovieForm">
 				<div class="form-group">
 					<label for="filmTitle">Film Title</label>
-					<div class="input-group">
+					<div class="input-group"S>
 						<form:input type="text" path="filmTitle" class="form-control"
-							name="filmTitle" id="filmTitle" placeholder="Enter Film's Title" />
+							name="filmTitle" id="filmTitle" value="${movie.title}"></form:input>
 						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-asterisk"></span> Required</span>
 					</div>

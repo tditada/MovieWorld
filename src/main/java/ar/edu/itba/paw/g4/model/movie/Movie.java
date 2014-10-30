@@ -211,5 +211,34 @@ public class Movie extends PersistentEntity {
 	public static MovieBuilder builder() {
 		return new MovieBuilder();
 	}
-
+	
+	public void updateMovie(String title, DateTime releaseDate, Set<MovieGenres> genres, Director director, String summary, int runtimeInMins){
+		checkArgument(title, neitherNullNorEmpty());
+		checkArgument(title.length() <= MAX_TITLE_LENGTH);
+		checkArgument(releaseDate, notNull());
+		checkArgument(genres, notNull(), notEmptyColl());
+		checkArgument(director, notNull());
+		checkArgument(summary, notNull());
+		checkArgument(runtimeInMins > 0);
+		
+		if(this.title!=title){
+			this.title=title;
+		}
+		if(this.releaseDate!=releaseDate){
+			this.releaseDate=releaseDate;
+		}
+		if(this.genres!=genres){
+			this.genres=genres;
+		}
+		if(this.director!=director){
+			this.director=director;
+		}
+		if(this.summary!=summary){
+			this.summary=summary;
+		}
+		if(this.runtimeInMins!=runtimeInMins){
+			this.runtimeInMins=runtimeInMins;
+		}
+	}
+	
 }
