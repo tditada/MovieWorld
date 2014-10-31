@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
@@ -103,7 +102,7 @@ public class Movie extends PersistentEntity {
 		checkArgument(comment, notNull());
 		checkArgument(isCommentableBy(comment.getUser()));
 
-		if (comments.contains(comment)) {
+		if (comments==null || comments.contains(comment)) {
 			return;
 		}
 
@@ -146,9 +145,13 @@ public class Movie extends PersistentEntity {
 	}
 
 	public boolean isCommentableBy(User user) {
+		System.out.println("I'm checking!");
 		checkArgument(user, notNull());
-		if (!DateTime.now().isAfter(releaseDate)) {
+		if (DateTime.now().isBefore(releaseDate)) {
 			return false;
+		}
+		if(comments==null || comments.size()==0){
+			return true;
 		}
 		for (Comment c : comments) {
 			if (c.getUser().equals(user)) {
