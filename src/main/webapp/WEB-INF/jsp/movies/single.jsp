@@ -112,6 +112,17 @@
 					<dd>
 						<c:out value="${comment.text}" />
 					</dd>
+					<dt>Score</dt>
+					<dd>
+						<c:forEach begin="1" end="${comment.averageScore}">
+							<span class="glyphicon glyphicon-star"></span>
+						</c:forEach>
+						<c:if test="${comment.averageScore < 5}">
+							<c:forEach begin="${comment.averageScore}" end="4">
+								<span class="glyphicon glyphicon-star-empty"></span>
+							</c:forEach>
+						</c:if>
+					</dd>
 				</dl>
 			</div>
 		</c:forEach>

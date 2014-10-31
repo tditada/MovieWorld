@@ -63,7 +63,7 @@ public class MoviesController {
 			return mav;
 		}
 		mav.addObject("MovieForm", new MovieForm());
-
+		mav.addObject("user", actualUser);
 		mav.setViewName("movies/insert");
 		return mav;
 	}
