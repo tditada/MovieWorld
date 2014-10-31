@@ -20,8 +20,8 @@ import ar.edu.itba.paw.g4.web.form.CommentForm;
 @Controller
 @RequestMapping("/comment")
 public class CommentController {
-	private static final String COMMENT_TEXT_ID = "commentText";
-	private static final String COMMENT_SCORE_ID = "commentScore";
+//	private static final String COMMENT_TEXT_ID = "commentText";
+//	private static final String COMMENT_SCORE_ID = "commentScore";
 	
 	private MovieRepo movies;
 	private UserRepo users;
@@ -43,12 +43,12 @@ public class CommentController {
 		
 		User user= users.findById((int)session.getAttribute("user_id"));
 		Movie movie= movies.findById((int)session.getAttribute("movie_id"));
-		System.out.println("comment user"+user);
-		System.out.println(movie);
+//		System.out.println("comment user"+user);
+//		System.out.println(movie);
 		Comment comment = Comment.builder().withMovie(movie).withUser(user)
 				.withText(form.getCommentText()).withScore(form.getCommentScore()).withCreationDate(creationDate)
 				.build();
-		System.out.println(comment);
+//		System.out.println(comment);
 		mav.addObject("movie",movie);
 		user.addComment(comment);
 		mav.setViewName("redirect:/app/movies/detail?id="+movie.getId());

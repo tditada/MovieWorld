@@ -10,7 +10,6 @@ import static org.joda.time.DateTime.now;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -31,9 +30,10 @@ import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 @Entity
 @Table(name = "comments"/*
 						 * TODO: Check! is this ok? , uniqueConstraints =
+						 * 
 						 * @UniqueConstraint(columnNames = { "movie", "user" })
 						 */)
-public class Comment extends PersistentEntity implements Comparable<Comment>{
+public class Comment extends PersistentEntity implements Comparable<Comment> {
 	private static final int MIN_SCORE = 0;
 	private static final int MAX_SCORE = 5;
 
@@ -41,15 +41,18 @@ public class Comment extends PersistentEntity implements Comparable<Comment>{
 	@Column(nullable = false)
 	private String text;
 
-	@Check(constraints = "(score >=" + MIN_SCORE )
-	private int averageScore;
-	
-	@ElementCollection
-	private Set<Pair<User,Integer>> scores;
+	@Column(nullable = false)
+	private int filmScore;
 
-	@Check(constraints = "(score >=" + MIN_SCORE )
+	@Check(constraints = "(score >=" + MIN_SCORE)
+	private int commentAverageScore;
+
+	@ElementCollection
+	private Set<Pair<User, Integer>> commentScores;
+
+	@Check(constraints = "(score >=" + MIN_SCORE)
 	private int totalScore;
-	
+
 	@Column(nullable = false)
 	private DateTime creationDate;
 
@@ -63,28 +66,32 @@ public class Comment extends PersistentEntity implements Comparable<Comment>{
 	}
 
 	@GeneratePojoBuilder
-	Comment(String text, int score, User user, Movie movie,
+	Comment(String text, int filmScore, User user, Movie movie,
 			DateTime creationDate) {
-		checkArgument(score >= MIN_SCORE && score <= MAX_SCORE);
+		checkArgument(filmScore >= MIN_SCORE && filmScore <= MAX_SCORE);
 		checkArgument(text, neitherNullNorEmpty());
 		checkArgument(user, notNull());
 		checkArgument(movie, notNull());
 		checkArgument(movie.isCommentableBy(user));
 
 		this.text = text;
-		this.averageScore = score;
+		this.filmScore = filmScore;
 		this.user = user;
 		this.movie = movie;
 		this.creationDate = creationDate != null ? creationDate : now();
-		this.scores=new HashSet<Pair<User,Integer>>();
+		this.commentScores = new HashSet<Pair<User, Integer>>();
 	}
 
 	public String getText() {
 		return text;
 	}
 
+	public int getAverageScore() {
+		return commentAverageScore;
+	}
+
 	public int getScore() {
-		return averageScore;
+		return filmScore;
 	}
 
 	public User getUser() {
@@ -120,26 +127,26 @@ public class Comment extends PersistentEntity implements Comparable<Comment>{
 	@Override
 	public String toString() {
 		return toStringHelper(this).add("id", getId()).add("user", user)
-				.add("movie", movie).add("score", averageScore).add("text", text)
-				.add("creationDate", creationDate).toString();
+				.add("movie", movie).add("score", filmScore)
+				.add("text", text).add("creationDate", creationDate).toString();
 	}
 
 	public static CommentBuilder builder() {
 		return new CommentBuilder();
 	}
-	
-	public void setScore(User user, int score){
-		if(isAbleToScore(user)){
-			scores.add(Pair.of(user, score));
-			this.totalScore=totalScore+score;
-			this.averageScore=(totalScore)/scores.size();			
+
+	public void setCommentScore(User user, int commentScore) {
+		if (isAbleToScore(user)) {
+			commentScores.add(Pair.of(user, commentScore));
+			this.totalScore = totalScore + commentScore;
+			this.commentAverageScore = (totalScore) / commentScores.size();
 		}
-		
+
 	}
-	
-	private boolean isAbleToScore(User user){
-		for(Pair<User,Integer> p:scores){
-			if(p.getLeft().getId()==user.getId()){
+
+	private boolean isAbleToScore(User user) {
+		for (Pair<User, Integer> p : commentScores) {
+			if (p.getLeft().getId() == user.getId()) {
 				return false;
 			}
 		}
@@ -148,6 +155,6 @@ public class Comment extends PersistentEntity implements Comparable<Comment>{
 
 	@Override
 	public int compareTo(Comment c) {
-		return ((Integer)averageScore).compareTo((Integer)c.averageScore);
+		return ((Integer) commentAverageScore).compareTo((Integer) c.commentAverageScore);
 	}
 }

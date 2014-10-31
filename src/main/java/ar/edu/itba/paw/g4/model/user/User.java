@@ -81,7 +81,9 @@ public class User extends PersistentEntity {
 
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-		checkArgument(comment.getMovie().isCommentableBy(this));
+		if(!comment.getMovie().isCommentableBy(this)){
+			return;
+		}
 		
 		for(Comment c:comments){
 			if(c.getId()==comment.getId()){
@@ -91,8 +93,8 @@ public class User extends PersistentEntity {
 
 		comments.add(comment);
 
-		Movie movie = comment.getMovie();
-		movie.addComment(comment);
+//		Movie movie = comment.getMovie();
+//		movie.addComment(comment);
 	}
 
 	public NonArtisticName getFirstName() {
