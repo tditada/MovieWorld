@@ -116,15 +116,15 @@
 						<c:if test="${not empty user and user.isAdmin}">
 							<dt></dt>
 							<dd>
-								<%-- <form:form role="form" action="app/comment/remove" method="post"
-									commandName="deleteForm">
-									<form:input path="commentId" type="hidden" name="commentId"
-										id="commentId" value="${comment.id}"></form:input>
-									<form:input path="userId" type="hidden" name="userId"
+								<form:form role="form" action="app/comment/remove" method="POST"
+									commandName="delete">
+									<form:input type="hidden" name="commentId"
+										id="commentId" value="${comment.id}" path="commentId"></form:input>
+									<form:input type="hidden" path="userId" name="userId"
 										id="userId" value="${comment.user.id}"></form:input>
-									<input type="submit" name="submit" id="submit" value="delete"
+									<input type="submit" name="delete" id="delete" value="delete"
 										class="btn btn-primary" />
-								</form:form> --%>
+								</form:form>
 							</dd>
 						</c:if>
 					</dd>

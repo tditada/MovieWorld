@@ -38,7 +38,7 @@ public class CommentController {
 		this.users = users;
 	}
 
-	@RequestMapping(value="comment",method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView comment(CommentForm form, Errors errors,
 			HttpSession session) {
 		DateTime creationDate = DateTime.now();
@@ -51,13 +51,10 @@ public class CommentController {
 
 		User user = users.findById((int) session.getAttribute("user_id"));
 		Movie movie = movies.findById((int) session.getAttribute("movie_id"));
-		System.out.println("comment user" + user);
-		System.out.println(movie);
 		Comment comment = Comment.builder().withMovie(movie).withUser(user)
 				.withText(form.getCommentText())
 				.withScore(form.getCommentScore())
 				.withCreationDate(creationDate).build();
-		System.out.println(comment);
 		mav.addObject("movie", movie);
 		user.addComment(comment);
 		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
@@ -65,14 +62,14 @@ public class CommentController {
 	}
 
 	@RequestMapping(value = "remove",method = RequestMethod.POST)
-	public ModelAndView remove(	@RequestParam(value= "deleteForm", required=true) DeleteForm form,
+	public ModelAndView remove(DeleteForm form,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println(form);
-		System.out.println(form.getUserId());
 		User user= users.findById(form.getUserId());
 		Comment c = user.getComment(form.getCommentId());
 		user.removeComment(c);
+		System.out.println(form.getCommentId());
+		users.removeComment(form.getCommentId());
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}

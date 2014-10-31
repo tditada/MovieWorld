@@ -5,7 +5,9 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -78,5 +80,13 @@ public class HibernateUserRepo extends AbstractHibernateRepo implements
 			return null;
 		}
 		return users.get(0);
+	}
+
+	@Override
+	public void removeComment(int commentId) {
+		System.out.println("I'm in remove comment!");
+		Session session = getSession();
+		Query q = session.createQuery("delete Comment where id="+commentId);
+		q.executeUpdate();
 	}
 }

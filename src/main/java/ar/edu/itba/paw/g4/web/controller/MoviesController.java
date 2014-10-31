@@ -64,7 +64,7 @@ public class MoviesController {
 			return mav;
 		}
 		mav.addObject("MovieForm", new MovieForm());
-
+		mav.addObject("user",actualUser);
 		mav.setViewName("movies/insert");
 		return mav;
 	}
@@ -196,7 +196,7 @@ public class MoviesController {
 			}
 			session.setAttribute(MOVIE_ID, movie);
 		}
-		mav.addObject("deleteForm", deleteForm);
+		mav.addObject("delete", deleteForm);
 		mav.addObject("commentForm", form);
 		mav.addObject(MOVIE_ID, movie);
 		mav.addObject(CAN_COMMENT_ID, canComment);
