@@ -74,7 +74,7 @@
 					<div class="form-group">
 						<label for="filmReleaseDate">Enter Release Date</label>
 						<form:input type="text" name="filmReleaseDate"
-							path="filmReleaseDate" id="datepicker" />
+							path="filmReleaseDate" id="filmDatepicker" />
 						<form:errors path="filmReleaseDate">
 							<div class="alert alert-danger" role="alert">Invalid
 								Release Date</div>
