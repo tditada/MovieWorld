@@ -41,7 +41,6 @@ public class CommentController {
 			mav.setViewName("redirect:/app/home");
 			return mav;
 		}
-
 		User user = users.findById((int) session.getAttribute("user_id"));
 		Movie movie = movies.findById((int) session.getAttribute("movie_id"));
 		Comment comment = Comment.builder().withMovie(movie).withUser(user)
@@ -56,6 +55,7 @@ public class CommentController {
 	@RequestMapping(value = "score", method = RequestMethod.POST)
 	public ModelAndView score(CommentScoreForm form, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		System.out.println(form.getCommentScore());
 		Movie movie = movies.findById((int) session.getAttribute("movie_id"));
 		User user = users.findById(form.getUserId());
 		user.updateCommentScore(form.getCommentId(),user,form.getCommentScore()); //updetea el score en user y este llama a hacer lo mismo en movie

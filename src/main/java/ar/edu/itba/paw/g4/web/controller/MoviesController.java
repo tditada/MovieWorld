@@ -63,25 +63,25 @@ public class MoviesController {
 			mav.setViewName("redirect:/app/home");
 			return mav;
 		}
-		mav.addObject("MovieForm", new MovieForm());
+		mav.addObject("movieForm", new MovieForm());
 		mav.addObject("user", actualUser);
-		mav.setViewName("movies/insert");
+		mav.setViewName("/movies/insert");
 		return mav;
 	}
 
 	@RequestMapping(value = "insert", method = RequestMethod.POST)
-	public ModelAndView insert(MovieForm MovieForm, Errors errors,
+	public ModelAndView insert(MovieForm form, Errors errors,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		MovieFormValidator validator = new MovieFormValidator();
-		validator.validate(MovieForm, errors);
+		validator.validate(form, errors);
 		if (errors.hasErrors()) {
 			setUserInMav(session, mav);
 			mav.setViewName("/movies/insert");
 			return mav;
 		}
 
-		Movie movie = MovieForm.build();
+		Movie movie = form.build();
 		movies.save(movie);
 		mav.setViewName("redirect:/app/home");
 		return mav;

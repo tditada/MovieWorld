@@ -100,7 +100,8 @@ public class Movie extends PersistentEntity {
 
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-		checkArgument(isCommentableBy(comment.getUser()));
+//TODO: check (no quiero que tire un error si ya viene de user)
+//		checkArgument(isCommentableBy(comment.getUser()));
 
 		if (comments==null || comments.contains(comment)) {
 			return;

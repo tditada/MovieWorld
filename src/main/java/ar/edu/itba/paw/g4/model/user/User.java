@@ -28,6 +28,7 @@ import ar.edu.itba.paw.g4.model.Email;
 import ar.edu.itba.paw.g4.model.NonArtisticName;
 import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.model.comment.Comment;
+import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
 @Entity
@@ -92,8 +93,8 @@ public class User extends PersistentEntity {
 
 		comments.add(comment);
 
-//		Movie movie = comment.getMovie();
-//		movie.addComment(comment);
+		Movie movie = comment.getMovie();
+		movie.addComment(comment);
 	}
 
 	public NonArtisticName getFirstName() {
