@@ -112,6 +112,22 @@
 					<dd>
 						<c:out value="${comment.text}" />
 					</dd>
+					<dd>
+						<c:if test="${not empty user and user.isAdmin}">
+							<dt></dt>
+							<dd>
+								<%-- <form:form role="form" action="app/comment/remove" method="post"
+									commandName="deleteForm">
+									<form:input path="commentId" type="hidden" name="commentId"
+										id="commentId" value="${comment.id}"></form:input>
+									<form:input path="userId" type="hidden" name="userId"
+										id="userId" value="${comment.user.id}"></form:input>
+									<input type="submit" name="submit" id="submit" value="delete"
+										class="btn btn-primary" />
+								</form:form> --%>
+							</dd>
+						</c:if>
+					</dd>
 				</dl>
 			</div>
 		</c:forEach>
@@ -122,12 +138,13 @@
 				<h4 class="panel-title">Write a Comment</h4>
 			</div>
 			<div class="panel-body">
-				<form:form role="form" action="app/comment" method="POST" commandName="commentForm">
+				<form:form role="form" action="app/comment" method="POST"
+					commandName="commentForm">
 					<div class="form-group">
 						<label for="commentScore" class="col-sm-2 control-label">Score</label>
 						<div class="input-group">
 							<form:input type="number" min="1" max="5" class="form-control"
-								name="commentScore" id="commentScore" path="commentScore"/>
+								name="commentScore" id="commentScore" path="commentScore" />
 						</div>
 					</div>
 					<div class="form-group">

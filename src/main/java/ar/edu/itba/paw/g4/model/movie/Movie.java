@@ -240,5 +240,9 @@ public class Movie extends PersistentEntity {
 			this.runtimeInMins=runtimeInMins;
 		}
 	}
+
+	public void removeComment(Comment c) {
+		comments.remove(c);
+	}
 	
 }

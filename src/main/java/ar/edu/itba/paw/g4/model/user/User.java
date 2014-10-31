@@ -120,7 +120,22 @@ public class User extends PersistentEntity {
 	public Set<Comment> getComments() {
 		return Collections.unmodifiableSet(comments);
 	}
+	
+	public void removeComment(Comment c){
+		comments.remove(c);
+		Movie movie= c.getMovie();
+		movie.removeComment(c);
+	}
 
+	public Comment getComment(int commentId){
+		for(Comment c:comments){
+			if(c.getId()==commentId){
+				return c;
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public String toString() {
 		return toStringHelper(this).add("id", getId())
