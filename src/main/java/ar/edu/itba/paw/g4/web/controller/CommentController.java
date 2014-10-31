@@ -46,8 +46,8 @@ public class CommentController {
 		Comment comment = Comment.builder().withMovie(movie).withUser(user)
 				.withText(form.getCommentText()).withScore(form.getFilmScore())
 				.withCreationDate(creationDate).build();
-		mav.addObject("movie", movie);
 		user.addComment(comment);
+		mav.addObject("movie", movie);
 		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
 		return mav;
 	}
@@ -59,6 +59,7 @@ public class CommentController {
 		Movie movie = movies.findById((int) session.getAttribute("movie_id"));
 		User user = users.findById(form.getUserId());
 		user.updateCommentScore(form.getCommentId(),user,form.getCommentScore()); //updetea el score en user y este llama a hacer lo mismo en movie
+		mav.addObject("movie",movie);
 		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
 		return mav;
 	}

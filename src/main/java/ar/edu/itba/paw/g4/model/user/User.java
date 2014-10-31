@@ -9,6 +9,7 @@ import static org.joda.time.DateTime.now;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.persistence.AttributeOverride;
@@ -22,6 +23,8 @@ import javax.persistence.UniqueConstraint;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.Email;
@@ -51,12 +54,13 @@ public class User extends PersistentEntity {
 	@Column(nullable = false)
 	private DateTime birthDate;
 
-//	TODO: Agregar constrain de que haya UN solo admin
+//	TODO: ¿Agregar constrain de que haya UN solo admin?
 	@Column(nullable = false)
 	private boolean isAdmin;
 
+	@Sort(type=SortType.NATURAL)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<Comment> comments = new TreeSet<>();
+	private SortedSet<Comment> comments = new TreeSet<Comment>();
 
 	User() {
 	}

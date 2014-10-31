@@ -112,8 +112,8 @@
 					<dd>
 						<c:out value="${comment.text}" />
 					</dd>
-					<dt>Score</dt>
-					<dd>
+					<dt>Comment score</dt>
+					<dd><p>
 						<c:forEach begin="1" end="${comment.averageScore}">
 							<span class="glyphicon glyphicon-star"></span>
 						</c:forEach>
@@ -122,7 +122,7 @@
 								<span class="glyphicon glyphicon-star-empty"></span>
 							</c:forEach>
 						</c:if>
-						<p>(<c:out value="${comment.averageScore}"/>)</p>
+						(<c:out value="${comment.averageScore}"/>)</p>
 					</dd>
 					<c:if test="${not empty user and comment.user.id!=user.id}">
 						<dt>¿Useful?</dt>
@@ -132,7 +132,7 @@
 								<div class="input-group">
 									<form:input type="number" min="1" max="5" class="form-control"
 										name="commentScore" id="commentScore" path="commentScore" />
-									<form:input type="hidden" path="userId" value="${user.id}" />
+									<form:input type="hidden" path="userId" value="${comment.user.id}" />
 									<form:input type="hidden" path="commentId"
 										value="${comment.id}" />
 									<input type="submit" name="submit" id="submit" value="Submit"
