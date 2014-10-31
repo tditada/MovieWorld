@@ -47,6 +47,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	@Check(constraints = "(score >=" + MIN_SCORE)
 	private int commentAverageScore;
 
+	//TODO: ¿esto se puede mejorar?
 	@ElementCollection
 	private Set<Pair<User, Integer>> commentScores;
 
@@ -80,6 +81,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 		this.movie = movie;
 		this.creationDate = creationDate != null ? creationDate : now();
 		this.commentScores = new HashSet<Pair<User, Integer>>();
+		this.commentAverageScore=0;
 	}
 
 	public String getText() {
