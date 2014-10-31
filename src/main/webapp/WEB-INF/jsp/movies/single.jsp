@@ -122,7 +122,25 @@
 								<span class="glyphicon glyphicon-star-empty"></span>
 							</c:forEach>
 						</c:if>
+						<p>(<c:out value="${comment.averageScore}"/>)</p>
 					</dd>
+					<c:if test="${not empty user and comment.user.id!=user.id}">
+						<dt>¿Useful?</dt>
+						<dd>
+							<form:form role="form" action="app/comment/score" method="POST"
+								commandName="commentScoreForm">
+								<div class="input-group">
+									<form:input type="number" min="1" max="5" class="form-control"
+										name="commentScore" id="commentScore" path="commentScore" />
+									<form:input type="hidden" path="userId" value="${user.id}" />
+									<form:input type="hidden" path="commentId"
+										value="${comment.id}" />
+									<input type="submit" name="submit" id="submit" value="Submit"
+										class="btn btn-primary">
+								</div>
+							</form:form>
+						</dd>
+					</c:if>
 				</dl>
 			</div>
 		</c:forEach>
@@ -133,12 +151,13 @@
 				<h4 class="panel-title">Write a Comment</h4>
 			</div>
 			<div class="panel-body">
-				<form:form role="form" action="app/comment" method="POST" commandName="commentForm">
+				<form:form role="form" action="app/comment" method="POST"
+					commandName="commentForm">
 					<div class="form-group">
-						<label for="commentScore" class="col-sm-2 control-label">Score</label>
+						<label for="filmScore" class="col-sm-2 control-label">Score</label>
 						<div class="input-group">
 							<form:input type="number" min="1" max="5" class="form-control"
-								name="commentScore" id="commentScore" path="commentScore"/>
+								name="filmScore" id="filmScore" path="filmScore" />
 						</div>
 					</div>
 					<div class="form-group">

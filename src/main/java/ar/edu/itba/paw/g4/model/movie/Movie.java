@@ -244,5 +244,13 @@ public class Movie extends PersistentEntity {
 			this.runtimeInMins=runtimeInMins;
 		}
 	}
-	
+
+	public void updateCommentScore(int commentId, User user, int score) {
+		for(Comment c:comments){
+			if(c.getId()==commentId){
+				c.setCommentScore(user, score);
+				return;
+			}
+		}
+	}
 }

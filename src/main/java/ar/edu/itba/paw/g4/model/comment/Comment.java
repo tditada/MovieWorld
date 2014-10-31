@@ -19,7 +19,6 @@ import javax.persistence.Table;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.hibernate.annotations.Check;
 import org.joda.time.DateTime;
 
@@ -44,13 +43,14 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	@Column(nullable = false)
 	private int filmScore;
 
+	@Column(nullable = false)
 	@Check(constraints = "(score >=" + MIN_SCORE)
-	private int commentAverageScore;
-
-	//TODO: ¿esto se puede mejorar?
+	private double commentAverageScore;
+	
 	@ElementCollection
-	private Set<Pair<User, Integer>> commentScores;
+	private Set<User> usersThatScore;
 
+	@Column(nullable = false)
 	@Check(constraints = "(score >=" + MIN_SCORE)
 	private int totalScore;
 
@@ -80,15 +80,16 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 		this.user = user;
 		this.movie = movie;
 		this.creationDate = creationDate != null ? creationDate : now();
-		this.commentScores = new HashSet<Pair<User, Integer>>();
+		this.usersThatScore = new HashSet<User>();
 		this.commentAverageScore=0;
+		this.totalScore=0;
 	}
 
 	public String getText() {
 		return text;
 	}
 
-	public int getAverageScore() {
+	public double getAverageScore() {
 		return commentAverageScore;
 	}
 
@@ -139,16 +140,16 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 
 	public void setCommentScore(User user, int commentScore) {
 		if (isAbleToScore(user)) {
-			commentScores.add(Pair.of(user, commentScore));
+			usersThatScore.add(user);
 			this.totalScore = totalScore + commentScore;
-			this.commentAverageScore = (totalScore) / commentScores.size();
+			this.commentAverageScore = (totalScore) / usersThatScore.size();
 		}
 
 	}
 
 	private boolean isAbleToScore(User user) {
-		for (Pair<User, Integer> p : commentScores) {
-			if (p.getLeft().getId() == user.getId()) {
+		for (User u : usersThatScore) {
+			if (u.getId() == user.getId()) {
 				return false;
 			}
 		}
@@ -157,6 +158,6 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 
 	@Override
 	public int compareTo(Comment c) {
-		return ((Integer) commentAverageScore).compareTo((Integer) c.commentAverageScore);
+		return ((Double) commentAverageScore).compareTo((Double) c.commentAverageScore);
 	}
 }

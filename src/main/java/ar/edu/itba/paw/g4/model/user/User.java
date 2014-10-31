@@ -28,7 +28,6 @@ import ar.edu.itba.paw.g4.model.Email;
 import ar.edu.itba.paw.g4.model.NonArtisticName;
 import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.model.comment.Comment;
-import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
 @Entity
@@ -153,6 +152,17 @@ public class User extends PersistentEntity {
 
 	public static UserBuilder builder() {
 		return new UserBuilder();
+	}
+
+	public void updateCommentScore(int commentId, User user, int score) {
+		for(Comment c:comments){
+			if(c.getId()==commentId){
+				c.setCommentScore(user, score);
+				c.getMovie().updateCommentScore(commentId,user,score);
+				return;
+			}
+		}
+		
 	}
 
 }

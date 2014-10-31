@@ -16,16 +16,15 @@ import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.web.form.CommentForm;
+import ar.edu.itba.paw.g4.web.form.CommentScoreForm;
 
 @Controller
 @RequestMapping("/comment")
 public class CommentController {
-//	private static final String COMMENT_TEXT_ID = "commentText";
-//	private static final String COMMENT_SCORE_ID = "commentScore";
-	
+
 	private MovieRepo movies;
 	private UserRepo users;
-	
+
 	@Autowired
 	public CommentController(MovieRepo movies, UserRepo users) {
 		this.movies = movies;
@@ -33,29 +32,35 @@ public class CommentController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView comment(CommentForm form, Errors errors, HttpSession session) {
+	public ModelAndView comment(CommentForm form, Errors errors,
+			HttpSession session) {
 		DateTime creationDate = DateTime.now();
 		ModelAndView mav = new ModelAndView();
-		if(session.getAttribute("user_id")==null || session.getAttribute("movie_id")==null){
+		if (session.getAttribute("user_id") == null
+				|| session.getAttribute("movie_id") == null) {
 			mav.setViewName("redirect:/app/home");
 			return mav;
 		}
-		
-		User user= users.findById((int)session.getAttribute("user_id"));
-		Movie movie= movies.findById((int)session.getAttribute("movie_id"));
-//		System.out.println("comment user"+user);
-//		System.out.println(movie);
+
+		User user = users.findById((int) session.getAttribute("user_id"));
+		Movie movie = movies.findById((int) session.getAttribute("movie_id"));
 		Comment comment = Comment.builder().withMovie(movie).withUser(user)
-				.withText(form.getCommentText()).withScore(form.getCommentScore()).withCreationDate(creationDate)
-				.build();
-//		System.out.println(comment);
-		mav.addObject("movie",movie);
+				.withText(form.getCommentText()).withScore(form.getFilmScore())
+				.withCreationDate(creationDate).build();
+		mav.addObject("movie", movie);
 		user.addComment(comment);
-		mav.setViewName("redirect:/app/movies/detail?id="+movie.getId());
+		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
 		return mav;
-		// FIXME response.sendRedirect(request.getHeader("referer"));
-//		return "redirect:/app/movies/detail?" + MoviesController.MOVIE_PARAM_ID
-//				+ "=" + movie.getId();
+	}
+
+	@RequestMapping(value = "score", method = RequestMethod.POST)
+	public ModelAndView score(CommentScoreForm form, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Movie movie = movies.findById((int) session.getAttribute("movie_id"));
+		User user = users.findById(form.getUserId());
+		user.updateCommentScore(form.getCommentId(),user,form.getCommentScore()); //updetea el score en user y este llama a hacer lo mismo en movie
+		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
+		return mav;
 	}
 
 }

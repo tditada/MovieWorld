@@ -23,6 +23,7 @@ import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 import ar.edu.itba.paw.g4.web.convert.MovieGenresSetFormatter;
 import ar.edu.itba.paw.g4.web.form.CommentForm;
+import ar.edu.itba.paw.g4.web.form.CommentScoreForm;
 import ar.edu.itba.paw.g4.web.form.MovieForm;
 import ar.edu.itba.paw.g4.web.form.validation.MovieFormValidator;
 
@@ -181,6 +182,7 @@ public class MoviesController {
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		CommentForm form = new CommentForm();
+		CommentScoreForm scoreForm = new CommentScoreForm();
 		boolean canComment = false;
 		if (movie == null) {
 			mav.setViewName("redirect:/app/movies/list");// TODO: check!
@@ -194,7 +196,7 @@ public class MoviesController {
 			}
 			session.setAttribute(MOVIE_ID, movie);
 		}
-
+		mav.addObject("commentScoreForm", scoreForm);
 		mav.addObject("commentForm", form);
 		mav.addObject(MOVIE_ID, movie);
 		mav.addObject(CAN_COMMENT_ID, canComment);
