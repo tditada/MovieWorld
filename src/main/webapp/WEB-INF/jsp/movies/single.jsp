@@ -122,20 +122,19 @@
 				<h4 class="panel-title">Write a Comment</h4>
 			</div>
 			<div class="panel-body">
-				<form role="form" action="app/comment" method="POST">
+				<form:form role="form" action="app/comment" method="POST" commandName="commentForm">
 					<div class="form-group">
 						<label for="commentScore" class="col-sm-2 control-label">Score</label>
 						<div class="input-group">
-							<input type="number" min="1" max="5" class="form-control"
-								name="commentScore" id="commentScore" required>
+							<form:input type="number" min="1" max="5" class="form-control"
+								name="commentScore" id="commentScore" path="commentScore"/>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="commentText" class="col-sm-2 control-label">Comment</label>
 						<div class="input-group">
-							<textarea name="commentText" id="commentText"
-								class="form-control" placeholder="Comment" rows=5
-								style="width: 399px; height: 120px;"></textarea>
+							<form:textarea path="commentText" rows="5" cols="50" />
+							<%-- <form:input type="text" path="commentText" id="commentText"/> --%>
 						</div>
 					</div>
 					<div class="form-group">
@@ -144,7 +143,7 @@
 								class="btn btn-primary">
 						</div>
 					</div>
-				</form>
+				</form:form>
 			</div>
 		</div>
 	</c:if>

@@ -81,7 +81,7 @@ public class User extends PersistentEntity {
 
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-		checkArgument(comment.getMovie().isCommentableBy(this));
+//		checkArgument(comment.getMovie().isCommentableBy(this));
 
 		if (comments.contains(comment)) {
 			return;

@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.g4.web.form;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -15,11 +14,9 @@ public class MovieForm {
 	private String filmSummary;
 	private Set<MovieGenres> filmGenres;
 	private int filmRuntimeInMins;
-	// private DateTime filmCreationDate;
 	private DateTime filmReleaseDate;
 
 	public MovieForm() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getfilmTitle() {
@@ -54,14 +51,6 @@ public class MovieForm {
 		this.filmRuntimeInMins = filmRuntimeInMins;
 	}
 
-	// public DateTime getfilmCreationDate() {
-	// return filmCreationDate;
-	// }
-	//
-	// public void setfilmCreationDate(DateTime filmCreationDate) {
-	// this.filmCreationDate = filmCreationDate;
-	// }
-
 	public DateTime getfilmReleaseDate() {
 		return filmReleaseDate;
 	}
@@ -80,15 +69,14 @@ public class MovieForm {
 
 	public Movie build() {
 		try {
-			System.out.println("IM IN THE MOVIE BUILDER");
-			System.out.println(filmGenres);
-			Movie movie= Movie.builder().withCreationDate(DateTime.now())
-				.withDirector(filmDirector).withGenres(filmGenres)
-				.withReleaseDate(filmReleaseDate)
-				.withRuntimeInMins(filmRuntimeInMins).withSummary(filmSummary)
-				.withTitle(filmTitle).withTotalScore(0).build();
+			Movie movie = Movie.builder().withCreationDate(DateTime.now())
+					.withDirector(filmDirector).withGenres(filmGenres)
+					.withReleaseDate(filmReleaseDate)
+					.withRuntimeInMins(filmRuntimeInMins)
+					.withSummary(filmSummary).withTitle(filmTitle)
+					.withTotalScore(0).build();
 			return movie;
-		} catch (Exception e){
+		} catch (Exception e) {
 			System.out.println("Error in movie bulding");
 			e.printStackTrace();
 		}
