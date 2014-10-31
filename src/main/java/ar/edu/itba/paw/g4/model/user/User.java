@@ -7,8 +7,6 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
-import java.util.Collections;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -90,7 +88,7 @@ public class User extends PersistentEntity {
 		}
 		
 		for(Comment c:comments){
-			if(c.getId()==comment.getId()){
+			if(c.equals(comment)){
 				return;
 			}
 		}
@@ -125,8 +123,8 @@ public class User extends PersistentEntity {
 		return isAdmin;
 	}
 
-	public Set<Comment> getComments() {
-		return Collections.unmodifiableSet(comments);
+	public SortedSet<Comment> getComments() {
+		return comments;
 	}
 
 	@Override
@@ -159,11 +157,11 @@ public class User extends PersistentEntity {
 		return new UserBuilder();
 	}
 
-	public void updateCommentScore(int commentId, User user, int score) {
+	public void updateCommentScore(Movie movie, User user, int score) {
 		for(Comment c:comments){
-			if(c.getId()==commentId){
+			if(c.getMovie().equals(movie) && c.getUser().equals(user)){
 				c.setCommentScore(user, score);
-				c.getMovie().updateCommentScore(commentId,user,score);
+				c.getMovie().updateCommentScore(movie,user,score);
 				return;
 			}
 		}

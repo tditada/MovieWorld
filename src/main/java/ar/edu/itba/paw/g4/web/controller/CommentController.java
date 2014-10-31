@@ -47,8 +47,8 @@ public class CommentController {
 				.withText(form.getCommentText()).withScore(form.getFilmScore())
 				.withCreationDate(creationDate).build();
 		user.addComment(comment);
-		mav.addObject("movie", movie);
-		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
+//		mav.addObject("movie", movie);
+		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
 
@@ -58,7 +58,7 @@ public class CommentController {
 		System.out.println(form.getCommentScore());
 		Movie movie = movies.findById((int) session.getAttribute("movie_id"));
 		User user = users.findById(form.getUserId());
-		user.updateCommentScore(form.getCommentId(),user,form.getCommentScore()); //updetea el score en user y este llama a hacer lo mismo en movie
+		user.updateCommentScore(movie,user,form.getCommentScore()); //updetea el score en user y este llama a hacer lo mismo en movie
 		mav.addObject("movie",movie);
 		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
 		return mav;

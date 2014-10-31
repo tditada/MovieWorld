@@ -107,9 +107,13 @@ public class Movie extends PersistentEntity {
 		checkArgument(comment, notNull());
 //TODO: check (no quiero que tire un error si ya viene de user)
 //		checkArgument(isCommentableBy(comment.getUser()));
-
-		if (comments==null || comments.contains(comment)) {
+		if (comments==null) {
 			return;
+		}
+		for(Comment c:comments){
+			if(c.equals(comment)){
+				return;
+			}
 		}
 		comments.add(comment);
 		this.totalScore += comment.getScore();
@@ -250,9 +254,9 @@ public class Movie extends PersistentEntity {
 		}
 	}
 
-	public void updateCommentScore(int commentId, User user, int score) {
+	public void updateCommentScore(Movie movie, User user, int score) {
 		for(Comment c:comments){
-			if(c.getId()==commentId){
+			if(c.getUser().equals(user) && c.getMovie().equals(movie)){
 				c.setCommentScore(user, score);
 				return;
 			}
