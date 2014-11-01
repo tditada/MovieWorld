@@ -17,10 +17,17 @@ import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.web.form.CommentForm;
 import ar.edu.itba.paw.g4.web.form.CommentScoreForm;
+import ar.edu.itba.paw.g4.web.form.DeleteForm;
 
 @Controller
 @RequestMapping("/comment")
 public class CommentController {
+	// private static final String COMMENT_TEXT_ID = "commentText";
+	// private static final String COMMENT_SCORE_ID = "commentScore";
+
+	public static final String MOVIE_PARAM_ID = "movie_id";
+	public static final String USER_PARAM_ID = "user_id";
+	public static final String COMMENT_ID = "comment";
 
 	private MovieRepo movies;
 	private UserRepo users;
@@ -47,20 +54,44 @@ public class CommentController {
 				.withText(form.getCommentText()).withScore(form.getFilmScore())
 				.withCreationDate(creationDate).build();
 		user.addComment(comment);
-//		mav.addObject("movie", movie);
-		mav.setViewName("redirect:/app/home");
+		// mav.addObject("movie", movie);
+		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
 		return mav;
 	}
 
 	@RequestMapping(value = "score", method = RequestMethod.POST)
 	public ModelAndView score(CommentScoreForm form, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println(form.getCommentScore());
 		Movie movie = movies.findById((int) session.getAttribute("movie_id"));
 		User user = users.findById(form.getUserId());
-		user.updateCommentScore(movie,user,form.getCommentScore()); //updetea el score en user y este llama a hacer lo mismo en movie
-		mav.addObject("movie",movie);
+		user.updateCommentScore(movie, user, form.getCommentScore()); // updetea
+																		// el
+																		// score
+																		// en
+																		// user
+																		// y
+																		// este
+																		// llama
+																		// a
+																		// hacer
+																		// lo
+																		// mismo
+																		// en
+																		// movie
+		mav.addObject("movie", movie);
 		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
+		return mav;
+	}
+
+	@RequestMapping(value = "remove", method = RequestMethod.POST)
+	public ModelAndView remove(DeleteForm form, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		User user = users.findById(form.getUserId());
+		Comment c = user.getComment(form.getCommentId());
+		user.removeComment(c);
+		System.out.println(form.getCommentId());
+		users.removeComment(form.getCommentId());
+		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
 

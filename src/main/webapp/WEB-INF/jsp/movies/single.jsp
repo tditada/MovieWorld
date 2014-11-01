@@ -112,6 +112,7 @@
 					<dd>
 						<c:out value="${comment.text}" />
 					</dd>
+<<<<<<< HEAD
 					<dt>Comment score</dt>
 					<dd><p>
 						<c:forEach begin="1" end="${comment.averageScore}">
@@ -141,6 +142,24 @@
 							</form:form>
 						</dd>
 					</c:if>
+=======
+					<dd>
+						<c:if test="${not empty user and user.isAdmin}">
+							<dt></dt>
+							<dd>
+								<form:form role="form" action="app/comment/remove" method="POST"
+									commandName="delete">
+									<form:input type="hidden" name="commentId"
+										id="commentId" value="${comment.id}" path="commentId"></form:input>
+									<form:input type="hidden" path="userId" name="userId"
+										id="userId" value="${comment.user.id}"></form:input>
+									<input type="submit" name="delete" id="delete" value="delete"
+										class="btn btn-primary" />
+								</form:form>
+							</dd>
+						</c:if>
+					</dd>
+>>>>>>> dev
 				</dl>
 			</div>
 		</c:forEach>
@@ -157,7 +176,11 @@
 						<label for="filmScore" class="col-sm-2 control-label">Score</label>
 						<div class="input-group">
 							<form:input type="number" min="1" max="5" class="form-control"
+<<<<<<< HEAD
 								name="filmScore" id="filmScore" path="filmScore" />
+=======
+								name="commentScore" id="commentScore" path="commentScore" />
+>>>>>>> dev
 						</div>
 					</div>
 					<div class="form-group">
