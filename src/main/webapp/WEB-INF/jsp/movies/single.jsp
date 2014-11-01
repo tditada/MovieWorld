@@ -112,7 +112,6 @@
 					<dd>
 						<c:out value="${comment.text}" />
 					</dd>
-<<<<<<< HEAD
 					<dt>Comment score</dt>
 					<dd><p>
 						<c:forEach begin="1" end="${comment.averageScore}">
@@ -142,7 +141,6 @@
 							</form:form>
 						</dd>
 					</c:if>
-=======
 					<dd>
 						<c:if test="${not empty user and user.isAdmin}">
 							<dt></dt>
@@ -159,7 +157,6 @@
 							</dd>
 						</c:if>
 					</dd>
->>>>>>> dev
 				</dl>
 			</div>
 		</c:forEach>
@@ -176,11 +173,7 @@
 						<label for="filmScore" class="col-sm-2 control-label">Score</label>
 						<div class="input-group">
 							<form:input type="number" min="1" max="5" class="form-control"
-<<<<<<< HEAD
 								name="filmScore" id="filmScore" path="filmScore" />
-=======
-								name="commentScore" id="commentScore" path="commentScore" />
->>>>>>> dev
 						</div>
 					</div>
 					<div class="form-group">
