@@ -10,7 +10,6 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.Collections;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.persistence.AttributeOverride;
@@ -27,8 +26,6 @@ import javax.persistence.UniqueConstraint;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.hibernate.annotations.Check;
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
@@ -72,9 +69,9 @@ public class Movie extends PersistentEntity {
 	@Check(constraints = "totalScore >= 0")
 	private int totalScore;
 
-	@Sort(type=SortType.NATURAL)
+//	@Sort(type=SortType.NATURAL)
 	@OneToMany(mappedBy = "movie")
-	private SortedSet<Comment> comments = new TreeSet<Comment>();
+	private Set<Comment> comments = new TreeSet<Comment>();
 
 	Movie() {
 	}
