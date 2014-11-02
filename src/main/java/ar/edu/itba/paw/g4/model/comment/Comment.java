@@ -25,6 +25,7 @@ import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 @Entity
 @Table(name = "comments"/*
 						 * TODO: Check! is this ok? , uniqueConstraints =
+						 * 
 						 * @UniqueConstraint(columnNames = { "movie", "user" })
 						 */)
 public class Comment extends PersistentEntity {
