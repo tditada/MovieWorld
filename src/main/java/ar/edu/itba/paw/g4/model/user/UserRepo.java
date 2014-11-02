@@ -16,7 +16,7 @@ public interface UserRepo {
 
 	public void save(final User user);
 	
-	public User getAdmin();
+//	public User getAdmin();
 	
 	public void removeComment(int id);
 	

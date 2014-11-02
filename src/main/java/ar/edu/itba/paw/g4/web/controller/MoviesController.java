@@ -56,12 +56,10 @@ public class MoviesController {
 
 	@RequestMapping(value = "insert", method = RequestMethod.GET)
 	public ModelAndView insert(HttpSession session) {
-		User admin = users.getAdmin();
 		User actualUser = users.findById((int) session
 				.getAttribute(USER_PARAM_ID));
 		ModelAndView mav = new ModelAndView();
-		if (actualUser == null || actualUser.getId() != admin.getId()) {
-			mav.setViewName("redirect:/app/home");
+		if (isNotLoggedOrisNotAdmin(session,mav)) {
 			return mav;
 		}
 		mav.addObject("movieForm", new MovieForm());
@@ -97,11 +95,9 @@ public class MoviesController {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormat
 				.forPattern(DATE_TIME_FORMAT);
 		ModelAndView mav = new ModelAndView();
-		User admin = users.getAdmin();
 		User actualUser = users.findById((int) session
 				.getAttribute(USER_PARAM_ID));
-		if (actualUser == null || actualUser.getId() != admin.getId()) {
-			mav.setViewName("redirect:/app/home");
+		if (isNotLoggedOrisNotAdmin(session,mav)) {
 			return mav;
 		}
 
@@ -140,11 +136,10 @@ public class MoviesController {
 	public ModelAndView remove(
 			@RequestParam(value = PARAM_ID, required = false) String id,
 			HttpSession session) {
-		User admin = users.getAdmin();
 		User actualUser = users.findById((int) session
 				.getAttribute(USER_PARAM_ID));
 		ModelAndView mav = new ModelAndView();
-		if (actualUser == null || actualUser.getId() != admin.getId()) {
+		if (actualUser == null || !actualUser.getIsAdmin()) {
 			mav.setViewName("redirect:/app/home");
 			return mav;
 		}
@@ -219,5 +214,14 @@ public class MoviesController {
 					.getAttribute(USER_PARAM_ID));
 			mav.addObject(USER_ID, user);
 		}
+	}
+	
+	private boolean isNotLoggedOrisNotAdmin(HttpSession session, ModelAndView mav){
+		Object o = session.getAttribute(USER_PARAM_ID);
+		if(o==null || !((User)o).getIsAdmin()){
+			mav.setViewName("redirect:/app/home");
+			return true;
+		}
+		return false;
 	}
 }
