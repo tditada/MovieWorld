@@ -25,7 +25,7 @@
 						</td>
 						<td class="col-md-1"><a
 							href="<c:out
-								value="app/users/user/comments?id=${user.id}" />"><span
+								value="app/users/profile?id=${user.id}" />"><span
 								class="glyphicon glyphicon-link"></span></a></td>
 					</tr>
 				</c:forEach>

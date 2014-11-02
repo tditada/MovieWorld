@@ -7,12 +7,14 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -57,6 +59,9 @@ public class User extends PersistentEntity {
 //	@Sort(type=SortType.NATURAL)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Comment> comments = new TreeSet<Comment>();
+	
+	@ElementCollection
+	private Set<User> interestingUsers = new HashSet<User>();
 
 	User() {
 	}

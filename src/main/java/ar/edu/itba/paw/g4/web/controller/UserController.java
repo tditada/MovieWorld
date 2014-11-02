@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
+import ar.edu.itba.paw.g4.web.form.InterestingUserForm;
 import ar.edu.itba.paw.g4.web.form.LoginForm;
 import ar.edu.itba.paw.g4.web.form.RegistrationForm;
 import ar.edu.itba.paw.g4.web.form.validation.LoginFormValidator;
@@ -111,17 +112,19 @@ public class UserController {
 		return "redirect:/app/home";
 	}
 
-	@RequestMapping(value = "/user/comments", method = RequestMethod.GET)
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public ModelAndView userComments(
 			@RequestParam(value = "id", required = false) User user,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		InterestingUserForm form = new InterestingUserForm();
 		if(isNotLogged(session,mav)){
 			return mav;
 		}
+		mav.addObject("addInterestingForm",form);
 		mav.addObject(COMMENTS_USER_ID, user);
 		setUserInMav(session, mav);
-		mav.setViewName("user/comments");
+		mav.setViewName("user/profile");
 		return mav;
 	}
 

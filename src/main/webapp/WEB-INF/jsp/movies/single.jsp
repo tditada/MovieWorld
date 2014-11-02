@@ -91,7 +91,7 @@
 					<dd>
 						<a
 							href="<c:out
-								value="app/users/user/comments?id=${comment.user.id}" />">
+								value="app/users/profile?id=${comment.user.id}" />">
 							<c:out
 								value="${comment.user.firstName.nameString} ${comment.user.lastName.nameString}" />
 						</a>

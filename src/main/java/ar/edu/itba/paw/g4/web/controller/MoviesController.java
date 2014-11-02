@@ -56,12 +56,12 @@ public class MoviesController {
 
 	@RequestMapping(value = "insert", method = RequestMethod.GET)
 	public ModelAndView insert(HttpSession session) {
-		User actualUser = users.findById((int) session
-				.getAttribute(USER_PARAM_ID));
 		ModelAndView mav = new ModelAndView();
 		if (isNotLoggedOrisNotAdmin(session,mav)) {
 			return mav;
 		}
+		User actualUser = users.findById((int) session
+				.getAttribute(USER_PARAM_ID));
 		mav.addObject("movieForm", new MovieForm());
 		mav.addObject("user", actualUser);
 		mav.setViewName("/movies/insert");
@@ -218,7 +218,7 @@ public class MoviesController {
 	
 	private boolean isNotLoggedOrisNotAdmin(HttpSession session, ModelAndView mav){
 		Object o = session.getAttribute(USER_PARAM_ID);
-		if(o==null || !((User)o).getIsAdmin()){
+		if(o==null || !(((User)(users.findById((int)o))).getIsAdmin())){
 			mav.setViewName("redirect:/app/home");
 			return true;
 		}
