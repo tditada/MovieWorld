@@ -21,12 +21,12 @@ import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
-import ar.edu.itba.paw.g4.web.convert.MovieGenresSetFormatter;
 import ar.edu.itba.paw.g4.web.form.CommentForm;
 import ar.edu.itba.paw.g4.web.form.CommentScoreForm;
 import ar.edu.itba.paw.g4.web.form.DeleteForm;
 import ar.edu.itba.paw.g4.web.form.MovieForm;
 import ar.edu.itba.paw.g4.web.form.validation.MovieFormValidator;
+import ar.edu.itba.paw.g4.web.formatters.MovieGenresSetFormatter;
 
 @Controller
 @RequestMapping("/movies")

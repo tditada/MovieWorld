@@ -84,9 +84,13 @@ public class HibernateUserRepo extends AbstractHibernateRepo implements
 
 	@Override
 	public void removeComment(int commentId) {
-		System.out.println("I'm in remove comment!");
 		Session session = getSession();
 		Query q = session.createQuery("delete Comment where id="+commentId);
 		q.executeUpdate();
+	}
+	
+	@Override
+	public List<User> findAll() {
+		return find("from User");
 	}
 }

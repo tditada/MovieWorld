@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div id="form">
-				<form:form action="app/user/login" method="post"
+				<form:form action="app/users/login" method="post"
 					commandName="loginForm">
 					<form:errors path="*">
 						<div class="alert alert-danger" role="alert">Invalid email

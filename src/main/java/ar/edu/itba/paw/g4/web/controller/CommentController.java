@@ -22,8 +22,6 @@ import ar.edu.itba.paw.g4.web.form.DeleteForm;
 @Controller
 @RequestMapping("/comment")
 public class CommentController {
-	// private static final String COMMENT_TEXT_ID = "commentText";
-	// private static final String COMMENT_SCORE_ID = "commentScore";
 
 	public static final String MOVIE_PARAM_ID = "movie_id";
 	public static final String USER_PARAM_ID = "user_id";
