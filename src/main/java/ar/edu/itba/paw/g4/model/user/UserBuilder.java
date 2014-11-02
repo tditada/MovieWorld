@@ -1,12 +1,12 @@
-package ar.edu.itba.paw.g4.model.builder;
+package ar.edu.itba.paw.g4.model.user;
 
 import javax.annotation.Generated;
 
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.g4.model.Email;
 import ar.edu.itba.paw.g4.model.NonArtisticName;
 import ar.edu.itba.paw.g4.model.Password;
-import ar.edu.itba.paw.g4.model.user.User;
 
 @Generated("PojoBuilder")
 public class UserBuilder implements Cloneable {
@@ -15,8 +15,8 @@ public class UserBuilder implements Cloneable {
 	protected boolean isSet$firstName$ar$edu$itba$paw$g4$model$NonArtisticName;
 	protected NonArtisticName value$lastName$ar$edu$itba$paw$g4$model$NonArtisticName;
 	protected boolean isSet$lastName$ar$edu$itba$paw$g4$model$NonArtisticName;
-	protected String value$id$java$lang$String;
-	protected boolean isSet$email$ar$edu$itba$paw$g4$model$EmailAddress;
+	protected Email value$lastName$ar$edu$itba$paw$g4$model$Email;
+	protected boolean isSet$email$ar$edu$itba$paw$g4$model$Email;
 	protected Password value$password$ar$edu$itba$paw$g4$model$Password;
 	protected boolean isSet$password$ar$edu$itba$paw$g4$model$Password;
 	protected DateTime value$birthDate$org$joda$time$DateTime;
@@ -64,9 +64,9 @@ public class UserBuilder implements Cloneable {
 	 *            the default value
 	 * @return this builder
 	 */
-	public UserBuilder withEmail(String value) {
-		this.value$id$java$lang$String = value;
-		this.isSet$email$ar$edu$itba$paw$g4$model$EmailAddress = true;
+	public UserBuilder withEmail(Email value) {
+		this.value$lastName$ar$edu$itba$paw$g4$model$Email = value;
+		this.isSet$email$ar$edu$itba$paw$g4$model$Email = true;
 		return self;
 	}
 
@@ -144,9 +144,9 @@ public class UserBuilder implements Cloneable {
 			User result = new User(
 					value$firstName$ar$edu$itba$paw$g4$model$NonArtisticName,
 					value$lastName$ar$edu$itba$paw$g4$model$NonArtisticName,
-					value$id$java$lang$String,
+					value$lastName$ar$edu$itba$paw$g4$model$Email,
 					value$password$ar$edu$itba$paw$g4$model$Password,
-					value$birthDate$org$joda$time$DateTime);
+					value$birthDate$org$joda$time$DateTime,false);
 			if (isSet$id$java$lang$Integer) {
 				result.setId(value$id$java$lang$Integer);
 			}

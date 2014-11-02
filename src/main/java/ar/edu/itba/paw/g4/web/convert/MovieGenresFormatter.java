@@ -13,7 +13,7 @@ public class MovieGenresFormatter implements Formatter<MovieGenres> {
 
 	@Override
 	public MovieGenres parse(String arg0, Locale arg1) throws ParseException {
-		return MovieGenres.valueOf(arg0);
+		return MovieGenres.valueOf(arg0.toUpperCase());
 	}
 
 	@Override

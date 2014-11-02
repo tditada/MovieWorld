@@ -6,19 +6,19 @@ import java.util.Locale;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
-import ar.edu.itba.paw.g4.model.EmailAddress;
+import ar.edu.itba.paw.g4.model.Email;
 
 @Component
-public class EmailFormatter implements Formatter<EmailAddress> {
+public class EmailFormatter implements Formatter<Email> {
 
 	@Override
-	public EmailAddress parse(String arg0, Locale arg1) throws ParseException {
-		return EmailAddress.buildFrom(arg0);
+	public Email parse(String arg0, Locale arg1) throws ParseException {
+		return new Email(arg0);
 	}
 
 	@Override
-	public String print(EmailAddress arg0, Locale arg1) {
-		return arg0.asTextAddress();
+	public String print(Email arg0, Locale arg1) {
+		return arg0.getTextAddress();
 	}
 
 }

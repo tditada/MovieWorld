@@ -46,5 +46,7 @@ public abstract class AbstractHibernateRepo {
 		checkArgument(o, notNull());
 		return getSession().save(o);
 	}
+	
+	
 
 }

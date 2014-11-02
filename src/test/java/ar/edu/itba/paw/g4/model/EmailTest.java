@@ -4,11 +4,11 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-public class EmailAddressTest {
+public class EmailTest {
 	private static final int MAX_EMAIL_LENGTH = 100;
 
 	@SuppressWarnings("unused")
-	private EmailAddress sut;
+	private Email sut;
 
 	@Test
 	public void testConstructorFailOnNullEmail() {
@@ -55,13 +55,13 @@ public class EmailAddressTest {
 
 	@Test
 	public void testConstructorPassOnOkName() {
-		sut = EmailAddress.buildFrom("asd.asdasd@asdasd.com"); // dots are
-																// allowed
+		sut = new Email("asd.asdasd@asdasd.com"); // dots are
+													// allowed
 	}
 
 	private void testConstructorFailOn(String name) {
 		try {
-			this.sut = EmailAddress.buildFrom(name);
+			this.sut = new Email(name);
 		} catch (IllegalArgumentException e) {
 			return;
 		}

@@ -1,10 +1,9 @@
-package ar.edu.itba.paw.g4.model.builder;
+package ar.edu.itba.paw.g4.model.comment;
 
 import javax.annotation.Generated;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.user.User;
 

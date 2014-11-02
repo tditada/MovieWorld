@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.AbstractHibernateRepo;
-import ar.edu.itba.paw.g4.model.EmailAddress;
+import ar.edu.itba.paw.g4.model.Email;
 import ar.edu.itba.paw.g4.model.Password;
 
 @Repository
@@ -28,7 +28,7 @@ public class HibernateUserRepo extends AbstractHibernateRepo implements
 	}
 
 	@Override
-	public User findUserByEmail(String email) {
+	public User findUserByEmail(Email email) {
 		checkArgument(email, notNull());
 
 		List<User> users = find("from User where email=?", email);
@@ -58,16 +58,25 @@ public class HibernateUserRepo extends AbstractHibernateRepo implements
 	}
 
 	@Override
-	public User authenticate(EmailAddress email, Password password) {
+	public User authenticate(Email email, Password password) {
 		checkArgument(email, notNull());
 		checkArgument(password, notNull());
 
-		User user = findUserByEmail(email.asTextAddress());
+		User user = findUserByEmail(email);
 		if (user == null || !password.equals(user.getPassword())) {
 			// TODO: check!
 			// throw new RuntimeException("Wrong Password");
 			return null;
 		}
 		return user;
+	}
+
+	@Override
+	public User getAdmin() {
+		List<User> users = find("from User where isAdmin=TRUE");
+		if (users.isEmpty()) {
+			return null;
+		}
+		return users.get(0);
 	}
 }

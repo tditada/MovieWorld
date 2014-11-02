@@ -2,7 +2,7 @@ package ar.edu.itba.paw.g4.web.form;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.model.EmailAddress;
+import ar.edu.itba.paw.g4.model.Email;
 import ar.edu.itba.paw.g4.model.NonArtisticName;
 import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.model.user.User;
@@ -10,7 +10,7 @@ import ar.edu.itba.paw.g4.model.user.User;
 public class RegistrationForm {
 	private NonArtisticName firstName;
 	private NonArtisticName lastName;
-	private EmailAddress email;
+	private Email email;
 	private Password password;
 	private Password passwordConfirmation;
 	private DateTime birthDate;
@@ -19,7 +19,7 @@ public class RegistrationForm {
 	}
 
 	public RegistrationForm(NonArtisticName firstName,
-			NonArtisticName lastName, EmailAddress email, Password password,
+			NonArtisticName lastName, Email email, Password password,
 			Password passwordConfirmation, DateTime birthDate) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -45,11 +45,11 @@ public class RegistrationForm {
 		this.lastName = lastName;
 	}
 
-	public EmailAddress getEmail() {
+	public Email getEmail() {
 		return email;
 	}
 
-	public void setEmail(EmailAddress email) {
+	public void setEmail(Email email) {
 		this.email = email;
 	}
 
@@ -79,7 +79,7 @@ public class RegistrationForm {
 
 	public User build() {
 		return User.builder().withFirstName(firstName).withLastName(lastName)
-				.withPassword(password).withEmail(email.asTextAddress())
+				.withPassword(password).withEmail(email)
 				.withBirthDate(birthDate).build();
 	}
 }

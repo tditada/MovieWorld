@@ -9,20 +9,19 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
-import ar.edu.itba.paw.g4.model.builder.DirectorBuilder;
+import org.hibernate.annotations.Check;
 
 @Embeddable
 public class Director {
 	private static final int MAX_NAME_LENGTH = 70;
 
-	@Column(nullable = false, length = MAX_NAME_LENGTH, name = "director")
+	@Check(constraints = "length(name) > 0")
+	@Column(length = MAX_NAME_LENGTH, nullable = false)
 	private String name; // artistic name, so no special conditions apply here
 
-	public Director() {
+	Director() {
 	}
 
-	@GeneratePojoBuilder
 	public Director(String name) {
 		checkArgument(name, neitherNullNorEmpty());
 		checkArgument(name.length() <= MAX_NAME_LENGTH);
@@ -53,9 +52,5 @@ public class Director {
 	@Override
 	public String toString() {
 		return toStringHelper(this).add("name", name).toString();
-	}
-
-	public static DirectorBuilder builder() {
-		return new DirectorBuilder();
 	}
 }

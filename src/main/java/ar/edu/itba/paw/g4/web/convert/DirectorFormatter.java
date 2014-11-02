@@ -12,7 +12,7 @@ import ar.edu.itba.paw.g4.model.Director;
 public class DirectorFormatter implements Formatter<Director> {
 	@Override
 	public Director parse(String arg0, Locale arg1) throws ParseException {
-		return Director.builder().withName(arg0).build();
+		return new Director(arg0);
 	}
 
 	@Override

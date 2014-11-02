@@ -28,16 +28,15 @@ import org.hibernate.annotations.Check;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
-import ar.edu.itba.paw.g4.model.Comment;
 import ar.edu.itba.paw.g4.model.Director;
 import ar.edu.itba.paw.g4.model.MovieGenres;
-import ar.edu.itba.paw.g4.model.builder.MovieBuilder;
+import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
 @Entity
-@Table(name = "movies", uniqueConstraints = { @UniqueConstraint(columnNames = {
-		"title", "director" }) })
+@Table(name = "movies", uniqueConstraints = @UniqueConstraint(columnNames = {
+		"title", "director" }))
 public class Movie extends PersistentEntity {
 	static final int DAYS_AS_RELEASE = 6;
 	private static final int MAX_TITLE_LENGTH = 255;
@@ -51,9 +50,9 @@ public class Movie extends PersistentEntity {
 	@Column(nullable = false)
 	private DateTime releaseDate;
 
-	@Column(nullable = false)
 	@ElementCollection
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private Set<MovieGenres> genres;
 
 	@Embedded
@@ -72,7 +71,7 @@ public class Movie extends PersistentEntity {
 	@OneToMany(mappedBy = "movie")
 	private Set<Comment> comments;
 
-	public Movie() {
+	Movie() {
 	}
 
 	@GeneratePojoBuilder
@@ -158,6 +157,13 @@ public class Movie extends PersistentEntity {
 		return true;
 	}
 
+	public boolean isRelease() {
+		DateTime now = DateTime.now();
+		Interval releaseInterval = new Interval(now.minusDays(DAYS_AS_RELEASE),
+				now);
+		return releaseInterval.contains(releaseDate);
+	}
+
 	public Director getDirector() {
 		return director;
 	}
@@ -172,13 +178,6 @@ public class Movie extends PersistentEntity {
 
 	public DateTime getReleaseDate() {
 		return releaseDate;
-	}
-
-	public boolean isRelease() {
-		DateTime now = DateTime.now();
-		Interval releaseInterval = new Interval(now.minusDays(DAYS_AS_RELEASE),
-				now);
-		return releaseInterval.contains(releaseDate);
 	}
 
 	@Override
@@ -211,6 +210,37 @@ public class Movie extends PersistentEntity {
 
 	public static MovieBuilder builder() {
 		return new MovieBuilder();
+	}
+
+	public void updateMovie(String title, DateTime releaseDate,
+			Set<MovieGenres> genres, Director director, String summary,
+			int runtimeInMins) {
+		checkArgument(title, neitherNullNorEmpty());
+		checkArgument(title.length() <= MAX_TITLE_LENGTH);
+		checkArgument(releaseDate, notNull());
+		checkArgument(genres, notNull(), notEmptyColl());
+		checkArgument(director, notNull());
+		checkArgument(summary, notNull());
+		checkArgument(runtimeInMins > 0);
+
+		if (this.title != title) {
+			this.title = title;
+		}
+		if (this.releaseDate != releaseDate) {
+			this.releaseDate = releaseDate;
+		}
+		if (this.genres != genres) {
+			this.genres = genres;
+		}
+		if (this.director != director) {
+			this.director = director;
+		}
+		if (this.summary != summary) {
+			this.summary = summary;
+		}
+		if (this.runtimeInMins != runtimeInMins) {
+			this.runtimeInMins = runtimeInMins;
+		}
 	}
 
 }

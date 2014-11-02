@@ -13,8 +13,10 @@ public enum MovieGenres {
 			"Animation"), WESTERN("Western"), SCIFI("Sci-fi");
 
 	private static final int MAX_GENRE_LENGTH = 25;
+
 	@Id
 	private int id;
+
 	private String name;
 
 	private MovieGenres() {
@@ -28,4 +30,7 @@ public enum MovieGenres {
 	public String getGenreName() {
 		return name;
 	}
+//	public static void main(String[] args) {
+//		System.out.println(MovieGenres.valueOf("DOCUMENTARY"));
+//	}
 }
