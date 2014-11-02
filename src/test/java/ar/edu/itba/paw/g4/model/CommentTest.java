@@ -1,10 +1,11 @@
 package ar.edu.itba.paw.g4.model;
 
-import static org.joda.time.DateTime.now;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
+import static java.lang.System.*;
 
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.comment.CommentBuilder;
@@ -56,6 +57,13 @@ public class CommentTest {
 				.build();
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorFailOnFutureCreationDate() throws Exception {
+		// cannot mock DateTimes, they are final
+		DateTime futureDate = new DateTime(currentTimeMillis() + 10000);
+		getDefaultCommentBuilder().withCreationDate(futureDate).build();
+	}
+
 	public void testConstructorOnValidCommentMinScore() {
 		getDefaultCommentBuilder().withScore(MIN_SCORE).build();
 	}
@@ -64,13 +72,21 @@ public class CommentTest {
 		getDefaultCommentBuilder().withScore(MAX_SCORE).build();
 	}
 
-	private CommentBuilder getDefaultCommentBuilder() {
-		User mockedUser = mock(User.class);
-		Movie mockedMovie = mock(Movie.class);
-		when(mockedMovie.isCommentableBy(mockedUser)).thenReturn(true);
+	public void testConstructorOnDefaultCreationDate() {
+		getDefaultCommentBuilder().withCreationDate(null).build();
+	}
 
-		return Comment.builder().withText("Hello world!")
-				.withMovie(mockedMovie).withUser(mockedUser)
-				.withCreationDate(now()).withScore(MIN_SCORE);
+	private CommentBuilder getDefaultCommentBuilder() {
+		User mockUser = mock(User.class);
+
+		Movie mockMovie = mock(Movie.class);
+		when(mockMovie.isCommentableBy(mockUser)).thenReturn(true);
+
+		// cannot mock DateTimes, they are final
+		DateTime pastDate = new DateTime(currentTimeMillis() - 10000);
+
+		return Comment.builder().withText("Hello world!").withMovie(mockMovie)
+				.withUser(mockUser).withCreationDate(pastDate)
+				.withScore(MIN_SCORE);
 	}
 }

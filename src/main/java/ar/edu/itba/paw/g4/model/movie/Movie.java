@@ -100,16 +100,22 @@ public class Movie extends PersistentEntity {
 
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-		checkArgument(isCommentableBy(comment.getUser()));
+		checkArgument(this.equals(comment.getMovie()));
 
 		if (comments.contains(comment)) {
+			// this will only happen when addComment is called in a
+			// callback
 			return;
+		}
+
+		User user = comment.getUser();
+		if (!isCommentableBy(user)) {
+			throw new IllegalArgumentException();
 		}
 
 		comments.add(comment);
 		this.totalScore += comment.getScore();
 
-		User user = comment.getUser();
 		user.addComment(comment);
 	}
 
@@ -146,11 +152,11 @@ public class Movie extends PersistentEntity {
 
 	public boolean isCommentableBy(User user) {
 		checkArgument(user, notNull());
-		if (!DateTime.now().isAfter(releaseDate)) {
+		if (!releaseDate.isAfterNow()) {
 			return false;
 		}
-		for (Comment c : comments) {
-			if (c.getUser().equals(user)) {
+		for (Comment comment : comments) {
+			if (comment.getUser().equals(user)) {
 				return false;
 			}
 		}

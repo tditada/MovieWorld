@@ -5,10 +5,9 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
-import static org.joda.time.DateTime.now;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.persistence.AttributeOverride;
@@ -51,12 +50,12 @@ public class User extends PersistentEntity {
 	@Column(nullable = false)
 	private DateTime birthDate;
 
-//	TODO: Agregar constrain de que haya UN solo admin
+	// TODO: Agregar constraint de que haya UN solo admin
 	@Column(nullable = false)
 	private boolean isAdmin;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<Comment> comments = new TreeSet<>();
+	private SortedSet<Comment> comments = new TreeSet<>();
 
 	User() {
 	}
@@ -69,27 +68,33 @@ public class User extends PersistentEntity {
 		checkArgument(email, notNull());
 		checkArgument(password, notNull());
 		checkArgument(birthDate, notNull());
-		checkArgument(birthDate.isBefore(now()));
+		checkArgument(birthDate.isBeforeNow());
 
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 		this.birthDate = birthDate;
-		this.isAdmin= isAdmin;
+		this.isAdmin = isAdmin;
 	}
 
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-		checkArgument(comment.getMovie().isCommentableBy(this));
+		checkArgument(this.equals(comment.getUser()));
 
 		if (comments.contains(comment)) {
+			// this will only happen when addComment is called in a
+			// callback
 			return;
+		}
+
+		Movie movie = comment.getMovie();
+		if (!movie.isCommentableBy(this)) {
+			throw new IllegalArgumentException();
 		}
 
 		comments.add(comment);
 
-		Movie movie = comment.getMovie();
 		movie.addComment(comment);
 	}
 
@@ -112,13 +117,13 @@ public class User extends PersistentEntity {
 	public DateTime getBirthDate() {
 		return birthDate;
 	}
-	
-	public boolean getIsAdmin(){
+
+	public boolean getIsAdmin() {
 		return isAdmin;
 	}
 
-	public Set<Comment> getComments() {
-		return Collections.unmodifiableSet(comments);
+	public SortedSet<Comment> getComments() {
+		return Collections.unmodifiableSortedSet(comments);
 	}
 
 	@Override

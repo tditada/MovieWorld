@@ -60,6 +60,7 @@ public class Comment extends PersistentEntity {
 		checkArgument(user, notNull());
 		checkArgument(movie, notNull());
 		checkArgument(movie.isCommentableBy(user));
+		checkArgument(creationDate.isBeforeNow() || creationDate == null);
 
 		this.text = text;
 		this.score = score;
