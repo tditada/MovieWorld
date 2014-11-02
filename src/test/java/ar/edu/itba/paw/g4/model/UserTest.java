@@ -97,7 +97,7 @@ public class UserTest {
 	}
 
 	@Test
-	public void testAddValidCommentAsCallback() {
+	public void testAddValidCommentAsCallback() { // TODO: check!!!
 		sut = getDefaultUserBuilder().build();
 
 		Movie commentableMovie = mock(Movie.class);
