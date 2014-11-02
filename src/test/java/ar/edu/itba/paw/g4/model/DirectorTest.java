@@ -31,7 +31,7 @@ public class DirectorTest {
 
 	@Test
 	public void testConstructorPassOnOkName() {
-		sut = new Director("Some random name"); // yes, spaces are allowed
+		sut = new Director("Some random name"); // spaces are allowed
 	}
 
 	private void testConstructorFailOn(String name) {

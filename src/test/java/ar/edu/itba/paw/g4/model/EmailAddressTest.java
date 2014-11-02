@@ -55,7 +55,7 @@ public class EmailAddressTest {
 
 	@Test
 	public void testConstructorPassOnOkName() {
-		sut = EmailAddress.buildFrom("asd.asdasd@asdasd.com"); // yes, dots are
+		sut = EmailAddress.buildFrom("asd.asdasd@asdasd.com"); // dots are
 																// allowed
 	}
 
