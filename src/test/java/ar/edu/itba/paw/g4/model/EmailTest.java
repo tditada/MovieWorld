@@ -1,70 +1,56 @@
 package ar.edu.itba.paw.g4.model;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
 
 public class EmailTest {
 	private static final int MAX_EMAIL_LENGTH = 100;
 
-	@SuppressWarnings("unused")
-	private Email sut;
-
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnNullEmail() {
-		testConstructorFailOn(null);
+		new Email(null);
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnEmptyEmail() {
-		testConstructorFailOn("");
+		new Email("");
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnTooLongEmail() {
-		String email = "";
+		String textAddress = "";
 		for (int i = 0; i < MAX_EMAIL_LENGTH + 1; i++) {
 			if (i == MAX_EMAIL_LENGTH / 2) {
-				email += "@";
+				textAddress += "@";
 			} else {
-				email += "a";
+				textAddress += "a";
 			}
 		}
-		testConstructorFailOn(email);
+		new Email(textAddress);
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnEmailWithoutSeparator() {
-		testConstructorFailOn("aaaaaaaaaaaaa");
+		new Email("aaaaaaaaaaaaa");
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnEmailWithoutHost() {
-		testConstructorFailOn("a@");
+		new Email("a@");
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnEmailWithoutAccount() {
-		testConstructorFailOn("@a.com");
+		new Email("@a.com");
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnEmailWithoutBaseDomain() {
-		testConstructorFailOn("a@a");
+		new Email("a@a");
 	}
 
 	@Test
 	public void testConstructorPassOnOkName() {
-		sut = new Email("asd.asdasd@asdasd.com"); // dots are
-													// allowed
-	}
-
-	private void testConstructorFailOn(String name) {
-		try {
-			this.sut = new Email(name);
-		} catch (IllegalArgumentException e) {
-			return;
-		}
-		fail();
+		new Email("asd.asdasd@asdasd.com"); // dots are
+											// allowed
 	}
 }

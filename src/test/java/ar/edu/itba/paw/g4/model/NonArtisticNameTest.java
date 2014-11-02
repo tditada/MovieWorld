@@ -1,71 +1,57 @@
 package ar.edu.itba.paw.g4.model;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
 
 public class NonArtisticNameTest {
 	private static final int MAX_NAME_LENGTH = 35;
 
-	@SuppressWarnings("unused")
-	private NonArtisticName sut;
-
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnNullNonArtisticName() {
-		testConstructorFailOn(null);
+		new NonArtisticName(null);
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnEmptyNonArtisticName() {
-		testConstructorFailOn("");
+		new NonArtisticName("");
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnTooLongNonArtisticName() {
 		String name = "";
 		for (int i = 0; i < MAX_NAME_LENGTH + 1; i++) {
 			name += "a";
 		}
-		testConstructorFailOn(name);
+		new NonArtisticName(name);
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnNonArtisticNameWithNumbers() {
-		testConstructorFailOn("a123 b34");
+		new NonArtisticName("a123 b34");
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnNonArtisticNameWithInvalidSpecialChars() {
-		testConstructorFailOn("!!-??");
+		new NonArtisticName("!!-??");
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnNonArtisticNameWithMultispaces() {
-		testConstructorFailOn("a                    a b");
+		new NonArtisticName("a                    a b");
 	}
 
 	@Test
 	public void testConstructorPassOnNonArtisticNameWithValidSpecialChars() {
-		sut = new NonArtisticName("áçǘ ò V");
+		new NonArtisticName("áçǘ ò V");
 	}
 
 	@Test
 	public void testConstructorPassOnNonArtisticNameWithSpaces() {
-		sut = new NonArtisticName("aaaa aaa aa aaaa");
+		new NonArtisticName("aaaa aaa aa aaaa");
 	}
 
 	@Test
 	public void testConstructorPassOnOkName() {
-		sut = new NonArtisticName(
-				"Justus Alexander zu Peckelsheim aaa");
+		new NonArtisticName("Justus Alexander zu Peckelsheim aaa");
 	}
 
-	private void testConstructorFailOn(String name) {
-		try {
-			this.sut = new NonArtisticName(name);
-		} catch (IllegalArgumentException e) {
-			return;
-		}
-		fail();
-	}
 }

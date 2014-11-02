@@ -16,38 +16,38 @@ public class CommentTest {
 	private static final int MAX_SCORE = 5;
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testConstructorNullText() throws Exception {
+	public void testConstructorFailOnNullText() throws Exception {
 		getDefaultCommentBuilder().withText(null).build();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testConstructorEmptyText() throws Exception {
+	public void testConstructorFailOnEmptyText() throws Exception {
 		getDefaultCommentBuilder().withText("").build();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testConstructorTooSmallScore() throws Exception {
+	public void testConstructorFailOnTooSmallScore() throws Exception {
 		getDefaultCommentBuilder().withScore(MIN_SCORE - 1).build();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testConstructorTooBigScore() throws Exception {
+	public void testConstructorFailOnTooBigScore() throws Exception {
 		getDefaultCommentBuilder().withScore(MAX_SCORE + 1).build();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testConstructorNullMovie() throws Exception {
+	public void testConstructorFailOnNullMovie() throws Exception {
 		getDefaultCommentBuilder().withMovie(null).build();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testConstructorNullUser() throws Exception {
+	public void testConstructorFailOnNullUser() throws Exception {
 		getDefaultCommentBuilder().withMovie(mock(Movie.class)).withUser(null)
 				.build();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testConstructorUserUnableToComment() throws Exception {
+	public void testConstructorFailOnUserUnableToComment() throws Exception {
 		Movie movieMock = mock(Movie.class);
 		User userMock = mock(User.class);
 
@@ -56,11 +56,11 @@ public class CommentTest {
 				.build();
 	}
 
-	public void testConstructorValidCommentMinScore() {
+	public void testConstructorOnValidCommentMinScore() {
 		getDefaultCommentBuilder().withScore(MIN_SCORE).build();
 	}
 
-	public void testConstructorValidCommentMaxScore() {
+	public void testConstructorOnValidCommentMaxScore() {
 		getDefaultCommentBuilder().withScore(MAX_SCORE).build();
 	}
 
