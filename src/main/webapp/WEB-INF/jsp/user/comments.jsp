@@ -8,20 +8,23 @@
 		<div class="page-header">
 			<h1>Profile</h1>
 		</div>
-		<div class="col-md-8">
-			<h2 class="panel-title">
-				<c:choose>
-					<c:when test="${not empty commentsUser.comments}">
-						<c:out
-							value="Comments by ${commentsUser.firstName.nameString} ${commentsUser.lastName.nameString }" />
-					</c:when>
-					<c:otherwise>
-						<c:out
-							value="No Comments by ${commentsUser.firstName.nameString} ${commentsUser.lastName.nameString }" />
-					</c:otherwise>
-				</c:choose>
-			</h2>
+		<div class="panel panel-default">
 			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+
+						<c:choose>
+							<c:when test="${not empty commentsUser.comments}">
+								<c:out
+									value="Comments by ${commentsUser.firstName.nameString} ${commentsUser.lastName.nameString }" />
+							</c:when>
+							<c:otherwise>
+								<c:out
+									value="No Comments by ${commentsUser.firstName.nameString} ${commentsUser.lastName.nameString }" />
+							</c:otherwise>
+						</c:choose>
+					</h3>
+				</div>
 				<c:forEach items="${commentsUser.comments}" var="comment">
 					<div class="panel-body">
 						<dl class="dl-horizontal">
@@ -40,6 +43,7 @@
 						</dl>
 					</div>
 				</c:forEach>
+			</div>
 
 				<%-- <div class="panel-heading">
 				<h3 class="panel-title">Comments</h3>

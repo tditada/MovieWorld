@@ -120,7 +120,6 @@ public class UserController {
 			return mav;
 		}
 		mav.addObject(COMMENTS_USER_ID, user);
-		System.out.println(user);
 		setUserInMav(session, mav);
 		mav.setViewName("user/comments");
 		return mav;
