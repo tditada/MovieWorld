@@ -139,6 +139,13 @@ public class UserController {
 		mav.setViewName("user/all");
 		return mav;
 	}
+	@RequestMapping(value = "addInteresting", method = RequestMethod.POST)
+	public ModelAndView addInteresting(InterestingUserForm form, HttpSession session){
+		ModelAndView mav = new ModelAndView();
+		form.getInterestedUser().addInterestingUser(form.getInterestingUser());
+		mav.setViewName("user/profile?id="+form.getInterestingUser().getId());
+		return mav;
+	}
 
 	// TODO: este es un método comun a todos los Controllers.. da moverlo a
 	// algun lado?

@@ -185,5 +185,10 @@ public class User extends PersistentEntity {
 		}
 		
 	}
+	
+	public void addInterestingUser(User user){
+		checkArgument(user, notNull());
+		interestingUsers.add(user);
+	}
 
 }
