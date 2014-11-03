@@ -19,13 +19,11 @@
 					<c:if test="${user.email.textAddress ne commentsUser.email.textAddress}">
 						<c:choose>
 							<c:when test="${isInterestingUser}">
-								<c:out value="${isInterestingUser}" />
 								<input type="submit" name="removeInteresting"
 									id="removeInteresting" value="Remove As Interesting User"
 									class="btn btn-primary pull-right" />
 							</c:when>
 							<c:otherwise>
-								<c:out value="${isInterestingUser}" />
 								<input type="submit" name="addInteresting" id="addInteresting"
 									value="Add As Interesting User"
 									class="btn btn-primary pull-right" />
