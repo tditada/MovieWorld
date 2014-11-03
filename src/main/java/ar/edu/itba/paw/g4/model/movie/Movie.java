@@ -26,6 +26,7 @@ import javax.persistence.UniqueConstraint;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.hibernate.annotations.Check;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
@@ -45,9 +46,11 @@ public class Movie extends PersistentEntity {
 	@Column(nullable = false, length = MAX_TITLE_LENGTH)
 	private String title; // artistic name for movie, so no special rules (other
 							// than length) apply
+	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	@Column(nullable = false)
 	private DateTime creationDate;
 
+	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	@Column(nullable = false)
 	private DateTime releaseDate;
 

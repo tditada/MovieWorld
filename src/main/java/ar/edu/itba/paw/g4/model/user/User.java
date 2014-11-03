@@ -21,6 +21,7 @@ import javax.persistence.UniqueConstraint;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.Email;
@@ -47,6 +48,7 @@ public class User extends PersistentEntity {
 	@Embedded
 	private Password password;
 
+	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	@Column(nullable = false)
 	private DateTime birthDate;
 

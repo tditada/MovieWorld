@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.hibernate.annotations.Check;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.movie.Movie;
@@ -54,6 +55,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	@Check(constraints = "(score >=" + MIN_SCORE)
 	private int totalScore;
 
+	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	@Column(nullable = false)
 	private DateTime creationDate;
 
