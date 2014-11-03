@@ -104,7 +104,8 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<c:out value="${interestingComment.movie.title}" />
-									<c:out value="${interestingComment.user.firstName interestingComment.user.lastName}"/>
+									<c:out value="${interestingComment.user.firstName}"/>
+									<c:out value="${interestingComment.user.lastName}"/>
 								</div>
 								<div class="panel-body">
 									<p>

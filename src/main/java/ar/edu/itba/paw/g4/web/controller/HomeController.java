@@ -47,7 +47,7 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView();
 		if(session.getAttribute(USER_PARAM_ID)!=null){
 			User user = users.findById((int)session.getAttribute(USER_PARAM_ID));
-			mav.addObject(USER_ID, user);			
+			mav.addObject(USER_ID, user);
 			mav.addObject(INTERESTING_COMMENTS_ID, user.getInterestingComments());
 		}
 		mav.addObject(TOP_MOVIES_ID, topMovies);

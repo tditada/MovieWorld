@@ -25,7 +25,6 @@ public class UserController {
 	private static final String AUTH_FAILED_ID = "authFailed";
 	private static final String USER_ID = "user";
 	private static final String USER_PARAM_ID = "user_id";
-	private static final int NO_USER = -1;
 	private static final String COMMENTS_USER_ID = "commentsUser";
 
 	private UserRepo users;
@@ -105,9 +104,9 @@ public class UserController {
 	}
 
 	// TODO: ¿no debería invalidar la sesión esto? ¿Alcanza?
-	@RequestMapping(value = "/user/logout", method = RequestMethod.POST)
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public String logout(HttpSession session) {
-		session.setAttribute(USER_PARAM_ID, NO_USER);
+		session.setAttribute(USER_PARAM_ID, null);
 		return "redirect:/app/home";
 	}
 
