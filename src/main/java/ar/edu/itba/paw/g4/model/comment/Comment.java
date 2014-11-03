@@ -111,6 +111,10 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 		return creationDate;
 	}
 
+	public Set<User> getUsersThatScore(){
+		return usersThatScore;
+	}
+	
 	@Override
 	public int hashCode() {
 		return hash(user, movie);

@@ -64,20 +64,7 @@ public class CommentController {
 		ModelAndView mav = new ModelAndView();
 		Movie movie = movies.findById((int) session.getAttribute("movie_id"));
 		User user = users.findById(form.getUserId());
-		updateCommentScore(movie, user, form.getCommentScore()); // updetea
-																		// el
-																		// score
-																		// en
-																		// user
-																		// y
-																		// este
-																		// llama
-																		// a
-																		// hacer
-																		// lo
-																		// mismo
-																		// en
-																		// movie
+		updateCommentScore(movie, user, form.getCommentScore(),session);
 		mav.addObject("movie", movie);
 		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
 		return mav;
@@ -94,20 +81,22 @@ public class CommentController {
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
-	
-	private void updateCommentScore(Movie movie, User user, int score) {
-		for(Comment c:user.getComments()){
-			if(c.getMovie().equals(movie) && c.getUser().equals(user)){
-				c.setCommentScore(user, score);
+
+	private void updateCommentScore(Movie movie, User commentUser, int score, HttpSession session) {
+		
+		User scoreUser = users.findById((int) session.getAttribute("user_id"));
+		for (Comment c : commentUser.getComments()) {
+			if (c.getMovie().equals(movie) && c.getUser().equals(commentUser)) {
+				c.setCommentScore(scoreUser, score);
 			}
 		}
-		
-		for(Comment c:movie.getComments()){
-			if(c.getMovie().equals(movie) && c.getUser().equals(user)){
-				c.setCommentScore(user, score);
+
+		for (Comment c : movie.getComments()) {
+			if (c.getMovie().equals(movie) && c.getUser().equals(commentUser)) {
+				c.setCommentScore(scoreUser, score);
 			}
 		}
-		
+
 	}
 
 }
