@@ -160,8 +160,13 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 
 	@Override
 	public int compareTo(Comment c) {
-		//greater to smaller
-		return ((Double)c.commentAverageScore).compareTo((Double)this.commentAverageScore);
-		//		return ((Double) commentAverageScore).compareTo((Double) c.commentAverageScore);
+		Integer scoreCompared = ((Double)c.commentAverageScore).compareTo((Double)this.commentAverageScore);
+		if(c.equals(this)){
+			return 0;
+		}else if(scoreCompared==0){
+			return c.getUser().getFirstName().getNameString().compareTo(user.getFirstName().getNameString());
+		}else{
+			return scoreCompared;			
+		}
 	}
 }

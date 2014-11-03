@@ -7,7 +7,8 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
-import java.util.Set;
+import java.util.Collections;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.persistence.AttributeOverride;
@@ -21,6 +22,8 @@ import javax.persistence.UniqueConstraint;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -56,9 +59,9 @@ public class User extends PersistentEntity {
 	@Column(nullable = false)
 	private boolean isAdmin;
 
-//	@Sort(type=SortType.NATURAL)
+	@Sort(type=SortType.NATURAL)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<Comment> comments = new TreeSet<Comment>();
+	private SortedSet<Comment> comments = new TreeSet<Comment>();
 
 	User() {
 	}
@@ -123,8 +126,8 @@ public class User extends PersistentEntity {
 		return isAdmin;
 	}
 
-	public Set<Comment> getComments() {
-		return comments;
+	public SortedSet<Comment> getComments() {
+		return Collections.unmodifiableSortedSet(comments);
 	}
 	
 	public void removeComment(Comment c){
