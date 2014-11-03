@@ -77,7 +77,6 @@ public class MovieForm {
 					.withTotalScore(0).build();
 			return movie;
 		} catch (Exception e) {
-			System.out.println("Error in movie bulding");
 			e.printStackTrace();
 		}
 		return null;

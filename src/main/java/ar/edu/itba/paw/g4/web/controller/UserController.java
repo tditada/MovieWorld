@@ -120,7 +120,6 @@ public class UserController {
 			return mav;
 		}
 		User actualUser = users.findById((int) session.getAttribute(USER_PARAM_ID));
-		System.out.println(actualUser.isinterestingUser(user));
 		mav.addObject("isInterestingUser", actualUser.isinterestingUser(user));
 		mav.addObject("addInterestingForm",form);
 		mav.addObject(COMMENTS_USER_ID, user);

@@ -87,7 +87,6 @@ public class CommentController {
 		User user = users.findById(form.getUserId());
 		Comment c = user.getComment(form.getCommentId());
 		user.removeComment(c);
-		System.out.println(form.getCommentId());
 		users.removeComment(form.getCommentId());
 		mav.setViewName("redirect:/app/home");
 		return mav;

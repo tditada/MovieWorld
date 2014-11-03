@@ -202,7 +202,6 @@ public class User extends PersistentEntity {
 	public void removeInterestingUser(User user){
 		checkArgument(user, notNull());
 		interestingUsers.remove(user);
-		System.out.println(interestingUsers);
 	}
 
 	public boolean isinterestingUser(User user) {

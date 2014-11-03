@@ -151,7 +151,6 @@ public class Movie extends PersistentEntity {
 	}
 
 	public boolean isCommentableBy(User user) {
-		System.out.println("I'm checking!");
 		checkArgument(user, notNull());
 		if (DateTime.now().isBefore(releaseDate)) {
 			return false;

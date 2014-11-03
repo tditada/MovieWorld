@@ -34,7 +34,7 @@ public class MoviesController {
 	public static final String PARAM_ID = "id";
 
 	public static final String MOVIE_ID = "movie";
-	public static final String MOVIE_PARAM_ID ="movie_id";
+	public static final String MOVIE_PARAM_ID = "movie_id";
 	public static final String COMMENT_LIST_ID = "comments";
 	public static final String CAN_COMMENT_ID = "ableToComment";
 
@@ -57,7 +57,7 @@ public class MoviesController {
 	@RequestMapping(value = "insert", method = RequestMethod.GET)
 	public ModelAndView insert(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		if (isNotLoggedOrisNotAdmin(session,mav)) {
+		if (isNotLoggedOrisNotAdmin(session, mav)) {
 			return mav;
 		}
 		User actualUser = users.findById((int) session
@@ -97,7 +97,7 @@ public class MoviesController {
 		ModelAndView mav = new ModelAndView();
 		User actualUser = users.findById((int) session
 				.getAttribute(USER_PARAM_ID));
-		if (isNotLoggedOrisNotAdmin(session,mav)) {
+		if (isNotLoggedOrisNotAdmin(session, mav)) {
 			return mav;
 		}
 
@@ -185,7 +185,7 @@ public class MoviesController {
 			mav.setViewName("redirect:/app/movies/list");// TODO: check!
 			return mav;
 		}
-		if (session.getAttribute(USER_PARAM_ID)!=null) {
+		if (session.getAttribute(USER_PARAM_ID) != null) {
 			int id = (int) (session.getAttribute(USER_PARAM_ID));
 			User user = users.findById(id);
 			if (user != null) {
@@ -198,13 +198,13 @@ public class MoviesController {
 		mav.addObject("commentForm", form);
 		mav.addObject(MOVIE_ID, movie);
 		mav.addObject(CAN_COMMENT_ID, canComment);
-		setMovieInSession(movie,session);
+		setMovieInSession(movie, session);
 		setUserInMav(session, mav);
 		mav.setViewName("movies/single");
 		return mav;
 	}
 
-	private void setMovieInSession(Movie movie,HttpSession session) {
+	private void setMovieInSession(Movie movie, HttpSession session) {
 		session.setAttribute(MOVIE_PARAM_ID, movie.getId());
 	}
 
@@ -215,10 +215,11 @@ public class MoviesController {
 			mav.addObject(USER_ID, user);
 		}
 	}
-	
-	private boolean isNotLoggedOrisNotAdmin(HttpSession session, ModelAndView mav){
+
+	private boolean isNotLoggedOrisNotAdmin(HttpSession session,
+			ModelAndView mav) {
 		Object o = session.getAttribute(USER_PARAM_ID);
-		if(o==null || !(((User)(users.findById((int)o))).getIsAdmin())){
+		if (o == null || !(((User) (users.findById((int) o))).getIsAdmin())) {
 			mav.setViewName("redirect:/app/home");
 			return true;
 		}
