@@ -5,7 +5,9 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -71,12 +73,24 @@ public class HibernateUserRepo extends AbstractHibernateRepo implements
 		return user;
 	}
 
+//	@Override
+//	public User getAdmin() {
+//		List<User> users = find("from User where isAdmin=TRUE");
+//		if (users.isEmpty()) {
+//			return null;
+//		}
+//		return users.get(0);
+//	}
+
 	@Override
-	public User getAdmin() {
-		List<User> users = find("from User where isAdmin=TRUE");
-		if (users.isEmpty()) {
-			return null;
-		}
-		return users.get(0);
+	public void removeComment(int commentId) {
+		Session session = getSession();
+		Query q = session.createQuery("delete Comment where id="+commentId);
+		q.executeUpdate();
+	}
+	
+	@Override
+	public List<User> findAll() {
+		return find("from User");
 	}
 }

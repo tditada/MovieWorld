@@ -89,8 +89,12 @@
 				<dl class="dl-horizontal">
 					<dt>User</dt>
 					<dd>
-						<c:out
-							value="${comment.user.firstName.nameString} ${comment.user.lastName.nameString}" />
+						<a
+							href="<c:out
+								value="app/users/user/comments?id=${comment.user.id}" />">
+							<c:out
+								value="${comment.user.firstName.nameString} ${comment.user.lastName.nameString}" />
+						</a>
 					</dd>
 					<dt>Score</dt>
 					<dd>
@@ -112,6 +116,56 @@
 					<dd>
 						<c:out value="${comment.text}" />
 					</dd>
+					<dt>Comment score</dt>
+					<dd>
+						<p>
+							<c:forEach begin="1" end="${comment.averageScore}">
+								<span class="glyphicon glyphicon-star"></span>
+							</c:forEach>
+							<c:if test="${comment.averageScore < 5}">
+								<c:forEach begin="${comment.averageScore}" end="4">
+									<span class="glyphicon glyphicon-star-empty"></span>
+								</c:forEach>
+							</c:if>
+							(
+							<c:out value="${comment.averageScore}" />
+							)
+						</p>
+					</dd>
+					<c:if test="${not empty user and comment.user.id!=user.id}">
+						<dt>¿Useful?</dt>
+						<dd>
+							<form:form role="form" action="app/comment/score" method="POST"
+								commandName="commentScoreForm">
+								<div class="input-group">
+									<form:input type="number" min="1" max="5" class="form-control"
+										name="commentScore" id="commentScore" path="commentScore" />
+									<form:input type="hidden" path="userId"
+										value="${comment.user.id}" />
+									<form:input type="hidden" path="commentId"
+										value="${comment.id}" />
+									<input type="submit" name="submit" id="submit" value="Submit"
+										class="btn btn-primary">
+								</div>
+							</form:form>
+						</dd>
+					</c:if>
+					<dd>
+						<c:if test="${not empty user and user.isAdmin}">
+							<dt></dt>
+							<dd>
+								<form:form role="form" action="app/comment/remove" method="POST"
+									commandName="delete">
+									<form:input type="hidden" name="commentId" id="commentId"
+										value="${comment.id}" path="commentId"></form:input>
+									<form:input type="hidden" path="userId" name="userId"
+										id="userId" value="${comment.user.id}"></form:input>
+									<input type="submit" name="delete" id="delete" value="delete"
+										class="btn btn-primary" />
+								</form:form>
+							</dd>
+						</c:if>
+					</dd>
 				</dl>
 			</div>
 		</c:forEach>
@@ -122,20 +176,20 @@
 				<h4 class="panel-title">Write a Comment</h4>
 			</div>
 			<div class="panel-body">
-				<form role="form" action="app/comment" method="POST">
+				<form:form role="form" action="app/comment" method="POST"
+					commandName="commentForm">
 					<div class="form-group">
-						<label for="commentScore" class="col-sm-2 control-label">Score</label>
+						<label for="filmScore" class="col-sm-2 control-label">Score</label>
 						<div class="input-group">
-							<input type="number" min="1" max="5" class="form-control"
-								name="commentScore" id="commentScore" required>
+							<form:input type="number" min="1" max="5" class="form-control"
+								name="filmScore" id="filmScore" path="filmScore" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="commentText" class="col-sm-2 control-label">Comment</label>
 						<div class="input-group">
-							<textarea name="commentText" id="commentText"
-								class="form-control" placeholder="Comment" rows=5
-								style="width: 399px; height: 120px;"></textarea>
+							<form:textarea path="commentText" rows="5" cols="50" />
+							<%-- <form:input type="text" path="commentText" id="commentText"/> --%>
 						</div>
 					</div>
 					<div class="form-group">
@@ -144,7 +198,7 @@
 								class="btn btn-primary">
 						</div>
 					</div>
-				</form>
+				</form:form>
 			</div>
 		</div>
 	</c:if>

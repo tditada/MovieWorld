@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,13 +17,15 @@ import ar.edu.itba.paw.g4.web.form.RegistrationForm;
 import ar.edu.itba.paw.g4.web.form.validation.LoginFormValidator;
 import ar.edu.itba.paw.g4.web.form.validation.RegistrationFormValidator;
 
+//Change to /users
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 	private static final String AUTH_FAILED_ID = "authFailed";
 	private static final String USER_ID = "user";
-	private static final String USER_PARAM_ID="user_id";
-	private static final int NO_USER=-1;
+	private static final String USER_PARAM_ID = "user_id";
+	private static final int NO_USER = -1;
+	private static final String COMMENTS_USER_ID = "commentsUser";
 
 	private UserRepo users;
 	private RegistrationFormValidator registrationFormValidator;
@@ -81,27 +82,6 @@ public class UserController {
 	public ModelAndView login(LoginForm loginForm, Errors errors,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		// LoginForm form = LoginForm.extractFrom(allRequestParams);
-
-		// EmailAddress emailAddress = EmailAddress.buildFrom(email);
-
-		// List<Boolean> errors = new LinkedList<Boolean>();
-		// if (!isLoginValid(email, password, errors)) {
-		// for (int i = 0; i < errors.size(); i++) {
-		// int fieldEnum = LoginField.values()[i].value;
-		// mav.addObject(BASE_ERROR_ID + fieldEnum, errors.get(i));
-		// }
-		// mav.addObject(EMAIL_ID, email);
-		// mav.addObject(PASS_ID, password);
-
-		// return "redirect:login";
-		// }
-
-		// if (!form.isValid()) {
-		// mav.addAllObjects(form.getErrors());
-		// mav.setViewName("redirect:/app/login");
-		// return mav;
-		// }
 
 		loginFormValidator.validate(loginForm, errors);
 		if (errors.hasErrors()) {
@@ -120,35 +100,59 @@ public class UserController {
 		session.setAttribute(USER_PARAM_ID, user.getId());
 		mav.addObject(USER_ID, user);
 
-		// TODO
-		// String[] splitReferer = request.getHeader(REFERER_ID).split("/");
-		// String refererEnd = splitReferer[splitReferer.length - 1];
-		// if (refererEnd.equals("login")) {
-		// String redirectUrl = ((HttpServletResponse) response)
-		// .encodeRedirectURL("home");
-		// ((HttpServletResponse) response).sendRedirect(redirectUrl);
-		// } else {
-		// return response.sendRedirect(request.getHeader(REFERER_ID));
-		// }
-		// return "redirect:home";
-
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
 
-	@RequestMapping(value = "logout", method = RequestMethod.POST)
+	// TODO: ¿no debería invalidar la sesión esto? ¿Alcanza?
+	@RequestMapping(value = "/user/logout", method = RequestMethod.POST)
 	public String logout(HttpSession session) {
 		session.setAttribute(USER_PARAM_ID, NO_USER);
 		return "redirect:/app/home";
 	}
 
-	//TODO: no está recibiendo bien el usuario esto.. aparece id=0 y todo en null
-	@RequestMapping(value = "comments", method = RequestMethod.GET)
-	public ModelAndView userComments(@ModelAttribute User user, HttpSession session) {
-		ModelAndView mav= new ModelAndView();
-		System.out.println(user);
-		mav.addObject(USER_ID, user);
+	@RequestMapping(value = "/user/comments", method = RequestMethod.GET)
+	public ModelAndView userComments(
+			@RequestParam(value = "id", required = false) User user,
+			HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		if(isNotLogged(session,mav)){
+			return mav;
+		}
+		mav.addObject(COMMENTS_USER_ID, user);
+		setUserInMav(session, mav);
 		mav.setViewName("user/comments");
 		return mav;
 	}
+
+	@RequestMapping(value = "list", method = RequestMethod.GET)
+	public ModelAndView showUsers(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+//		if(isNotLogged(session,mav)){
+//			return mav;
+//		}
+		mav.addObject("users", users.findAll());
+		setUserInMav(session, mav);
+		mav.setViewName("user/all");
+		return mav;
+	}
+
+	// TODO: este es un método comun a todos los Controllers.. da moverlo a
+	// algun lado?
+	private void setUserInMav(HttpSession session, ModelAndView mav) {
+		if (session.getAttribute(USER_PARAM_ID) != null) {
+			User user = users.findById((int) session
+					.getAttribute(USER_PARAM_ID));
+			mav.addObject(USER_ID, user);
+		}
+	}
+	
+	private boolean isNotLogged(HttpSession session, ModelAndView mav){
+		if(session.getAttribute(USER_PARAM_ID)==null){
+			mav.setViewName("redirect:/app/home");
+			return true;
+		}
+		return false;
+	}
+
 }

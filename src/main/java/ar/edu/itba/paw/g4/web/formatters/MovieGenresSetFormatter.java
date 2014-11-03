@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.web.convert;
+package ar.edu.itba.paw.g4.web.formatters;
 
 import java.text.ParseException;
 import java.util.HashSet;
@@ -27,7 +27,6 @@ public class MovieGenresSetFormatter implements Formatter<Set<MovieGenres>> {
 	@Override
 	public Set<MovieGenres> parse(String arg0, Locale arg1)
 			throws ParseException {
-		System.out.println("IM IN THE FORMATTER");
 		Set <MovieGenres> movieGenresSet = new HashSet<MovieGenres>();
 		String[] genres = arg0.split(",");
 		for (String s:genres){

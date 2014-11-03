@@ -10,6 +10,7 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -68,8 +69,9 @@ public class Movie extends PersistentEntity {
 	@Check(constraints = "totalScore >= 0")
 	private int totalScore;
 
+	// @Sort(type=SortType.NATURAL)
 	@OneToMany(mappedBy = "movie")
-	private Set<Comment> comments;
+	private Set<Comment> comments = new TreeSet<Comment>();
 
 	Movie() {
 	}
@@ -152,7 +154,7 @@ public class Movie extends PersistentEntity {
 
 	public boolean isCommentableBy(User user) {
 		checkArgument(user, notNull());
-		if (!releaseDate.isAfterNow()) {
+		if (releaseDate.isBeforeNow()) {
 			return false;
 		}
 		for (Comment comment : comments) {
@@ -247,6 +249,19 @@ public class Movie extends PersistentEntity {
 		if (this.runtimeInMins != runtimeInMins) {
 			this.runtimeInMins = runtimeInMins;
 		}
+	}
+
+	public void updateCommentScore(Movie movie, User user, int score) {
+		for (Comment c : comments) {
+			if (c.getUser().equals(user) && c.getMovie().equals(movie)) {
+				c.setCommentScore(user, score);
+				return;
+			}
+		}
+	}
+
+	public void removeComment(Comment c) {
+		comments.remove(c);
 	}
 
 }

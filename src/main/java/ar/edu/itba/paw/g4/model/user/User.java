@@ -52,8 +52,9 @@ public class User extends PersistentEntity {
 
 	// TODO: Agregar constraint de que haya UN solo admin
 	@Column(nullable = false)
-	private boolean isAdmin;
+	private boolean admin;
 
+	// @Sort(type = SortType.NATURAL)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private SortedSet<Comment> comments = new TreeSet<>();
 
@@ -62,7 +63,7 @@ public class User extends PersistentEntity {
 
 	@GeneratePojoBuilder
 	User(NonArtisticName firstName, NonArtisticName lastName, Email email,
-			Password password, DateTime birthDate, boolean isAdmin) {
+			Password password, DateTime birthDate, boolean admin) {
 		checkArgument(firstName, notNull());
 		checkArgument(lastName, notNull());
 		checkArgument(email, notNull());
@@ -75,7 +76,7 @@ public class User extends PersistentEntity {
 		this.email = email;
 		this.password = password;
 		this.birthDate = birthDate;
-		this.isAdmin = isAdmin;
+		this.admin = admin;
 	}
 
 	public void addComment(Comment comment) {
@@ -86,6 +87,12 @@ public class User extends PersistentEntity {
 			// this will only happen when addComment is called in a
 			// callback
 			return;
+		}
+
+		for (Comment c : comments) {
+			if (c.equals(comment)) {
+				return;
+			}
 		}
 
 		Movie movie = comment.getMovie();
@@ -119,11 +126,41 @@ public class User extends PersistentEntity {
 	}
 
 	public boolean getIsAdmin() {
-		return isAdmin;
+		return admin;
 	}
 
 	public SortedSet<Comment> getComments() {
 		return Collections.unmodifiableSortedSet(comments);
+	}
+
+	public void removeComment(Comment comment) {
+		checkArgument(comment, notNull());
+		checkArgument(this.equals(comment.getUser()));
+		checkArgument(comments.contains(comment));
+
+		comments.remove(comment);
+		Movie movie = comment.getMovie();
+		movie.removeComment(comment);
+	}
+
+	public Comment getComment(int commentId) {
+		for (Comment c : comments) {
+			if (c.getId() == commentId) {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	public void updateCommentScore(Movie movie, User user, int score) {
+		for (Comment comment : comments) {
+			if (comment.getMovie().equals(movie)
+					&& comment.getUser().equals(user)) {
+				comment.setCommentScore(user, score);
+				comment.getMovie().updateCommentScore(movie, user, score);
+				return;
+			}
+		}
 	}
 
 	@Override
