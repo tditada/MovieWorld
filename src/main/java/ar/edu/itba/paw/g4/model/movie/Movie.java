@@ -160,7 +160,7 @@ public class Movie extends PersistentEntity {
 
 	public boolean isCommentableBy(User user) {
 		checkArgument(user, notNull());
-		if (releaseDate.isBeforeNow()) {
+		if (releaseDate.isAfterNow()) {
 			return false;
 		}
 		for (Comment comment : comments) {
