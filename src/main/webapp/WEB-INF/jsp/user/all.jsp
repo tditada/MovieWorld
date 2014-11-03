@@ -1,7 +1,7 @@
 <%@ include file="../header.jsp"%>
 
 <%@ include file="../nav/start.jsp"%>
-<%@ include file="../nav/links.jsp" %>
+<%@ include file="../nav/links.jsp"%>
 <%@ include file="../nav/userMenu.jsp"%>
 <%@ include file="../nav/end.jsp"%>
 
@@ -15,19 +15,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${users}" var="user">
-					<tr>
-						<td class="col-md-2">
-							<p>
-								<c:out value="${user.firstName.nameString}" />
-								<c:out value="${user.lastName.nameString}" />
-							</p>
-						</td>
-						<td class="col-md-1"><a
-							href="<c:out
-								value="app/users/profile?id=${user.id}" />"><span
-								class="glyphicon glyphicon-link"></span></a></td>
-					</tr>
+				<c:forEach items="${users}" var="listedUser">
+					<c:if test="${user ne listedUser }">
+						<tr>
+							<td class="col-md-2">
+								<p>
+									<c:out value="${listedUser.firstName.nameString}" />
+									<c:out value="${listedUser.lastName.nameString}" />
+								</p>
+							</td>
+							<td class="col-md-1"><a
+								href="<c:out
+								value="app/users/profile?id=${listedUser.id}" />"><span
+									class="glyphicon glyphicon-link"></span></a></td>
+						</tr>
+					</c:if>
 				</c:forEach>
 			</tbody>
 		</table>

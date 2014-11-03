@@ -2,7 +2,7 @@ package ar.edu.itba.paw.g4.web.form;
 
 import ar.edu.itba.paw.g4.model.user.User;
 
-public class InterestingUserForm {
+public class HiddenInterestingUserForm {
 	private User interestingUser;
 	private User interestedUser;
 	

@@ -216,10 +216,10 @@ public class User extends PersistentEntity {
 	
 	public List<Comment> getRecentComments(){
 		List<Comment> recentComments = new LinkedList<Comment>();
-		DateTime date = new DateTime();
+		DateTime RecentLimitdate = new DateTime();
 		for(Comment c:comments){
-			date = c.getCreationDate().minusWeeks(1);
-			if(c.getCreationDate().isAfter(date)){
+			RecentLimitdate = c.getCreationDate().minusWeeks(1);
+			if(c.getCreationDate().isAfter(RecentLimitdate)){
 				recentComments.add(c);
 			}
 		}

@@ -17,7 +17,7 @@ import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.web.form.CommentForm;
 import ar.edu.itba.paw.g4.web.form.CommentScoreForm;
-import ar.edu.itba.paw.g4.web.form.DeleteForm;
+import ar.edu.itba.paw.g4.web.form.HiddenDeleteCommentForm;
 
 @Controller
 @RequestMapping("/comment")
@@ -82,7 +82,7 @@ public class CommentController {
 	}
 
 	@RequestMapping(value = "remove", method = RequestMethod.POST)
-	public ModelAndView remove(DeleteForm form, HttpSession session) {
+	public ModelAndView remove(HiddenDeleteCommentForm form, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		User user = users.findById(form.getUserId());
 		Comment c = user.getComment(form.getCommentId());

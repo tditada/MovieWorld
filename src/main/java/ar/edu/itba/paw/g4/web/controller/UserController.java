@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
-import ar.edu.itba.paw.g4.web.form.InterestingUserForm;
+import ar.edu.itba.paw.g4.web.form.HiddenInterestingUserForm;
 import ar.edu.itba.paw.g4.web.form.LoginForm;
 import ar.edu.itba.paw.g4.web.form.RegistrationForm;
 import ar.edu.itba.paw.g4.web.form.validation.LoginFormValidator;
@@ -115,7 +115,7 @@ public class UserController {
 			@RequestParam(value = "id", required = false) User user,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		InterestingUserForm form = new InterestingUserForm();
+		HiddenInterestingUserForm form = new HiddenInterestingUserForm();
 		if(isNotLogged(session,mav)){
 			return mav;
 		}
@@ -141,7 +141,7 @@ public class UserController {
 		return mav;
 	}
 	@RequestMapping(value = "changeInterest", method = RequestMethod.POST)
-	public ModelAndView changeInterest(InterestingUserForm form, HttpSession session){
+	public ModelAndView changeInterest(HiddenInterestingUserForm form, HttpSession session){
 		ModelAndView mav = new ModelAndView();
 		User interestedUser = form.getInterestedUser();
 		User interestingUser = form.getInterestingUser();

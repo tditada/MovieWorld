@@ -23,7 +23,7 @@ import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 import ar.edu.itba.paw.g4.web.form.CommentForm;
 import ar.edu.itba.paw.g4.web.form.CommentScoreForm;
-import ar.edu.itba.paw.g4.web.form.DeleteForm;
+import ar.edu.itba.paw.g4.web.form.HiddenDeleteCommentForm;
 import ar.edu.itba.paw.g4.web.form.MovieForm;
 import ar.edu.itba.paw.g4.web.form.validation.MovieFormValidator;
 import ar.edu.itba.paw.g4.web.formatters.MovieGenresSetFormatter;
@@ -179,7 +179,7 @@ public class MoviesController {
 		ModelAndView mav = new ModelAndView();
 		CommentForm form = new CommentForm();
 		CommentScoreForm scoreForm = new CommentScoreForm();
-		DeleteForm deleteForm = new DeleteForm();
+		HiddenDeleteCommentForm deleteForm = new HiddenDeleteCommentForm();
 		boolean canComment = false;
 		if (movie == null) {
 			mav.setViewName("redirect:/app/movies/list");// TODO: check!
