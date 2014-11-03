@@ -5,9 +5,12 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
-import static org.joda.time.DateTime.now;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -55,13 +58,17 @@ public class User extends PersistentEntity {
 	@Column(nullable = false)
 	private DateTime birthDate;
 
-//	TODO: ¿Agregar constrain de que haya UN solo admin?
+
+	// TODO: Agregar constraint de que haya UN solo admin
 	@Column(nullable = false)
 	private boolean isAdmin;
 
 	@Sort(type=SortType.NATURAL)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private SortedSet<Comment> comments = new TreeSet<Comment>();
+
+	@OneToMany
+	private Set<User> interestingUsers = new HashSet<User>();
 
 	User() {
 	}
@@ -74,24 +81,24 @@ public class User extends PersistentEntity {
 		checkArgument(email, notNull());
 		checkArgument(password, notNull());
 		checkArgument(birthDate, notNull());
-		checkArgument(birthDate.isBefore(now()));
+		checkArgument(birthDate.isBeforeNow());
 
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 		this.birthDate = birthDate;
-		this.isAdmin= isAdmin;
+		this.isAdmin = isAdmin;
 	}
 
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-		if(!comment.getMovie().isCommentableBy(this)){
+		if (!comment.getMovie().isCommentableBy(this)) {
 			return;
 		}
-		
-		for(Comment c:comments){
-			if(c.equals(comment)){
+
+		for (Comment c : comments) {
+			if (c.equals(comment)) {
 				return;
 			}
 		}
@@ -121,30 +128,35 @@ public class User extends PersistentEntity {
 	public DateTime getBirthDate() {
 		return birthDate;
 	}
-	
-	public boolean getIsAdmin(){
+
+	public boolean getIsAdmin() {
 		return isAdmin;
 	}
 
 	public SortedSet<Comment> getComments() {
 		return Collections.unmodifiableSortedSet(comments);
 	}
-	
-	public void removeComment(Comment c){
-		comments.remove(c);
-		Movie movie= c.getMovie();
-		movie.removeComment(c);
+
+
+	public void removeComment(Comment comment) {
+		checkArgument(comment, notNull());
+		checkArgument(this.equals(comment.getUser()));
+		checkArgument(comments.contains(comment));
+
+		comments.remove(comment);
+		Movie movie = comment.getMovie();
+		movie.removeComment(comment);
 	}
 
-	public Comment getComment(int commentId){
-		for(Comment c:comments){
-			if(c.getId()==commentId){
+	public Comment getComment(int commentId) {
+		for (Comment c : comments) {
+			if (c.getId() == commentId) {
 				return c;
 			}
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		return toStringHelper(this).add("id", getId())
@@ -174,5 +186,43 @@ public class User extends PersistentEntity {
 	public static UserBuilder builder() {
 		return new UserBuilder();
 	}
+	
+	public Set<User> getInterestingUsers(){
+		return interestingUsers;
+	}
 
+	public void addInterestingUser(User user) {
+		checkArgument(user, notNull());
+		if (user.equals(this)) {
+			return;
+		}
+		interestingUsers.add(user);
+	}
+	
+	public void removeInterestingUser(User user){
+		checkArgument(user, notNull());
+		interestingUsers.remove(user);
+	}
+
+	public boolean isinterestingUser(User user) {
+		for (User u : this.interestingUsers) {
+			if (u.equals(user)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public List<Comment> getRecentComments(){
+		List<Comment> recentComments = new LinkedList<Comment>();
+		DateTime RecentLimitdate = new DateTime();
+		for(Comment c:comments){
+			RecentLimitdate = c.getCreationDate().minusWeeks(1);
+			if(c.getCreationDate().isAfter(RecentLimitdate)){
+				recentComments.add(c);
+			}
+		}
+		return recentComments;
+	}
+	
 }

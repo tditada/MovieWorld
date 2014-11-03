@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.g4.model.user;
 
+import java.util.List;
+
 import ar.edu.itba.paw.g4.model.Email;
 import ar.edu.itba.paw.g4.model.Password;
 
@@ -14,7 +16,9 @@ public interface UserRepo {
 
 	public void save(final User user);
 	
-	public User getAdmin();
+//	public User getAdmin();
 	
 	public void removeComment(int id);
+	
+	public List<User> findAll();
 }

@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div id="form">
-				<form:form action="app/user/login" method="post"
+				<form:form action="app/users/login" method="post"
 					commandName="loginForm">
 					<form:errors path="*">
 						<div class="alert alert-danger" role="alert">Invalid email
@@ -30,7 +30,7 @@
 					<div class="form-group">
 						<button class="btn btn-primary btn-lg btn-block">Sign In</button>
 						<span class="pull-right"><a
-							href="<c:url value="app/user/register"/>">Register</a></span>
+							href="<c:url value="app/users/register"/>">Register</a></span>
 					</div>
 				</form:form>
 			</div>

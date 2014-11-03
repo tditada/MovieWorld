@@ -37,6 +37,7 @@
 				<ref bean="passwordFormatter" />
 				<ref bean="emailFormatter" />
 				<ref bean="dateFormatter" />
+				<ref bean="userFormatter"/>
 			</set>
 		</property>
 	</bean>

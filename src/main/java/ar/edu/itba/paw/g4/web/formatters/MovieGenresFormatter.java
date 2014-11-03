@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.web.convert;
+package ar.edu.itba.paw.g4.web.formatters;
 
 import java.text.ParseException;
 import java.util.Locale;

@@ -17,13 +17,11 @@ import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.web.form.CommentForm;
 import ar.edu.itba.paw.g4.web.form.CommentScoreForm;
-import ar.edu.itba.paw.g4.web.form.DeleteForm;
+import ar.edu.itba.paw.g4.web.form.HiddenDeleteCommentForm;
 
 @Controller
 @RequestMapping("/comment")
 public class CommentController {
-	// private static final String COMMENT_TEXT_ID = "commentText";
-	// private static final String COMMENT_SCORE_ID = "commentScore";
 
 	public static final String MOVIE_PARAM_ID = "movie_id";
 	public static final String USER_PARAM_ID = "user_id";
@@ -71,12 +69,11 @@ public class CommentController {
 	}
 
 	@RequestMapping(value = "remove", method = RequestMethod.POST)
-	public ModelAndView remove(DeleteForm form, HttpSession session) {
+	public ModelAndView remove(HiddenDeleteCommentForm form, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		User user = users.findById(form.getUserId());
 		Comment c = user.getComment(form.getCommentId());
 		user.removeComment(c);
-		System.out.println(form.getCommentId());
 		users.removeComment(form.getCommentId());
 		mav.setViewName("redirect:/app/home");
 		return mav;

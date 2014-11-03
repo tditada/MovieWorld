@@ -1,10 +1,10 @@
 package ar.edu.itba.paw.g4.web.form;
 
-public class DeleteForm {
+public class HiddenDeleteCommentForm {
 	int commentId;
 	int userId;
 	
-	public DeleteForm() {
+	public HiddenDeleteCommentForm() {
 	}
 
 	public int getCommentId(){

@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.g4.model;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Test;
 
 public class DirectorTest {
@@ -10,36 +8,27 @@ public class DirectorTest {
 	@SuppressWarnings("unused")
 	private Director sut;
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnNullName() {
-		testConstructorFailOn(null);
+		new Director(null);
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnEmptyName() {
-		testConstructorFailOn("");
+		new Director("");
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnTooLongName() {
 		String name = "";
 		for (int i = 0; i < MAX_NAME_LENGTH + 1; i++) {
 			name += "a";
 		}
-		testConstructorFailOn(name);
+		new Director(name);
 	}
 
 	@Test
-	public void testConstructorPassOnOkName() {
-		sut = new Director("Some random name"); // yes, spaces are allowed
-	}
-
-	private void testConstructorFailOn(String name) {
-		try {
-			this.sut = new Director(name);
-		} catch (IllegalArgumentException e) {
-			return;
-		}
-		fail();
+	public void testConstructorPassOnValidName() {
+		sut = new Director("Some random name"); // spaces are allowed
 	}
 }
