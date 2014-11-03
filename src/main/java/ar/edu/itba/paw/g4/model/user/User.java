@@ -5,12 +5,13 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
-import static org.joda.time.DateTime.now;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Collections;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.persistence.AttributeOverride;
@@ -53,13 +54,15 @@ public class User extends PersistentEntity {
 	@Column(nullable = false)
 	private DateTime birthDate;
 
-	// TODO: ¿Agregar constrain de que haya UN solo admin?
+
+	// TODO: Agregar constraint de que haya UN solo admin
 	@Column(nullable = false)
 	private boolean isAdmin;
 
-	// @Sort(type=SortType.NATURAL)
+
+	// @Sort(type = SortType.NATURAL)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<Comment> comments = new TreeSet<Comment>();
+	private Set<Comment> comments = new TreeSet<>();
 
 	@OneToMany
 	private Set<User> interestingUsers = new HashSet<User>();
@@ -75,7 +78,7 @@ public class User extends PersistentEntity {
 		checkArgument(email, notNull());
 		checkArgument(password, notNull());
 		checkArgument(birthDate, notNull());
-		checkArgument(birthDate.isBefore(now()));
+		checkArgument(birthDate.isBeforeNow());
 
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -128,13 +131,18 @@ public class User extends PersistentEntity {
 	}
 
 	public Set<Comment> getComments() {
-		return comments;
+		return Collections.unmodifiableSet(comments);
 	}
 
-	public void removeComment(Comment c) {
-		comments.remove(c);
-		Movie movie = c.getMovie();
-		movie.removeComment(c);
+
+	public void removeComment(Comment comment) {
+		checkArgument(comment, notNull());
+		checkArgument(this.equals(comment.getUser()));
+		checkArgument(comments.contains(comment));
+
+		comments.remove(comment);
+		Movie movie = comment.getMovie();
+		movie.removeComment(comment);
 	}
 
 	public Comment getComment(int commentId) {
@@ -225,6 +233,4 @@ public class User extends PersistentEntity {
 		return recentComments;
 	}
 	
-
-
 }

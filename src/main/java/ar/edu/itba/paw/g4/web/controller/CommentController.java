@@ -62,20 +62,8 @@ public class CommentController {
 		ModelAndView mav = new ModelAndView();
 		Movie movie = movies.findById((int) session.getAttribute("movie_id"));
 		User user = users.findById(form.getUserId());
-		user.updateCommentScore(movie, user, form.getCommentScore()); // updetea
-																		// el
-																		// score
-																		// en
-																		// user
-																		// y
-																		// este
-																		// llama
-																		// a
-																		// hacer
-																		// lo
-																		// mismo
-																		// en
-																		// movie
+		// updatea el score en user y este llama a hacer lo mismo en movie
+		user.updateCommentScore(movie, user, form.getCommentScore());
 		mav.addObject("movie", movie);
 		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
 		return mav;

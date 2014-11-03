@@ -74,6 +74,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 		checkArgument(user, notNull());
 		checkArgument(movie, notNull());
 		checkArgument(movie.isCommentableBy(user));
+		checkArgument(creationDate.isBeforeNow() || creationDate == null);
 
 		this.text = text;
 		this.filmScore = filmScore;

@@ -69,7 +69,7 @@ public class Movie extends PersistentEntity {
 	@Check(constraints = "totalScore >= 0")
 	private int totalScore;
 
-//	@Sort(type=SortType.NATURAL)
+	// @Sort(type=SortType.NATURAL)
 	@OneToMany(mappedBy = "movie")
 	private Set<Comment> comments = new TreeSet<Comment>();
 
@@ -102,20 +102,22 @@ public class Movie extends PersistentEntity {
 
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-//TODO: check (no quiero que tire un error si ya viene de user)
-//		checkArgument(isCommentableBy(comment.getUser()));
-		if (comments==null) {
+		checkArgument(this.equals(comment.getMovie()));
+
+		if (comments.contains(comment)) {
+			// this will only happen when addComment is called in a
+			// callback
 			return;
 		}
-		for(Comment c:comments){
-			if(c.equals(comment)){
-				return;
-			}
+
+		User user = comment.getUser();
+		if (!isCommentableBy(user)) {
+			throw new IllegalArgumentException();
 		}
+
 		comments.add(comment);
 		this.totalScore += comment.getScore();
 
-		User user = comment.getUser();
 		user.addComment(comment);
 	}
 
@@ -152,14 +154,11 @@ public class Movie extends PersistentEntity {
 
 	public boolean isCommentableBy(User user) {
 		checkArgument(user, notNull());
-		if (DateTime.now().isBefore(releaseDate)) {
+		if (releaseDate.isBeforeNow()) {
 			return false;
 		}
-		if(comments==null || comments.size()==0){
-			return true;
-		}
-		for (Comment c : comments) {
-			if (c.getUser().equals(user)) {
+		for (Comment comment : comments) {
+			if (comment.getUser().equals(user)) {
 				return false;
 			}
 		}
@@ -220,8 +219,10 @@ public class Movie extends PersistentEntity {
 	public static MovieBuilder builder() {
 		return new MovieBuilder();
 	}
-	
-	public void updateMovie(String title, DateTime releaseDate, Set<MovieGenres> genres, Director director, String summary, int runtimeInMins){
+
+	public void updateMovie(String title, DateTime releaseDate,
+			Set<MovieGenres> genres, Director director, String summary,
+			int runtimeInMins) {
 		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(title.length() <= MAX_TITLE_LENGTH);
 		checkArgument(releaseDate, notNull());
@@ -229,38 +230,38 @@ public class Movie extends PersistentEntity {
 		checkArgument(director, notNull());
 		checkArgument(summary, notNull());
 		checkArgument(runtimeInMins > 0);
-		
-		if(this.title!=title){
-			this.title=title;
+
+		if (this.title != title) {
+			this.title = title;
 		}
-		if(this.releaseDate!=releaseDate){
-			this.releaseDate=releaseDate;
+		if (this.releaseDate != releaseDate) {
+			this.releaseDate = releaseDate;
 		}
-		if(this.genres!=genres){
-			this.genres=genres;
+		if (this.genres != genres) {
+			this.genres = genres;
 		}
-		if(this.director!=director){
-			this.director=director;
+		if (this.director != director) {
+			this.director = director;
 		}
-		if(this.summary!=summary){
-			this.summary=summary;
+		if (this.summary != summary) {
+			this.summary = summary;
 		}
-		if(this.runtimeInMins!=runtimeInMins){
-			this.runtimeInMins=runtimeInMins;
+		if (this.runtimeInMins != runtimeInMins) {
+			this.runtimeInMins = runtimeInMins;
 		}
 	}
 
 	public void updateCommentScore(Movie movie, User user, int score) {
-		for(Comment c:comments){
-			if(c.getUser().equals(user) && c.getMovie().equals(movie)){
+		for (Comment c : comments) {
+			if (c.getUser().equals(user) && c.getMovie().equals(movie)) {
 				c.setCommentScore(user, score);
 				return;
 			}
 		}
 	}
-	
+
 	public void removeComment(Comment c) {
 		comments.remove(c);
 	}
-	
+
 }
