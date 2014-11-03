@@ -257,14 +257,6 @@ public class Movie extends PersistentEntity {
 		}
 	}
 
-	public void updateCommentScore(Movie movie, User user, int score) {
-		for(Comment c:comments){
-			if(c.getUser().equals(user) && c.getMovie().equals(movie)){
-				c.setCommentScore(user, score);
-				return;
-			}
-		}
-	}
 	public void removeComment(Comment c) {
 		comments.remove(c);
 	}

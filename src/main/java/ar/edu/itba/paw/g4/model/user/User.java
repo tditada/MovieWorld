@@ -175,15 +175,4 @@ public class User extends PersistentEntity {
 		return new UserBuilder();
 	}
 
-	public void updateCommentScore(Movie movie, User user, int score) {
-		for(Comment c:comments){
-			if(c.getMovie().equals(movie) && c.getUser().equals(user)){
-				c.setCommentScore(user, score);
-				c.getMovie().updateCommentScore(movie,user,score);
-				return;
-			}
-		}
-		
-	}
-
 }

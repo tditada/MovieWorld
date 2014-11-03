@@ -64,7 +64,7 @@ public class CommentController {
 		ModelAndView mav = new ModelAndView();
 		Movie movie = movies.findById((int) session.getAttribute("movie_id"));
 		User user = users.findById(form.getUserId());
-		user.updateCommentScore(movie, user, form.getCommentScore()); // updetea
+		updateCommentScore(movie, user, form.getCommentScore()); // updetea
 																		// el
 																		// score
 																		// en
@@ -93,6 +93,21 @@ public class CommentController {
 		users.removeComment(form.getCommentId());
 		mav.setViewName("redirect:/app/home");
 		return mav;
+	}
+	
+	private void updateCommentScore(Movie movie, User user, int score) {
+		for(Comment c:user.getComments()){
+			if(c.getMovie().equals(movie) && c.getUser().equals(user)){
+				c.setCommentScore(user, score);
+			}
+		}
+		
+		for(Comment c:movie.getComments()){
+			if(c.getMovie().equals(movie) && c.getUser().equals(user)){
+				c.setCommentScore(user, score);
+			}
+		}
+		
 	}
 
 }
