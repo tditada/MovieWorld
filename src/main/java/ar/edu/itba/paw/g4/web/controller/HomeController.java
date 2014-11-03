@@ -27,6 +27,7 @@ public class HomeController {
 	
 	private static final String USER_PARAM_ID ="user_id";
 	private static final String USER_ID="user";
+	private static final String INTERESTING_COMMENTS_ID = "interestingComments";
 
 	private MovieRepo movies;
 	private UserRepo users;
@@ -47,6 +48,7 @@ public class HomeController {
 		if(session.getAttribute(USER_PARAM_ID)!=null){
 			User user = users.findById((int)session.getAttribute(USER_PARAM_ID));
 			mav.addObject(USER_ID, user);			
+			mav.addObject(INTERESTING_COMMENTS_ID, user.getInterestingComments());
 		}
 		mav.addObject(TOP_MOVIES_ID, topMovies);
 		mav.addObject(NEW_ADDITIONS_ID, newAdditions);

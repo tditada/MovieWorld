@@ -1,7 +1,7 @@
 <%@ include file="header.jsp"%>
 
 <%@ include file="nav/start.jsp"%>
-<%@ include file="nav/links.jsp" %>
+<%@ include file="nav/links.jsp"%>
 <%@ include file="nav/userMenu.jsp"%>
 <%@ include file="nav/end.jsp"%>
 
@@ -94,6 +94,35 @@
 					</div>
 				</c:forEach>
 			</div>
+			<c:if test="${not empty interestingComments}">
+				<div class="col-md-8">
+					<div class="panel panel-default">
+						<div class="panel-heading text-center">
+							<h2 class="panel-title">Interesting Users Recent Comments</h2>
+						</div>
+						<c:forEach items="${interestingComments}" var="interestingComment">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<c:out value="${interestingComment.movie.title}" />
+									<c:out value="${interestingComment.user.firstName interestingComment.user.lastName}"/>
+								</div>
+								<div class="panel-body">
+									<p>
+										<c:choose>
+											<c:when test="${fn:length(interestingComment.text) > 300}">
+												<c:out value="${fn:substring(interestingComment.text, 0, 300)}..." />
+											</c:when>
+											<c:otherwise>
+												<c:out value="${interestingComment.text}" />
+											</c:otherwise>
+										</c:choose>
+									</p>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</c:if>
 		</div>
 	</div>
 </div>

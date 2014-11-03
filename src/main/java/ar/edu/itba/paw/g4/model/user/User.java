@@ -8,13 +8,14 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -207,6 +208,26 @@ public class User extends PersistentEntity {
 			}
 		}
 		return false;
+	}
+	
+	public List<Comment> getRecentComments(){
+		List<Comment> recentComments = new LinkedList<Comment>();
+		DateTime date = new DateTime();
+		for(Comment c:comments){
+			date = c.getCreationDate().minusWeeks(1);
+			if(c.getCreationDate().isAfter(date)){
+				recentComments.add(c);
+			}
+		}
+		return recentComments;
+	}
+	
+	public List<Comment> getInterestingComments(){
+		List<Comment> interestingComments = new LinkedList<Comment>();
+		for(User u:interestingUsers){
+			interestingComments.addAll(u.getRecentComments());
+		}
+		return interestingComments;
 	}
 
 }
