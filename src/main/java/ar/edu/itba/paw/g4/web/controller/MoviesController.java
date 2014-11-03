@@ -134,7 +134,7 @@ public class MoviesController {
 
 	@RequestMapping(value = "remove", method = RequestMethod.POST)
 	public ModelAndView remove(
-			@RequestParam(value = PARAM_ID, required = false) String id,
+			@RequestParam(value = PARAM_ID, required = false) int id,
 			HttpSession session) {
 		User actualUser = users.findById((int) session
 				.getAttribute(USER_PARAM_ID));
