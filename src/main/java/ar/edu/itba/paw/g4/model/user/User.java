@@ -52,15 +52,15 @@ public class User extends PersistentEntity {
 	@Column(nullable = false)
 	private DateTime birthDate;
 
-//	TODO: ¿Agregar constrain de que haya UN solo admin?
+	// TODO: ¿Agregar constrain de que haya UN solo admin?
 	@Column(nullable = false)
 	private boolean isAdmin;
 
-//	@Sort(type=SortType.NATURAL)
+	// @Sort(type=SortType.NATURAL)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Comment> comments = new TreeSet<Comment>();
-	
-	@ElementCollection
+
+	@OneToMany
 	private Set<User> interestingUsers = new HashSet<User>();
 
 	User() {
@@ -81,17 +81,17 @@ public class User extends PersistentEntity {
 		this.email = email;
 		this.password = password;
 		this.birthDate = birthDate;
-		this.isAdmin= isAdmin;
+		this.isAdmin = isAdmin;
 	}
 
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-		if(!comment.getMovie().isCommentableBy(this)){
+		if (!comment.getMovie().isCommentableBy(this)) {
 			return;
 		}
-		
-		for(Comment c:comments){
-			if(c.equals(comment)){
+
+		for (Comment c : comments) {
+			if (c.equals(comment)) {
 				return;
 			}
 		}
@@ -121,30 +121,30 @@ public class User extends PersistentEntity {
 	public DateTime getBirthDate() {
 		return birthDate;
 	}
-	
-	public boolean getIsAdmin(){
+
+	public boolean getIsAdmin() {
 		return isAdmin;
 	}
 
 	public Set<Comment> getComments() {
 		return comments;
 	}
-	
-	public void removeComment(Comment c){
+
+	public void removeComment(Comment c) {
 		comments.remove(c);
-		Movie movie= c.getMovie();
+		Movie movie = c.getMovie();
 		movie.removeComment(c);
 	}
 
-	public Comment getComment(int commentId){
-		for(Comment c:comments){
-			if(c.getId()==commentId){
+	public Comment getComment(int commentId) {
+		for (Comment c : comments) {
+			if (c.getId() == commentId) {
 				return c;
 			}
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		return toStringHelper(this).add("id", getId())
@@ -176,19 +176,37 @@ public class User extends PersistentEntity {
 	}
 
 	public void updateCommentScore(Movie movie, User user, int score) {
-		for(Comment c:comments){
-			if(c.getMovie().equals(movie) && c.getUser().equals(user)){
+		for (Comment c : comments) {
+			if (c.getMovie().equals(movie) && c.getUser().equals(user)) {
 				c.setCommentScore(user, score);
-				c.getMovie().updateCommentScore(movie,user,score);
+				c.getMovie().updateCommentScore(movie, user, score);
 				return;
 			}
 		}
-		
+
+	}
+
+	public void addInterestingUser(User user) {
+		checkArgument(user, notNull());
+		if (user.equals(this)) {
+			return;
+		}
+		interestingUsers.add(user);
 	}
 	
-	public void addInterestingUser(User user){
+	public void removeInterestingUser(User user){
 		checkArgument(user, notNull());
-		interestingUsers.add(user);
+		interestingUsers.remove(user);
+		System.out.println(interestingUsers);
+	}
+
+	public boolean isinterestingUser(User user) {
+		for (User u : this.interestingUsers) {
+			if (u.equals(user)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

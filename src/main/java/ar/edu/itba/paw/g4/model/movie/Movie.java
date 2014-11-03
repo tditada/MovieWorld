@@ -259,6 +259,7 @@ public class Movie extends PersistentEntity {
 			}
 		}
 	}
+	
 	public void removeComment(Comment c) {
 		comments.remove(c);
 	}

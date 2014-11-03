@@ -90,7 +90,6 @@ public class UserController {
 			return mav;
 		}
 
-		// User user = userService.authenticate(emailAddress, password);
 		User user = users.authenticate(loginForm.getEmail(),
 				loginForm.getPassword());
 		if (user == null) {
@@ -121,6 +120,9 @@ public class UserController {
 		if(isNotLogged(session,mav)){
 			return mav;
 		}
+		User actualUser = users.findById((int) session.getAttribute(USER_PARAM_ID));
+		System.out.println(actualUser.isinterestingUser(user));
+		mav.addObject("isInterestingUser", actualUser.isinterestingUser(user));
 		mav.addObject("addInterestingForm",form);
 		mav.addObject(COMMENTS_USER_ID, user);
 		setUserInMav(session, mav);
@@ -139,11 +141,19 @@ public class UserController {
 		mav.setViewName("user/all");
 		return mav;
 	}
-	@RequestMapping(value = "addInteresting", method = RequestMethod.POST)
-	public ModelAndView addInteresting(InterestingUserForm form, HttpSession session){
+	@RequestMapping(value = "changeInterest", method = RequestMethod.POST)
+	public ModelAndView changeInterest(InterestingUserForm form, HttpSession session){
 		ModelAndView mav = new ModelAndView();
-		form.getInterestedUser().addInterestingUser(form.getInterestingUser());
-		mav.setViewName("user/profile?id="+form.getInterestingUser().getId());
+		User interestedUser = form.getInterestedUser();
+		User interestingUser = form.getInterestingUser();
+
+		if(interestedUser.isinterestingUser(interestingUser)){
+			interestedUser.removeInterestingUser(interestingUser);
+		}else{
+			interestedUser.addInterestingUser(interestingUser);
+			
+		}
+		mav.setViewName("redirect:/app/users/profile?id="+form.getInterestingUser().getId());
 		return mav;
 	}
 

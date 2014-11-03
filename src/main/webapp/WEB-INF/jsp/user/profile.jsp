@@ -9,16 +9,29 @@
 			<h1>
 				<c:out
 					value="${commentsUser.firstName.nameString} ${commentsUser.lastName.nameString } Profile" />
-				<form:form role="form" action="app/users/addInteresting"
+				<form:form role="form" action="app/users/changeInterest"
 					method="post" commandName="addInterestingForm">
 					<form:input type="hidden" path="interestingUser"
 						name="interestingUser" id="interestingUser"
 						value="${commentsUser.id}"></form:input>
 					<form:input type="hidden" path="interestedUser"
-						name="interestedUser" id="interestedUser"
-						value="${user.id}"></form:input>
-					<input type="submit" name="addInteresting" id="addInteresting"
-						value="Add As Interesting User" class="btn btn-primary pull-right">
+						name="interestedUser" id="interestedUser" value="${user.id}"></form:input>
+					<c:if test="${user.email.textAddress ne commentsUser.email.textAddress}">
+						<c:choose>
+							<c:when test="${isInterestingUser}">
+								<c:out value="${isInterestingUser}" />
+								<input type="submit" name="removeInteresting"
+									id="removeInteresting" value="Remove As Interesting User"
+									class="btn btn-primary pull-right" />
+							</c:when>
+							<c:otherwise>
+								<c:out value="${isInterestingUser}" />
+								<input type="submit" name="addInteresting" id="addInteresting"
+									value="Add As Interesting User"
+									class="btn btn-primary pull-right" />
+							</c:otherwise>
+						</c:choose>
+					</c:if>
 				</form:form>
 			</h1>
 		</div>
