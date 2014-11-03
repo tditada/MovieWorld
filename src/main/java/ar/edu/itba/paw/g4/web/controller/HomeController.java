@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.g4.web.controller;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 import ar.edu.itba.paw.g4.model.user.User;
@@ -48,12 +50,20 @@ public class HomeController {
 		if(session.getAttribute(USER_PARAM_ID)!=null){
 			User user = users.findById((int)session.getAttribute(USER_PARAM_ID));
 			mav.addObject(USER_ID, user);
-			mav.addObject(INTERESTING_COMMENTS_ID, user.getInterestingComments());
+			mav.addObject(INTERESTING_COMMENTS_ID, getInterestingCommentsFor(user));
 		}
 		mav.addObject(TOP_MOVIES_ID, topMovies);
 		mav.addObject(NEW_ADDITIONS_ID, newAdditions);
 		mav.addObject(RELEASES_ID, releases);
 		mav.setViewName("home");
 		return mav;
+	}
+	
+	private List<Comment> getInterestingCommentsFor(User user){
+		List<Comment> interestingComments = new LinkedList<Comment>();
+		for(User u:user.getInterestingUsers()){
+			interestingComments.addAll(u.getRecentComments());
+		}
+		return interestingComments;
 	}
 }

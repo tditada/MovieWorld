@@ -175,6 +175,10 @@ public class User extends PersistentEntity {
 	public static UserBuilder builder() {
 		return new UserBuilder();
 	}
+	
+	public Set<User> getInterestingUsers(){
+		return interestingUsers;
+	}
 
 	public void updateCommentScore(Movie movie, User user, int score) {
 		for (Comment c : comments) {
@@ -222,12 +226,6 @@ public class User extends PersistentEntity {
 		return recentComments;
 	}
 	
-	public List<Comment> getInterestingComments(){
-		List<Comment> interestingComments = new LinkedList<Comment>();
-		for(User u:interestingUsers){
-			interestingComments.addAll(u.getRecentComments());
-		}
-		return interestingComments;
-	}
+
 
 }
