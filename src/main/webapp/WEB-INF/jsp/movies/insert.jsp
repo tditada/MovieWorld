@@ -11,71 +11,71 @@
 				<form:form role="form" action="app/movies/insert" method="post"
 					commandName="movieForm">
 					<div class="form-group">
-						<label for="filmTitle">Film Title</label>
+						<label for="movieTitle">Movie Title</label>
 						<div class="input-group">
-							<form:input type="text" path="filmTitle" class="form-control"
-								name="filmTitle" id="filmTitle" placeholder="Enter Film's Title" />
+							<form:input type="text" path="movieTitle" class="form-control"
+								name="movieTitle" id="movieTitle" placeholder="Enter Movie's Title" />
 							<span class="input-group-addon"><span
 								class="glyphicon glyphicon-asterisk"></span> Required</span>
 						</div>
-						<form:errors path="filmTitle">
-							<div class="alert alert-danger" role="alert">Invalid film
+						<form:errors path="movieTitle">
+							<div class="alert alert-danger" role="alert">Invalid movie
 								name</div>
 						</form:errors>
 					</div>
 					<div class="form-group">
-						<label for="filmDirector">Enter Director</label>
+						<label for="movieDirector">Enter Director</label>
 						<div class="input-group">
-							<form:input type="text" path="filmDirector" class="form-control"
-								name="filmDirector" id="filmDirector"
+							<form:input type="text" path="movieDirector" class="form-control"
+								name="movieDirector" id="movieDirector"
 								placeholder="Enter Director" />
 							<span class="input-group-addon"><span
 								class="glyphicon glyphicon-asterisk"></span> Required</span>
 						</div>
-						<form:errors path="filmDirector">
+						<form:errors path="movieDirector">
 							<div class="alert alert-danger" role="alert">Invalid
 								director's name</div>
 						</form:errors>
 					</div>
 					<div class="form-group">
-						<label for="filmSummary">Enter Summary</label>
+						<label for="movieSummary">Enter Summary</label>
 						<div class="input-group">
-							<form:input type="text" path="filmSummary" class="form-control"
-								name="filmSummary" id="filmSummary" placeholder="Enter Summary" />
+							<form:input type="text" path="movieSummary" class="form-control"
+								name="movieSummary" id="movieSummary" placeholder="Enter Summary" />
 							<span class="input-group-addon"><span
 								class="glyphicon glyphicon-asterisk"></span> Required</span>
 						</div>
-						<form:errors path="filmSummary">
+						<form:errors path="movieSummary">
 							<div class="alert alert-danger" role="alert">Invalid
 								Summary</div>
 						</form:errors>
 					</div>
 					<div class="form-group">
-						<label for="filmGenres">Enter Genres</label>
+						<label for="movieGenres">Enter Genres</label>
 						<div class="input-group">
-							<form:input type="text" path="filmGenres" class="form-control"
-								name="filmGenres" id="filmGenres" placeholder="Action, Commedy" />
+							<form:input type="text" path="movieGenres" class="form-control"
+								name="movieGenres" id="movieGenres" placeholder="Action, Commedy" />
 							<span class="input-group-addon"><span
 								class="glyphicon glyphicon-asterisk"></span> Required</span>
 						</div>
-						<form:errors path="filmGenres">
+						<form:errors path="movieGenres">
 							<div class="alert alert-danger" role="alert">Invalid Genres</div>
 						</form:errors>
 					</div>
 					<div class="form-group">
-						<label for="filmRuntimeInMins" class="control-label">Runtime
+						<label for="movieRuntimeInMins" class="control-label">Runtime
 							In Minutes</label>
-						<form:input type="number" min="1" path="filmRuntimeInMins"
-							class="form-control" name="filmRuntimeInMins"
-							id="filmRuntimeInMins" />
+						<form:input type="number" min="1" path="movieRuntimeInMins"
+							class="form-control" name="movieRuntimeInMins"
+							id="movieRuntimeInMins" />
 						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-asterisk"></span> Required</span>
 					</div>
 					<div class="form-group">
-						<label for="filmReleaseDate">Enter Release Date</label>
-						<form:input type="text" name="filmReleaseDate"
-							path="filmReleaseDate" id="datepicker" />
-						<form:errors path="filmReleaseDate">
+						<label for="movieReleaseDate">Enter Release Date</label>
+						<form:input type="text" name="movieReleaseDate"
+							path="movieReleaseDate" id="datepicker" />
+						<form:errors path="movieReleaseDate">
 							<div class="alert alert-danger" role="alert">Invalid
 								Release Date</div>
 						</form:errors>

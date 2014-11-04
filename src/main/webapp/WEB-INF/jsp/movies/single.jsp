@@ -98,15 +98,15 @@
 					</dd>
 					<dt>Score</dt>
 					<dd>
-						<c:forEach begin="1" end="${comment.score}">
+						<c:forEach begin="1" end="${comment.score.value}">
 							<span class="glyphicon glyphicon-star"></span>
 						</c:forEach>
-						<c:if test="${comment.score < 5}">
-							<c:forEach begin="${comment.score}" end="4">
+						<c:if test="${comment.score.value < 5}">
+							<c:forEach begin="${comment.score.value}" end="4">
 								<span class="glyphicon glyphicon-star-empty"></span>
 							</c:forEach>
 						</c:if>
-						<small><c:out value="(${comment.score}/5)"></c:out></small>
+						<small><c:out value="(${comment.score.value}/5)"></c:out></small>
 					</dd>
 					<dt>Date</dt>
 					<dd>
@@ -179,10 +179,10 @@
 				<form:form role="form" action="app/comment" method="POST"
 					commandName="commentForm">
 					<div class="form-group">
-						<label for="filmScore" class="col-sm-2 control-label">Score</label>
+						<label for="movieScore" class="col-sm-2 control-label">Score</label>
 						<div class="input-group">
 							<form:input type="number" min="1" max="5" class="form-control"
-								name="filmScore" id="filmScore" path="filmScore" />
+								name="movieScore" id="movieScore" path="movieScore" />
 						</div>
 					</div>
 					<div class="form-group">

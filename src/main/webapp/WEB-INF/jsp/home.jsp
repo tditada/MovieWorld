@@ -1,7 +1,5 @@
 <%@ include file="header.jsp"%>
-
 <%@ include file="nav/start.jsp"%>
-<%@ include file="nav/links.jsp" %>
 <%@ include file="nav/userMenu.jsp"%>
 <%@ include file="nav/end.jsp"%>
 

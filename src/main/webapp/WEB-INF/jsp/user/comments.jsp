@@ -1,8 +1,8 @@
 <%@ include file="../header.jsp"%>
 <%@ include file="../nav/start.jsp"%>
-<%@ include file="../nav/links.jsp"%>
 <%@ include file="../nav/userMenu.jsp"%>
 <%@ include file="../nav/end.jsp"%>
+
 <div class="container">
 	<div class="row">
 		<div class="page-header">
@@ -12,7 +12,6 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-
 						<c:choose>
 							<c:when test="${not empty commentsUser.comments}">
 								<c:out
@@ -38,14 +37,14 @@
 							<dt>Date</dt>
 							<dd>
 								<td class="col-md-2"><joda:format
-										value="${comment.creationDate}" style="M-" />
+										value="${comment.creationDate}" style="M-" /></td>
 							</dd>
 						</dl>
 					</div>
 				</c:forEach>
 			</div>
 
-				<%-- <div class="panel-heading">
+			<%-- <div class="panel-heading">
 				<h3 class="panel-title">Comments</h3>
 			</div>
 			<div class="panel panel-default">
@@ -53,7 +52,7 @@
 					<thead>
 						<tr>
 							<th class="col-md-2">Comment's Title</th>
-							<th class="col-md-2">Comment's Film</th>
+							<th class="col-md-2">Comment's Movie</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -68,7 +67,7 @@
 						</c:forEach>
 					</tbody>
 				</table> --%>
-				<%-- 			<c:forEach items="${commentsUser.comments}" var="comment">
+			<%-- 			<c:forEach items="${commentsUser.comments}" var="comment">
 					<div class="panel-heading">
 						<a
 							href="<c:out	value="app/movies/detail?id=${comment.movie.id}" />">
@@ -99,8 +98,8 @@
 						</dl>
 					</div>
 				</c:forEach> --%>
-			</div>
 		</div>
 	</div>
+</div>
 </div>
 <%@ include file="../footer.jsp"%>
