@@ -5,14 +5,14 @@ import java.util.Set;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.Director;
-import ar.edu.itba.paw.g4.model.MovieGenres;
+import ar.edu.itba.paw.g4.model.MovieGenre;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 
 public class MovieForm {
 	private String title;
 	private Director director;
 	private String summary;
-	private Set<MovieGenres> genres;
+	private Set<MovieGenre> genres;
 	private int runtimeInMins;
 	private DateTime releaseDate;
 
@@ -43,11 +43,11 @@ public class MovieForm {
 		this.summary = summary;
 	}
 
-	public Set<MovieGenres> getGenres() {
+	public Set<MovieGenre> getGenres() {
 		return genres;
 	}
 
-	public void setGenres(Set<MovieGenres> genres) {
+	public void setGenres(Set<MovieGenre> genres) {
 		this.genres = genres;
 	}
 

@@ -30,13 +30,16 @@
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="formatters">
 			<set>
-				<ref bean="movieFormatter" />
+				<ref bean="commentFormatter" />
+				<ref bean="dateFormatter" />
 				<ref bean="directorFormatter" />
-				<ref bean="movieGenresFormatter" />
+				<ref bean="emailFormatter" />
+				<ref bean="movieFormatter" />
+				<ref bean="movieGenreFormatter" />
+				<ref bean="movieGenreSetFormatter" />
 				<ref bean="nonArtisticNameFormatter" />
 				<ref bean="passwordFormatter" />
-				<ref bean="emailFormatter" />
-				<ref bean="dateFormatter" />
+				<ref bean="scoreFormatter" />
 				<ref bean="userFormatter"/>
 			</set>
 		</property>

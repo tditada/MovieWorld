@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.g4.model.movie;
 
-import static org.joda.time.DateTime.*;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
@@ -8,18 +7,21 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNor
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+import static org.joda.time.DateTime.now;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -27,11 +29,13 @@ import javax.persistence.UniqueConstraint;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.hibernate.annotations.Check;
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
 import ar.edu.itba.paw.g4.model.Director;
-import ar.edu.itba.paw.g4.model.MovieGenres;
+import ar.edu.itba.paw.g4.model.MovieGenre;
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
@@ -53,9 +57,14 @@ public class Movie extends PersistentEntity {
 	private DateTime releaseDate;
 
 	@ElementCollection
-	@Enumerated(EnumType.STRING)
+	@CollectionTable(name = "genres", joinColumns = @JoinColumn(name = "movie_id"))
 	@Column(nullable = false)
-	private Set<MovieGenres> genres;
+	// ^ TODO: check!
+	private Set<MovieGenre> genres;
+
+	// @ElementCollection(targetClass = MovieGenres.class)
+	// @Enumerated(EnumType.STRING)
+	// private Set<MovieGenres> genres;
 
 	@Embedded
 	@AttributeOverride(name = "name", column = @Column(name = "director"))
@@ -70,15 +79,15 @@ public class Movie extends PersistentEntity {
 	@Check(constraints = "totalScore >= 0")
 	private int totalScore;
 
-	// @Sort(type=SortType.NATURAL)
-	@OneToMany(mappedBy = "movie")
-	private Set<Comment> comments = new TreeSet<Comment>();
+	@Sort(type = SortType.NATURAL)
+	@OneToMany(mappedBy = "", cascade = CascadeType.ALL)
+	private SortedSet<Comment> comments = new TreeSet<Comment>();
 
 	Movie() {
 	}
 
 	@GeneratePojoBuilder
-	public Movie(DateTime releaseDate, String title, Set<MovieGenres> genres,
+	public Movie(DateTime releaseDate, String title, Set<MovieGenre> genres,
 			Director director, int runtimeInMins, String summary) {
 		setTitle(title);
 		setReleaseDate(releaseDate);
@@ -139,7 +148,7 @@ public class Movie extends PersistentEntity {
 		return title;
 	}
 
-	public Set<MovieGenres> getGenres() {
+	public Set<MovieGenre> getGenres() {
 		return Collections.unmodifiableSet(genres);
 	}
 
@@ -190,7 +199,7 @@ public class Movie extends PersistentEntity {
 		this.director = director;
 	}
 
-	public void setGenres(Set<MovieGenres> genres) {
+	public void setGenres(Set<MovieGenre> genres) {
 		checkArgument(genres, notNull(), notEmptyColl());
 		this.genres = genres;
 	}

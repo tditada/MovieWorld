@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import ar.edu.itba.paw.g4.model.MovieGenres;
+import ar.edu.itba.paw.g4.model.MovieGenre;
 import ar.edu.itba.paw.g4.web.form.MovieForm;
 
 @Component
@@ -30,7 +30,7 @@ public class MovieFormValidator implements Validator {
 		checkSet(DIRECTOR_ID, form.getDirector(), errors);
 		checkSet(SUMMARY_ID, form.getSummary(), errors);
 
-		Set<MovieGenres> genres = form.getGenres();
+		Set<MovieGenre> genres = form.getGenres();
 		checkSet(GENRES_ID, genres, errors);
 		if (genres != null && genres.contains(null)) {
 			errors.rejectValue(GENRES_ID, "genre.invalid",

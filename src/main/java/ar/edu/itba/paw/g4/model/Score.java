@@ -17,7 +17,7 @@ public class Score {
 
 	@Check(constraints = "(score >=" + MIN_SCORE + " and " + "score <="
 			+ MAX_SCORE + ")")
-	@Column(name = "score", nullable = false)
+	@Column(name = "score")// , nullable = false)
 	private int value;
 
 	public Score(int value) {

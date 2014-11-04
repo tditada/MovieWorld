@@ -4,9 +4,12 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
-import static ar.edu.itba.paw.g4.util.validation.Validations.*;
+import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+import static ar.edu.itba.paw.g4.util.validation.Validations.checkState;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -21,6 +24,8 @@ import javax.persistence.UniqueConstraint;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.Email;
@@ -54,9 +59,12 @@ public class User extends PersistentEntity {
 	@Column(nullable = false)
 	private boolean admin;
 
-	// @Sort(type = SortType.NATURAL)
+	@Sort(type = SortType.NATURAL)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private SortedSet<Comment> comments = new TreeSet<>();
+
+	@OneToMany(mappedBy = "scorers", cascade = CascadeType.ALL)
+	private Set<Comment> commentsScored = new HashSet<>();
 
 	User() {
 	}

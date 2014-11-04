@@ -1,9 +1,5 @@
 package ar.edu.itba.paw.g4.model;
 
-import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
-
-import javax.persistence.Id;
-
 public enum MovieGenres {
 	ACTION("Action"), COMEDY("Comedy"), DRAMA("Drama"), ROMANCE("Romance"), THRILLER(
 			"Thriller"), FAMILY("Family"), HISTORY("History"), ADVENTURE(
@@ -14,23 +10,17 @@ public enum MovieGenres {
 
 	private static final int MAX_GENRE_LENGTH = 25;
 
-	@Id
-	private int id;
-
-	private String name;
+	private String genreName;
 
 	private MovieGenres() {
-		checkArgument(this.name().length() < MAX_GENRE_LENGTH);
+		// checkArgument(this.name().length() <= MAX_GENRE_LENGTH);
 	}
 
 	private MovieGenres(String name) {
-		this.name = name;
+		this.genreName = name;
 	}
 
 	public String getGenreName() {
-		return name;
+		return genreName;
 	}
-//	public static void main(String[] args) {
-//		System.out.println(MovieGenres.valueOf("DOCUMENTARY"));
-//	}
 }

@@ -8,14 +8,15 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -29,11 +30,7 @@ import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
 @Entity
-@Table(name = "comments"/*
-						 * TODO: Check! is this ok? , uniqueConstraints =
-						 * 
-						 * @UniqueConstraint(columnNames = { "movie", "user" })
-						 */)
+@Table(name = "comments")
 public class Comment extends PersistentEntity implements Comparable<Comment> {
 	@Check(constraints = "length(text) > 0")
 	@Column(nullable = false)
@@ -43,10 +40,8 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	@AttributeOverride(name = "score", column = @Column(name = "movieScore", nullable = false))
 	private Score movieScore;
 
-	@ElementCollection
-	// @AttributeOverrides({ @AttributeOverride(name = "value.score", column =
-	// @Column(name = "score")) })
-	private Map<User, Score> commentScoreByUser;
+	@OneToMany
+	private Set<User> scorers = new HashSet<>();
 
 	@Column(nullable = false)
 	@Check(constraints = "totalCommentScore >= 0")
@@ -84,7 +79,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	public boolean canBeScoredBy(User user) {
 		checkArgument(user, notNull());
 
-		return !this.user.equals(user) && commentScoreByUser.containsKey(user);
+		return !this.user.equals(user) && scorers.contains(user);
 	}
 
 	public void addScore(User user, Score commentScore) {
@@ -92,7 +87,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 		checkArgument(commentScore, notNull());
 		checkArgument(canBeScoredBy(user));
 
-		commentScoreByUser.put(user, commentScore);
+		scorers.add(user);
 		totalCommentScore += commentScore.getValue();
 	}
 
@@ -100,7 +95,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 		if (totalCommentScore == 0) {
 			return 0;
 		}
-		return totalCommentScore / commentScoreByUser.size();
+		return totalCommentScore / scorers.size();
 	}
 
 	@Override
@@ -155,7 +150,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 		return toStringHelper(this).add("id", getId()).add("user", user)
 				.add("movie", movie).add("score", movieScore).add("text", text)
 				.add("creationDate", creationDate)
-				.add("commentScoreByUser", commentScoreByUser)
+				.add("scoredByUsers", scorers)
 				.add("totalCommentScore", totalCommentScore).toString();
 	}
 

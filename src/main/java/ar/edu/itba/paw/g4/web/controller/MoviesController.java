@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.model.Director;
+import ar.edu.itba.paw.g4.model.MovieGenre;
 import ar.edu.itba.paw.g4.model.MovieGenres;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.movie.MovieRepo;
@@ -26,7 +27,7 @@ import ar.edu.itba.paw.g4.web.form.MovieForm;
 import ar.edu.itba.paw.g4.web.form.NewCommentForm;
 import ar.edu.itba.paw.g4.web.form.ScoreCommentForm;
 import ar.edu.itba.paw.g4.web.form.validation.MovieFormValidator;
-import ar.edu.itba.paw.g4.web.formatters.MovieGenresSetFormatter;
+import ar.edu.itba.paw.g4.web.formatters.MovieGenreSetFormatter;
 
 @Controller
 @RequestMapping("/movies")
@@ -103,7 +104,7 @@ public class MoviesController {
 			return mav;
 		}
 
-		MovieGenresSetFormatter formatter = new MovieGenresSetFormatter();
+		MovieGenreSetFormatter formatter = new MovieGenreSetFormatter();
 		String genres = formatter.print(movie.getGenres(), null);// XXX
 
 		session.setAttribute(MOVIE_ID, movie.getId());
@@ -143,7 +144,7 @@ public class MoviesController {
 			movie.setReleaseDate(releaseDate);
 		}
 
-		Set<MovieGenres> genres = movieForm.getGenres();
+		Set<MovieGenre> genres = movieForm.getGenres();
 		if (genres != null) {
 			movie.setGenres(genres);
 		}
