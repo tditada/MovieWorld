@@ -7,12 +7,12 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-6">
-			<c:if test="${not empty movie and user.isAdmin}">
+			<c:if test="${not empty movie and user.admin}">
 				<form:form role="form" action="app/movies/edit" method="post"
 					commandName="MovieForm">
 					<div class="form-group">
 						<label for="filmTitle">Film Title</label>
-						<div class="input-group" S>
+						<div class="input-group">
 							<form:input type="text" path="filmTitle" class="form-control"
 								name="filmTitle" id="filmTitle" value="${movie.title}"></form:input>
 							<span class="input-group-addon"><span
@@ -74,8 +74,7 @@
 					<div class="form-group">
 						<label for="filmReleaseDate">Enter Release Date</label>
 						<form:input type="text" name="filmReleaseDate"
-							path="filmReleaseDate" id="filmDatepicker"
-							value="${releaseDate}" />
+							path="filmReleaseDate" id="filmDatepicker" value="${releaseDate}" />
 						<form:errors path="filmReleaseDate">
 							<div class="alert alert-danger" role="alert">Invalid
 								Release Date</div>

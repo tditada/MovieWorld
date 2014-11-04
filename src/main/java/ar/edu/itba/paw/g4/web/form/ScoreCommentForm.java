@@ -1,34 +1,28 @@
 package ar.edu.itba.paw.g4.web.form;
 
+import ar.edu.itba.paw.g4.model.Score;
+import ar.edu.itba.paw.g4.model.comment.Comment;
+
 public class ScoreCommentForm {
-	private int score;
-	private int userId;
-	private int commentId;
+	private Score score;
+	private Comment comment;
 
 	public ScoreCommentForm() {
 	}
 
-	public int getScore() {
+	public Score getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(Score score) {
 		this.score = score;
 	}
 
-	public int getUserId() {
-		return userId;
+	public Comment getComment() {
+		return comment;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public int getCommentId() {
-		return commentId;
-	}
-
-	public void setCommentId(int commentId) {
-		this.commentId = commentId;
+	public void setComment(Comment comment) {
+		this.comment = comment;
 	}
 }

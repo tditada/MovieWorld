@@ -191,8 +191,7 @@ public class MovieBuilder implements Cloneable {
 					value$releaseDate$org$joda$time$DateTime,
 					value$title$java$lang$String, value$genres$java$util$Set,
 					value$director$ar$edu$itba$paw$g4$model$Director,
-					value$runtimeInMins$int, value$summary$java$lang$String,
-					value$totalScore$int);
+					value$runtimeInMins$int, value$summary$java$lang$String);
 			if (isSet$id$java$lang$Integer) {
 				result.setId(value$id$java$lang$Integer);
 			}

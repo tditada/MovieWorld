@@ -4,7 +4,7 @@ import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
-import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
+import static ar.edu.itba.paw.g4.util.validation.Validations.*;
 
 import java.util.Collections;
 import java.util.SortedSet;
@@ -89,12 +89,6 @@ public class User extends PersistentEntity {
 			return;
 		}
 
-		for (Comment c : comments) {
-			if (c.equals(comment)) {
-				return;
-			}
-		}
-
 		Movie movie = comment.getMovie();
 		if (!movie.isCommentableBy(this)) {
 			throw new IllegalArgumentException();
@@ -103,6 +97,24 @@ public class User extends PersistentEntity {
 		comments.add(comment);
 
 		movie.addComment(comment);
+	}
+
+	public void removeComment(Comment comment) {
+		checkArgument(comment, notNull());
+		checkState(this.isAdmin());
+
+		User user = comment.getUser();
+
+		if (!user.comments.contains(comment)) {
+			// this will only happen when removeComment is called in a
+			// callback
+			return;
+		}
+
+		user.comments.remove(comment);
+
+		Movie movie = comment.getMovie();
+		movie.removeComment(this, comment);
 	}
 
 	public NonArtisticName getFirstName() {
@@ -125,42 +137,12 @@ public class User extends PersistentEntity {
 		return birthDate;
 	}
 
-	public boolean getIsAdmin() {
+	public boolean isAdmin() {
 		return admin;
 	}
 
 	public SortedSet<Comment> getComments() {
 		return Collections.unmodifiableSortedSet(comments);
-	}
-
-	public void removeComment(Comment comment) {
-		checkArgument(comment, notNull());
-		checkArgument(this.equals(comment.getUser()));
-		checkArgument(comments.contains(comment));
-
-		comments.remove(comment);
-		Movie movie = comment.getMovie();
-		movie.removeComment(comment);
-	}
-
-	public Comment getComment(int commentId) {
-		for (Comment c : comments) {
-			if (c.getId() == commentId) {
-				return c;
-			}
-		}
-		return null;
-	}
-
-	public void updateCommentScore(Movie movie, User user, int score) {
-		for (Comment comment : comments) {
-			if (comment.getMovie().equals(movie)
-					&& comment.getUser().equals(user)) {
-				comment.setCommentScore(user, score);
-				comment.getMovie().updateCommentScore(movie, user, score);
-				return;
-			}
-		}
 	}
 
 	@Override

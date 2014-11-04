@@ -151,11 +151,11 @@
 						</dd>
 					</c:if>
 					<dd>
-						<c:if test="${not empty user and user.isAdmin}">
+						<c:if test="${not empty user and user.admin}">
 							<dt></dt>
 							<dd>
 								<form:form role="form" action="app/comment/remove" method="POST"
-									commandName="delete">
+									commandName="deleteForm">
 									<form:input type="hidden" name="commentId" id="commentId"
 										value="${comment.id}" path="commentId"></form:input>
 									<form:input type="hidden" path="userId" name="userId"

@@ -4,6 +4,7 @@ import javax.annotation.Generated;
 
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.g4.model.Score;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.user.User;
 
@@ -12,8 +13,8 @@ public class CommentBuilder implements Cloneable {
 	protected CommentBuilder self;
 	protected String value$text$java$lang$String;
 	protected boolean isSet$text$java$lang$String;
-	protected int value$score$int;
-	protected boolean isSet$score$int;
+	protected Score value$score$ar$edu$itba$paw$g4$model$Score;
+	protected boolean isSet$score$ar$edu$itba$paw$g4$model$Score;
 	protected User value$user$ar$edu$itba$paw$g4$model$User;
 	protected boolean isSet$user$ar$edu$itba$paw$g4$model$User;
 	protected Movie value$movie$ar$edu$itba$paw$g4$model$Movie;
@@ -50,9 +51,9 @@ public class CommentBuilder implements Cloneable {
 	 *            the default value
 	 * @return this builder
 	 */
-	public CommentBuilder withScore(int value) {
-		this.value$score$int = value;
-		this.isSet$score$int = true;
+	public CommentBuilder withScore(Score value) {
+		this.value$score$ar$edu$itba$paw$g4$model$Score = value;
+		this.isSet$score$ar$edu$itba$paw$g4$model$Score = true;
 		return self;
 	}
 
@@ -141,7 +142,8 @@ public class CommentBuilder implements Cloneable {
 	public Comment build() {
 		try {
 			Comment result = new Comment(value$text$java$lang$String,
-					value$score$int, value$user$ar$edu$itba$paw$g4$model$User,
+					value$score$ar$edu$itba$paw$g4$model$Score,
+					value$user$ar$edu$itba$paw$g4$model$User,
 					value$movie$ar$edu$itba$paw$g4$model$Movie,
 					value$creationDate$org$joda$time$DateTime);
 			if (isSet$id$java$lang$Integer) {

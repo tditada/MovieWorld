@@ -1,7 +1,7 @@
 <%@ include file="../header.jsp"%>
 
 <%@ include file="../nav/start.jsp"%>
-<c:if test="${user.isAdmin}">
+<c:if test="${user.admin}">
 	<ul class="nav navbar-nav">
 		<li><a href="<c:out value="app/movies/insert"/>">Insert Movie</a></li>
 	</ul>
@@ -42,7 +42,7 @@
 					<th class="col-md-2">Director</th>
 					<th class="col-md-4">Title</th>
 					<th class="col-md-1">Detail</th>
-					<c:if test="${user.isAdmin}">
+					<c:if test="${user.admin}">
 						<th class="col-md-1">Edit</th>
 						<th class="col-md-1"></th>
 					</c:if>
@@ -59,17 +59,17 @@
 							href="<c:out
 								value="app/movies/detail?id=${movie.id}" />"><span
 								class="glyphicon glyphicon-link"></span></a></td>
-						<c:if test="${user.isAdmin}">
-						<td class="col-md-1"><a
-							href="<c:out
+						<c:if test="${user.admin}">
+							<td class="col-md-1"><a
+								href="<c:out
 								value="app/movies/edit?id=${movie.id}" />"><span
-								class="glyphicon glyphicon-pencil text-center"></span></a></td>
-						<td class="col-md-1"><form:form role="form"
-								action="app/movies/remove" method="post" commandName="remove">
-								<input type="hidden" name="id" id="id" value="${movie.id}"></input>
-								<input type="submit" name="delete" id="delete" value="delete"
-									class="btn btn-primary pull-right">
-							</form:form></td>
+									class="glyphicon glyphicon-pencil text-center"></span></a></td>
+							<td class="col-md-1"><form:form role="form"
+									action="app/movies/remove" method="post" commandName="remove">
+									<input type="hidden" name="id" id="id" value="${movie.id}"></input>
+									<input type="submit" name="delete" id="delete" value="delete"
+										class="btn btn-primary pull-right">
+								</form:form></td>
 						</c:if>
 					</tr>
 				</c:forEach>

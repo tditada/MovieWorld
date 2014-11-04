@@ -7,7 +7,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-6">
-			<c:if test="${user.isAdmin}">
+			<c:if test="${user.admin}">
 				<form:form role="form" action="app/movies/insert" method="post"
 					commandName="movieForm">
 					<div class="form-group">

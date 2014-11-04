@@ -1,18 +1,18 @@
 package ar.edu.itba.paw.g4.web.form;
 
 public class CommentForm {
-	private int filmScore;
+	private int movieScore;
 	private String commentText;
-	
+
 	public CommentForm() {
 	}
 
-	public int getFilmScore() {
-		return filmScore;
+	public int getMovieScore() {
+		return movieScore;
 	}
 
-	public void setFilmScore(int filmScore) {
-		this.filmScore = filmScore;
+	public void setMovieScore(int movieScore) {
+		this.movieScore = movieScore;
 	}
 
 	public String getCommentText() {
@@ -22,5 +22,4 @@ public class CommentForm {
 	public void setCommentText(String commentText) {
 		this.commentText = commentText;
 	}
-
 }

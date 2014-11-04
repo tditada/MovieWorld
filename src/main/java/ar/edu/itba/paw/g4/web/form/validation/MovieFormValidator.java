@@ -19,20 +19,19 @@ public class MovieFormValidator implements Validator {
 	private static final String RELEASEDATE_ID = "filmReleaseDate";
 
 	@Override
-	public boolean supports(Class<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean supports(Class<?> clazz) {
+		return MovieForm.class.equals(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 		MovieForm form = (MovieForm) target;
-		checkSet(TITLE_ID, form.getfilmTitle(), errors);
-		checkSet(DIRECTOR_ID, form.getfilmDirector(), errors);
-		checkSet(SUMMARY_ID, form.getfilmSummary(), errors);
-		checkSet(GENRES_ID, form.getFilmGenres(), errors);
-		checkSet(RUNTIME_ID, form.getfilmRuntimeInMins(), errors);
-		checkSet(RELEASEDATE_ID, form.getfilmReleaseDate(), errors);
+		checkSet(TITLE_ID, form.getTitle(), errors);
+		checkSet(DIRECTOR_ID, form.getDirector(), errors);
+		checkSet(SUMMARY_ID, form.getSummary(), errors);
+		checkSet(GENRES_ID, form.getGenres(), errors);
+		checkSet(RUNTIME_ID, form.getRuntimeInMins(), errors);
+		checkSet(RELEASEDATE_ID, form.getReleaseDate(), errors);
 	}
 
 	private void checkSet(String name, Object value, Errors errors) {
@@ -40,25 +39,27 @@ public class MovieFormValidator implements Validator {
 			errors.rejectValue(name, "invalid", "invalid");
 		}
 		switch (name) {
-			case RUNTIME_ID:
-				if(((int)value)<0){
-					errors.rejectValue(name, "time must be a positive number","time must be a positive number");
+		case RUNTIME_ID:
+			if (((int) value) < 0) {
+				errors.rejectValue(name, "time must be a positive number",
+						"time must be a positive number");
+			}
+			break;
+		case GENRES_ID:
+			@SuppressWarnings("unchecked")
+			Set<MovieGenres> set = (Set<MovieGenres>) value;
+			if (set == null) {
+				errors.rejectValue(name, "genre.invalid", "genre.invalid");
+				break;
+			} else {
+				for (MovieGenres mg : set) {
+					if (mg == null) {
+						errors.rejectValue(name, "genero invalido",
+								"genero invalido");
+					}
 				}
 				break;
-			case GENRES_ID:
-				@SuppressWarnings("unchecked")
-				Set<MovieGenres> set = (Set<MovieGenres>) value;
-				if(set==null){
-					errors.rejectValue(name, "genero invalido","genero invalido");
-					break;
-				}else{
-					for(MovieGenres mg:set){
-						if(mg==null){
-							errors.rejectValue(name, "genero invalido","genero invalido");
-						}
-					}
-					break;
-				}
+			}
 		}
 	}
 

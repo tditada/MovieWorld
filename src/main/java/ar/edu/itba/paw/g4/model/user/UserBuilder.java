@@ -146,7 +146,7 @@ public class UserBuilder implements Cloneable {
 					value$lastName$ar$edu$itba$paw$g4$model$NonArtisticName,
 					value$lastName$ar$edu$itba$paw$g4$model$Email,
 					value$password$ar$edu$itba$paw$g4$model$Password,
-					value$birthDate$org$joda$time$DateTime,false);
+					value$birthDate$org$joda$time$DateTime, false/* FIXME */);
 			if (isSet$id$java$lang$Integer) {
 				result.setId(value$id$java$lang$Integer);
 			}

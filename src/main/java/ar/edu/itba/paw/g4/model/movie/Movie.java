@@ -79,7 +79,7 @@ public class Movie extends PersistentEntity {
 	@GeneratePojoBuilder
 	public Movie(DateTime creationDate, DateTime releaseDate, String title,
 			Set<MovieGenres> genres, Director director, int runtimeInMins,
-			String summary, int totalScore) {
+			String summary) {
 		checkArgument(runtimeInMins > 0);
 		checkArgument(creationDate, notNull());
 		checkArgument(releaseDate, notNull());
@@ -88,7 +88,6 @@ public class Movie extends PersistentEntity {
 		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(title.length() <= MAX_TITLE_LENGTH);
 		checkArgument(genres, notNull(), notEmptyColl());
-		checkArgument(totalScore >= 0);
 
 		this.title = title;
 		this.creationDate = creationDate;
@@ -97,7 +96,7 @@ public class Movie extends PersistentEntity {
 		this.director = director;
 		this.runtimeInMins = runtimeInMins;
 		this.summary = summary;
-		this.totalScore = totalScore;
+		this.totalScore = 0;
 	}
 
 	public void addComment(Comment comment) {
@@ -116,7 +115,7 @@ public class Movie extends PersistentEntity {
 		}
 
 		comments.add(comment);
-		this.totalScore += comment.getScore();
+		this.totalScore += comment.getMovieScore().getValue();
 
 		user.addComment(comment);
 	}
@@ -188,6 +187,53 @@ public class Movie extends PersistentEntity {
 		return releaseDate;
 	}
 
+	public void update(String title, DateTime releaseDate,
+			Set<MovieGenres> genres, Director director, String summary,
+			int runtimeInMins) {
+		checkArgument(title, neitherNullNorEmpty());
+		checkArgument(title.length() <= MAX_TITLE_LENGTH);
+		checkArgument(releaseDate, notNull());
+		checkArgument(genres, notNull(), notEmptyColl());
+		checkArgument(director, notNull());
+		checkArgument(summary, notNull());
+		checkArgument(runtimeInMins > 0);
+
+		if (this.title != title) {
+			this.title = title;
+		}
+		if (this.releaseDate != releaseDate) {
+			this.releaseDate = releaseDate;
+		}
+		if (this.genres != genres) {
+			this.genres = genres;
+		}
+		if (this.director != director) {
+			this.director = director;
+		}
+		if (this.summary != summary) {
+			this.summary = summary;
+		}
+		if (this.runtimeInMins != runtimeInMins) {
+			this.runtimeInMins = runtimeInMins;
+		}
+	}
+
+	public void removeComment(User admin, Comment comment) {
+		checkArgument(admin, notNull());
+		checkArgument(comment, notNull());
+		checkArgument(admin.isAdmin());
+
+		if (!comments.contains(comment)) {
+			// this will only happen when removeComment is called in a
+			// callback
+			return;
+		}
+
+		comments.remove(comment);
+
+		admin.removeComment(comment);
+	}
+
 	@Override
 	public String toString() {
 		return toStringHelper(this).add("name", title).add("id", getId())
@@ -219,49 +265,4 @@ public class Movie extends PersistentEntity {
 	public static MovieBuilder builder() {
 		return new MovieBuilder();
 	}
-
-	public void updateMovie(String title, DateTime releaseDate,
-			Set<MovieGenres> genres, Director director, String summary,
-			int runtimeInMins) {
-		checkArgument(title, neitherNullNorEmpty());
-		checkArgument(title.length() <= MAX_TITLE_LENGTH);
-		checkArgument(releaseDate, notNull());
-		checkArgument(genres, notNull(), notEmptyColl());
-		checkArgument(director, notNull());
-		checkArgument(summary, notNull());
-		checkArgument(runtimeInMins > 0);
-
-		if (this.title != title) {
-			this.title = title;
-		}
-		if (this.releaseDate != releaseDate) {
-			this.releaseDate = releaseDate;
-		}
-		if (this.genres != genres) {
-			this.genres = genres;
-		}
-		if (this.director != director) {
-			this.director = director;
-		}
-		if (this.summary != summary) {
-			this.summary = summary;
-		}
-		if (this.runtimeInMins != runtimeInMins) {
-			this.runtimeInMins = runtimeInMins;
-		}
-	}
-
-	public void updateCommentScore(Movie movie, User user, int score) {
-		for (Comment c : comments) {
-			if (c.getUser().equals(user) && c.getMovie().equals(movie)) {
-				c.setCommentScore(user, score);
-				return;
-			}
-		}
-	}
-
-	public void removeComment(Comment c) {
-		comments.remove(c);
-	}
-
 }

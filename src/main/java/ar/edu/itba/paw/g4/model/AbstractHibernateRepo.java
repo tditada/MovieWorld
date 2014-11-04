@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.g4.model;
 
-import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.*;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import java.io.Serializable;
@@ -46,7 +47,8 @@ public abstract class AbstractHibernateRepo {
 		checkArgument(o, notNull());
 		return getSession().save(o);
 	}
-	
-	
 
+	public void remove(Object o) {
+		getSession().delete(o);
+	}
 }

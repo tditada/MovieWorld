@@ -30,7 +30,7 @@ public class MovieFormatter implements Formatter<Movie> {
 	}
 
 	@Override
-	public String print(Movie arg0, Locale arg1) {
+	public String print(Movie arg0, Locale arg1) { // TODO:check!
 		return String.valueOf(arg0.getId());
 	}
 

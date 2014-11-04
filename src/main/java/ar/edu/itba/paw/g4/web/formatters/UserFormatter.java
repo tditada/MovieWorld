@@ -11,17 +11,17 @@ import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
 
 @Component
-public class UserFormatter implements Formatter<User>{
+public class UserFormatter implements Formatter<User> {
 	private UserRepo users;
-	
+
 	@Autowired
 	public UserFormatter(UserRepo users) {
-		this.users=users;
+		this.users = users;
 	}
 
 	@Override
-	public String print(User arg0, Locale arg1) {
-		return ((User)arg0).getFirstName().getNameString()+((User)arg0).getLastName().getNameString();
+	public String print(User arg0, Locale arg1) { // TODO:check!
+		return String.valueOf(arg0.getId());
 	}
 
 	@Override

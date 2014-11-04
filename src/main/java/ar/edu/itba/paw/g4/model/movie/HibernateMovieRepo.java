@@ -120,7 +120,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	@Override
 	public void remove(String id) {
 		Session session = getSession();
-		Query q = session.createSQLQuery("DELETE FROM movie_genres WHERE movie_id="+id);
+		Query q = session.createQuery("DELETE FROM movie_genres WHERE movie_id="+id);
 		q.executeUpdate();
 		q = session.createQuery("delete Movie where id =" + id);
 		q.executeUpdate();

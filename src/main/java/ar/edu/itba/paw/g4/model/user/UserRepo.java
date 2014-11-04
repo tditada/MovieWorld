@@ -15,10 +15,8 @@ public interface UserRepo {
 	public User authenticate(Email email, Password password);
 
 	public void save(final User user);
-	
-//	public User getAdmin();
-	
-	public void removeComment(int id);
-	
+
+	// public User getAdmin();
+
 	public List<User> findAll();
 }

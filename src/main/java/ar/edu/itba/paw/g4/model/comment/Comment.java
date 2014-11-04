@@ -8,11 +8,12 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -22,6 +23,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.annotations.Check;
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.g4.model.Score;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
@@ -33,26 +35,21 @@ import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 						 * @UniqueConstraint(columnNames = { "movie", "user" })
 						 */)
 public class Comment extends PersistentEntity implements Comparable<Comment> {
-	private static final int MIN_SCORE = 0;
-	private static final int MAX_SCORE = 5;
-
 	@Check(constraints = "length(text) > 0")
 	@Column(nullable = false)
 	private String text;
 
-	@Column(nullable = false)
-	private int filmScore;
+	@Embedded
+	@AttributeOverride(name = "name", column = @Column(name = "director"))
+	private Score movieScore;
 
-	@Column(nullable = false)
-	@Check(constraints = "(score >=" + MIN_SCORE)
-	private double commentAverageScore;
-	
 	@ElementCollection
-	private Set<User> usersThatScore;
+	// @AttributeOverrides({ @AttributeOverride(name = "value.score", column =
+	// @Column(name = "score")) })
+	private Map<User, Score> commentScoreByUser;
 
 	@Column(nullable = false)
-	@Check(constraints = "(score >=" + MIN_SCORE)
-	private int totalScore;
+	private int totalCommentScore;
 
 	@Column(nullable = false)
 	private DateTime creationDate;
@@ -67,9 +64,9 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	}
 
 	@GeneratePojoBuilder
-	Comment(String text, int filmScore, User user, Movie movie,
+	Comment(String text, Score movieScore, User user, Movie movie,
 			DateTime creationDate) {
-		checkArgument(filmScore >= MIN_SCORE && filmScore <= MAX_SCORE);
+		checkArgument(movieScore, notNull());
 		checkArgument(text, neitherNullNorEmpty());
 		checkArgument(user, notNull());
 		checkArgument(movie, notNull());
@@ -77,25 +74,51 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 		checkArgument(creationDate.isBeforeNow() || creationDate == null);
 
 		this.text = text;
-		this.filmScore = filmScore;
+		this.movieScore = movieScore;
 		this.user = user;
 		this.movie = movie;
 		this.creationDate = creationDate != null ? creationDate : now();
-		this.usersThatScore = new HashSet<User>();
-		this.commentAverageScore=0;
-		this.totalScore=0;
+
+		this.totalCommentScore = 0;
+	}
+
+	public boolean canBeScoredBy(User user) {
+		checkArgument(user, notNull());
+
+		return !this.user.equals(user) && commentScoreByUser.containsKey(user);
+	}
+
+	public void addScore(User user, Score commentScore) {
+		checkArgument(user, notNull());
+		checkArgument(commentScore, notNull());
+		checkArgument(canBeScoredBy(user));
+
+		commentScoreByUser.put(user, commentScore);
+		totalCommentScore += commentScore.getValue();
+	}
+
+	public int getAverageCommentScore() {
+		if (totalCommentScore == 0) {
+			return 0;
+		}
+		return totalCommentScore / commentScoreByUser.size();
+	}
+
+	@Override
+	public int compareTo(Comment other) {
+		// greater to smaller
+		return Double.compare(other.getAverageCommentScore(),
+				this.getAverageCommentScore());
+		// return ((Double) commentAverageScore).compareTo((Double)
+		// c.commentAverageScore);
 	}
 
 	public String getText() {
 		return text;
 	}
 
-	public double getAverageScore() {
-		return commentAverageScore;
-	}
-
-	public int getScore() {
-		return filmScore;
+	public Score getMovieScore() {
+		return movieScore;
 	}
 
 	public User getUser() {
@@ -131,36 +154,11 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	@Override
 	public String toString() {
 		return toStringHelper(this).add("id", getId()).add("user", user)
-				.add("movie", movie).add("score", filmScore)
-				.add("text", text).add("creationDate", creationDate).toString();
+				.add("movie", movie).add("score", movieScore).add("text", text)
+				.add("creationDate", creationDate).toString();
 	}
 
 	public static CommentBuilder builder() {
 		return new CommentBuilder();
-	}
-
-	public void setCommentScore(User user, int commentScore) {
-		if (isAbleToScore(user)) {
-			usersThatScore.add(user);
-			this.totalScore = totalScore + commentScore;
-			this.commentAverageScore = (totalScore) / usersThatScore.size();
-		}
-
-	}
-
-	private boolean isAbleToScore(User user) {
-		for (User u : usersThatScore) {
-			if (u.getId() == user.getId()) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public int compareTo(Comment c) {
-		//greater to smaller
-		return ((Double)c.commentAverageScore).compareTo((Double)this.commentAverageScore);
-		//		return ((Double) commentAverageScore).compareTo((Double) c.commentAverageScore);
 	}
 }

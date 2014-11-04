@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import org.hibernate.annotations.Check;
+
 @Embeddable
 public class Email {
 	public static final int MAX_ADDRESS_LENGTH = 100;
@@ -20,7 +22,7 @@ public class Email {
 
 	private static final Pattern EMAIL_PATTERN = compile(EMAIL_PATTERN_STR);
 
-	// @Check(constraints = "length(email) > 0")
+	@Check(constraints = "length(email) > 0")
 	@Column(name = "email", length = MAX_ADDRESS_LENGTH, nullable = false)
 	private String textAddress;
 
