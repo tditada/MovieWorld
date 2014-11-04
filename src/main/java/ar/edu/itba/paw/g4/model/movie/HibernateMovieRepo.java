@@ -7,9 +7,7 @@ import static org.joda.time.DateTime.now;
 
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.classic.Session;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -118,12 +116,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	}
 
 	@Override
-	public void remove(String id) {
-		Session session = getSession();
-		Query q = session.createQuery("DELETE FROM movie_genres WHERE movie_id="+id);
-		q.executeUpdate();
-		q = session.createQuery("delete Movie where id =" + id);
-		q.executeUpdate();
-
+	public void remove(Movie movie) {
+		super.remove(movie);
 	}
 }

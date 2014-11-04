@@ -136,7 +136,7 @@
 						<dt>¿Useful?</dt>
 						<dd>
 							<form:form role="form" action="app/comment/score" method="POST"
-								commandName="commentScoreForm">
+								commandName="scoreCommentForm">
 								<div class="input-group">
 									<form:input type="number" min="1" max="5" class="form-control"
 										name="commentScore" id="commentScore" path="commentScore" />

@@ -31,6 +31,6 @@ public interface MovieRepo {
 	public List<Movie> findNewAdditions(int quantity);
 
 	public List<Movie> findReleases();
-	
-	public void remove(String id);
+
+	public void remove(Movie movie);
 }

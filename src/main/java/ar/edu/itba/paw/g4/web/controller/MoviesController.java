@@ -21,7 +21,6 @@ import ar.edu.itba.paw.g4.model.MovieGenres;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 import ar.edu.itba.paw.g4.model.user.User;
-import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 import ar.edu.itba.paw.g4.web.form.MovieForm;
 import ar.edu.itba.paw.g4.web.form.NewCommentForm;
@@ -32,31 +31,20 @@ import ar.edu.itba.paw.g4.web.formatters.MovieGenresSetFormatter;
 @Controller
 @RequestMapping("/movies")
 public class MoviesController {
-	private static final String CURR_USER_ID = "user";
-
-	public static final String PARAM_ID = "id";
-
-	public static final String MOVIE_ID = "movie";
-	public static final String MOVIE_PARAM_ID = "movie_id";
-	public static final String COMMENT_LIST_ID = "comments";
-	public static final String CAN_COMMENT_ID = "ableToComment";
+	private static final String USER_ID = "user";
+	private static final String MOVIE_ID = "movie";
+	private static final String CAN_COMMENT_ID = "ableToComment";
 
 	private static final String GENRES_ID = "genres";
 	private static final String DIRECTORS_ID = "directors";
 	private static final String MOVIES_ID = "movies";
 
-	private static final String USER_PARAM_ID = "user_id";
-	private static final String USER_ID = "user";
-
 	private MovieRepo movies;
-	private UserRepo users;
 	private MovieFormValidator movieFormValidator;
 
 	@Autowired
-	MoviesController(MovieRepo movies, UserRepo users,
-			MovieFormValidator movieFormValidator) {
+	MoviesController(MovieRepo movies, MovieFormValidator movieFormValidator) {
 		this.movies = movies;
-		this.users = users;
 		this.movieFormValidator = movieFormValidator;
 	}
 
@@ -102,27 +90,27 @@ public class MoviesController {
 
 	@RequestMapping(value = "edit", method = RequestMethod.GET)
 	public ModelAndView edit(
-			@RequestParam(value = PARAM_ID, required = true) int id,
+			@RequestParam(value = "id", required = true) Movie movie,
 			HttpSession session) {
-		String DATE_TIME_FORMAT = "yyyy-MM-dd";
+		String DATE_TIME_FORMAT = "yyyy-MM-dd"; // XXX
 		DateTimeFormatter dateTimeFormatter = DateTimeFormat
 				.forPattern(DATE_TIME_FORMAT);
 		ModelAndView mav = new ModelAndView();
-		User actualUser = users.findById((int) session
-				.getAttribute(USER_PARAM_ID));
-		if (isNotLoggedOrisNotAdmin(session, mav)) {
+
+		User user = getCurrentUserFromSession(session);
+		if (user == null || !user.isAdmin()) {
+			mav.setViewName("redirect:/app/home");
 			return mav;
 		}
 
-		Movie movie = movies.findById(id);
 		MovieGenresSetFormatter formatter = new MovieGenresSetFormatter();
-		String s = formatter.print(movie.getGenres(), null);
+		String genres = formatter.print(movie.getGenres(), null);// XXX
 
 		session.setAttribute(MOVIE_ID, movie.getId());
-		mav.addObject(USER_ID, actualUser);
+		mav.addObject(USER_ID, user);
 		mav.addObject(MOVIE_ID, movie);
-		mav.addObject("MovieForm", new MovieForm());
-		mav.addObject("genres", s);
+		mav.addObject("movieForm", new MovieForm());
+		mav.addObject("genres", genres);
 		mav.addObject("releaseDate",
 				movie.getReleaseDate().toString(dateTimeFormatter));
 		mav.setViewName("movies/edit");
@@ -182,17 +170,18 @@ public class MoviesController {
 
 	@RequestMapping(value = "remove", method = RequestMethod.POST)
 	public ModelAndView remove(
-			@RequestParam(value = PARAM_ID, required = false) String id,
+			@RequestParam(value = "id", required = true) Movie movie,
 			HttpSession session) {
-		User actualUser = users.findById((int) session
-				.getAttribute(USER_PARAM_ID));
 		ModelAndView mav = new ModelAndView();
-		if (actualUser == null || !actualUser.isAdmin()) {
-			mav.setViewName("redirect:/app/home");
+		mav.setViewName("redirect:/app/home");
+
+		User user = getCurrentUserFromSession(session);
+
+		if (user == null || !user.isAdmin()) {
 			return mav;
 		}
-		movies.remove(id);
-		mav.setViewName("redirect:/app/home");
+
+		movies.remove(movie);
 		return mav;
 	}
 
@@ -209,13 +198,14 @@ public class MoviesController {
 		} else {
 			movieList = movies.findAllByDirector(director);
 		}
+		List<Director> directors = movies
+				.findAllDirectorsOrderedByName(Orderings.ASC);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject(GENRES_ID, MovieGenres.values());
-		mav.addObject(DIRECTORS_ID,
-				movies.findAllDirectorsOrderedByName(Orderings.ASC));
+		mav.addObject(DIRECTORS_ID, directors);
 		mav.addObject(MOVIES_ID, movieList);
-		setUserInMav(session, mav);
+		mav.addObject(USER_ID, getCurrentUserFromSession(session));
 		mav.setViewName("movies/all");
 		return mav;
 	}
@@ -225,52 +215,30 @@ public class MoviesController {
 			@RequestParam(value = "id", required = false) Movie movie,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		boolean canComment = false;
+
 		if (movie == null) {
 			mav.setViewName("redirect:/app/movies/list");// TODO: check!
 			return mav;
 		}
-		if (session.getAttribute(USER_PARAM_ID) != null) {
-			int id = (int) (session.getAttribute(USER_PARAM_ID));
-			User user = users.findById(id);
-			if (user != null) {
-				canComment = movie.isCommentableBy(user);
-			}
-			session.setAttribute(MOVIE_ID, movie);
+
+		boolean canComment = false;
+
+		User user = getCurrentUserFromSession(session);
+		if (user != null) {
+			canComment = movie.isCommentableBy(user);
 		}
-		mav.addObject("commentScoreForm", new ScoreCommentForm());
-		mav.addObject("commentForm", new NewCommentForm());
+		session.setAttribute(MOVIE_ID, movie);
+
+		mav.addObject("scoreCommentForm", new ScoreCommentForm());
+		mav.addObject("newCommentForm", new NewCommentForm());
 		mav.addObject(MOVIE_ID, movie);
 		mav.addObject(CAN_COMMENT_ID, canComment);
-		setMovieInSession(movie, session);
-		setUserInMav(session, mav);
+		mav.addObject(USER_ID, getCurrentUserFromSession(session));
 		mav.setViewName("movies/single");
 		return mav;
 	}
 
-	private void setMovieInSession(Movie movie, HttpSession session) {
-		session.setAttribute(MOVIE_PARAM_ID, movie.getId());
-	}
-
-	private void setUserInMav(HttpSession session, ModelAndView mav) {
-		if (session.getAttribute(USER_PARAM_ID) != null) {
-			User user = users.findById((int) session
-					.getAttribute(USER_PARAM_ID));
-			mav.addObject(USER_ID, user);
-		}
-	}
-
-	private boolean isNotLoggedOrisNotAdmin(HttpSession session,
-			ModelAndView mav) {
-		Object o = session.getAttribute(USER_PARAM_ID);
-		if (o == null || !((User) o).isAdmin()) {
-			mav.setViewName("redirect:/app/home");
-			return true;
-		}
-		return false;
-	}
-
 	private User getCurrentUserFromSession(HttpSession session) {
-		return (User) session.getAttribute(CURR_USER_ID);
+		return (User) session.getAttribute(USER_ID);
 	}
 }
