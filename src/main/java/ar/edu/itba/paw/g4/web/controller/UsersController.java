@@ -63,7 +63,7 @@ public class UsersController {
 
 		User user = registerForm.build();
 		users.register(user);
-		session.setAttribute(CURR_USER_ID, user.getId());
+		session.setAttribute(CURR_USER_ID, user);
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
@@ -105,7 +105,6 @@ public class UsersController {
 	@RequestMapping(value = "/user/logout", method = RequestMethod.POST)
 	public String logout(HttpSession session) {
 		session.setAttribute(CURR_USER_ID, null);
-		// TODO: maybe replace for this: session.invalidate();. Dunno...
 		return "redirect:/app/home";
 	}
 

@@ -2,7 +2,7 @@ $(document).ready(function() {
 	$(".logout").click(function() {
 		$.ajax({
 			type : "POST",
-			url : "app/user/logout",
+			url : "app/users/user/logout",
 			dataType:'html',
 			success : function(data, textStatus, jqxhr) {
 				var newDoc = document.open("text/html", "replace");

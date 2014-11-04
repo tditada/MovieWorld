@@ -107,7 +107,7 @@ public class MoviesController {
 		MovieGenreSetFormatter formatter = new MovieGenreSetFormatter();
 		String genres = formatter.print(movie.getGenres(), null);// XXX
 
-		session.setAttribute(MOVIE_ID, movie.getId());
+		session.setAttribute(MOVIE_ID, movie);
 		mav.addObject(USER_ID, user);
 		mav.addObject(MOVIE_ID, movie);
 		mav.addObject("movieForm", new MovieForm());

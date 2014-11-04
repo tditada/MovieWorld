@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-lg-6">
 			<form:form role="form" action="app/users/register" method="post"
-				commandName="registrationForm">
+				commandName="registerForm">
 				<div class="form-group">
 					<label for="firstName">Enter Name</label>
 					<div class="input-group">

@@ -30,7 +30,7 @@
 					<div class="form-group">
 						<button class="btn btn-primary btn-lg btn-block">Sign In</button>
 						<span class="pull-right"><a
-							href="<c:url value="app/user/register"/>">Register</a></span>
+							href="<c:url value="app/users/register"/>">Register</a></span>
 					</div>
 				</form:form>
 			</div>
