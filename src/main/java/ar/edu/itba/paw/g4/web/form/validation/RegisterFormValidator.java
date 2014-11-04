@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import ar.edu.itba.paw.g4.web.form.RegistrationForm;
+import ar.edu.itba.paw.g4.web.form.RegisterForm;
 
 @Component
-public class RegistrationFormValidator implements Validator {
+public class RegisterFormValidator implements Validator {
 	private static final String FIRST_NAME_ID = "firstName";
 	private static final String LAST_NAME_ID = "lastName";
 	private static final String BIRTH_DATE_ID = "birthDate";
@@ -20,12 +20,12 @@ public class RegistrationFormValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return RegistrationForm.class.equals(clazz);
+		return RegisterForm.class.equals(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		RegistrationForm form = (RegistrationForm) target;
+		RegisterForm form = (RegisterForm) target;
 		// CHECK
 		// if (!NonArtisticName.isValid(form.getFirstName())) {
 		// errors.rejectValue(FIRST_NAME_ID, "invalid");

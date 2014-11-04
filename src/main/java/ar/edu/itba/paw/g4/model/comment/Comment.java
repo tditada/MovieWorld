@@ -40,7 +40,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	private String text;
 
 	@Embedded
-	@AttributeOverride(name = "name", column = @Column(name = "director"))
+	@AttributeOverride(name = "score", column = @Column(name = "movieScore", nullable = false))
 	private Score movieScore;
 
 	@ElementCollection
@@ -49,6 +49,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	private Map<User, Score> commentScoreByUser;
 
 	@Column(nullable = false)
+	@Check(constraints = "totalCommentScore >= 0")
 	private int totalCommentScore;
 
 	@Column(nullable = false)
@@ -64,21 +65,19 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	}
 
 	@GeneratePojoBuilder
-	Comment(String text, Score movieScore, User user, Movie movie,
-			DateTime creationDate) {
+	Comment(String text, Score movieScore, User user, Movie movie) {
 		checkArgument(movieScore, notNull());
 		checkArgument(text, neitherNullNorEmpty());
 		checkArgument(user, notNull());
 		checkArgument(movie, notNull());
 		checkArgument(movie.isCommentableBy(user));
-		checkArgument(creationDate.isBeforeNow() || creationDate == null);
 
 		this.text = text;
 		this.movieScore = movieScore;
 		this.user = user;
 		this.movie = movie;
-		this.creationDate = creationDate != null ? creationDate : now();
 
+		this.creationDate = now();
 		this.totalCommentScore = 0;
 	}
 
@@ -155,7 +154,9 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	public String toString() {
 		return toStringHelper(this).add("id", getId()).add("user", user)
 				.add("movie", movie).add("score", movieScore).add("text", text)
-				.add("creationDate", creationDate).toString();
+				.add("creationDate", creationDate)
+				.add("commentScoreByUser", commentScoreByUser)
+				.add("totalCommentScore", totalCommentScore).toString();
 	}
 
 	public static CommentBuilder builder() {

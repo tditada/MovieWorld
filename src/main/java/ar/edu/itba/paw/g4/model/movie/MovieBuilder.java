@@ -12,8 +12,6 @@ import ar.edu.itba.paw.g4.model.MovieGenres;
 @Generated("PojoBuilder")
 public class MovieBuilder implements Cloneable {
 	protected MovieBuilder self;
-	protected DateTime value$creationDate$org$joda$time$DateTime;
-	protected boolean isSet$creationDate$org$joda$time$DateTime;
 	protected DateTime value$releaseDate$org$joda$time$DateTime;
 	protected boolean isSet$releaseDate$org$joda$time$DateTime;
 	protected String value$title$java$lang$String;
@@ -26,8 +24,6 @@ public class MovieBuilder implements Cloneable {
 	protected boolean isSet$runtimeInMins$int;
 	protected String value$summary$java$lang$String;
 	protected boolean isSet$summary$java$lang$String;
-	protected int value$totalScore$int;
-	protected boolean isSet$totalScore$int;
 	protected Integer value$id$java$lang$Integer;
 	protected boolean isSet$id$java$lang$Integer;
 
@@ -36,19 +32,6 @@ public class MovieBuilder implements Cloneable {
 	 */
 	public MovieBuilder() {
 		self = (MovieBuilder) this;
-	}
-
-	/**
-	 * Sets the default value for the {@link Movie#creationDate} property.
-	 *
-	 * @param value
-	 *            the default value
-	 * @return this builder
-	 */
-	public MovieBuilder withCreationDate(DateTime value) {
-		this.value$creationDate$org$joda$time$DateTime = value;
-		this.isSet$creationDate$org$joda$time$DateTime = true;
-		return self;
 	}
 
 	/**
@@ -130,19 +113,6 @@ public class MovieBuilder implements Cloneable {
 	}
 
 	/**
-	 * Sets the default value for the {@link Movie#totalScore} property.
-	 *
-	 * @param value
-	 *            the default value
-	 * @return this builder
-	 */
-	public MovieBuilder withTotalScore(int value) {
-		this.value$totalScore$int = value;
-		this.isSet$totalScore$int = true;
-		return self;
-	}
-
-	/**
 	 * Sets the default value for the {@link Movie#id} property.
 	 *
 	 * @param value
@@ -187,8 +157,7 @@ public class MovieBuilder implements Cloneable {
 	 */
 	public Movie build() {
 		try {
-			Movie result = new Movie(value$creationDate$org$joda$time$DateTime,
-					value$releaseDate$org$joda$time$DateTime,
+			Movie result = new Movie(value$releaseDate$org$joda$time$DateTime,
 					value$title$java$lang$String, value$genres$java$util$Set,
 					value$director$ar$edu$itba$paw$g4$model$Director,
 					value$runtimeInMins$int, value$summary$java$lang$String);

@@ -13,59 +13,57 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.web.form.LoginForm;
-import ar.edu.itba.paw.g4.web.form.RegistrationForm;
+import ar.edu.itba.paw.g4.web.form.RegisterForm;
 import ar.edu.itba.paw.g4.web.form.validation.LoginFormValidator;
-import ar.edu.itba.paw.g4.web.form.validation.RegistrationFormValidator;
+import ar.edu.itba.paw.g4.web.form.validation.RegisterFormValidator;
 
-//Change to /users
 @Controller
 @RequestMapping("/users")
-public class UserController {
+public class UsersController {
 	private static final String AUTH_FAILED_ID = "authFailed";
-	private static final String USER_ID = "user";
-	private static final String USER_PARAM_ID = "user_id";
-	private static final int NO_USER = -1;
+	private static final String CURR_USER_ID = "user";
+	// private static final String USER_PARAM_ID = "user_id";
 	private static final String COMMENTS_USER_ID = "commentsUser";
 
 	private UserRepo users;
-	private RegistrationFormValidator registrationFormValidator;
+	private RegisterFormValidator registerFormValidator;
 	private LoginFormValidator loginFormValidator;
 
 	@Autowired
-	public UserController(UserRepo users,
-			RegistrationFormValidator registrationFormValidator,
+	public UsersController(UserRepo users,
+			RegisterFormValidator registerFormValidator,
 			LoginFormValidator loginFormValidator) {
 		this.users = users;
-		this.registrationFormValidator = registrationFormValidator;
+		this.registerFormValidator = registerFormValidator;
 		this.loginFormValidator = loginFormValidator;
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.GET)
-	public ModelAndView showRegistration(
-			@RequestParam(value = USER_ID, required = false) User user) {
+	public ModelAndView showRegister(
+			@RequestParam(value = CURR_USER_ID, required = false) User user) {
 		ModelAndView mav = new ModelAndView();
 		if (user != null) {
 			mav.setViewName("redirect:/app/home");
 		} else {
-			mav.addObject("registrationForm", new RegistrationForm());
+			mav.addObject("registerForm", new RegisterForm());
 			mav.setViewName("register");
 		}
 		return mav;
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public ModelAndView register(RegistrationForm registrationForm,
-			Errors errors, HttpSession session) {
+	public ModelAndView register(RegisterForm registerForm, Errors errors,
+			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		registrationFormValidator.validate(registrationForm, errors);
+		registerFormValidator.validate(registerForm, errors);
 		if (errors.hasErrors()) {
 			mav.setViewName("register");
 			return mav;
 		}
 
-		User user = registrationForm.build();
+		User user = registerForm.build();
 		users.register(user);
-		session.setAttribute(USER_PARAM_ID, user.getId());
+		session.setAttribute(CURR_USER_ID, user.getId());
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
@@ -97,30 +95,31 @@ public class UserController {
 			mav.setViewName("login");
 			return mav;
 		}
-		session.setAttribute(USER_PARAM_ID, user.getId());
-		mav.addObject(USER_ID, user);
+		session.setAttribute(CURR_USER_ID, user);
 
+		mav.addObject(CURR_USER_ID, user);
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
 
-	// TODO: ¿no debería invalidar la sesión esto? ¿Alcanza?
 	@RequestMapping(value = "/user/logout", method = RequestMethod.POST)
 	public String logout(HttpSession session) {
-		session.setAttribute(USER_PARAM_ID, NO_USER);
+		session.setAttribute(CURR_USER_ID, null);
+		// TODO: maybe replace for this: session.invalidate();. Dunno...
 		return "redirect:/app/home";
 	}
 
 	@RequestMapping(value = "/user/comments", method = RequestMethod.GET)
-	public ModelAndView userComments(
-			@RequestParam(value = "id", required = false) User user,
+	public ModelAndView userComments(@RequestParam(required = false) User user,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		if(isNotLogged(session,mav)){
+		User currentUser = getCurrentUserFromSession(session);
+		if (currentUser == null) {
+			mav.setViewName("redirect:/app/home");
 			return mav;
 		}
 		mav.addObject(COMMENTS_USER_ID, user);
-		setUserInMav(session, mav);
+		mav.addObject(CURR_USER_ID, currentUser);
 		mav.setViewName("user/comments");
 		return mav;
 	}
@@ -128,31 +127,16 @@ public class UserController {
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public ModelAndView showUsers(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-//		if(isNotLogged(session,mav)){
-//			return mav;
-//		}
+		// if(isNotLogged(session,mav)){
+		// return mav;
+		// }
 		mav.addObject("users", users.findAll());
-		setUserInMav(session, mav);
+		mav.addObject(CURR_USER_ID, getCurrentUserFromSession(session));
 		mav.setViewName("user/all");
 		return mav;
 	}
 
-	// TODO: este es un método comun a todos los Controllers.. da moverlo a
-	// algun lado?
-	private void setUserInMav(HttpSession session, ModelAndView mav) {
-		if (session.getAttribute(USER_PARAM_ID) != null) {
-			User user = users.findById((int) session
-					.getAttribute(USER_PARAM_ID));
-			mav.addObject(USER_ID, user);
-		}
+	private User getCurrentUserFromSession(HttpSession session) {
+		return (User) session.getAttribute(CURR_USER_ID);
 	}
-	
-	private boolean isNotLogged(HttpSession session, ModelAndView mav){
-		if(session.getAttribute(USER_PARAM_ID)==null){
-			mav.setViewName("redirect:/app/home");
-			return true;
-		}
-		return false;
-	}
-
 }

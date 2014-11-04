@@ -7,7 +7,7 @@ import ar.edu.itba.paw.g4.model.NonArtisticName;
 import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.model.user.User;
 
-public class RegistrationForm {
+public class RegisterForm {
 	private NonArtisticName firstName;
 	private NonArtisticName lastName;
 	private Email email;
@@ -15,10 +15,10 @@ public class RegistrationForm {
 	private Password passwordConfirmation;
 	private DateTime birthDate;
 
-	public RegistrationForm() {
+	public RegisterForm() {
 	}
 
-	public RegistrationForm(NonArtisticName firstName,
+	public RegisterForm(NonArtisticName firstName,
 			NonArtisticName lastName, Email email, Password password,
 			Password passwordConfirmation, DateTime birthDate) {
 		this.firstName = firstName;

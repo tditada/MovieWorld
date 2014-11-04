@@ -2,8 +2,6 @@ package ar.edu.itba.paw.g4.model.comment;
 
 import javax.annotation.Generated;
 
-import org.joda.time.DateTime;
-
 import ar.edu.itba.paw.g4.model.Score;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.user.User;
@@ -19,8 +17,6 @@ public class CommentBuilder implements Cloneable {
 	protected boolean isSet$user$ar$edu$itba$paw$g4$model$User;
 	protected Movie value$movie$ar$edu$itba$paw$g4$model$Movie;
 	protected boolean isSet$movie$ar$edu$itba$paw$g4$model$Movie;
-	protected DateTime value$creationDate$org$joda$time$DateTime;
-	protected boolean isSet$creationDate$org$joda$time$DateTime;
 	protected Integer value$id$java$lang$Integer;
 	protected boolean isSet$id$java$lang$Integer;
 
@@ -84,19 +80,6 @@ public class CommentBuilder implements Cloneable {
 	}
 
 	/**
-	 * Sets the default value for the {@link Comment#creationDate} property.
-	 *
-	 * @param value
-	 *            the default value
-	 * @return this builder
-	 */
-	public CommentBuilder withCreationDate(DateTime value) {
-		this.value$creationDate$org$joda$time$DateTime = value;
-		this.isSet$creationDate$org$joda$time$DateTime = true;
-		return self;
-	}
-
-	/**
 	 * Sets the default value for the {@link Comment#id} property.
 	 *
 	 * @param value
@@ -144,8 +127,7 @@ public class CommentBuilder implements Cloneable {
 			Comment result = new Comment(value$text$java$lang$String,
 					value$score$ar$edu$itba$paw$g4$model$Score,
 					value$user$ar$edu$itba$paw$g4$model$User,
-					value$movie$ar$edu$itba$paw$g4$model$Movie,
-					value$creationDate$org$joda$time$DateTime);
+					value$movie$ar$edu$itba$paw$g4$model$Movie);
 			if (isSet$id$java$lang$Integer) {
 				result.setId(value$id$java$lang$Integer);
 			}

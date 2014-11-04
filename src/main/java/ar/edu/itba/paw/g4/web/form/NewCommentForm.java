@@ -1,17 +1,19 @@
 package ar.edu.itba.paw.g4.web.form;
 
-public class CommentForm {
-	private int movieScore;
+import ar.edu.itba.paw.g4.model.Score;
+
+public class NewCommentForm {
+	private Score movieScore;
 	private String commentText;
 
-	public CommentForm() {
+	public NewCommentForm() {
 	}
 
-	public int getMovieScore() {
+	public Score getMovieScore() {
 		return movieScore;
 	}
 
-	public void setMovieScore(int movieScore) {
+	public void setMovieScore(Score movieScore) {
 		this.movieScore = movieScore;
 	}
 

@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.g4.model.movie;
 
+import static org.joda.time.DateTime.*;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
@@ -77,25 +78,16 @@ public class Movie extends PersistentEntity {
 	}
 
 	@GeneratePojoBuilder
-	public Movie(DateTime creationDate, DateTime releaseDate, String title,
-			Set<MovieGenres> genres, Director director, int runtimeInMins,
-			String summary) {
-		checkArgument(runtimeInMins > 0);
-		checkArgument(creationDate, notNull());
-		checkArgument(releaseDate, notNull());
-		checkArgument(director, notNull());
-		checkArgument(summary, notNull());
-		checkArgument(title, neitherNullNorEmpty());
-		checkArgument(title.length() <= MAX_TITLE_LENGTH);
-		checkArgument(genres, notNull(), notEmptyColl());
+	public Movie(DateTime releaseDate, String title, Set<MovieGenres> genres,
+			Director director, int runtimeInMins, String summary) {
+		setTitle(title);
+		setReleaseDate(releaseDate);
+		setGenres(genres);
+		setDirector(director);
+		setRuntimeInMins(runtimeInMins);
+		setSummary(summary);
 
-		this.title = title;
-		this.creationDate = creationDate;
-		this.releaseDate = releaseDate;
-		this.genres = genres;
-		this.director = director;
-		this.runtimeInMins = runtimeInMins;
-		this.summary = summary;
+		this.creationDate = now();
 		this.totalScore = 0;
 	}
 
@@ -187,35 +179,35 @@ public class Movie extends PersistentEntity {
 		return releaseDate;
 	}
 
-	public void update(String title, DateTime releaseDate,
-			Set<MovieGenres> genres, Director director, String summary,
-			int runtimeInMins) {
+	public void setTitle(String title) {
 		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(title.length() <= MAX_TITLE_LENGTH);
-		checkArgument(releaseDate, notNull());
-		checkArgument(genres, notNull(), notEmptyColl());
-		checkArgument(director, notNull());
-		checkArgument(summary, notNull());
-		checkArgument(runtimeInMins > 0);
+		this.title = title;
+	}
 
-		if (this.title != title) {
-			this.title = title;
-		}
-		if (this.releaseDate != releaseDate) {
-			this.releaseDate = releaseDate;
-		}
-		if (this.genres != genres) {
-			this.genres = genres;
-		}
-		if (this.director != director) {
-			this.director = director;
-		}
-		if (this.summary != summary) {
-			this.summary = summary;
-		}
-		if (this.runtimeInMins != runtimeInMins) {
-			this.runtimeInMins = runtimeInMins;
-		}
+	public void setDirector(Director director) {
+		checkArgument(director, notNull());
+		this.director = director;
+	}
+
+	public void setGenres(Set<MovieGenres> genres) {
+		checkArgument(genres, notNull(), notEmptyColl());
+		this.genres = genres;
+	}
+
+	public void setSummary(String summary) {
+		checkArgument(summary, notNull());
+		this.summary = summary;
+	}
+
+	public void setReleaseDate(DateTime releaseDate) {
+		checkArgument(releaseDate, notNull());
+		this.releaseDate = releaseDate;
+	}
+
+	public void setRuntimeInMins(int runtimeInMins) {
+		checkArgument(runtimeInMins > 0);
+		this.runtimeInMins = runtimeInMins;
 	}
 
 	public void removeComment(User admin, Comment comment) {

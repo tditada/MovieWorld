@@ -174,5 +174,4 @@ public class User extends PersistentEntity {
 	public static UserBuilder builder() {
 		return new UserBuilder();
 	}
-
 }

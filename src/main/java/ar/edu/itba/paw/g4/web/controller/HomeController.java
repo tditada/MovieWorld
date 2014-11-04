@@ -24,17 +24,14 @@ public class HomeController {
 
 	private static final int TOP_MOVIES_QUANTITY = 5;
 	private static final int NEW_ADDITIONS_QUANTITY = 5;
-	
-	private static final String USER_PARAM_ID ="user_id";
-	private static final String USER_ID="user";
+
+	private static final String USER_ID = "user";
 
 	private MovieRepo movies;
-	private UserRepo users;
 
 	@Autowired
 	HomeController(MovieRepo movies, UserRepo users) {
 		this.movies = movies;
-		this.users=users;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -43,10 +40,11 @@ public class HomeController {
 		List<Movie> newAdditions = movies
 				.findNewAdditions(NEW_ADDITIONS_QUANTITY);
 		List<Movie> releases = movies.findReleases();
+
 		ModelAndView mav = new ModelAndView();
-		if(session.getAttribute(USER_PARAM_ID)!=null){
-			User user = users.findById((int)session.getAttribute(USER_PARAM_ID));
-			mav.addObject(USER_ID, user);			
+		User user = (User) session.getAttribute(USER_ID);
+		if (user != null) {
+			mav.addObject(USER_ID, user);
 		}
 		mav.addObject(TOP_MOVIES_ID, topMovies);
 		mav.addObject(NEW_ADDITIONS_ID, newAdditions);
