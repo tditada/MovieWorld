@@ -32,6 +32,11 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	@Override
 	public void save(Movie movie) {
 		// TODO: Revisar que la pelicula no exista ya en la BD
+
+		for (MovieGenre genre : movie.getGenres()) {
+			super.save(genre);
+		}
+
 		super.save(movie);
 	}
 

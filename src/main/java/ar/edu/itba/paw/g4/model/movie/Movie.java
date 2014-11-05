@@ -55,7 +55,7 @@ public class Movie extends PersistentEntity {
 	private DateTime releaseDate;
 
 	@Sort(type = SortType.NATURAL)
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	private SortedSet<MovieGenre> genres;
 
 	@Embedded
