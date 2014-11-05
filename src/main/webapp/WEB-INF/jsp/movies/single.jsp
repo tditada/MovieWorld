@@ -49,15 +49,15 @@
 				</dd>
 				<dt>Score</dt>
 				<dd>
-					<c:forEach begin="1" end="${movie.averageScore}">
+					<c:forEach begin="1" end="${movie.averageScore.value}">
 						<span class="glyphicon glyphicon-star"></span>
 					</c:forEach>
-					<c:if test="${movie.averageScore < 5}">
-						<c:forEach begin="${movie.averageScore}" end="4">
+					<c:if test="${movie.averageScore.value < 5}">
+						<c:forEach begin="${movie.averageScore.value}" end="4">
 							<span class="glyphicon glyphicon-star-empty"></span>
 						</c:forEach>
 					</c:if>
-					<small> <c:out value="(${movie.averageScore}/5)" /> <c:out
+					<small> <c:out value="(${movie.averageScore.value}/5)" /> <c:out
 							value=" for ${movie.totalComments} comments"></c:out></small>
 				</dd>
 				<dt>Summary</dt>

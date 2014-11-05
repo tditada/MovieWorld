@@ -186,7 +186,7 @@ public class UsersController {
 			interestedUser.addInterestingUser(interestingUser);
 
 		}
-		mav.setViewName("redirect:/app/users/profile?id="
+		mav.setViewName("redirect:/app/users/profile?user="
 				+ form.getInterestingUser().getId());
 		return mav;
 	}

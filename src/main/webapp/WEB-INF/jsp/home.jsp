@@ -20,13 +20,13 @@
 								value="app/movies/detail?movie=${topMovie.id}" />">
 										<c:out value="${topMovie.title}" />
 								</a></td>
-								<td><c:forEach begin="1" end="${topMovie.averageScore}">
+								<td><c:forEach begin="1" end="${topMovie.averageScore.value}">
 										<span class="glyphicon glyphicon-star"></span>
-									</c:forEach> <c:if test="${topMovie.averageScore < 5}">
-										<c:forEach begin="${topMovie.averageScore}" end="4">
+									</c:forEach> <c:if test="${topMovie.averageScore.value < 5}">
+										<c:forEach begin="${topMovie.averageScore.value}" end="4">
 											<span class="glyphicon glyphicon-star-empty"></span>
 										</c:forEach>
-									</c:if><small> <c:out value="(${topMovie.averageScore}/5)" />
+									</c:if><small> <c:out value="(${topMovie.averageScore.value}/5)" />
 								</small></td>
 							</tr>
 						</c:forEach>
@@ -115,13 +115,13 @@
 									<div class="panel-heading">
 										<a
 											href="<c:out
-								value="app/users/profile?id=${interestingComment.user.id}" />">
+								value="app/users/profile?user=${interestingComment.user.id}" />">
 											<c:out
 												value="${interestingComment.user.firstName.nameString}" />
 											<c:out value="${interestingComment.user.lastName.nameString}" />
 										</a> commented in <a
 											href="<c:out
-								value="app/movies/detail?id=${interestingComment.movie.id}" />">
+								value="app/movies/detail?user=${interestingComment.movie.id}" />">
 											<c:out value="${interestingComment.movie.title}" />
 										</a>
 									</div>

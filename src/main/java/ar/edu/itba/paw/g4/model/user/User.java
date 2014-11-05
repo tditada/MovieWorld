@@ -67,9 +67,6 @@ public class User extends PersistentEntity {
 	@OneToMany
 	private Set<User> interestingUsers = new HashSet<User>();
 
-	@OneToMany(mappedBy = "scorers", cascade = CascadeType.ALL)
-	private Set<Comment> commentsScored = new HashSet<>();
-
 	User() {
 	}
 
@@ -155,11 +152,13 @@ public class User extends PersistentEntity {
 
 	@Override
 	public String toString() {
-		return toStringHelper(this).add("id", getId())
-				.add("firstName", firstName).add("lastName", lastName)
-				.add("email", email).add("password", password)
-				.add("birthDate", birthDate).add("comments", comments)
-				.toString();
+		// TODO
+		return "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
+		// return toStringHelper(this).add("id", getId())
+		// .add("firstName", firstName).add("lastName", lastName)
+		// .add("email", email).add("password", password)
+		// .add("birthDate", birthDate).add("comments", comments)
+		// .toString();
 	}
 
 	@Override
@@ -201,20 +200,15 @@ public class User extends PersistentEntity {
 	}
 
 	public boolean isinterestingUser(User user) {
-		for (User u : this.interestingUsers) {
-			if (u.equals(user)) {
-				return true;
-			}
-		}
-		return false;
+		return interestingUsers.contains(user);
 	}
 
 	public List<Comment> getRecentComments() {
-		List<Comment> recentComments = new LinkedList<Comment>();
-		DateTime RecentLimitdate = new DateTime();
+		List<Comment> recentComments = new LinkedList<>();
+
 		for (Comment c : comments) {
-			RecentLimitdate = c.getCreationDate().minusWeeks(1);
-			if (c.getCreationDate().isAfter(RecentLimitdate)) {
+			DateTime recentLimitDate = c.getCreationDate().minusWeeks(1);
+			if (c.getCreationDate().isAfter(recentLimitDate)) {
 				recentComments.add(c);
 			}
 		}

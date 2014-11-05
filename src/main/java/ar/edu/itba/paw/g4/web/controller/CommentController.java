@@ -52,7 +52,7 @@ public class CommentController {
 			return mav;
 		}
 
-		String prevUrl = "/app/movies/detail?id=" + movie.getId();
+		String prevUrl = "/app/movies/detail?movie=" + movie.getId();
 
 		newCommentFormValidator.validate(newCommentForm, errors);
 		if (errors.hasErrors()) {
@@ -81,7 +81,7 @@ public class CommentController {
 			return mav;
 		}
 
-		String prevUrl = "/app/movies/detail?id=" + movie.getId();
+		String prevUrl = "/app/movies/detail?movie=" + movie.getId();
 		if (errors.hasErrors()) {
 			mav.setViewName(prevUrl);
 			return mav;
@@ -91,6 +91,27 @@ public class CommentController {
 
 		mav.addObject(MOVIE_ID, movie);
 		mav.setViewName("redirect:" + prevUrl);
+		return mav;
+	}
+
+	@RequestMapping(value = "report", method = RequestMethod.POST)
+	public ModelAndView report(@RequestParam(required = false) Comment comment,
+			HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+
+		User user = getLoggedUserFromSession(session);
+
+		if (user == null || comment == null || !comment.isReportableBy(user)) {
+			mav.setViewName("redirect:/app/home");
+			return mav;
+		}
+
+		comment.addReport(user);
+
+		Movie movie = comment.getMovie();
+
+		mav.addObject(MOVIE_ID, movie);
+		mav.setViewName("redirect:/app/movies/detail?movie=" + movie.getId());
 		return mav;
 	}
 

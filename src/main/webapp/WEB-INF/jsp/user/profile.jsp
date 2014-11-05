@@ -53,7 +53,7 @@
 							<dt>Movie</dt>
 							<dd>
 								<a
-									href="<c:out	value="app/movies/detail?id=${comment.movie.id}" />">
+									href="<c:out	value="app/movies/detail?movie=${comment.movie.id}" />">
 									<c:out value="${comment.movie.title}" />
 								</a>
 							</dd>

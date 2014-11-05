@@ -3,13 +3,15 @@ package ar.edu.itba.paw.g4.model.movie;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.*;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.Check;
 
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
@@ -19,6 +21,8 @@ public class MovieGenre extends PersistentEntity implements
 		Comparable<MovieGenre> {
 	private static final int MAX_GENRE_LENGTH = 25;
 
+	@Check(constraints = "(length(name) > 0" + " and " + "length(name) <="
+			+ MAX_GENRE_LENGTH + ")")
 	@Column(nullable = false)
 	private String name;
 
@@ -26,7 +30,7 @@ public class MovieGenre extends PersistentEntity implements
 	}
 
 	public MovieGenre(String name) {
-		checkArgument(name, notNull());
+		checkArgument(name, neitherNullNorEmpty());
 		checkArgument(name.length() <= MAX_GENRE_LENGTH);
 		this.name = name;
 	}

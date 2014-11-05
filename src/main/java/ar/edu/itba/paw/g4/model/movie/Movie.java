@@ -10,6 +10,8 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -32,6 +34,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import ar.edu.itba.paw.g4.model.Score;
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
@@ -126,11 +129,11 @@ public class Movie extends PersistentEntity {
 		return Collections.unmodifiableSortedSet(comments);
 	}
 
-	public int getAverageScore() {
+	public Score getAverageScore() {
 		if (getTotalComments() == 0) {
-			return 0;
+			return new Score(0);
 		}
-		return totalScore / getTotalComments();
+		return new Score(totalScore / getTotalComments());
 	}
 
 	public DateTime getCreationDate() {
@@ -228,14 +231,36 @@ public class Movie extends PersistentEntity {
 		admin.removeComment(comment);
 	}
 
+	public List<Comment> getCommentsScoreableBy(User user) {
+		List<Comment> scoreableComments = new LinkedList<>();
+		for (Comment comment : comments) {
+			if (comment.canBeScoredBy(user)) {
+				scoreableComments.add(comment);
+			}
+		}
+		return Collections.unmodifiableList(scoreableComments);
+	}
+
+	public List<Comment> getCommentsReportableBy(User user) {
+		List<Comment> reportableComments = new LinkedList<>();
+		for (Comment comment : comments) {
+			if (comment.isReportableBy(user)) {
+				reportableComments.add(comment);
+			}
+		}
+		return Collections.unmodifiableList(reportableComments);
+	}
+
 	@Override
 	public String toString() {
-		return toStringHelper(this).add("name", title).add("id", getId())
-				.add("creationDate", creationDate)
-				.add("releaseDate", releaseDate).add("genres", genres)
-				.add("director", director).add("durationInMins", runtimeInMins)
-				.add("summary", summary).add("comments", comments)
-				.add("totalScore", totalScore).toString();
+		//TODO
+		return "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY";
+//		return toStringHelper(this).add("name", title).add("id", getId())
+//				.add("creationDate", creationDate)
+//				.add("releaseDate", releaseDate).add("genres", genres)
+//				.add("director", director).add("durationInMins", runtimeInMins)
+//				.add("summary", summary).add("totalScore", totalScore)
+//				.toString();
 	}
 
 	@Override

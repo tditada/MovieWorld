@@ -19,7 +19,7 @@
 							</c:when>
 							<c:otherwise>
 								<c:out
-									value="No Comments by ${commentsUser.firstName.nameString} ${commentsUser.lastName.nameString }" />
+									value="No comments by ${commentsUser.firstName.nameString} ${commentsUser.lastName.nameString }" />
 							</c:otherwise>
 						</c:choose>
 					</h3>
@@ -99,6 +99,5 @@
 				</c:forEach> --%>
 		</div>
 	</div>
-</div>
 </div>
 <%@ include file="../footer.jsp"%>

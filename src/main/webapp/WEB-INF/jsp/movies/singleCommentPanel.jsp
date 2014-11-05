@@ -9,18 +9,11 @@
 				<c:when test="${movie.totalComments > 0}">
 					<c:out value="${movie.totalComments} Comments" />
 				</c:when>
-				<c:otherwise>No Comments</c:otherwise>
+				<c:otherwise>No comments</c:otherwise>
 			</c:choose>
 		</h3>
 	</div>
 	<c:forEach items="${movie.comments}" var="comment">
-		<c:set var="canScore" value="${true}" />
-		<c:forEach items="${comment.usersThatScore}" var="userThatScore">
-			<c:if
-				test="${userThatScore.email.textAddress eq user.email.textAddress}">
-				<c:set var="canScore" value="${false}" />
-			</c:if>
-		</c:forEach>
 		<div class="panel-body">
 			<dl class="dl-horizontal">
 				<dt>User</dt>
@@ -30,15 +23,15 @@
 				</dd>
 				<dt>Score</dt>
 				<dd>
-					<c:forEach begin="1" end="${comment.score}">
+					<c:forEach begin="1" end="${comment.movieScore.value}">
 						<span class="glyphicon glyphicon-star"></span>
 					</c:forEach>
-					<c:if test="${comment.score < 5}">
-						<c:forEach begin="${comment.score}" end="4">
+					<c:if test="${comment.movieScore.value < 5}">
+						<c:forEach begin="${comment.movieScore.value}" end="4">
 							<span class="glyphicon glyphicon-star-empty"></span>
 						</c:forEach>
 					</c:if>
-					<small><c:out value="(${comment.score}/5)"></c:out></small>
+					<small><c:out value="(${comment.movieScore.value}/5)"></c:out></small>
 				</dd>
 				<dt>Date</dt>
 				<dd>
@@ -51,36 +44,67 @@
 				<dt>Comment score</dt>
 				<dd>
 					<p>
-						<c:forEach begin="1" end="${comment.averageScore}">
+						<c:forEach begin="1" end="${comment.averageCommentScore.value}">
 							<span class="glyphicon glyphicon-star"></span>
 						</c:forEach>
-						<c:if test="${comment.averageScore < 5}">
-							<c:forEach begin="${comment.averageScore}" end="4">
+						<c:if test="${comment.averageCommentScore.value < 5}">
+							<c:forEach begin="${comment.averageCommentScore.value}" end="4">
 								<span class="glyphicon glyphicon-star-empty"></span>
 							</c:forEach>
 						</c:if>
 						(
-						<c:out value="${comment.averageScore}" />
+						<c:out value="${comment.averageCommentScore.value}" />
 						)
 					</p>
 				</dd>
-				<%@ include file="scoreComment.jsp"%>
-				<dd>
-					<c:if test="${not empty user and user.admin}">
-						<dt></dt>
+				<c:if test="${not empty user}">
+					<c:if test="${user ne comment.user}">
+						<c:forEach items="${scoreablesByUser}" var="scoreable">
+							<c:if test="${comment eq scoreable}">
+								<dt>Score this comment</dt>
+								<dd>
+									<div class="input-group">
+										<form:form role="form" action="app/comment/score"
+											method="post" commandName="scoreCommentForm">
+
+											<form:input type="number" min="0" max="5"
+												class="form-control" name="score" id="score" path="score" />
+											<form:input type="hidden" path="comment"
+												value="${comment.id}" />
+											<input type="submit" name="submit" id="submit" value="Score"
+												class="btn btn-primary">
+										</form:form>
+									</div>
+								</dd>
+							</c:if>
+						</c:forEach>
+						<c:forEach items="${reportablesByUser}" var="reportable">
+							<c:if test="${comment eq reportable}">
+								<dt>Report this comment</dt>
+								<%-- href="<c:out value="app/comment/report?comment=${comment.id}"/>"> --%>
+								<dd>
+									<form role="form" action="app/comment/report" method="post">
+										<input type="hidden" name="comment" id="comment"
+											value="${comment.id}"></input> <input type="submit"
+											name="report" id="report" value="Report"
+											class="btn btn-primary" />
+									</form>
+								</dd>
+							</c:if>
+						</c:forEach>
+					</c:if>
+					<c:if test="${user.admin}">
+						<dt>Delete this comment</dt>
 						<dd>
-							<form:form role="form" action="app/comment/remove" method="POST"
-								commandName="delete">
-								<form:input type="hidden" name="commentId" id="commentId"
-									value="${comment.id}" path="commentId"></form:input>
-								<form:input type="hidden" path="userId" name="userId"
-									id="userId" value="${comment.user.id}"></form:input>
-								<input type="submit" name="delete" id="delete" value="delete"
+							<form role="form" action="app/comment/remove" method="post">
+								<input type="hidden" name="comment" id="comment"
+									value="${comment.id}"></input> <input type="submit"
+									name="Delete" id="delete" value="Delete"
 									class="btn btn-primary" />
-							</form:form>
+							</form>
 						</dd>
 					</c:if>
-				</dd>
+				</c:if>
 			</dl>
 		</div>
 	</c:forEach>

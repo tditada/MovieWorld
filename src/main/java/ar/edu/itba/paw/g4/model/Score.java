@@ -20,6 +20,9 @@ public class Score {
 	@Column(name = "score")// , nullable = false)
 	private int value;
 
+	public Score() {
+	}
+	
 	public Score(int value) {
 		checkArgument(value >= MIN_SCORE && value <= MAX_SCORE);
 		this.value = value;

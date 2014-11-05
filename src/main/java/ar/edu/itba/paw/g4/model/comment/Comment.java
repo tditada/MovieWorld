@@ -2,7 +2,6 @@ package ar.edu.itba.paw.g4.model.comment;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
-import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
@@ -15,6 +14,7 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -42,7 +42,15 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	private Score movieScore;
 
 	@OneToMany
+	@JoinColumn(name="scorer_id", referencedColumnName="id")
 	private Set<User> scorers = new HashSet<>();
+
+	@OneToMany
+	@JoinColumn(name="reporting_user_id", referencedColumnName="id")
+	private Set<User> reportingUsers = new HashSet<>();
+
+	@Column(nullable = false)
+	private int totalReports;
 
 	@Column(nullable = false)
 	@Check(constraints = "totalCommentScore >= 0")
@@ -81,7 +89,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	public boolean canBeScoredBy(User user) {
 		checkArgument(user, notNull());
 
-		return !this.user.equals(user) && scorers.contains(user);
+		return !this.user.equals(user) && !scorers.contains(user);
 	}
 
 	public void addScore(User user, Score commentScore) {
@@ -89,26 +97,16 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 		checkArgument(commentScore, notNull());
 		checkArgument(canBeScoredBy(user));
 
-		scorers.add(user);
 		totalCommentScore += commentScore.getValue();
+		scorers.add(user);
 	}
 
-	public int getAverageCommentScore() {
+	public Score getAverageCommentScore() {
 		if (totalCommentScore == 0) {
-			return 0;
+			return new Score(0);
 		}
-		return totalCommentScore / scorers.size();
+		return new Score(totalCommentScore / scorers.size());
 	}
-
-	//
-	// @Override
-	// public int compareTo(Comment other) {
-	// // greater to smaller
-	// return Double.compare(other.getAverageCommentScore(),
-	// this.getAverageCommentScore());
-	// // return ((Double) commentAverageScore).compareTo((Double)
-	// // c.commentAverageScore);
-	// }
 
 	public String getText() {
 		return text;
@@ -130,8 +128,37 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 		return creationDate;
 	}
 
-	public Set<User> getUsersThatScore() {// TODO
+	public Set<User> getScorers() {
 		return scorers;
+	}
+
+	public void addReport(User user) {
+		checkArgument(user, notNull());
+		checkArgument(isReportableBy(user));
+
+		reportingUsers.add(user);
+		totalReports++;
+	}
+
+	public boolean isReportableBy(User user) {
+		checkArgument(user, notNull());
+		return !reportingUsers.contains(user);
+	}
+
+	public void dropReports(User user) {
+		checkArgument(user, notNull());
+		checkArgument(user.isAdmin());
+
+		reportingUsers.clear();
+		totalReports = 0;
+	}
+
+	public boolean isReported() {
+		return !reportingUsers.isEmpty();
+	}
+
+	public int getReportCount() {
+		return totalReports;
 	}
 
 	@Override
@@ -140,13 +167,14 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 			return 0;
 		}
 
-		Integer comparison = Double.compare(other.getAverageCommentScore(),
-				this.getAverageCommentScore());
-		if (comparison == 0) {
+		Integer comp = Double.compare(
+				other.getAverageCommentScore().getValue(), this
+						.getAverageCommentScore().getValue());
+		if (comp == 0) {
 			return other.getUser().getFirstName().getNameString()
 					.compareTo(user.getFirstName().getNameString());
 		}
-		return comparison;
+		return comp;
 	}
 
 	@Override
@@ -169,11 +197,12 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 
 	@Override
 	public String toString() {
-		return toStringHelper(this).add("id", getId()).add("user", user)
-				.add("movie", movie).add("score", movieScore).add("text", text)
-				.add("creationDate", creationDate)
-				.add("scoredByUsers", scorers)
-				.add("totalCommentScore", totalCommentScore).toString();
+		//TODO
+		return "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+		// return toStringHelper(this).add("id", getId()).add("user", user)
+		// .add("movie", movie).add("score", movieScore).add("text", text)
+		// .add("creationDate", creationDate)
+		// .add("totalCommentScore", totalCommentScore).toString();
 	}
 
 	public static CommentBuilder builder() {
