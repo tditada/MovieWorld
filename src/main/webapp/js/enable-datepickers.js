@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$("#birthDatepicker").datepicker({
+	$(".birthDatepicker").datepicker({
 		changeMonth : true,
 		changeYear : true,
 		maxDate : 0,
@@ -7,11 +7,9 @@ $(document).ready(function() {
 		dateFormat : 'yy-mm-dd'
 	});
 
-	$("#releaseDatepicker").datepicker({
+	$(".releaseDatepicker").datepicker({
 		changeMonth : true,
 		changeYear : true,
-		maxDate : 0,
-		yearRange : "1900:2020",
 		dateFormat : 'yy-mm-dd'
 	});
 });

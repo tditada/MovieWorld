@@ -9,6 +9,8 @@ import static ar.edu.itba.paw.g4.util.validation.Validations.checkState;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -26,6 +28,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.Email;
@@ -52,6 +55,7 @@ public class User extends PersistentEntity {
 	@Embedded
 	private Password password;
 
+	@Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
 	@Column(nullable = false)
 	private DateTime birthDate;
 
@@ -61,7 +65,10 @@ public class User extends PersistentEntity {
 
 	@Sort(type = SortType.NATURAL)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private SortedSet<Comment> comments = new TreeSet<>();
+	private SortedSet<Comment> comments = new TreeSet<Comment>();
+
+	@OneToMany
+	private Set<User> interestingUsers = new HashSet<User>();
 
 	@OneToMany(mappedBy = "scorers", cascade = CascadeType.ALL)
 	private Set<Comment> commentsScored = new HashSet<>();
@@ -87,18 +94,14 @@ public class User extends PersistentEntity {
 		this.admin = admin;
 	}
 
-	public void addComment(Comment comment) {
+	public void addComment(Comment comment) { // FIXME
 		checkArgument(comment, notNull());
-		checkArgument(this.equals(comment.getUser()));
-
-		if (comments.contains(comment)) {
-			// this will only happen when addComment is called in a
-			// callback
+		if (!comment.getMovie().isCommentableBy(this)) { // XXX
 			return;
 		}
 
 		Movie movie = comment.getMovie();
-		if (!movie.isCommentableBy(this)) {
+		if (!movie.isCommentableBy(this)) { // XXX
 			throw new IllegalArgumentException();
 		}
 
@@ -182,4 +185,43 @@ public class User extends PersistentEntity {
 	public static UserBuilder builder() {
 		return new UserBuilder();
 	}
+
+	public Set<User> getInterestingUsers() {
+		return interestingUsers;
+	}
+
+	public void addInterestingUser(User user) {
+		checkArgument(user, notNull());
+		if (user.equals(this)) {
+			return;
+		}
+		interestingUsers.add(user);
+	}
+
+	public void removeInterestingUser(User user) {
+		checkArgument(user, notNull());
+		interestingUsers.remove(user);
+	}
+
+	public boolean isinterestingUser(User user) {
+		for (User u : this.interestingUsers) {
+			if (u.equals(user)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public List<Comment> getRecentComments() {
+		List<Comment> recentComments = new LinkedList<Comment>();
+		DateTime RecentLimitdate = new DateTime();
+		for (Comment c : comments) {
+			RecentLimitdate = c.getCreationDate().minusWeeks(1);
+			if (c.getCreationDate().isAfter(RecentLimitdate)) {
+				recentComments.add(c);
+			}
+		}
+		return recentComments;
+	}
+
 }

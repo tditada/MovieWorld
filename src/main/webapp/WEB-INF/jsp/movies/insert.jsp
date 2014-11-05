@@ -73,7 +73,7 @@
 					<div class="form-group">
 						<label for="releaseDate">Enter release date</label>
 						<form:input type="text" name="releaseDate" path="releaseDate"
-							id="releaseDatepicker" />
+							id="releaseDatepicker" cssClass="releaseDatepicker" />
 						<form:errors path="releaseDate">
 							<div class="alert alert-danger" role="alert">Invalid
 								release date</div>

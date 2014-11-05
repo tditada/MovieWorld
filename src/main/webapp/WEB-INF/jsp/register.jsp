@@ -75,7 +75,7 @@
 				<div class="form-group">
 					<label for="birthDate">Enter Birthday</label>
 					<form:input type="text" name="birthDate" path="birthDate"
-						id="birthDatepicker" />
+						id="birthDatepicker" cssClass="birthDatepicker" />
 					<form:errors path="birthDate">
 						<div class="alert alert-danger" role="alert">Invalid
 							Birthday</div>

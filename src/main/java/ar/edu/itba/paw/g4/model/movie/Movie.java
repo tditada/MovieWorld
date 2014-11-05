@@ -31,6 +31,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
@@ -50,9 +51,11 @@ public class Movie extends PersistentEntity {
 	@Column(nullable = false, length = MAX_TITLE_LENGTH)
 	private String title; // artistic name for movie, so no special rules (other
 							// than length) apply
+	@Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
 	@Column(nullable = false)
 	private DateTime creationDate;
 
+	@Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
 	@Column(nullable = false)
 	private DateTime releaseDate;
 
@@ -80,7 +83,7 @@ public class Movie extends PersistentEntity {
 	private int totalScore;
 
 	@Sort(type = SortType.NATURAL)
-	@OneToMany(mappedBy = "", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
 	private SortedSet<Comment> comments = new TreeSet<Comment>();
 
 	Movie() {
@@ -129,8 +132,8 @@ public class Movie extends PersistentEntity {
 		return totalScore;
 	}
 
-	public Set<Comment> getComments() {
-		return Collections.unmodifiableSet(comments);
+	public SortedSet<Comment> getComments() {
+		return Collections.unmodifiableSortedSet(comments);
 	}
 
 	public int getAverageScore() {

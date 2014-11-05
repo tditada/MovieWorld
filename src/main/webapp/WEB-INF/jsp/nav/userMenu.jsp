@@ -15,8 +15,7 @@
 					<li><a href="app/users/login">Login/Register</a></li>
 				</c:when>
 				<c:otherwise>
-					<li><a href="app/users/user/comments?user=${user.id}">My
-							Comments</a></li>
+					<li><a href="app/users/profile?id=${user.id}">My Comments</a></li>
 					<li class="divider"></li>
 					<li><a class="btn-link black-link logout">Logout</a></li>
 				</c:otherwise>

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
+import ar.edu.itba.paw.g4.web.form.HiddenInterestingUserForm;
 import ar.edu.itba.paw.g4.web.form.LoginForm;
 import ar.edu.itba.paw.g4.web.form.RegisterForm;
 import ar.edu.itba.paw.g4.web.form.validation.LoginFormValidator;
@@ -136,16 +137,21 @@ public class UsersController {
 		return "redirect:/app/home";
 	}
 
-	@RequestMapping(value = "/user/comments", method = RequestMethod.GET)
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public ModelAndView userComments(@RequestParam(required = false) User user,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		// TODO: HiddenInterestingUserForm form = new
+		// HiddenInterestingUserForm();
+
 		User currentUser = getLoggedUserFromSession(session);
 		if (user == null || currentUser == null) {
 			// users have to be logged in to see others' comments
 			mav.setViewName("redirect:/app/home");
 			return mav;
 		}
+		mav.addObject("isInterestingUser", currentUser.isinterestingUser(user));
+		// TODO: mav.addObject("addInterestingForm", form);
 		mav.addObject(COMMENTS_USER_ID, user);
 		mav.addObject(USER_ID, currentUser);
 		mav.setViewName("user/comments");
@@ -164,6 +170,24 @@ public class UsersController {
 		mav.addObject("users", users.findAll());
 		mav.addObject(USER_ID, user);
 		mav.setViewName("user/all");
+		return mav;
+	}
+
+	@RequestMapping(value = "changeInterest", method = RequestMethod.POST)
+	public ModelAndView changeInterest(HiddenInterestingUserForm form,
+			HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		User interestedUser = form.getInterestedUser();
+		User interestingUser = form.getInterestingUser();
+
+		if (interestedUser.isinterestingUser(interestingUser)) {
+			interestedUser.removeInterestingUser(interestingUser);
+		} else {
+			interestedUser.addInterestingUser(interestingUser);
+
+		}
+		mav.setViewName("redirect:/app/users/profile?id="
+				+ form.getInterestingUser().getId());
 		return mav;
 	}
 

@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.hibernate.annotations.Check;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.Score;
@@ -47,6 +48,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	@Check(constraints = "totalCommentScore >= 0")
 	private int totalCommentScore;
 
+	@Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
 	@Column(nullable = false)
 	private DateTime creationDate;
 
@@ -98,14 +100,15 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 		return totalCommentScore / scorers.size();
 	}
 
-	@Override
-	public int compareTo(Comment other) {
-		// greater to smaller
-		return Double.compare(other.getAverageCommentScore(),
-				this.getAverageCommentScore());
-		// return ((Double) commentAverageScore).compareTo((Double)
-		// c.commentAverageScore);
-	}
+	//
+	// @Override
+	// public int compareTo(Comment other) {
+	// // greater to smaller
+	// return Double.compare(other.getAverageCommentScore(),
+	// this.getAverageCommentScore());
+	// // return ((Double) commentAverageScore).compareTo((Double)
+	// // c.commentAverageScore);
+	// }
 
 	public String getText() {
 		return text;
@@ -125,6 +128,25 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 
 	public DateTime getCreationDate() {
 		return creationDate;
+	}
+
+	public Set<User> getUsersThatScore() {// TODO
+		return scorers;
+	}
+
+	@Override
+	public int compareTo(Comment other) {
+		if (other.equals(this)) {
+			return 0;
+		}
+
+		Integer comparison = Double.compare(other.getAverageCommentScore(),
+				this.getAverageCommentScore());
+		if (comparison == 0) {
+			return other.getUser().getFirstName().getNameString()
+					.compareTo(user.getFirstName().getNameString());
+		}
+		return comparison;
 	}
 
 	@Override
@@ -157,4 +179,5 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	public static CommentBuilder builder() {
 		return new CommentBuilder();
 	}
+
 }

@@ -186,6 +186,8 @@ public class MoviesController {
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
+		// CommentScoreForm scoreForm = new CommentScoreForm();
+		// HiddenDeleteCommentForm deleteForm = new HiddenDeleteCommentForm();
 		if (movie == null) {
 			mav.setViewName("redirect:/app/movies/list");
 			return mav;
