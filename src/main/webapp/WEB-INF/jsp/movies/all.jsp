@@ -1,11 +1,5 @@
 <%@ include file="../header.jsp"%>
-
 <%@ include file="../nav/start.jsp"%>
-<c:if test="${user.admin}">
-	<ul class="nav navbar-nav">
-		<li><a href="<c:out value="app/movies/insert"/>">Insert Movie</a></li>
-	</ul>
-</c:if>
 <form class="navbar-form navbar-left" role="search"
 	action="app/movies/list" method="get">
 	<div class="form-group">

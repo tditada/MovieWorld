@@ -1,12 +1,9 @@
 package ar.edu.itba.paw.g4.web.form.validation;
 
-import java.util.Set;
-
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import ar.edu.itba.paw.g4.model.movie.MovieGenre;
 import ar.edu.itba.paw.g4.web.form.MovieForm;
 
 @Component
@@ -29,13 +26,7 @@ public class MovieFormValidator implements Validator {
 		checkSet(TITLE_ID, form.getTitle(), errors);
 		checkSet(DIRECTOR_ID, form.getDirector(), errors);
 		checkSet(SUMMARY_ID, form.getSummary(), errors);
-
-		Set<MovieGenre> genres = form.getGenres();
-		checkSet(GENRES_ID, genres, errors);
-		if (genres != null && genres.contains(null)) {
-			errors.rejectValue(GENRES_ID, "genre.invalid",
-					"Invalid genre in set");
-		}
+		checkSet(GENRES_ID, form.getGenres(), errors);
 
 		Integer runtimeInMins = form.getRuntimeInMins();
 		checkSet(RUNTIME_ID, runtimeInMins, errors);

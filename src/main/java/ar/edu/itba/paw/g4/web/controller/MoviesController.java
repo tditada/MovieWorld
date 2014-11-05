@@ -91,13 +91,12 @@ public class MoviesController {
 	}
 
 	@RequestMapping(value = "edit", method = RequestMethod.GET)
-	public ModelAndView edit(
-			@RequestParam(value = "id", required = true) Movie movie,
+	public ModelAndView edit(@RequestParam(required = false) Movie movie,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
 		User user = getLoggedUserFromSession(session);
-		if (user == null || !user.isAdmin()) {
+		if (movie == null || user == null || !user.isAdmin()) {
 			mav.setViewName("redirect:/app/home");
 			return mav;
 		}

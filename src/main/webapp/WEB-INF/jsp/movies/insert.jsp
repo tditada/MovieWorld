@@ -53,7 +53,7 @@
 						<label for="genres">Enter genre(s)</label>
 						<div class="input-group">
 							<form:input type="text" path="genres" class="form-control"
-								name="genres" id="genres" placeholder="Action, Commedy" />
+								name="genres" id="genres" placeholder="Action, Comedy, ..." />
 							<span class="input-group-addon"><span
 								class="glyphicon glyphicon-asterisk"></span> Required</span>
 						</div>
