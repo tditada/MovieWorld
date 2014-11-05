@@ -3,7 +3,8 @@
 <ul class="nav navbar-nav navbar-right">
 	<c:if test="${not empty user}">
 		<p class="navbar-text">
-			<c:out value="Logged in as ${user.firstName.nameString} ${user.lastName.nameString}" />
+			<c:out
+				value="Logged in as ${user.firstName.nameString} ${user.lastName.nameString}" />
 		</p>
 	</c:if>
 	<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -14,7 +15,8 @@
 					<li><a href="app/users/login">Login/Register</a></li>
 				</c:when>
 				<c:otherwise>
-					<li><a href="app/users/user/comments?id=${user.id}">My Comments</a></li>
+					<li><a href="app/users/user/comments?user=${user.id}">My
+							Comments</a></li>
 					<li class="divider"></li>
 					<li><a class="btn-link black-link logout">Logout</a></li>
 				</c:otherwise>

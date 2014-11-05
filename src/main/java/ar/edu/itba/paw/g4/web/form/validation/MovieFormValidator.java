@@ -11,12 +11,12 @@ import ar.edu.itba.paw.g4.web.form.MovieForm;
 
 @Component
 public class MovieFormValidator implements Validator {
-	private static final String TITLE_ID = "movieTitle";
-	private static final String DIRECTOR_ID = "movieDirector";
-	private static final String SUMMARY_ID = "movieSummary";
-	private static final String GENRES_ID = "movieGenres";
-	private static final String RUNTIME_ID = "movieRuntimeInMins";
-	private static final String RELEASEDATE_ID = "movieReleaseDate";
+	private static final String TITLE_ID = "title";
+	private static final String DIRECTOR_ID = "director";
+	private static final String SUMMARY_ID = "summary";
+	private static final String GENRES_ID = "genres";
+	private static final String RUNTIME_ID = "runtimeInMins";
+	private static final String RELEASEDATE_ID = "releaseDate";
 
 	@Override
 	public boolean supports(Class<?> clazz) {

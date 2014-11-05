@@ -11,7 +11,7 @@
 				<form:form role="form" action="app/movies/insert" method="post"
 					commandName="movieForm">
 					<div class="form-group">
-						<label for="title">Movie title</label>
+						<label for="title">Enter title</label>
 						<div class="input-group">
 							<form:input type="text" path="title" class="form-control"
 								name="title" id="title" placeholder="Enter Movie's Title" />
@@ -58,7 +58,8 @@
 								class="glyphicon glyphicon-asterisk"></span> Required</span>
 						</div>
 						<form:errors path="genres">
-							<div class="alert alert-danger" role="alert">Invalid genre(s)</div>
+							<div class="alert alert-danger" role="alert">Invalid
+								genre(s)</div>
 						</form:errors>
 					</div>
 					<div class="form-group">

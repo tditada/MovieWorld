@@ -81,6 +81,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	}
 
 	@Override
+	// FIXME
 	public List<Director> findAllDirectorsOrderedByName(Orderings ordering) {
 		checkArgument(ordering, notNull());
 		return find("from Movie director order by Director "
@@ -121,6 +122,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	}
 
 	@Override
+	// FIXME
 	public List<MovieGenre> findAllGenresOrderedByName(Orderings ordering) {
 		checkArgument(ordering, notNull());
 		return find("from Movie genres order by genres "

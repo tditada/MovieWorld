@@ -27,7 +27,7 @@
 				<dd class="text-capitalize">
 					<c:forEach items="${movie.genres}" var="genre" varStatus="status">
 						<c:if test="${status.index > 0}">,</c:if>
-						<a href="<c:url value="app/movies/list?genre=${genre}"/>"><c:out
+						<a href="<c:url value="app/movies/list?genre=${genre.name}"/>"><c:out
 								value="${genre.name}" /></a>
 					</c:forEach>
 				</dd>
@@ -88,7 +88,7 @@
 					<dd>
 						<a
 							href="<c:out
-								value="app/users/user/comments?id=${comment.user.id}" />">
+								value="app/users/user/comments?comment=${comment.user.id}" />">
 							<c:out
 								value="${comment.user.firstName.nameString} ${comment.user.lastName.nameString}" />
 						</a>

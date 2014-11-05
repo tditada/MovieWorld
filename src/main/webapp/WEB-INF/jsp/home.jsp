@@ -17,7 +17,7 @@
 							<tr>
 								<td><a
 									href="<c:out
-								value="app/movies/detail?id=${topMovie.id}" />">
+								value="app/movies/detail?movie=${topMovie.id}" />">
 										<c:out value="${topMovie.title}" />
 								</a></td>
 								<td><c:forEach begin="1" end="${topMovie.averageScore}">
@@ -52,7 +52,7 @@
 										style="M-" /></td>
 								<td class="text-center"><a
 									href="<c:out
-								value="app/movies/detail?id=${newAddition.id}" />">
+								value="app/movies/detail?movie=${newAddition.id}" />">
 										<c:out value="${newAddition.title}" />
 								</a></td>
 								<td class="text-center"><c:out
@@ -73,7 +73,7 @@
 						<div class="panel-heading">
 							<a
 								href="<c:out
-								value="app/movies/detail?id=${release.id}" />">
+								value="app/movies/detail?movie=${release.id}" />">
 								<c:out value="${release.title}" />
 							</a>
 						</div>

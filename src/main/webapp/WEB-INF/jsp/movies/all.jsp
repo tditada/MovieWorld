@@ -13,12 +13,11 @@
 			data-live-search="true" data-container="body" name="genre">
 			<option disabled selected>Any genre</option>
 			<c:forEach items="${genres}" var="genre">
-				<option value="${genre}">
+				<option value="${genre.name}">
 					<c:out value="${genre.name}" />
 				</option>
 			</c:forEach>
-		</select>
-		<%-- <select class="selectpicker" title="Filter by director"
+		</select> <select class="selectpicker" title="Filter by director"
 			data-live-search="true" data-container="body" name="director">
 			<option disabled selected>Any director</option>
 			<c:forEach items="${directors}" var="director">
@@ -26,7 +25,7 @@
 					<c:out value="${director.name}" />
 				</option>
 			</c:forEach>
-		</select> --%>
+		</select>
 		<button type="submit" class="btn btn-default">Apply filter</button>
 	</div>
 </form>
@@ -57,16 +56,17 @@
 						<td class="col-md-4"><c:out value="${movie.title}" /></td>
 						<td class="col-md-1"><a
 							href="<c:out
-								value="app/movies/detail?id=${movie.id}" />"><span
+								value="app/movies/detail?movie=${movie.id}" />"><span
 								class="glyphicon glyphicon-link"></span></a></td>
 						<c:if test="${user.admin}">
 							<td class="col-md-1"><a
 								href="<c:out
-								value="app/movies/edit?id=${movie.id}" />"><span
+								value="app/movies/edit?movie=${movie.id}" />"><span
 									class="glyphicon glyphicon-pencil text-center"></span></a></td>
 							<td class="col-md-1"><form:form role="form"
 									action="app/movies/remove" method="post" commandName="remove">
-									<input type="hidden" name="id" id="id" value="${movie.id}"></input>
+									<input type="hidden" name="movie" id="movie"
+										value="${movie.id}"></input>
 									<input type="submit" name="delete" id="delete" value="delete"
 										class="btn btn-primary pull-right">
 								</form:form></td>

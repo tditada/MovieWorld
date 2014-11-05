@@ -30,14 +30,13 @@
 							<dt>Movie</dt>
 							<dd>
 								<a
-									href="<c:out	value="app/movies/detail?id=${comment.movie.id}" />">
+									href="<c:out	value="app/movies/detail?movie=${comment.movie.id}" />">
 									<c:out value="${comment.movie.title}" />
 								</a>
 							</dd>
 							<dt>Date</dt>
 							<dd>
-								<td class="col-md-2"><joda:format
-										value="${comment.creationDate}" style="M-" /></td>
+								<joda:format value="${comment.creationDate}" style="M-" />
 							</dd>
 						</dl>
 					</div>
@@ -59,7 +58,7 @@
 						<c:forEach items="${commentsUser.comments}" var="comment">
 							<tr>
 								<td class="col-md-2"><a
-									href="<c:out	value="app/movies/detail?id=${comment.movie.id}" />">
+									href="<c:out	value="app/movies/detail?movie=${comment.movie.id}" />">
 										<c:out value="${comment.movie.title}" />
 								</a></td>
 								<td class="col-md-2"><joda:format value="${comment.creationDate}" style="M-" /></a></td>
@@ -70,7 +69,7 @@
 			<%-- 			<c:forEach items="${commentsUser.comments}" var="comment">
 					<div class="panel-heading">
 						<a
-							href="<c:out	value="app/movies/detail?id=${comment.movie.id}" />">
+							href="<c:out	value="app/movies/detail?movie=${comment.movie.id}" />">
 							<c:out value="${comment.movie.title}" />
 						</a>
 					</div>
