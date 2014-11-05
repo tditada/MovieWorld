@@ -6,7 +6,7 @@ import java.util.Locale;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
-import ar.edu.itba.paw.g4.model.Password;
+import ar.edu.itba.paw.g4.model.user.Password;
 
 @Component
 public class PasswordFormatter implements Formatter<Password> {

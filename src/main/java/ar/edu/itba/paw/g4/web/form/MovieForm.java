@@ -1,18 +1,18 @@
 package ar.edu.itba.paw.g4.web.form;
 
-import java.util.Set;
+import java.util.SortedSet;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.model.Director;
-import ar.edu.itba.paw.g4.model.MovieGenre;
+import ar.edu.itba.paw.g4.model.movie.Director;
 import ar.edu.itba.paw.g4.model.movie.Movie;
+import ar.edu.itba.paw.g4.model.movie.MovieGenre;
 
 public class MovieForm {
 	private String title;
 	private Director director;
 	private String summary;
-	private Set<MovieGenre> genres;
+	private SortedSet<MovieGenre> genres;
 	private int runtimeInMins;
 	private DateTime releaseDate;
 
@@ -43,11 +43,11 @@ public class MovieForm {
 		this.summary = summary;
 	}
 
-	public Set<MovieGenre> getGenres() {
+	public SortedSet<MovieGenre> getGenres() {
 		return genres;
 	}
 
-	public void setGenres(Set<MovieGenre> genres) {
+	public void setGenres(SortedSet<MovieGenre> genres) {
 		this.genres = genres;
 	}
 

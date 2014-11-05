@@ -11,7 +11,7 @@
 	</ul>
 	<c:if test="${not empty user}">
 		<ul class="nav navbar-nav">
-			<li><a href="<c:out value="app/users/list"/>">All Users</a></li>
+			<li><a href="<c:out value="app/users/list"/>">All users</a></li>
 		</ul>
 		<c:if test="${user.admin}">
 			<ul class="nav navbar-nav">

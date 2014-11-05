@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.model;
+package ar.edu.itba.paw.g4.model.user;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;

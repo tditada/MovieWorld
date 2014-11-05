@@ -4,10 +4,6 @@ import javax.annotation.Generated;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.model.Email;
-import ar.edu.itba.paw.g4.model.NonArtisticName;
-import ar.edu.itba.paw.g4.model.Password;
-
 @Generated("PojoBuilder")
 public class UserBuilder implements Cloneable {
 	protected UserBuilder self;

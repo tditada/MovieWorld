@@ -6,7 +6,7 @@ import java.util.Locale;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
-import ar.edu.itba.paw.g4.model.Director;
+import ar.edu.itba.paw.g4.model.movie.Director;
 
 @Component
 public class DirectorFormatter implements Formatter<Director> {

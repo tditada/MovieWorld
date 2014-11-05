@@ -2,9 +2,9 @@ package ar.edu.itba.paw.g4.web.form;
 
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.model.Email;
-import ar.edu.itba.paw.g4.model.NonArtisticName;
-import ar.edu.itba.paw.g4.model.Password;
+import ar.edu.itba.paw.g4.model.user.Email;
+import ar.edu.itba.paw.g4.model.user.NonArtisticName;
+import ar.edu.itba.paw.g4.model.user.Password;
 import ar.edu.itba.paw.g4.model.user.User;
 
 public class RegisterForm {

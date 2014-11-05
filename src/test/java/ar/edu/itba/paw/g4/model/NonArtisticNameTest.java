@@ -2,6 +2,8 @@ package ar.edu.itba.paw.g4.model;
 
 import org.junit.Test;
 
+import ar.edu.itba.paw.g4.model.user.NonArtisticName;
+
 public class NonArtisticNameTest {
 	private static final int MAX_NAME_LENGTH = 35;
 

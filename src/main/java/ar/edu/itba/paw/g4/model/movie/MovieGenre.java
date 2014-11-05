@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.g4.model;
+package ar.edu.itba.paw.g4.model.movie;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
@@ -7,10 +7,15 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-@Embeddable
-public class MovieGenre {
+import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
+
+@Entity
+@Table(name = "movieGenres")
+public class MovieGenre extends PersistentEntity implements
+		Comparable<MovieGenre> {
 	private static final int MAX_GENRE_LENGTH = 25;
 
 	@Column(nullable = false)
@@ -27,6 +32,11 @@ public class MovieGenre {
 
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(MovieGenre other) {
+		return name.compareTo(other.name);
 	}
 
 	@Override
@@ -53,4 +63,5 @@ public class MovieGenre {
 	public String toString() {
 		return toStringHelper(this).add("name", name).toString();
 	}
+
 }

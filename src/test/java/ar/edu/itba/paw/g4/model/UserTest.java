@@ -2,9 +2,6 @@ package ar.edu.itba.paw.g4.model;
 
 import static java.lang.System.currentTimeMillis;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.*;
 
 import org.joda.time.DateTime;
@@ -13,6 +10,9 @@ import org.junit.Test;
 
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.movie.Movie;
+import ar.edu.itba.paw.g4.model.user.Email;
+import ar.edu.itba.paw.g4.model.user.NonArtisticName;
+import ar.edu.itba.paw.g4.model.user.Password;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserBuilder;
 

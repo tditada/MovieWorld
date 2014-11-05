@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.AbstractHibernateRepo;
-import ar.edu.itba.paw.g4.model.Email;
-import ar.edu.itba.paw.g4.model.Password;
 
 @Repository
 public class HibernateUserRepo extends AbstractHibernateRepo implements

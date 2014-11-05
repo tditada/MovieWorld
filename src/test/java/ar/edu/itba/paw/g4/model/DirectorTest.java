@@ -2,6 +2,8 @@ package ar.edu.itba.paw.g4.model;
 
 import org.junit.Test;
 
+import ar.edu.itba.paw.g4.model.movie.Director;
+
 public class DirectorTest {
 	private static final int MAX_NAME_LENGTH = 70;
 

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import ar.edu.itba.paw.g4.model.MovieGenre;
+import ar.edu.itba.paw.g4.model.movie.MovieGenre;
 import ar.edu.itba.paw.g4.web.form.MovieForm;
 
 @Component

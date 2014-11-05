@@ -2,9 +2,6 @@ package ar.edu.itba.paw.g4.model.user;
 
 import java.util.List;
 
-import ar.edu.itba.paw.g4.model.Email;
-import ar.edu.itba.paw.g4.model.Password;
-
 public interface UserRepo {
 	public User findById(final int id);
 

@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.g4.web.form;
 
-import ar.edu.itba.paw.g4.model.Email;
-import ar.edu.itba.paw.g4.model.Password;
+import ar.edu.itba.paw.g4.model.user.Email;
+import ar.edu.itba.paw.g4.model.user.Password;
 
 public class LoginForm {
 	private Email email;

@@ -16,12 +16,9 @@ import java.util.TreeSet;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -35,8 +32,6 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
-import ar.edu.itba.paw.g4.model.Director;
-import ar.edu.itba.paw.g4.model.MovieGenre;
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
@@ -59,15 +54,9 @@ public class Movie extends PersistentEntity {
 	@Column(nullable = false)
 	private DateTime releaseDate;
 
-	@ElementCollection
-	@CollectionTable(name = "genres", joinColumns = @JoinColumn(name = "movie_id"))
-	@Column(nullable = false)
-	// ^ TODO: check!
-	private Set<MovieGenre> genres;
-
-	// @ElementCollection(targetClass = MovieGenres.class)
-	// @Enumerated(EnumType.STRING)
-	// private Set<MovieGenres> genres;
+	@Sort(type = SortType.NATURAL)
+	@OneToMany
+	private SortedSet<MovieGenre> genres;
 
 	@Embedded
 	@AttributeOverride(name = "name", column = @Column(name = "director"))
@@ -90,8 +79,9 @@ public class Movie extends PersistentEntity {
 	}
 
 	@GeneratePojoBuilder
-	public Movie(DateTime releaseDate, String title, Set<MovieGenre> genres,
-			Director director, int runtimeInMins, String summary) {
+	public Movie(DateTime releaseDate, String title,
+			SortedSet<MovieGenre> genres, Director director, int runtimeInMins,
+			String summary) {
 		setTitle(title);
 		setReleaseDate(releaseDate);
 		setGenres(genres);
@@ -202,7 +192,7 @@ public class Movie extends PersistentEntity {
 		this.director = director;
 	}
 
-	public void setGenres(Set<MovieGenre> genres) {
+	public void setGenres(SortedSet<MovieGenre> genres) {
 		checkArgument(genres, notNull(), notEmptyColl());
 		this.genres = genres;
 	}

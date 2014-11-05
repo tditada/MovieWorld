@@ -1,13 +1,10 @@
 package ar.edu.itba.paw.g4.model.movie;
 
-import java.util.Set;
+import java.util.SortedSet;
 
 import javax.annotation.Generated;
 
 import org.joda.time.DateTime;
-
-import ar.edu.itba.paw.g4.model.Director;
-import ar.edu.itba.paw.g4.model.MovieGenre;
 
 @Generated("PojoBuilder")
 public class MovieBuilder implements Cloneable {
@@ -16,7 +13,7 @@ public class MovieBuilder implements Cloneable {
 	protected boolean isSet$releaseDate$org$joda$time$DateTime;
 	protected String value$title$java$lang$String;
 	protected boolean isSet$title$java$lang$String;
-	protected Set<MovieGenre> value$genres$java$util$Set;
+	protected SortedSet<MovieGenre> value$genres$java$util$Set;
 	protected boolean isSet$genres$java$util$Set;
 	protected Director value$director$ar$edu$itba$paw$g4$model$Director;
 	protected boolean isSet$director$ar$edu$itba$paw$g4$model$Director;
@@ -67,7 +64,7 @@ public class MovieBuilder implements Cloneable {
 	 *            the default value
 	 * @return this builder
 	 */
-	public MovieBuilder withGenres(Set<MovieGenre> value) {
+	public MovieBuilder withGenres(SortedSet<MovieGenre> value) {
 		this.value$genres$java$util$Set = value;
 		this.isSet$genres$java$util$Set = true;
 		return self;

@@ -31,9 +31,6 @@ import org.hibernate.annotations.SortType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.g4.model.Email;
-import ar.edu.itba.paw.g4.model.NonArtisticName;
-import ar.edu.itba.paw.g4.model.Password;
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;

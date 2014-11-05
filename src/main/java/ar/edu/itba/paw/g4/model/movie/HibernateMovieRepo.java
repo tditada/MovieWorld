@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.AbstractHibernateRepo;
-import ar.edu.itba.paw.g4.model.Director;
-import ar.edu.itba.paw.g4.model.MovieGenre;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 @Repository
@@ -123,8 +121,19 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	@Override
 	public List<MovieGenre> findAllGenresOrderedByName(Orderings ordering) {
 		checkArgument(ordering, notNull());
-		return find("select movie.genres from Movie movie order by genres "
+		return find("from MovieGenre genre order by genre.name "
 				+ asHQLOrdering(ordering));
 	}
+
+	// @Override
+	// public MovieGenre findGenreByName(String name) { // TODO:check!
+	// checkArgument(name, notNull());
+	// List<MovieGenre> genres = find(
+	// "from MovieGenre genre where genre.name=?", name);
+	// if (genres.isEmpty()) {
+	// return null;
+	// }
+	// return genres.get(0);
+	// }
 
 }

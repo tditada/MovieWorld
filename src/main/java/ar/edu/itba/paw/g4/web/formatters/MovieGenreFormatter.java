@@ -6,7 +6,7 @@ import java.util.Locale;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
-import ar.edu.itba.paw.g4.model.MovieGenre;
+import ar.edu.itba.paw.g4.model.movie.MovieGenre;
 
 @Component
 public class MovieGenreFormatter implements Formatter<MovieGenre> {
