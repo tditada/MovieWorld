@@ -1,9 +1,6 @@
 <%@ include file="../header.jsp"%>
 
 <%@ include file="../nav/start.jsp"%>
-<ul class="nav navbar-nav">
-	<li><a href="<c:out value="app/movies/list"/>">All movies</a></li>
-</ul>
 <%@ include file="../nav/userMenu.jsp"%>
 <%@ include file="../nav/end.jsp"%>
 
@@ -31,7 +28,7 @@
 					<c:forEach items="${movie.genres}" var="genre" varStatus="status">
 						<c:if test="${status.index > 0}">,</c:if>
 						<a href="<c:url value="app/movies/list?genre=${genre}"/>"><c:out
-								value="${genre.genreName}" /></a>
+								value="${genre.name}" /></a>
 					</c:forEach>
 				</dd>
 				<dt>Director</dt>
@@ -43,7 +40,7 @@
 				</dd>
 				<dt>Release date</dt>
 				<dd>
-					<c:out value="${movie.releaseDate}" />
+					<joda:format value="${movie.releaseDate}" style="M-" />
 				</dd>
 				<dt>Runtime</dt>
 				<dd>
@@ -177,7 +174,7 @@
 			</div>
 			<div class="panel-body">
 				<form:form role="form" action="app/comment" method="POST"
-					commandName="commentForm">
+					commandName="newCommentForm">
 					<div class="form-group">
 						<label for="movieScore" class="col-sm-2 control-label">Score</label>
 						<div class="input-group">

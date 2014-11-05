@@ -22,6 +22,7 @@ public class MovieGenre {
 	public MovieGenre(String name) {
 		checkArgument(name, notNull());
 		checkArgument(name.length() <= MAX_GENRE_LENGTH);
+		this.name = name;
 	}
 
 	public String getName() {

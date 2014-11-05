@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.AbstractHibernateRepo;
 import ar.edu.itba.paw.g4.model.Director;
-import ar.edu.itba.paw.g4.model.MovieGenres;
+import ar.edu.itba.paw.g4.model.MovieGenre;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 @Repository
@@ -45,9 +45,9 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	}
 
 	@Override
-	public List<Movie> findAllByGenre(MovieGenres genre) {
+	public List<Movie> findAllByGenre(MovieGenre genre) {
 		checkArgument(genre, notNull());
-		return find("from Movie where genre=?", genre);
+		return find("from Movie where ? in genres", genre);
 	}
 
 	@Override
@@ -118,5 +118,12 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	@Override
 	public void remove(Movie movie) {
 		super.remove(movie);
+	}
+
+	@Override
+	public List<MovieGenre> findAllGenresOrderedByName(Orderings ordering) {
+		checkArgument(ordering, notNull());
+		return find("from Movie genres order by genres "
+				+ asHQLOrdering(ordering));
 	}
 }

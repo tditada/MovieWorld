@@ -12,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.movie.Movie;
+import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 import ar.edu.itba.paw.g4.model.user.User;
+import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.web.form.NewCommentForm;
 import ar.edu.itba.paw.g4.web.form.ScoreCommentForm;
 import ar.edu.itba.paw.g4.web.form.validation.NewCommentFormValidator;
@@ -20,15 +22,21 @@ import ar.edu.itba.paw.g4.web.form.validation.NewCommentFormValidator;
 @Controller
 @RequestMapping("/comment")
 public class CommentController {
-	private static final String USER_ID = "user";
-	private static final String MOVIE_ID = "user";
-	private static final String COMMENT_ID = "comment";
+	private static final String MOVIE_ID = "movie";
+
+	private static final String SESSION_USER_ID = "user";
+	private static final String SESSION_MOVIE_ID = "movie";
 
 	private NewCommentFormValidator newCommentFormValidator;
+	private UserRepo users;
+	private MovieRepo movies;
 
 	@Autowired
-	public CommentController(NewCommentFormValidator newCommentFormValidator) {
+	public CommentController(UserRepo users, MovieRepo movies,
+			NewCommentFormValidator newCommentFormValidator) {
 		this.newCommentFormValidator = newCommentFormValidator;
+		this.users = users;
+		this.movies = movies;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -36,64 +44,83 @@ public class CommentController {
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
-		User user = (User) session.getAttribute(USER_ID);
-		Movie movie = (Movie) session.getAttribute(MOVIE_ID);
+		User user = getLoggedUserFromSession(session);
+		Movie movie = getMovieFromSession(session);
 
 		if (user == null || movie == null) {
 			mav.setViewName("redirect:/app/home");
 			return mav;
 		}
 
+		String prevUrl = "/app/movies/detail?id=" + movie.getId();
+
 		newCommentFormValidator.validate(newCommentForm, errors);
-		if (!errors.hasErrors()) {
-			Comment comment = Comment.builder().withMovie(movie).withUser(user)
-					.withText(newCommentForm.getCommentText())
-					.withScore(newCommentForm.getMovieScore()).build();
-			user.addComment(comment);
+		if (errors.hasErrors()) {
+			mav.setViewName(prevUrl);
+			return mav;
 		}
-		// mav.addObject("movie", movie);
-		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
+		Comment comment = Comment.builder().withMovie(movie).withUser(user)
+				.withText(newCommentForm.getCommentText())
+				.withScore(newCommentForm.getMovieScore()).build();
+		user.addComment(comment);
+		// mav.addObject("movie", movie); TODO: check!
+		mav.setViewName("redirect:" + prevUrl);
 		return mav;
 	}
 
 	@RequestMapping(value = "score", method = RequestMethod.POST)
-	public ModelAndView score(ScoreCommentForm scoreCommentForm, HttpSession session,
-			Errors errors) {
+	public ModelAndView score(ScoreCommentForm scoreCommentForm,
+			HttpSession session, Errors errors) {
 		ModelAndView mav = new ModelAndView();
 
-		User user = (User) session.getAttribute(USER_ID);
-		Movie movie = (Movie) session.getAttribute(MOVIE_ID);
+		User user = getLoggedUserFromSession(session);
+		Movie movie = getMovieFromSession(session);
 
 		if (user == null || movie == null) {
 			mav.setViewName("redirect:/app/home");
 			return mav;
 		}
 
-		if (!errors.hasErrors()) { // TODO: check!
-			Comment comment = scoreCommentForm.getComment();
-			comment.addScore(user, scoreCommentForm.getScore());
+		String prevUrl = "/app/movies/detail?id=" + movie.getId();
+		if (errors.hasErrors()) {
+			mav.setViewName(prevUrl);
+			return mav;
 		}
+		Comment comment = scoreCommentForm.getComment();
+		comment.addScore(user, scoreCommentForm.getScore());
 
 		mav.addObject(MOVIE_ID, movie);
-		mav.setViewName("redirect:/app/movies/detail?id=" + movie.getId());
+		mav.setViewName("redirect:" + prevUrl);
 		return mav;
 	}
 
 	@RequestMapping(value = "remove", method = RequestMethod.POST)
-	public ModelAndView remove(
-			@RequestParam(value = COMMENT_ID, required = true) Comment comment,
+	public ModelAndView remove(@RequestParam(required = false) Comment comment,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
-		User user = (User) session.getAttribute(USER_ID);
+		User user = getLoggedUserFromSession(session);
 
-		if (user == null || !user.isAdmin()) {
-			mav.setViewName("redirect:/app/home");
-			return mav;
+		if (comment != null && user != null && user.isAdmin()) {
+			user.removeComment(comment);
 		}
-
-		user.removeComment(comment);
 		mav.setViewName("redirect:/app/home");
 		return mav;
+	}
+
+	private User getLoggedUserFromSession(HttpSession session) {
+		Integer userId = (Integer) session.getAttribute(SESSION_USER_ID);
+		if (userId == null) {
+			return null;
+		}
+		return users.findById(userId);
+	}
+
+	private Movie getMovieFromSession(HttpSession session) {
+		Integer movieId = (Integer) session.getAttribute(SESSION_MOVIE_ID);
+		if (movieId == null) {
+			return null;
+		}
+		return movies.findById(movieId);
 	}
 }

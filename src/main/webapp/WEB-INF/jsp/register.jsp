@@ -1,8 +1,5 @@
 <%@ include file="header.jsp"%>
 <%@ include file="nav/start.jsp"%>
-<ul class="nav navbar-nav">
-	<li><a href="<c:out value="app/movies/list"/>">All movies</a></li>
-</ul>
 <%@ include file="nav/userMenu.jsp"%>
 <%@ include file="nav/end.jsp"%>
 <div class="container">
@@ -78,7 +75,7 @@
 				<div class="form-group">
 					<label for="birthDate">Enter Birthday</label>
 					<form:input type="text" name="birthDate" path="birthDate"
-						id="datepicker" />
+						id="birthDatepicker" />
 					<form:errors path="birthDate">
 						<div class="alert alert-danger" role="alert">Invalid
 							Birthday</div>

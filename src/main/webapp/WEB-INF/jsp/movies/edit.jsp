@@ -54,7 +54,7 @@
 						<label for="movieGenres">Enter Genres</label>
 						<div class="input-group">
 							<form:input type="text" path="movieGenres" class="form-control"
-								name="movieGenres" id="movieGenres" value="${genres}" />
+								name="movieGenres" id="movieGenres" value="${movie.genres}" />
 							<span class="input-group-addon"><span
 								class="glyphicon glyphicon-asterisk"></span> Required</span>
 						</div>
@@ -75,7 +75,7 @@
 						<label for="movieReleaseDate">Enter Release Date</label>
 						<form:input type="text" name="movieReleaseDate"
 							path="movieReleaseDate" id="movieDatepicker"
-							value="${releaseDate}" />
+							value="${movie.releaseDate}" />
 						<form:errors path="movieReleaseDate">
 							<div class="alert alert-danger" role="alert">Invalid
 								Release Date</div>

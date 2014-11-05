@@ -16,12 +16,12 @@ public class MovieGenreSetFormatter implements Formatter<Set<MovieGenre>> {
 
 	@Override
 	public String print(Set<MovieGenre> genres, Locale arg1) {
-		String string = "";
+		String genresString = "";
 		for (MovieGenre genre : genres) {
-			string = genre.getName() + ", ";
+			genresString = genre.getName() + ", ";
 		}
-		string = StringUtils.stripEnd(string, ", ");
-		return string;
+		genresString = StringUtils.stripEnd(genresString, ", ");
+		return genresString;
 	}
 
 	@Override
@@ -30,8 +30,8 @@ public class MovieGenreSetFormatter implements Formatter<Set<MovieGenre>> {
 		Set<MovieGenre> movieGenresSet = new HashSet<>();
 		String[] genreNames = arg0.split(",");
 		for (String name : genreNames) {
-			StringUtils.strip(name, " ");
-			movieGenresSet.add(new MovieGenre(name));
+			String strippedName = StringUtils.strip(name, " ");
+			movieGenresSet.add(new MovieGenre(strippedName));
 		}
 		return movieGenresSet;
 	}

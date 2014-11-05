@@ -68,17 +68,9 @@ public class MovieForm {
 	}
 
 	public Movie build() {
-		try {
-			Movie movie = Movie.builder().withDirector(director)
-					.withGenres(genres).withReleaseDate(releaseDate)
-					.withRuntimeInMins(runtimeInMins).withSummary(summary)
-					.withTitle(title).build();
-			return movie;
-		} catch (Exception e) {
-			System.out.println("Error in  bulding");
-			e.printStackTrace();
-		}
-		return null;
+		return Movie.builder().withDirector(director).withGenres(genres)
+				.withReleaseDate(releaseDate).withRuntimeInMins(runtimeInMins)
+				.withSummary(summary).withTitle(title).build();
 	}
 
 }

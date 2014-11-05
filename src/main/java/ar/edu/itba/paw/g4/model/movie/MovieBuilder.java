@@ -68,7 +68,7 @@ public class MovieBuilder implements Cloneable {
 	 * @return this builder
 	 */
 	public MovieBuilder withGenres(Set<MovieGenre> value) {
-		// this.value$genres$java$util$Set = value;
+		this.value$genres$java$util$Set = value;
 		this.isSet$genres$java$util$Set = true;
 		return self;
 	}

@@ -1,8 +1,5 @@
 <%@ include file="header.jsp"%>
 <%@ include file="nav/start.jsp"%>
-<ul class="nav navbar-nav">
-	<li><a href="<c:out value="app/movies/list"/>">All movies</a></li>
-</ul>
 <%@ include file="nav/userMenu.jsp"%>
 <%@ include file="nav/end.jsp"%>
 <div class="container">

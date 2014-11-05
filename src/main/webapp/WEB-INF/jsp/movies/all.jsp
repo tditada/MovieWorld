@@ -14,7 +14,7 @@
 			<option disabled selected>Any genre</option>
 			<c:forEach items="${genres}" var="genre">
 				<option value="${genre}">
-					<c:out value="${genre.genreName}" />
+					<c:out value="${genre.name}" />
 				</option>
 			</c:forEach>
 		</select>

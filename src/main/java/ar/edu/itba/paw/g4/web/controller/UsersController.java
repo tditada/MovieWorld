@@ -21,9 +21,10 @@ import ar.edu.itba.paw.g4.web.form.validation.RegisterFormValidator;
 @RequestMapping("/users")
 public class UsersController {
 	private static final String AUTH_FAILED_ID = "authFailed";
-	private static final String CURR_USER_ID = "user";
-	// private static final String USER_PARAM_ID = "user_id";
 	private static final String COMMENTS_USER_ID = "commentsUser";
+	private static final String USER_ID = "user";
+
+	private static final String SESSION_USER_ID = "user";
 
 	private UserRepo users;
 	private RegisterFormValidator registerFormValidator;
@@ -39,10 +40,12 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.GET)
-	public ModelAndView showRegister(
-			@RequestParam(value = CURR_USER_ID, required = false) User user) {
+	public ModelAndView showRegister(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		User user = getLoggedUserFromSession(session);
+
 		if (user != null) {
+			// user is already registered
 			mav.setViewName("redirect:/app/home");
 		} else {
 			mav.addObject("registerForm", new RegisterForm());
@@ -55,6 +58,13 @@ public class UsersController {
 	public ModelAndView register(RegisterForm registerForm, Errors errors,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+
+		if (userLoggedIn(session)) {
+			// user is already registered
+			mav.setViewName("redirect:/app/home");
+			return mav;
+		}
+
 		registerFormValidator.validate(registerForm, errors);
 		if (errors.hasErrors()) {
 			mav.setViewName("register");
@@ -63,14 +73,23 @@ public class UsersController {
 
 		User user = registerForm.build();
 		users.register(user);
-		session.setAttribute(CURR_USER_ID, user);
+
+		logUserInSession(session, user);
+
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public ModelAndView showLogin() {
+	public ModelAndView showLogin(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+
+		if (userLoggedIn(session)) {
+			// user is already logged in
+			mav.setViewName("redirect:/app/home");
+			return mav;
+		}
+
 		mav.addObject("loginForm", new LoginForm());
 		mav.setViewName("login");
 		return mav;
@@ -81,13 +100,18 @@ public class UsersController {
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
+		if (userLoggedIn(session)) {
+			// user is already logged in
+			mav.setViewName("redirect:/app/home");
+			return mav;
+		}
+
 		loginFormValidator.validate(loginForm, errors);
 		if (errors.hasErrors()) {
 			mav.setViewName("login");
 			return mav;
 		}
 
-		// User user = userService.authenticate(emailAddress, password);
 		User user = users.authenticate(loginForm.getEmail(),
 				loginForm.getPassword());
 		if (user == null) {
@@ -95,16 +119,20 @@ public class UsersController {
 			mav.setViewName("login");
 			return mav;
 		}
-		session.setAttribute(CURR_USER_ID, user);
+		logUserInSession(session, user);
 
-		mav.addObject(CURR_USER_ID, user);
+		mav.addObject(USER_ID, user);
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
 
 	@RequestMapping(value = "/user/logout", method = RequestMethod.POST)
 	public String logout(HttpSession session) {
-		session.setAttribute(CURR_USER_ID, null);
+		if (userLoggedIn(session)) {
+			// user should be logged in to be logged out
+			session.invalidate();
+		}
+		// in any case, just go back to the home screen
 		return "redirect:/app/home";
 	}
 
@@ -112,13 +140,14 @@ public class UsersController {
 	public ModelAndView userComments(@RequestParam(required = false) User user,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		User currentUser = getCurrentUserFromSession(session);
-		if (currentUser == null) {
+		User currentUser = getLoggedUserFromSession(session);
+		if (user == null || currentUser == null) {
+			// users have to be logged in to see others' comments
 			mav.setViewName("redirect:/app/home");
 			return mav;
 		}
 		mav.addObject(COMMENTS_USER_ID, user);
-		mav.addObject(CURR_USER_ID, currentUser);
+		mav.addObject(USER_ID, currentUser);
 		mav.setViewName("user/comments");
 		return mav;
 	}
@@ -126,16 +155,31 @@ public class UsersController {
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public ModelAndView showUsers(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		// if(isNotLogged(session,mav)){
-		// return mav;
-		// }
+		User user = getLoggedUserFromSession(session);
+		if (user == null) {
+			// users have to be logged in to see others
+			mav.setViewName("redirect:/app/home");
+			return mav;
+		}
 		mav.addObject("users", users.findAll());
-		mav.addObject(CURR_USER_ID, getCurrentUserFromSession(session));
+		mav.addObject(USER_ID, user);
 		mav.setViewName("user/all");
 		return mav;
 	}
 
-	private User getCurrentUserFromSession(HttpSession session) {
-		return (User) session.getAttribute(CURR_USER_ID);
+	private User getLoggedUserFromSession(HttpSession session) {
+		Integer userId = (Integer) session.getAttribute(SESSION_USER_ID);
+		if (userId == null) {
+			return null;
+		}
+		return users.findById(userId);
+	}
+
+	private void logUserInSession(HttpSession session, User user) {
+		session.setAttribute(SESSION_USER_ID, user.getId());
+	}
+
+	private boolean userLoggedIn(HttpSession session) {
+		return getLoggedUserFromSession(session) != null;
 	}
 }

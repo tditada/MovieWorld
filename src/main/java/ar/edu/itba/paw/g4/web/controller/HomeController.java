@@ -18,20 +18,23 @@ import ar.edu.itba.paw.g4.model.user.UserRepo;
 @Controller
 @RequestMapping("/home")
 public class HomeController {
-	public static final String TOP_MOVIES_ID = "topMovies";
-	public static final String RELEASES_ID = "releases";
-	public static final String NEW_ADDITIONS_ID = "newAdditions";
-
 	private static final int TOP_MOVIES_QUANTITY = 5;
 	private static final int NEW_ADDITIONS_QUANTITY = 5;
 
+	private static final String SESSION_USER_ID = "user";
+
+	public static final String TOP_MOVIES_ID = "topMovies";
+	public static final String RELEASES_ID = "releases";
+	public static final String NEW_ADDITIONS_ID = "newAdditions";
 	private static final String USER_ID = "user";
 
 	private MovieRepo movies;
+	private UserRepo users;
 
 	@Autowired
 	HomeController(MovieRepo movies, UserRepo users) {
 		this.movies = movies;
+		this.users = users;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -42,8 +45,9 @@ public class HomeController {
 		List<Movie> releases = movies.findReleases();
 
 		ModelAndView mav = new ModelAndView();
-		User user = (User) session.getAttribute(USER_ID);
-		if (user != null) {
+		Integer userId = (Integer) session.getAttribute(SESSION_USER_ID);
+		if (userId != null) {
+			User user = (User) users.findById(userId);
 			mav.addObject(USER_ID, user);
 		}
 		mav.addObject(TOP_MOVIES_ID, topMovies);
