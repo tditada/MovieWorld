@@ -5,6 +5,7 @@ import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -13,16 +14,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.AbstractHibernateRepo;
+import ar.edu.itba.paw.g4.model.comment.Comment;
+import ar.edu.itba.paw.g4.model.comment.CommentRepo;
 import ar.edu.itba.paw.g4.model.genre.Genre;
+import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 @Repository
 public class HibernateMovieRepo extends AbstractHibernateRepo implements
 		MovieRepo {
+	private CommentRepo comments;
 
 	@Autowired
-	public HibernateMovieRepo(SessionFactory sessionFactory) {
+	public HibernateMovieRepo(SessionFactory sessionFactory,
+			CommentRepo comments) {
 		super(sessionFactory);
+		this.comments = comments;
 	}
 
 	@Override
@@ -82,7 +89,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	@Override
 	public List<Director> findAllDirectorsOrderedByName(Orderings ordering) {
 		checkArgument(ordering, notNull());
-		return find("select movie.director from Movie movie order by Director "
+		return find("select distinct movie.director from Movie movie order by Director "
 				+ asHQLOrdering(ordering));
 	}
 
@@ -103,8 +110,22 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	}
 
 	@Override
-	public void remove(Movie movie) {
+	public void remove(User admin, Movie movie) {
 		checkArgument(movie, notNull());
+		checkArgument(admin, notNull());
+		checkArgument(admin.isAdmin());
+
+		List<Comment> commentsToRemove = new LinkedList<>();
+		commentsToRemove.addAll(movie.getComments()); // to avoid
+														// ConcurrentModificationExceptions
+
+		for (Comment comment : commentsToRemove) {
+			comments.remove(admin, comment); // to be consistent in memory
+		}
+
+		// genres should NOT be removed, since they are strong
+		// entities
+
 		super.remove(movie);
 	}
 

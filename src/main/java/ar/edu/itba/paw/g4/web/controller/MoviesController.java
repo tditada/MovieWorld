@@ -201,10 +201,12 @@ public class MoviesController {
 		User user = getLoggedUserFromSession(session);
 
 		if (movie != null && user != null && user.isAdmin()) {
-			movies.remove(movie);
+			movies.remove(user, movie);
+			mav.setViewName("redirect:/app/movies/list");
+		}else {
+			mav.setViewName("redirect:/app/home");
 		}
 
-		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
 
