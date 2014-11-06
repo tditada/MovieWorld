@@ -102,8 +102,10 @@
 						<dd>
 							<form role="form" action="app/comments/remove" method="post">
 								<input type="hidden" name="comment" id="comment"
-									value="${comment.id}" /> <input type="submit" name="delete"
-									id="delete" value="Delete" class="btn btn-primary">
+									value="${comment.id}" /><input type="hidden" name="movie"
+									id="movie" value="${movie.id}" /> <input type="submit"
+									name="delete" id="delete" value="Delete"
+									class="btn btn-primary">
 							</form>
 						</dd>
 					</c:if>
