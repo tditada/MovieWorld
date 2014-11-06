@@ -138,12 +138,12 @@
 			<version>3.3.2</version>
 		</dependency>
 		<!-- Automatic Builder generation -->
-		<dependency>
-			<groupId>net.karneim</groupId>
-			<artifactId>pojobuilder</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>net.karneim</groupId> -->
+<!-- 			<artifactId>pojobuilder</artifactId> -->
+<!-- 			<version>3.1.0</version> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>

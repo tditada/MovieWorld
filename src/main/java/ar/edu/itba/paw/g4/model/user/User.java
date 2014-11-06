@@ -24,7 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+//import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
@@ -69,7 +69,7 @@ public class User extends PersistentEntity {
 	User() {
 	}
 
-	@GeneratePojoBuilder
+	// @GeneratePojoBuilder
 	User(NonArtisticName firstName, NonArtisticName lastName, Email email,
 			Password password, DateTime birthDate, boolean admin) {
 		checkArgument(firstName, notNull());

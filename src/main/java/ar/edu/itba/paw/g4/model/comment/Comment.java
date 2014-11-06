@@ -20,7 +20,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+//import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.Type;
@@ -74,7 +74,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	Comment() {
 	}
 
-	@GeneratePojoBuilder
+	// @GeneratePojoBuilder
 	Comment(String text, Score movieScore, User user, Movie movie) {
 		checkArgument(movieScore, notNull());
 		checkArgument(text, neitherNullNorEmpty());

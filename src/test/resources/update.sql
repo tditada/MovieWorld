@@ -1,6 +1,6 @@
-ALTER TABLE "users" RENAME TO __users;
-ALTER TABLE "movies" RENAME TO __movies;
-ALTER TABLE "comments" RENAME TO __comments;
+ALTER TABLE "users" RENAME TO users__old;
+ALTER TABLE "movies" RENAME TO movies__old;
+ALTER TABLE "comments" RENAME TO comments__old;
 
 --
 -- PostgreSQL database dump
@@ -508,24 +508,30 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
 insert into users(id, firstName, lastName, email, password, birthdate, admin) 
-    select userId, firstName, lastName, emailAddr, password, birthdate, FALSE from __users;
+    select userId, firstName, lastName, emailAddr, password, birthdate, FALSE from users__old;
 
 insert into movies(id,title,creationdate,releasedate, director,runtimeinmins,summary,totalscore,image)
-    select movieId,title,creationDate,releaseDate,directorName,runtimeMins,summary,totalScore, null from __movies;
+    select movieId,title,creationDate,releaseDate,directorName,runtimeMins,summary,totalScore, null from movies__old;
 
 -- GENRES Y MOVIES_GENRES
-insert into genres(name) select DISTINCT genres[1] from __movies;
+insert into genres(name) select distinct * from (select explode_array(movies__old.genres) from movies__old) as aux;
 
 --insert into movies_genres(movies_id,genres_id)
+insert into movies_genres(movies_id, genres_id)
+    select movies.id, genres.id
+    from movies, genres, movies__old
+    where movies.director = movies__old.directorname 
+        and movies.title = movies__old.title 
+        and genres.name = any(movies__old.genres);
 
 insert into comments(id,creationdate,score,text,totalcommentscore,totalreports,movie_id,user_id)
-    select commentId, creationDate, score, txt, 0, 0, movieId, userId from __comments;
+    select commentId, creationDate, score, txt, 0, 0, movieId, userId from comments__old;
 
 SELECT setval('movies_id_seq', (select greatest(count(*), 1) from movies), 't');
 SELECT setval('users_id_seq', (select greatest(count(*), 1) from users), 't');
 SELECT setval('comments_id_seq', (select greatest(count(*), 1) from comments), 't');
 
--- drop all tables along with its segquences
-DROP TABLE __movies CASCADE;
-DROP TABLE __users CASCADE;
-DROP TABLE __comments CASCADE;
+-- drop all tables along with its sequences
+--DROP TABLE movies__old CASCADE;
+--DROP TABLE users__old CASCADE;
+--DROP TABLE comments__old CASCADE;

@@ -26,7 +26,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+//import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.Sort;
@@ -91,7 +91,7 @@ public class Movie extends PersistentEntity {
 	Movie() {
 	}
 
-	@GeneratePojoBuilder
+	// @GeneratePojoBuilder
 	public Movie(DateTime releaseDate, String title, SortedSet<Genre> genres,
 			Director director, int runtimeInMins, String summary, byte[] picture) {
 		setTitle(title);

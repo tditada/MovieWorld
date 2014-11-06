@@ -80,7 +80,7 @@ public class UserTest {
 	}
 
 	@Test
-	public void testAddValidCommentFirstCall() {
+	public void testAddValidComment() {
 		sut = getDefaultUserBuilder().build();
 
 		Movie commentableMovie = mock(Movie.class);
@@ -95,35 +95,6 @@ public class UserTest {
 
 		assertTrue(sut.getComments().contains(comment));
 	}
-
-	@Test
-	public void testAddValidCommentAsCallback() { // TODO: check!!!
-		sut = getDefaultUserBuilder().build();
-
-		Movie commentableMovie = mock(Movie.class);
-		// the movie was already commented by User sut
-		when(commentableMovie.isCommentableBy(sut)).thenReturn(false);
-
-		Comment comment = mockComment(sut, commentableMovie);
-
-		// First call
-		sut.addComment(comment);
-
-		// Movie's callback
-		sut.addComment(comment);
-
-		// the comment should still be there
-		assertTrue(sut.getComments().contains(comment));
-
-		verify(commentableMovie, never()).addComment(comment);
-		// verify that Movie's addComment was called JUST ONCE in the whole
-		// interaction
-		verify(commentableMovie, times(1)).addComment(comment);
-	}
-
-	// falta testear que se comporte bien si es llamado por segunda vez, como va
-	// a pasar cuando lo haga movie (o x ej si de una arrancaron x el addComment
-	// de Movie)
 
 	@After
 	public void tearDown() {
