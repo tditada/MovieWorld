@@ -15,7 +15,7 @@ import org.hibernate.annotations.Check;
 
 @Embeddable
 public class NonArtisticName {
-	private static final int MAX_NAME_LENGTH = 35;
+	public static final int MAX_NAME_LENGTH = 35;
 
 	@Check(constraints = "length(name) > 0")
 	@Column(name = "name", nullable = false, length = MAX_NAME_LENGTH)

@@ -2,6 +2,7 @@ package ar.edu.itba.paw.g4.model.user;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkState;
@@ -38,11 +39,11 @@ import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User extends PersistentEntity {
 	@Embedded
-	@AttributeOverride(name = "nameString", column = @Column(name = "firstName", nullable = false))
+	@AttributeOverride(name = "nameString", column = @Column(name = "firstName", nullable = false, length = NonArtisticName.MAX_NAME_LENGTH))
 	private NonArtisticName firstName;
 
 	@Embedded
-	@AttributeOverride(name = "nameString", column = @Column(name = "lastName", nullable = false))
+	@AttributeOverride(name = "nameString", column = @Column(name = "lastName", nullable = false, length = NonArtisticName.MAX_NAME_LENGTH))
 	private NonArtisticName lastName;
 
 	@Embedded
@@ -86,14 +87,18 @@ public class User extends PersistentEntity {
 		this.admin = admin;
 	}
 
-	public void addComment(Comment comment) { // FIXME
+	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
-		if (!comment.getMovie().isCommentableBy(this)) { // XXX
+		checkArgument(this.equals(comment.getUser()));
+
+		if (comments.contains(comment)) {
+			// this will only happen when addComment is called in a
+			// callback
 			return;
 		}
 
 		Movie movie = comment.getMovie();
-		if (!movie.isCommentableBy(this)) { // XXX
+		if (!movie.isCommentableBy(this)) {
 			throw new IllegalArgumentException();
 		}
 
@@ -150,13 +155,10 @@ public class User extends PersistentEntity {
 
 	@Override
 	public String toString() {
-		// TODO
-		return "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
-		// return toStringHelper(this).add("id", getId())
-		// .add("firstName", firstName).add("lastName", lastName)
-		// .add("email", email).add("password", password)
-		// .add("birthDate", birthDate).add("comments", comments)
-		// .toString();
+		return toStringHelper(this).add("id", getId())
+				.add("firstName", firstName).add("lastName", lastName)
+				.add("email", email).add("password", password)
+				.add("birthDate", birthDate).toString();
 	}
 
 	@Override

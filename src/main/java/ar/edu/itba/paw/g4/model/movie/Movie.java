@@ -2,6 +2,7 @@ package ar.edu.itba.paw.g4.model.movie;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
@@ -67,7 +68,7 @@ public class Movie extends PersistentEntity {
 										// different movies
 
 	@Embedded
-	@AttributeOverride(name = "name", column = @Column(name = "director"))
+	@AttributeOverride(name = "name", column = @Column(name = "director", nullable = false, length = Director.MAX_NAME_LENGTH))
 	private Director director;
 
 	@Check(constraints = "runtimeInMins > 0")
@@ -280,14 +281,12 @@ public class Movie extends PersistentEntity {
 
 	@Override
 	public String toString() {
-		// TODO
-		return "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY";
-		// return toStringHelper(this).add("name", title).add("id", getId())
-		// .add("creationDate", creationDate)
-		// .add("releaseDate", releaseDate).add("genres", genres)
-		// .add("director", director).add("durationInMins", runtimeInMins)
-		// .add("summary", summary).add("totalScore", totalScore)
-		// .toString();
+		return toStringHelper(this).add("name", title).add("id", getId())
+				.add("creationDate", creationDate)
+				.add("releaseDate", releaseDate).add("genres", genres)
+				.add("director", director).add("durationInMins", runtimeInMins)
+				.add("summary", summary).add("totalScore", totalScore)
+				.toString();
 	}
 
 	@Override

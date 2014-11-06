@@ -11,18 +11,18 @@ import javax.persistence.Embeddable;
 import org.hibernate.annotations.Check;
 
 @Embeddable
-public class Score {
+public class Score implements Comparable<Score> {
 	public static final int MIN_SCORE = 0;
 	public static final int MAX_SCORE = 5;
 
 	@Check(constraints = "(score >=" + MIN_SCORE + " and " + "score <="
 			+ MAX_SCORE + ")")
-	@Column(name = "score")// , nullable = false)
+	@Column(name = "score", nullable = false)
 	private int value;
 
 	public Score() {
 	}
-	
+
 	public Score(int value) {
 		checkArgument(value >= MIN_SCORE && value <= MAX_SCORE);
 		this.value = value;
@@ -52,6 +52,11 @@ public class Score {
 	@Override
 	public String toString() {
 		return toStringHelper(this).add("value", value).toString();
+	}
+
+	@Override
+	public int compareTo(Score other) {
+		return Integer.compare(this.value, other.value);
 	}
 
 }
