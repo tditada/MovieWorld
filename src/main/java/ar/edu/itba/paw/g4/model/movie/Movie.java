@@ -229,6 +229,7 @@ public class Movie extends PersistentEntity {
 		}
 
 		comments.remove(comment);
+		this.totalScore -= comment.getMovieScore().getValue();
 
 		admin.removeComment(comment);
 	}

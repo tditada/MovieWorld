@@ -32,7 +32,7 @@ public class MoviesController {
 	private static final String CAN_COMMENT_ID = "ableToComment";
 	private static final String SCOREABLES_BY_USER = "scoreablesByUser";
 	private static final String REPORTABLES_BY_USER = "reportablesByUser";
-	
+
 	private static final String GENRES_ID = "genres";
 	private static final String DIRECTORS_ID = "directors";
 	private static final String MOVIES_ID = "movies";
@@ -187,7 +187,6 @@ public class MoviesController {
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
-		// CommentScoreForm scoreForm = new CommentScoreForm();
 		if (movie == null) {
 			mav.setViewName("redirect:/app/movies/list");
 			return mav;
@@ -198,8 +197,10 @@ public class MoviesController {
 		User user = getLoggedUserFromSession(session);
 		if (user != null) {
 			canComment = movie.isCommentableBy(user);
-			mav.addObject(SCOREABLES_BY_USER, movie.getCommentsScoreableBy(user));
-			mav.addObject(REPORTABLES_BY_USER, movie.getCommentsReportableBy(user));
+			mav.addObject(SCOREABLES_BY_USER,
+					movie.getCommentsScoreableBy(user));
+			mav.addObject(REPORTABLES_BY_USER,
+					movie.getCommentsReportableBy(user));
 		}
 		saveMovieInSession(session, movie);
 

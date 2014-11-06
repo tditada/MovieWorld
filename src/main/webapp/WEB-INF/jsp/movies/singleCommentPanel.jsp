@@ -64,7 +64,7 @@
 								<dt>Score this comment</dt>
 								<dd>
 									<div class="input-group">
-										<form:form role="form" action="app/comment/score"
+										<form:form role="form" action="app/comments/score"
 											method="post" commandName="scoreCommentForm">
 											<form:input type="number" min="0" max="5"
 												class="form-control" name="score" id="score" path="score" />
@@ -77,20 +77,25 @@
 								</dd>
 							</c:if>
 						</c:forEach>
-						<c:forEach items="${reportablesByUser}" var="reportable">
-							<c:if test="${comment eq reportable}">
-								<dt>Report this comment</dt>
-								<%-- href="<c:out value="app/comment/report?comment=${comment.id}"/>"> --%>
-								<dd>
-									<form role="form" action="app/comment/report" method="post">
+						<dt>Report this comment</dt>
+						<dd>
+							<c:forEach items="${reportablesByUser}" var="reportable">
+								<c:if test="${comment eq reportable}">
+									<c:set var="reported" value="${true}" />
+									<%-- href="<c:out value="app/comments/report?comment=${comment.id}"/>"> --%>
+
+									<form role="form" action="app/comments/report" method="post">
 										<input type="hidden" name="comment" id="comment"
 											value="${comment.id}"></input> <input type="submit"
 											name="report" id="report" value="Report"
 											class="btn btn-primary" />
 									</form>
-								</dd>
+								</c:if>
+							</c:forEach>
+							<c:if test="${empty reported}">
+								<span class="label label-danger">Reported</span>
 							</c:if>
-						</c:forEach>
+						</dd>
 					</c:if>
 				</c:if>
 			</dl>

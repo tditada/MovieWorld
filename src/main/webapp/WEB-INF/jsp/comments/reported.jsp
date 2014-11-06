@@ -29,16 +29,17 @@
 						<td class="col-md-2"><joda:format
 								value="${reportedComment.creationDate}" style="M-" /></td>
 						<td class="col-md-1">
-							<form role="form" action="app/comment/remove" method="post">
-								<input type="hidden" value="${reportedComment.id}" /> <input
+							<form role="form" action="app/comments/remove" method="post">
+								<input type="hidden" name="comment" id="comment" value="${reportedComment.id}" /> <input
 									type="submit" name="delete" id="delete" value="Delete"
 									class="btn btn-primary pull-right">
 							</form>
 						</td>
 						<td class="col-md-1">
-							<form role="form" action="app/comment/dropReports" method="post">
-								<input type="hidden" value="${reportedComment.id}" /> <input
-									type="submit" name="drop" id="drop" value="Drop reports"
+							<form role="form" action="app/comments/dropReports" method="post">
+								<input type="hidden" name="comment" id="comment"
+									value="${reportedComment.id}" /> <input type="submit"
+									name="drop" id="drop" value="Drop reports"
 									class="btn btn-primary pull-right">
 							</form>
 						</td>

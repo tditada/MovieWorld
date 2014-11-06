@@ -77,7 +77,7 @@
 				<h4 class="panel-title">Write a Comment</h4>
 			</div>
 			<div class="panel-body">
-				<form:form role="form" action="app/comment" method="POST"
+				<form:form role="form" action="app/comments" method="POST"
 					commandName="newCommentForm">
 					<div class="form-group">
 						<label for="movieScore" class="col-sm-2 control-label">Score</label>

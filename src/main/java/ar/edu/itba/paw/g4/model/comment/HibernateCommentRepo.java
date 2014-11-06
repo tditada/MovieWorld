@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.AbstractHibernateRepo;
+import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 @Repository
@@ -29,12 +30,15 @@ public class HibernateCommentRepo extends AbstractHibernateRepo implements
 
 	@Override
 	public void save(Comment comment) {
-		// TODO: Revisar que el comment no exista ya en la BD
 		super.save(comment);
 	}
 
 	@Override
-	public void remove(Comment comment) {
+	public void remove(User admin, Comment comment) {
+		checkArgument(admin, notNull());
+		checkArgument(admin.isAdmin());
+
+		admin.removeComment(comment);
 		super.remove(comment);
 	}
 

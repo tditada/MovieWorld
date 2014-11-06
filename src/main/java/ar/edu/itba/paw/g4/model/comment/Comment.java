@@ -149,7 +149,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 
 	public boolean isReportableBy(User user) {
 		checkArgument(user, notNull());
-		return !reportingUsers.contains(user);
+		return !user.equals(this.user) && !reportingUsers.contains(user);
 	}
 
 	public void dropReports(User user) {

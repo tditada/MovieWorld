@@ -24,8 +24,8 @@ import ar.edu.itba.paw.g4.web.form.ScoreCommentForm;
 import ar.edu.itba.paw.g4.web.form.validation.NewCommentFormValidator;
 
 @Controller
-@RequestMapping("/comment")
-public class CommentController {
+@RequestMapping("/comments")
+public class CommentsController {
 	private static final String REPORTED_COMMENTS_ID = "reportedComments";
 	private static final String MOVIE_ID = "movie";
 	private static final String USER_ID = "user";
@@ -39,7 +39,7 @@ public class CommentController {
 	private CommentRepo comments;
 
 	@Autowired
-	public CommentController(UserRepo users, MovieRepo movies,
+	public CommentsController(UserRepo users, MovieRepo movies,
 			CommentRepo comments,
 			NewCommentFormValidator newCommentFormValidator) {
 		this.newCommentFormValidator = newCommentFormValidator;
@@ -157,7 +157,7 @@ public class CommentController {
 		}
 
 		comment.dropReports(user);
-		mav.setViewName("redirect:/app/comment/reported");
+		mav.setViewName("redirect:/app/comments/reported");
 		return mav;
 	}
 
@@ -169,9 +169,11 @@ public class CommentController {
 		User user = getLoggedUserFromSession(session);
 
 		if (comment != null && user != null && user.isAdmin()) {
-			user.removeComment(comment);
+			comments.remove(user, comment);
+			mav.setViewName("redirect:/app/comments/reported");
+		} else {
+			mav.setViewName("redirect:/app/home");
 		}
-		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
 
