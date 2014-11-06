@@ -8,8 +8,8 @@
 	<div class="row">
 		<div class="col-lg-6">
 			<c:if test="${not empty movie and user.admin}">
-				<form:form role="form" action="app/movies/edit" method="post"
-					commandName="movieForm">
+				<form:form role="form" enctype="multipart/form-data"
+					action="app/movies/edit" method="post" commandName="movieForm">
 					<div class="form-group">
 						<label for="title">Enter title</label>
 						<div class="input-group">
@@ -53,7 +53,7 @@
 						<label for="genres">Enter Genres</label>
 						<div class="input-group">
 							<form:input type="text" path="genres" class="form-control"
-								name="genres" id="genres" value="${movie.genres}" />
+								name="genres" id="genres" />
 							<span class="input-group-addon"><span
 								class="glyphicon glyphicon-asterisk"></span> Required</span>
 						</div>
@@ -73,23 +73,34 @@
 					<div class="form-group">
 						<label for="releaseDate">Enter Release Date</label>
 						<form:input type="text" name="releaseDate" path="releaseDate"
-							id="movieDatepicker" value="${movie.releaseDate}" />
+							id="movieDatepicker" />
 						<form:errors path="releaseDate">
 							<div class="alert alert-danger" role="alert">Invalid
 								Release Date</div>
 						</form:errors>
 					</div>
 					<div class="form-group">
-						<div class="profile_pic_container">
-							<img alt="${movie.title}"
+						<div class="picture_container">
+							<label for="actualPicture">Actual Picture</label> <img
+								alt="${movie.title}" id="actualPicture"
 								class="profile_image img-circle"
 								src="app/movies/getMoviePicture?movie=${movie.id}" />
 						</div>
+						<%-- <form role="form"
+							action="app/movies/removePicture?movie=${movie.id}" method="post"
+							commandName="remove">
+							<input type="submit" name="delete" id="delete"
+								value="delete picture" class="btn btn-primary ">
+						</form> --%>
+					</div>
+					<div class="form-group">
 						<label for="picture">Enter another picture</label>
 						<form:input type="file" path="picture" />
+						<form:checkbox path="deletePicture"/>
+						Just delete the actual picture
 					</div>
 					<input type="submit" name="submit" id="submit" value="Submit"
-						class="btn btn-primary pull-right">
+						class="btn btn-primary pull-right" />
 				</form:form>
 			</c:if>
 		</div>

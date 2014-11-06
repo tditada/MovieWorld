@@ -95,6 +95,20 @@ public class MoviesController {
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
+	
+//	@RequestMapping(value = "/removePicture", method = RequestMethod.POST)
+//	public ModelAndView removePicture(@RequestParam Movie movie,
+//			HttpSession session) {
+//		ModelAndView mav = new ModelAndView();
+//		User user = getLoggedUserFromSession(session);
+//
+//		if (movie != null && user != null && user.isAdmin()) {
+//			movie.removePicture();
+//		}
+//
+//		mav.setViewName("redirect:/app/movies/edit?movie="+movie.getId());
+//		return mav;
+//	}
 
 	@RequestMapping(value = "edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam(required = false) Movie movie,
@@ -110,7 +124,10 @@ public class MoviesController {
 		saveMovieInSession(session, movie);
 		mav.addObject(USER_ID, user);
 		mav.addObject(MOVIE_ID, movie);
-		mav.addObject("movieForm", new MovieForm());
+		MovieForm form = new MovieForm();
+		form.setGenres(movie.getGenres()); 
+		form.setReleaseDate(movie.getReleaseDate());
+		mav.addObject("movieForm", form);
 		mav.setViewName("movies/edit");
 		return mav;
 	}
@@ -130,7 +147,9 @@ public class MoviesController {
 		// TODO: editMovieFormValidator
 		movieFormValidator.validate(movieForm, errors);
 		if (errors.hasErrors()) {
-			mav.setViewName("edit");
+			mav.addObject(USER_ID, user);
+			mav.addObject(MOVIE_ID,movie);
+			mav.setViewName("movies/edit");
 			return mav;
 		}
 
@@ -140,17 +159,22 @@ public class MoviesController {
 		movie.setDirector(movieForm.getDirector());
 		movie.setSummary(movieForm.getSummary());
 		movie.setRuntimeInMins(movieForm.getRuntimeInMins());
+		if(movieForm.getPicture()!=null){
+			movie.setPicture(movieForm.getPicture().getBytes());
+		}
+		if(movieForm.isDeletePicture()){
+			movie.removePicture();
+		}
 
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
 	
 	@RequestMapping(value="getMoviePicture", method=RequestMethod.GET)
-	public void getMoviePicture(@RequestParam(required=false) Movie movie,HttpServletRequest req, HttpServletResponse resp) throws IOException{
+	public void getMoviePicture(@RequestParam Movie movie,HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		if (movie == null) {
-			System.out.println("movie null");
 //			req.setAttribute("errorDescription",
-//					"Error: Se debe especificar un nombre de usuario.");
+//					"Error: blah");
 //			req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req,
 //					resp);
 			return;
@@ -158,7 +182,7 @@ public class MoviesController {
 		byte[] img = movies.findById(movie.getId()).getPicture();
 		if (img == null || img.length == 0) {
 			System.out.println("no image");
-//			resp.sendRedirect("../../img/profile-standard.png");
+//			resp.sendRedirect("../../img/picture-standard.png");
 			return;
 		}
 		resp.setContentType("image/*");

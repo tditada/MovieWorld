@@ -11,7 +11,6 @@ import static org.joda.time.DateTime.now;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -94,9 +93,8 @@ public class Movie extends PersistentEntity {
 		setDirector(director);
 		setRuntimeInMins(runtimeInMins);
 		setSummary(summary);
-		
-		this.picture=new ImageWrapper();
-		this.picture.setImage(picture); //si es null lo setea en null		
+		setPicture(picture);
+//		this.picture.setImage(picture); //si es null lo setea en null		
 		this.creationDate = now();
 		this.totalScore = 0;
 	}
@@ -149,8 +147,8 @@ public class Movie extends PersistentEntity {
 		return title;
 	}
 
-	public Set<MovieGenre> getGenres() {
-		return Collections.unmodifiableSet(genres);
+	public SortedSet<MovieGenre> getGenres() {
+		return Collections.unmodifiableSortedSet(genres);
 	}
 
 	public boolean isCommentableBy(User user) {
@@ -194,10 +192,16 @@ public class Movie extends PersistentEntity {
 	}
 	
 	public void setPicture(byte[] picture){
-		if(this.picture==null){
+		if(picture.length==0){
+			return;
+		}else if(this.picture==null){
 			this.picture=new ImageWrapper();
 		}
 		this.picture.setImage(picture);
+	}
+	
+	public void removePicture(){
+		this.picture=null;
 	}
 	
 	public void setTitle(String title) {

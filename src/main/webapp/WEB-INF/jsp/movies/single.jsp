@@ -23,6 +23,15 @@
 		</div>
 		<div class="panel-body">
 			<dl class="dl-horizontal">
+				<c:if test="${not empty movie.picture }">
+					<dt>Picture</dt>
+					<dd>
+						<img
+							alt="${movie.title}" id="actualPicture"
+							class="profile_image img-circle"
+							src="app/movies/getMoviePicture?movie=${movie.id}" />
+					</dd>
+				</c:if>
 				<dt>Genres</dt>
 				<dd class="text-capitalize">
 					<c:forEach items="${movie.genres}" var="genre" varStatus="status">
@@ -57,8 +66,8 @@
 							<span class="glyphicon glyphicon-star-empty"></span>
 						</c:forEach>
 					</c:if>
-					<small> <c:out value="(${movie.averageScore.value}/5)" /> <c:out
-							value=" for ${movie.totalComments} comments"></c:out></small>
+					<small> <c:out value="(${movie.averageScore.value}/5)" />
+						<c:out value=" for ${movie.totalComments} comments"></c:out></small>
 				</dd>
 				<dt>Summary</dt>
 				<dd>
@@ -70,7 +79,7 @@
 
 		</div>
 	</div>
-	<%@include file="singleCommentPanel.jsp" %>
+	<%@include file="singleCommentPanel.jsp"%>
 	<c:if test="${not empty user && ableToComment}">
 		<div class="panel panel-default">
 			<div class="panel-heading">

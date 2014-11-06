@@ -17,8 +17,10 @@ public class MovieForm {
 	private int runtimeInMins;
 	private DateTime releaseDate;
 	private CommonsMultipartFile picture;
+	private boolean deletePicture;
 
 	public MovieForm() {
+		deletePicture=false;
 	}
 
 	public String getTitle() {
@@ -81,6 +83,14 @@ public class MovieForm {
 
 	public void setPicture(CommonsMultipartFile picture) {
 		this.picture = picture;
+	}
+
+	public boolean isDeletePicture() {
+		return deletePicture;
+	}
+
+	public void setDeletePicture(boolean deletePicture) {
+		this.deletePicture = deletePicture;
 	}
 
 }

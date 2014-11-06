@@ -39,10 +39,10 @@ public class MovieFormValidator implements Validator {
 		}
 		
 		CommonsMultipartFile item = form.getPicture();	
-		if (!item.getContentType().startsWith("image")) {
+		if (!item.isEmpty() && !item.getContentType().startsWith("image")) {
 			errors.rejectValue(PICTURE_ID,"Invalid image type");
 		}
-		if (item.getSize() > PICTURE_MAX_SIZE) {
+		if (!item.isEmpty() && item.getSize() > PICTURE_MAX_SIZE) {
 			errors.rejectValue(PICTURE_ID,"Invalid image size, it should be smaller");
 		}
 

@@ -81,20 +81,13 @@
 					</div>
 					<div class="form-group">
 						<label for="picture">Enter a picture</label>
-						<%-- <form:form method="POST" enctype="multipart/form-data"
-							action="editprofilepicture" commandName="editProfilePictureForm"> --%>
-						<%-- <form:errors path="*" cssClass="label label-important" /> --%>
 						<form:input type="file" path="picture" />
-						<!-- <button type="submit" class="btn btn-primary btn-mini">
-							<i class="icon-folder-open icon-white"></i> Editar imagen
-						</button> -->
-				<%-- </form:form> --%>
+					</div>
+					<input type="submit" name="submit" id="submit" value="Submit"
+						class="btn btn-primary pull-right">
+				</form:form>
+			</c:if>
 		</div>
-		<input type="submit" name="submit" id="submit" value="Submit"
-			class="btn btn-primary pull-right">
-		</form:form>
-		</c:if>
 	</div>
-</div>
 </div>
 <%@ include file="../footer.jsp"%>
