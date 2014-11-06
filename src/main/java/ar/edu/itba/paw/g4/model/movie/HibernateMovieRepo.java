@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.AbstractHibernateRepo;
+import ar.edu.itba.paw.g4.model.genre.Genre;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 @Repository
@@ -31,12 +32,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 
 	@Override
 	public void save(Movie movie) {
-		// TODO: Revisar que la pelicula no exista ya en la BD
-
-		for (MovieGenre genre : movie.getGenres()) {
-			super.save(genre);
-		}
-
+		checkArgument(movie, notNull());
 		super.save(movie);
 	}
 
@@ -48,9 +44,9 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	}
 
 	@Override
-	public List<Movie> findAllByGenre(MovieGenre genre) {
+	public List<Movie> findAllByGenre(Genre genre) {
 		checkArgument(genre, notNull());
-		return find("from Movie m join m.genres g with (g =?)", genre);
+		return find("from Movie movie where ? member of movie.genres", genre);
 	}
 
 	@Override
@@ -94,18 +90,6 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	public List<Movie> findTopMovies(int quantity) {
 		checkArgument(quantity > 0);
 		return find("from Movie order by totalScore desc limit " + quantity);
-		// TODO: check!
-		// List<Movie> movies =
-		// movieDAO.getAllInOrderByTotalScore(Orderings.DESC);
-		// List<Movie> topMovies = from(movies).toSortedList(
-		// new Comparator<Movie>() {
-		// @Override
-		// public int compare(Movie movie1, Movie movie2) {
-		// return movie2.getAverageScore()
-		// - movie1.getAverageScore();
-		// }
-		// }).subList(0, quantity);
-		// return topMovies;
 	}
 
 	@Override
@@ -120,25 +104,8 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 
 	@Override
 	public void remove(Movie movie) {
+		checkArgument(movie, notNull());
 		super.remove(movie);
 	}
-
-	@Override
-	public List<MovieGenre> findAllGenresOrderedByName(Orderings ordering) {
-		checkArgument(ordering, notNull());
-		return find("from MovieGenre genre order by genre.name "
-				+ asHQLOrdering(ordering));
-	}
-
-	// @Override
-	// public MovieGenre findGenreByName(String name) { // TODO:check!
-	// checkArgument(name, notNull());
-	// List<MovieGenre> genres = find(
-	// "from MovieGenre genre where genre.name=?", name);
-	// if (genres.isEmpty()) {
-	// return null;
-	// }
-	// return genres.get(0);
-	// }
 
 }

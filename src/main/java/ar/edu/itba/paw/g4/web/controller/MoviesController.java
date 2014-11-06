@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.itba.paw.g4.model.genre.Genre;
+import ar.edu.itba.paw.g4.model.genre.GenreRepo;
 import ar.edu.itba.paw.g4.model.movie.Director;
 import ar.edu.itba.paw.g4.model.movie.Movie;
-import ar.edu.itba.paw.g4.model.movie.MovieGenre;
 import ar.edu.itba.paw.g4.model.movie.MovieRepo;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.model.user.UserRepo;
@@ -46,13 +47,15 @@ public class MoviesController {
 
 	private MovieRepo movies;
 	private UserRepo users;
+	private GenreRepo genres;
 	private MovieFormValidator movieFormValidator;
 
 	@Autowired
-	MoviesController(MovieRepo movies, UserRepo users,
+	MoviesController(MovieRepo movies, UserRepo users, GenreRepo genres,
 			MovieFormValidator movieFormValidator) {
 		this.users = users;
 		this.movies = movies;
+		this.genres = genres;
 		this.movieFormValidator = movieFormValidator;
 	}
 
@@ -207,7 +210,7 @@ public class MoviesController {
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public ModelAndView list(
-			@RequestParam(value = "genre", required = false) MovieGenre genre,
+			@RequestParam(value = "genre", required = false) Genre genre,
 			@RequestParam(value = "director", required = false) Director director,
 			HttpSession session) {
 		List<Movie> movieList;
@@ -220,8 +223,7 @@ public class MoviesController {
 		}
 		List<Director> directors = movies
 				.findAllDirectorsOrderedByName(Orderings.ASC);
-		List<MovieGenre> genres = movies
-				.findAllGenresOrderedByName(Orderings.ASC);
+		List<Genre> genres = this.genres.findAllOrderedByName(Orderings.ASC);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject(GENRES_ID, genres);

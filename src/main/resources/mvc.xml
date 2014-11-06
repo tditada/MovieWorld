@@ -35,8 +35,8 @@
 				<ref bean="directorFormatter" />
 				<ref bean="emailFormatter" />
 				<ref bean="movieFormatter" />
-				<ref bean="movieGenreFormatter" />
-				<ref bean="movieGenreSetFormatter" />
+				<ref bean="genreFormatter" />
+				<ref bean="genreSortedSetFormatter" />
 				<ref bean="nonArtisticNameFormatter" />
 				<ref bean="passwordFormatter" />
 				<ref bean="scoreFormatter" />

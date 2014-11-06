@@ -36,6 +36,7 @@ import org.joda.time.Interval;
 import ar.edu.itba.paw.g4.model.ImageWrapper;
 import ar.edu.itba.paw.g4.model.Score;
 import ar.edu.itba.paw.g4.model.comment.Comment;
+import ar.edu.itba.paw.g4.model.genre.Genre;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
@@ -59,7 +60,7 @@ public class Movie extends PersistentEntity {
 
 	@Sort(type = SortType.NATURAL)
 	@ManyToMany(cascade = CascadeType.ALL)
-	private SortedSet<MovieGenre> genres; // a movie can have many different
+	private SortedSet<Genre> genres; // a movie can have many different
 											// genres and a genre can have many
 											// different movies
 
@@ -88,8 +89,9 @@ public class Movie extends PersistentEntity {
 
 	@GeneratePojoBuilder
 	public Movie(DateTime releaseDate, String title,
-			SortedSet<MovieGenre> genres, Director director, int runtimeInMins,
+			SortedSet<Genre> genres, Director director, int runtimeInMins,
 			String summary, byte[] picture) {
+
 		setTitle(title);
 		setReleaseDate(releaseDate);
 		setGenres(genres);
@@ -129,7 +131,7 @@ public class Movie extends PersistentEntity {
 		return title;
 	}
 
-	public SortedSet<MovieGenre> getGenres() {
+	public SortedSet<Genre> getGenres() {
 		return Collections.unmodifiableSortedSet(genres);
 	}
 	
@@ -176,7 +178,7 @@ public class Movie extends PersistentEntity {
 		this.director = director;
 	}
 
-	public void setGenres(SortedSet<MovieGenre> genres) {
+	public void setGenres(SortedSet<Genre> genres) {
 		checkArgument(genres, notNull(), notEmptyColl());
 		this.genres = genres;
 	}
