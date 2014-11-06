@@ -22,6 +22,15 @@
 		</div>
 		<div class="panel-body">
 			<dl class="dl-horizontal">
+				<c:if test="${not empty movie.picture }">
+					<dt>Picture</dt>
+					<dd>
+						<img
+							alt="${movie.title}" id="actualPicture"
+							class="profile_image img-circle"
+							src="app/movies/getMoviePicture?movie=${movie.id}" />
+					</dd>
+				</c:if>
 				<dt>Genres</dt>
 				<dd class="text-capitalize">
 					<c:forEach items="${movie.genres}" var="genre" varStatus="status">

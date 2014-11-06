@@ -8,8 +8,8 @@
 	<div class="row">
 		<div class="col-lg-6">
 			<c:if test="${user.admin}">
-				<form:form role="form" action="app/movies/insert" method="post"
-					commandName="movieForm">
+				<form:form role="form" enctype="multipart/form-data"
+					action="app/movies/insert" method="post" commandName="movieForm">
 					<div class="form-group">
 						<label for="title">Enter title</label>
 						<div class="input-group">
@@ -78,6 +78,10 @@
 							<div class="alert alert-danger" role="alert">Invalid
 								release date</div>
 						</form:errors>
+					</div>
+					<div class="form-group">
+						<label for="picture">Enter a picture</label>
+						<form:input type="file" path="picture" />
 					</div>
 					<input type="submit" name="submit" id="submit" value="Submit"
 						class="btn btn-primary pull-right">

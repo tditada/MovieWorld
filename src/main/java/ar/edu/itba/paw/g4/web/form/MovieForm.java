@@ -3,6 +3,7 @@ package ar.edu.itba.paw.g4.web.form;
 import java.util.SortedSet;
 
 import org.joda.time.DateTime;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import ar.edu.itba.paw.g4.model.genre.Genre;
 import ar.edu.itba.paw.g4.model.movie.Director;
@@ -15,8 +16,11 @@ public class MovieForm {
 	private SortedSet<Genre> genres;
 	private int runtimeInMins;
 	private DateTime releaseDate;
+	private CommonsMultipartFile picture;
+	private boolean deletePicture;
 
 	public MovieForm() {
+		deletePicture=false;
 	}
 
 	public String getTitle() {
@@ -70,7 +74,23 @@ public class MovieForm {
 	public Movie build() {
 		return Movie.builder().withDirector(director).withGenres(genres)
 				.withReleaseDate(releaseDate).withRuntimeInMins(runtimeInMins)
-				.withSummary(summary).withTitle(title).build();
+				.withSummary(summary).withTitle(title).withPicture(picture.getBytes()).build();
+	}
+
+	public CommonsMultipartFile getPicture() {
+		return picture;
+	}
+
+	public void setPicture(CommonsMultipartFile picture) {
+		this.picture = picture;
+	}
+
+	public boolean isDeletePicture() {
+		return deletePicture;
+	}
+
+	public void setDeletePicture(boolean deletePicture) {
+		this.deletePicture = deletePicture;
 	}
 
 }

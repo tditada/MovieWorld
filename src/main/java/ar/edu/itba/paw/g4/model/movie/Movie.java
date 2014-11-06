@@ -11,7 +11,6 @@ import static org.joda.time.DateTime.now;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -34,6 +33,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import ar.edu.itba.paw.g4.model.ImageWrapper;
 import ar.edu.itba.paw.g4.model.Score;
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.genre.Genre;
@@ -44,8 +44,8 @@ import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 @Table(name = "movies", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"title", "director" }))
 public class Movie extends PersistentEntity {
-	static final int DAYS_AS_RELEASE = 6;
-	private static final int MAX_TITLE_LENGTH = 255;
+	public static final int DAYS_AS_RELEASE = 6;
+	public static final int MAX_TITLE_LENGTH = 255;
 
 	@Column(nullable = false, length = MAX_TITLE_LENGTH)
 	private String title; // artistic name for movie, so no special rules (other
@@ -80,44 +80,28 @@ public class Movie extends PersistentEntity {
 	@Sort(type = SortType.NATURAL)
 	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
 	private SortedSet<Comment> comments = new TreeSet<Comment>();
+	
+	@Embedded
+	private ImageWrapper picture;
 
 	Movie() {
 	}
 
 	@GeneratePojoBuilder
-	public Movie(DateTime releaseDate, String title, SortedSet<Genre> genres,
-			Director director, int runtimeInMins, String summary) {
+	public Movie(DateTime releaseDate, String title,
+			SortedSet<Genre> genres, Director director, int runtimeInMins,
+			String summary, byte[] picture) {
 		setTitle(title);
 		setReleaseDate(releaseDate);
 		setGenres(genres);
 		setDirector(director);
 		setRuntimeInMins(runtimeInMins);
 		setSummary(summary);
-
+		setPicture(picture);
 		this.creationDate = now();
 		this.totalScore = 0;
 	}
 
-	public void addComment(Comment comment) {
-		checkArgument(comment, notNull());
-		checkArgument(this.equals(comment.getMovie()));
-
-		if (comments.contains(comment)) {
-			// this will only happen when addComment is called in a
-			// callback
-			return;
-		}
-
-		User user = comment.getUser();
-		if (!isCommentableBy(user)) {
-			throw new IllegalArgumentException();
-		}
-
-		comments.add(comment);
-		this.totalScore += comment.getMovieScore().getValue();
-
-		user.addComment(comment);
-	}
 
 	public int getTotalComments() {
 		return comments.size();
@@ -146,46 +130,42 @@ public class Movie extends PersistentEntity {
 		return title;
 	}
 
-	public Set<Genre> getGenres() {
-		return Collections.unmodifiableSet(genres);
+	public SortedSet<Genre> getGenres() {
+		return Collections.unmodifiableSortedSet(genres);
 	}
-
-	public boolean isCommentableBy(User user) {
-		checkArgument(user, notNull());
-		if (releaseDate.isAfterNow()) {
-			return false;
-		}
-		for (Comment comment : comments) {
-			if (comment.getUser().equals(user)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public boolean isRelease() {
-		DateTime now = DateTime.now();
-		Interval releaseInterval = new Interval(now.minusDays(DAYS_AS_RELEASE),
-				now);
-		return releaseInterval.contains(releaseDate);
-	}
-
+	
 	public Director getDirector() {
 		return director;
 	}
-
+	
 	public int getRuntimeInMins() {
 		return runtimeInMins;
 	}
-
+	
 	public String getSummary() {
 		return summary;
 	}
-
+	
 	public DateTime getReleaseDate() {
 		return releaseDate;
 	}
-
+	
+	public byte[] getPicture(){
+		return (picture==null)?null:picture.getImage();
+	}
+	
+	public void setPicture(byte[] picture){
+		if(picture==null){ //esto sería que no haya imagen, es válido
+			return;
+		}else if(picture.length==0){ //levantas una imagen pero está vacía
+			return;
+		}
+		else if(this.picture==null){
+			this.picture=new ImageWrapper();
+		}
+		this.picture.setImage(picture);
+	}
+	
 	public void setTitle(String title) {
 		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(title.length() <= MAX_TITLE_LENGTH);
@@ -217,20 +197,65 @@ public class Movie extends PersistentEntity {
 		this.runtimeInMins = runtimeInMins;
 	}
 
+	public boolean isRelease() {
+		DateTime now = DateTime.now();
+		Interval releaseInterval = new Interval(now.minusDays(DAYS_AS_RELEASE),
+				now);
+		return releaseInterval.contains(releaseDate);
+	}
+
+	public void removePicture() {
+		this.picture = null;
+	}
+
+	public boolean isCommentableBy(User user) {
+		checkArgument(user, notNull());
+		if (releaseDate.isAfterNow()) {
+			return false;
+		}
+		for (Comment comment : getComments()) {
+			if (comment.getUser().equals(user)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void addComment(Comment comment) {
+		checkArgument(comment, notNull());
+		checkArgument(this.equals(comment.getMovie()));
+		
+		if (comments.contains(comment)) {
+			// this will only happen when addComment is called in a
+			// callback
+			return;
+		}
+		
+		User user = comment.getUser();
+		if (!isCommentableBy(user)) {
+			throw new IllegalArgumentException();
+		}
+		
+		comments.add(comment);
+		this.totalScore += comment.getMovieScore().getValue();
+		
+		user.addComment(comment);
+	}
+	
 	public void removeComment(User admin, Comment comment) {
 		checkArgument(admin, notNull());
 		checkArgument(comment, notNull());
 		checkArgument(admin.isAdmin());
-
+		
 		if (!comments.contains(comment)) {
 			// this will only happen when removeComment is called in a
 			// callback
 			return;
 		}
-
+		
 		comments.remove(comment);
 		this.totalScore -= comment.getMovieScore().getValue();
-
+		
 		admin.removeComment(comment);
 	}
 
