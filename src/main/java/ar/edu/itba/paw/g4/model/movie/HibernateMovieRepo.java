@@ -32,12 +32,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 
 	@Override
 	public void save(Movie movie) {
-		// TODO: Revisar que la pelicula no exista ya en la BD
-
-		for (Genre genre : movie.getGenres()) {
-			super.save(genre);
-		}
-
+		checkArgument(movie, notNull());
 		super.save(movie);
 	}
 
@@ -95,18 +90,6 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	public List<Movie> findTopMovies(int quantity) {
 		checkArgument(quantity > 0);
 		return find("from Movie order by totalScore desc limit " + quantity);
-		// TODO: check!
-		// List<Movie> movies =
-		// movieDAO.getAllInOrderByTotalScore(Orderings.DESC);
-		// List<Movie> topMovies = from(movies).toSortedList(
-		// new Comparator<Movie>() {
-		// @Override
-		// public int compare(Movie movie1, Movie movie2) {
-		// return movie2.getAverageScore()
-		// - movie1.getAverageScore();
-		// }
-		// }).subList(0, quantity);
-		// return topMovies;
 	}
 
 	@Override
@@ -121,6 +104,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 
 	@Override
 	public void remove(Movie movie) {
+		checkArgument(movie, notNull());
 		super.remove(movie);
 	}
 
