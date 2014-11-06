@@ -9,10 +9,10 @@ import java.util.SortedSet;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
+import ar.edu.itba.paw.g4.model.genre.Genre;
 import ar.edu.itba.paw.g4.model.movie.Director;
 import ar.edu.itba.paw.g4.model.movie.Movie;
 import ar.edu.itba.paw.g4.model.movie.MovieBuilder;
-import ar.edu.itba.paw.g4.model.movie.MovieGenre;
 import ar.edu.itba.paw.g4.model.user.User;
 
 public class MovieTest {
@@ -94,7 +94,7 @@ public class MovieTest {
 	private MovieBuilder getDefaultMovieBuilder() {
 		String title = "title";
 		DateTime releaseDate = new DateTime(currentTimeMillis() - 30000);
-		SortedSet<MovieGenre> genres = (SortedSet<MovieGenre>) mock(SortedSet.class);
+		SortedSet<Genre> genres = (SortedSet<Genre>) mock(SortedSet.class);
 		Director director = mock(Director.class);
 		String summary = "summary";
 		int runtimeInMins=1;
