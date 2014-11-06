@@ -34,6 +34,7 @@ import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 @Entity
 @Table(name = "comments")
 public class Comment extends PersistentEntity implements Comparable<Comment> {
+	@Type(type = "text")
 	@Check(constraints = "length(text) > 0")
 	@Column(nullable = false)
 	private String text;
