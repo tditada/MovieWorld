@@ -113,8 +113,9 @@
 				</div>
 			</c:when>
 			<c:when test="${not empty user && not ableToComment}">
-				<div class="panel-body">It seems you can't comment. Maybe
-					you already comment here or this film isn't released yet?</div>
+				<div class="panel-body">It seems you can't comment on this
+					movie. Maybe you already commented here or this film hasn't been
+					released yet?</div>
 			</c:when>
 		</c:choose>
 	</div>
