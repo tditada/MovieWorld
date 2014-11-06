@@ -513,11 +513,13 @@ insert into users(id, firstName, lastName, email, password, birthdate, admin)
 insert into movies(id,title,creationdate,releasedate, director,runtimeinmins,summary,totalscore,image)
     select movieId,title,creationDate,releaseDate,directorName,runtimeMins,summary,totalScore, null from __movies;
 
--- GENEROS
+-- GENRES Y MOVIES_GENRES
+insert into genres(name) select DISTINCT genres[1] from __movies;
+
+--insert into movies_genres(movies_id,genres_id)
 
 insert into comments(id,creationdate,score,text,totalcommentscore,totalreports,movie_id,user_id)
     select commentId, creationDate, score, txt, 0, 0, movieId, userId from __comments;
-
 
 -- drop all tables along with its segquences
 DROP TABLE __movies CASCADE;
