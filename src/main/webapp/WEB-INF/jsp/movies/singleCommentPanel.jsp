@@ -97,6 +97,16 @@
 							</c:if>
 						</dd>
 					</c:if>
+					<c:if test="${user.admin}">
+						<dt>Delete this comment</dt>
+						<dd>
+							<form role="form" action="app/comments/remove" method="post">
+								<input type="hidden" name="comment" id="comment"
+									value="${comment.id}" /> <input type="submit" name="delete"
+									id="delete" value="Delete" class="btn btn-primary">
+							</form>
+						</dd>
+					</c:if>
 				</c:if>
 			</dl>
 		</div>

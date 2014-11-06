@@ -4,15 +4,15 @@ import java.util.SortedSet;
 
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.g4.model.genre.Genre;
 import ar.edu.itba.paw.g4.model.movie.Director;
 import ar.edu.itba.paw.g4.model.movie.Movie;
-import ar.edu.itba.paw.g4.model.movie.MovieGenre;
 
 public class MovieForm {
 	private String title;
 	private Director director;
 	private String summary;
-	private SortedSet<MovieGenre> genres;
+	private SortedSet<Genre> genres;
 	private int runtimeInMins;
 	private DateTime releaseDate;
 
@@ -43,11 +43,11 @@ public class MovieForm {
 		this.summary = summary;
 	}
 
-	public SortedSet<MovieGenre> getGenres() {
+	public SortedSet<Genre> getGenres() {
 		return genres;
 	}
 
-	public void setGenres(SortedSet<MovieGenre> genres) {
+	public void setGenres(SortedSet<Genre> genres) {
 		this.genres = genres;
 	}
 

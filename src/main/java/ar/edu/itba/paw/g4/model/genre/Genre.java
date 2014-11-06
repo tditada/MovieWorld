@@ -1,9 +1,9 @@
-package ar.edu.itba.paw.g4.model.movie;
+package ar.edu.itba.paw.g4.model.genre;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
-import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.*;
+import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
 
 import javax.persistence.Column;
@@ -16,20 +16,18 @@ import org.hibernate.annotations.Check;
 import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 
 @Entity
-@Table(name = "movieGenres", uniqueConstraints = @UniqueConstraint(columnNames = { "name" }))
-public class MovieGenre extends PersistentEntity implements
-		Comparable<MovieGenre> {
+@Table(name = "genres", uniqueConstraints = @UniqueConstraint(columnNames = { "name" }))
+public class Genre extends PersistentEntity implements Comparable<Genre> {
 	private static final int MAX_GENRE_LENGTH = 25;
 
-	@Check(constraints = "(length(name) > 0" + " and " + "length(name) <="
-			+ MAX_GENRE_LENGTH + ")")
-	@Column(nullable = false)
+	@Check(constraints = "length(name) > 0")
+	@Column(nullable = false, length = MAX_GENRE_LENGTH)
 	private String name;
 
-	MovieGenre() {
+	Genre() {
 	}
 
-	public MovieGenre(String name) {
+	public Genre(String name) {
 		checkArgument(name, neitherNullNorEmpty());
 		checkArgument(name.length() <= MAX_GENRE_LENGTH);
 		this.name = name;
@@ -40,7 +38,7 @@ public class MovieGenre extends PersistentEntity implements
 	}
 
 	@Override
-	public int compareTo(MovieGenre other) {
+	public int compareTo(Genre other) {
 		return name.compareTo(other.name);
 	}
 
@@ -60,7 +58,7 @@ public class MovieGenre extends PersistentEntity implements
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		MovieGenre other = (MovieGenre) obj;
+		Genre other = (Genre) obj;
 		return areEqual(this.name, other.name);
 	}
 

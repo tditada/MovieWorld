@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.itba.paw.g4.model.AbstractHibernateRepo;
+import ar.edu.itba.paw.g4.model.genre.Genre;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 @Repository
@@ -33,7 +34,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	public void save(Movie movie) {
 		// TODO: Revisar que la pelicula no exista ya en la BD
 
-		for (MovieGenre genre : movie.getGenres()) {
+		for (Genre genre : movie.getGenres()) {
 			super.save(genre);
 		}
 
@@ -48,9 +49,9 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	}
 
 	@Override
-	public List<Movie> findAllByGenre(MovieGenre genre) {
+	public List<Movie> findAllByGenre(Genre genre) {
 		checkArgument(genre, notNull());
-		return find("from Movie m join m.genres g with (g =?)", genre);
+		return find("from Movie movie where ? member of movie.genres", genre);
 	}
 
 	@Override
@@ -122,23 +123,5 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	public void remove(Movie movie) {
 		super.remove(movie);
 	}
-
-	@Override
-	public List<MovieGenre> findAllGenresOrderedByName(Orderings ordering) {
-		checkArgument(ordering, notNull());
-		return find("from MovieGenre genre order by genre.name "
-				+ asHQLOrdering(ordering));
-	}
-
-	// @Override
-	// public MovieGenre findGenreByName(String name) { // TODO:check!
-	// checkArgument(name, notNull());
-	// List<MovieGenre> genres = find(
-	// "from MovieGenre genre where genre.name=?", name);
-	// if (genres.isEmpty()) {
-	// return null;
-	// }
-	// return genres.get(0);
-	// }
 
 }

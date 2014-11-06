@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.g4.model.genre.Genre;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 public interface MovieRepo {
 	List<Movie> findAllByReleaseDate(Orderings ordering);
 
-	List<Movie> findAllByGenre(MovieGenre genre);
+	List<Movie> findAllByGenre(Genre genre);
 
 	List<Movie> findAllByDirector(Director director);
 
@@ -19,8 +20,6 @@ public interface MovieRepo {
 	List<Movie> findAllInOrderByTotalScore(Orderings ordering);
 
 	List<Director> findAllDirectorsOrderedByName(Orderings ordering);
-
-	List<MovieGenre> findAllGenresOrderedByName(Orderings ordering);
 
 	Movie findById(int id);
 
@@ -34,5 +33,4 @@ public interface MovieRepo {
 
 	void remove(Movie movie);
 
-	// TODO: MovieGenre findGenreByName(String name);
 }
