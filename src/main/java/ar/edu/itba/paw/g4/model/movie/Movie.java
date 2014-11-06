@@ -2,7 +2,6 @@ package ar.edu.itba.paw.g4.model.movie;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
-import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notEmptyColl;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
@@ -34,6 +33,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import ar.edu.itba.paw.g4.model.ImageWrapper;
 import ar.edu.itba.paw.g4.model.Score;
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.user.User;
@@ -77,6 +77,9 @@ public class Movie extends PersistentEntity {
 	@Sort(type = SortType.NATURAL)
 	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
 	private SortedSet<Comment> comments = new TreeSet<Comment>();
+	
+	@Embedded
+	private ImageWrapper picture;
 
 	Movie() {
 	}
@@ -184,6 +187,17 @@ public class Movie extends PersistentEntity {
 		return releaseDate;
 	}
 
+	public byte[] getPicture(){
+		return (picture==null)?null:picture.getImage();
+	}
+	
+	public void setPicture(byte[] picture){
+		if(this.picture==null){
+			this.picture=new ImageWrapper();
+		}
+		this.picture.setImage(picture);
+	}
+	
 	public void setTitle(String title) {
 		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(title.length() <= MAX_TITLE_LENGTH);

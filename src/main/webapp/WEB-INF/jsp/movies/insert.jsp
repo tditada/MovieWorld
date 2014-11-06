@@ -8,8 +8,8 @@
 	<div class="row">
 		<div class="col-lg-6">
 			<c:if test="${user.admin}">
-				<form:form role="form" action="app/movies/insert" method="post"
-					commandName="movieForm">
+				<form:form role="form" enctype="multipart/form-data"
+					action="app/movies/insert" method="post" commandName="movieForm">
 					<div class="form-group">
 						<label for="title">Enter title</label>
 						<div class="input-group">
@@ -79,11 +79,22 @@
 								release date</div>
 						</form:errors>
 					</div>
-					<input type="submit" name="submit" id="submit" value="Submit"
-						class="btn btn-primary pull-right">
-				</form:form>
-			</c:if>
+					<div class="form-group">
+						<label for="picture">Enter a picture</label>
+						<%-- <form:form method="POST" enctype="multipart/form-data"
+							action="editprofilepicture" commandName="editProfilePictureForm"> --%>
+						<%-- <form:errors path="*" cssClass="label label-important" /> --%>
+						<form:input type="file" path="picture" />
+						<!-- <button type="submit" class="btn btn-primary btn-mini">
+							<i class="icon-folder-open icon-white"></i> Editar imagen
+						</button> -->
+				<%-- </form:form> --%>
 		</div>
+		<input type="submit" name="submit" id="submit" value="Submit"
+			class="btn btn-primary pull-right">
+		</form:form>
+		</c:if>
 	</div>
+</div>
 </div>
 <%@ include file="../footer.jsp"%>

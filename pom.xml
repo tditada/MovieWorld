@@ -187,6 +187,17 @@
 			<version>1.10.8</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- File upload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>MovieWorld</finalName>

@@ -40,7 +40,7 @@
 				<ref bean="nonArtisticNameFormatter" />
 				<ref bean="passwordFormatter" />
 				<ref bean="scoreFormatter" />
-				<ref bean="userFormatter"/>
+				<ref bean="userFormatter" />
 			</set>
 		</property>
 	</bean>
@@ -52,6 +52,14 @@
 
 	<bean
 		class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor" />
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+		<!-- setting maximum upload size -->
+		<property name="maxUploadSize" value="100000" />
+
+	</bean>
 
 	<!-- <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"> -->
 	<!-- <property name="basename" value="/WEB-INF/i18n/messages" /> -->
