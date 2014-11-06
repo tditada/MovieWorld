@@ -5,6 +5,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import ar.edu.itba.paw.g4.model.genre.Genre;
+import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
 public interface MovieRepo {
@@ -31,6 +32,6 @@ public interface MovieRepo {
 
 	List<Movie> findReleases();
 
-	void remove(Movie movie);
+	void remove(User admin, Movie movie);
 
 }

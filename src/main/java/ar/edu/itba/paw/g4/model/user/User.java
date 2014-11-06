@@ -55,7 +55,6 @@ public class User extends PersistentEntity {
 	@Column(nullable = false)
 	private DateTime birthDate;
 
-	// TODO: Agregar constraint de que haya UN solo admin
 	@Column(nullable = false)
 	private boolean admin;
 

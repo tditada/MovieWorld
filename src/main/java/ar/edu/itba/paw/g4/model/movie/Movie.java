@@ -59,10 +59,10 @@ public class Movie extends PersistentEntity {
 	private DateTime releaseDate;
 
 	@Sort(type = SortType.NATURAL)
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	private SortedSet<Genre> genres; // a movie can have many different
-											// genres and a genre can have many
-											// different movies
+										// genres and a genre can have many
+										// different movies
 
 	@Embedded
 	@AttributeOverride(name = "name", column = @Column(name = "director"))
@@ -85,9 +85,8 @@ public class Movie extends PersistentEntity {
 	}
 
 	@GeneratePojoBuilder
-	public Movie(DateTime releaseDate, String title,
-			SortedSet<Genre> genres, Director director, int runtimeInMins,
-			String summary) {
+	public Movie(DateTime releaseDate, String title, SortedSet<Genre> genres,
+			Director director, int runtimeInMins, String summary) {
 		setTitle(title);
 		setReleaseDate(releaseDate);
 		setGenres(genres);
