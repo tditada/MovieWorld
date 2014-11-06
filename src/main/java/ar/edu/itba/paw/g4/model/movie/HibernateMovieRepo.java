@@ -67,7 +67,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	@Override
 	public List<Movie> findNewAdditions(int quantity) {
 		checkArgument(quantity > 0);
-		return find("from Movie order by creationDate desc limit " + quantity);
+		return findFirstN(quantity, "from Movie order by creationDate desc");
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	@Override
 	public List<Movie> findTopMovies(int quantity) {
 		checkArgument(quantity > 0);
-		return find("from Movie order by totalScore desc limit " + quantity);
+		return findFirstN(quantity, "from Movie order by totalScore desc");
 	}
 
 	@Override

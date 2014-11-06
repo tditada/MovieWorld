@@ -39,6 +39,22 @@ public abstract class AbstractHibernateRepo {
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> List<T> findFirstN(int n, String hql, Object... params) {
+		checkArgument(hql, neitherNullNorEmpty());
+		Session session = getSession();
+
+		Query query = session.createQuery(hql);
+		for (int i = 0; i < params.length; i++) {
+			query.setParameter(i, params[i]);
+		}
+		query.setFirstResult(0);
+		query.setMaxResults(n);
+
+		List<T> list = query.list();
+		return list;
+	}
+
 	protected org.hibernate.classic.Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
