@@ -2,6 +2,7 @@ package ar.edu.itba.paw.g4.model.comment;
 
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.hash;
+import static ar.edu.itba.paw.g4.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.g4.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.g4.util.validation.Validations.checkArgument;
@@ -33,6 +34,7 @@ import ar.edu.itba.paw.g4.util.persist.PersistentEntity;
 @Entity
 @Table(name = "comments")
 public class Comment extends PersistentEntity implements Comparable<Comment> {
+	@Type(type = "text")
 	@Check(constraints = "length(text) > 0")
 	@Column(nullable = false)
 	private String text;
@@ -43,8 +45,6 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 
 	@ManyToMany
 	@JoinTable(name = "comment_scorers")
-	// @OneToMany
-	// @JoinColumn(name="scorer_id", referencedColumnName="id")
 	private Set<User> scorers = new HashSet<>();// a comment can be scored by
 												// many different users, and a
 												// user can score in
@@ -52,8 +52,6 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 
 	@ManyToMany
 	@JoinTable(name = "comment_reports")
-	// @OneToMany
-	// @JoinColumn(name = "reporting_user_id", referencedColumnName = "id")
 	private Set<User> reportingUsers = new HashSet<>(); // same idea as above
 
 	@Column(nullable = false)
@@ -174,14 +172,22 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 			return 0;
 		}
 
-		Integer comp = (Integer.valueOf(other.getAverageCommentScore()
-				.getValue())).compareTo(this.getAverageCommentScore()
-				.getValue());
-		if (comp == 0) {
-			return other.getUser().getFirstName().getNameString()
-					.compareTo(user.getFirstName().getNameString());
+		Integer comp = other.getAverageCommentScore().compareTo(
+				this.getAverageCommentScore());
+		if (comp != 0) {
+			return comp;
 		}
-		return comp;
+		comp = other.getUser().getEmail().getTextAddress()
+				.compareTo(user.getEmail().getTextAddress());
+		if (comp != 0) {
+			return comp;
+		}
+		comp = other.getMovie().getDirector().getName()
+				.compareTo(movie.getDirector().getName());
+		if (comp != 0) {
+			return comp;
+		}
+		return other.getMovie().getTitle().compareTo(movie.getTitle());
 	}
 
 	@Override
@@ -204,12 +210,9 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 
 	@Override
 	public String toString() {
-		// TODO
-		return "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-		// return toStringHelper(this).add("id", getId()).add("user", user)
-		// .add("movie", movie).add("score", movieScore).add("text", text)
-		// .add("creationDate", creationDate)
-		// .add("totalCommentScore", totalCommentScore).toString();
+		return toStringHelper(this).add("id", getId()).add("score", movieScore)
+				.add("text", text).add("creationDate", creationDate)
+				.add("totalCommentScore", totalCommentScore).toString();
 	}
 
 	public static CommentBuilder builder() {

@@ -13,7 +13,7 @@ import org.hibernate.annotations.Check;
 
 @Embeddable
 public class Director {
-	private static final int MAX_NAME_LENGTH = 70;
+	public static final int MAX_NAME_LENGTH = 70;
 
 	@Check(constraints = "length(name) > 0")
 	@Column(length = MAX_NAME_LENGTH, nullable = false)

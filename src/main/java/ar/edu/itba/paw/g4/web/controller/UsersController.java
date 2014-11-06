@@ -141,8 +141,6 @@ public class UsersController {
 	public ModelAndView userComments(@RequestParam(required = false) User user,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		// TODO: HiddenInterestingUserForm form = new
-		// HiddenInterestingUserForm();
 
 		User currentUser = getLoggedUserFromSession(session);
 		if (user == null || currentUser == null) {
@@ -151,7 +149,7 @@ public class UsersController {
 			return mav;
 		}
 		mav.addObject("isInterestingUser", currentUser.isinterestingUser(user));
-		// TODO: mav.addObject("addInterestingForm", form);
+		mav.addObject("addInterestingForm", new HiddenInterestingUserForm());
 		mav.addObject(COMMENTS_USER_ID, user);
 		mav.addObject(USER_ID, currentUser);
 		mav.setViewName("user/comments");

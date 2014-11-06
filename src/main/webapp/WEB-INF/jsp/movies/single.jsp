@@ -100,7 +100,6 @@
 							<label for="commentText" class="col-sm-2 control-label">Comment</label>
 							<div class="input-group">
 								<form:textarea path="commentText" rows="5" cols="50" />
-								<%-- <form:input type="text" path="commentText" id="commentText"/> --%>
 							</div>
 						</div>
 						<div class="form-group">
