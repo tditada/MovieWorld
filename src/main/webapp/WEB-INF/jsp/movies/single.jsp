@@ -82,7 +82,7 @@
 					<div class="form-group">
 						<label for="movieScore" class="col-sm-2 control-label">Score</label>
 						<div class="input-group">
-							<form:input type="number" min="1" max="5" class="form-control"
+							<form:input type="number" min="0" max="5" class="form-control"
 								name="movieScore" id="movieScore" path="movieScore" />
 						</div>
 					</div>

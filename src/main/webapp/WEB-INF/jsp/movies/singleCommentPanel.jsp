@@ -52,9 +52,9 @@
 								<span class="glyphicon glyphicon-star-empty"></span>
 							</c:forEach>
 						</c:if>
-						(
-						<c:out value="${comment.averageCommentScore.value}" />
-						)
+						<small> <c:out
+								value="(${comment.averageCommentScore.value}/5)" />
+						</small>
 					</p>
 				</dd>
 				<c:if test="${not empty user}">
@@ -66,7 +66,6 @@
 									<div class="input-group">
 										<form:form role="form" action="app/comment/score"
 											method="post" commandName="scoreCommentForm">
-
 											<form:input type="number" min="0" max="5"
 												class="form-control" name="score" id="score" path="score" />
 											<form:input type="hidden" path="comment"
@@ -92,17 +91,6 @@
 								</dd>
 							</c:if>
 						</c:forEach>
-					</c:if>
-					<c:if test="${user.admin}">
-						<dt>Delete this comment</dt>
-						<dd>
-							<form role="form" action="app/comment/remove" method="post">
-								<input type="hidden" name="comment" id="comment"
-									value="${comment.id}"></input> <input type="submit"
-									name="Delete" id="delete" value="Delete"
-									class="btn btn-primary" />
-							</form>
-						</dd>
 					</c:if>
 				</c:if>
 			</dl>
