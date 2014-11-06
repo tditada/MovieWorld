@@ -7,6 +7,11 @@
 		<div class="col-lg-6">
 			<form:form role="form" action="app/users/register" method="post"
 				commandName="registerForm">
+				<form:errors>
+					<div class="alert alert-danger" role="alert">
+						User exists. <a href="app/users/login">Log in</a>
+					</div>
+				</form:errors>
 				<div class="form-group">
 					<label for="firstName">Enter Name</label>
 					<div class="input-group">

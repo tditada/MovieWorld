@@ -21,7 +21,7 @@
 					<tr>
 						<td class="col-md-2"><a
 							href="<c:out value="app/users/profile?user=${reportedComment.user.id}"/>"><c:out
-									value="${reportedComment.user.firstName.nameString} ${reportedComment.user.lastName.nameString}" /></a></td>
+									value="${reportedComment.user.email.textAddress}" /></a></td>
 						<td class="col-md-2"><a
 							href="<c:out value="app/movies/detail?movie=${reportedComment.movie.id}"/>"><c:out
 									value="${reportedComment.movie.title}" /></a></td>
@@ -30,8 +30,9 @@
 								value="${reportedComment.creationDate}" style="M-" /></td>
 						<td class="col-md-1">
 							<form role="form" action="app/comments/remove" method="post">
-								<input type="hidden" name="comment" id="comment" value="${reportedComment.id}" /> <input
-									type="submit" name="delete" id="delete" value="Delete"
+								<input type="hidden" name="comment" id="comment"
+									value="${reportedComment.id}" /> <input type="submit"
+									name="delete" id="delete" value="Delete"
 									class="btn btn-primary pull-right">
 							</form>
 						</td>

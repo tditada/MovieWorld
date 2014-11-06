@@ -19,6 +19,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -59,7 +60,8 @@ public class Movie extends PersistentEntity {
 	private DateTime releaseDate;
 
 	@Sort(type = SortType.NATURAL)
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,
+			CascadeType.MERGE })
 	private SortedSet<Genre> genres; // a movie can have many different
 										// genres and a genre can have many
 										// different movies
@@ -80,7 +82,7 @@ public class Movie extends PersistentEntity {
 	@Sort(type = SortType.NATURAL)
 	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
 	private SortedSet<Comment> comments = new TreeSet<Comment>();
-	
+
 	@Embedded
 	private ImageWrapper picture;
 
@@ -88,9 +90,8 @@ public class Movie extends PersistentEntity {
 	}
 
 	@GeneratePojoBuilder
-	public Movie(DateTime releaseDate, String title,
-			SortedSet<Genre> genres, Director director, int runtimeInMins,
-			String summary, byte[] picture) {
+	public Movie(DateTime releaseDate, String title, SortedSet<Genre> genres,
+			Director director, int runtimeInMins, String summary, byte[] picture) {
 		setTitle(title);
 		setReleaseDate(releaseDate);
 		setGenres(genres);
@@ -101,7 +102,6 @@ public class Movie extends PersistentEntity {
 		this.creationDate = now();
 		this.totalScore = 0;
 	}
-
 
 	public int getTotalComments() {
 		return comments.size();
@@ -133,39 +133,38 @@ public class Movie extends PersistentEntity {
 	public SortedSet<Genre> getGenres() {
 		return Collections.unmodifiableSortedSet(genres);
 	}
-	
+
 	public Director getDirector() {
 		return director;
 	}
-	
+
 	public int getRuntimeInMins() {
 		return runtimeInMins;
 	}
-	
+
 	public String getSummary() {
 		return summary;
 	}
-	
+
 	public DateTime getReleaseDate() {
 		return releaseDate;
 	}
-	
-	public byte[] getPicture(){
-		return (picture==null)?null:picture.getImage();
+
+	public byte[] getPicture() {
+		return (picture == null) ? null : picture.getImage();
 	}
-	
-	public void setPicture(byte[] picture){
-		if(picture==null){ //esto sería que no haya imagen, es válido
+
+	public void setPicture(byte[] picture) {
+		if (picture == null) { // esto sería que no haya imagen, es válido
 			return;
-		}else if(picture.length==0){ //levantas una imagen pero está vacía
+		} else if (picture.length == 0) { // levantas una imagen pero está vacía
 			return;
-		}
-		else if(this.picture==null){
-			this.picture=new ImageWrapper();
+		} else if (this.picture == null) {
+			this.picture = new ImageWrapper();
 		}
 		this.picture.setImage(picture);
 	}
-	
+
 	public void setTitle(String title) {
 		checkArgument(title, neitherNullNorEmpty());
 		checkArgument(title.length() <= MAX_TITLE_LENGTH);
@@ -224,38 +223,38 @@ public class Movie extends PersistentEntity {
 	public void addComment(Comment comment) {
 		checkArgument(comment, notNull());
 		checkArgument(this.equals(comment.getMovie()));
-		
+
 		if (comments.contains(comment)) {
 			// this will only happen when addComment is called in a
 			// callback
 			return;
 		}
-		
+
 		User user = comment.getUser();
 		if (!isCommentableBy(user)) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		comments.add(comment);
 		this.totalScore += comment.getMovieScore().getValue();
-		
+
 		user.addComment(comment);
 	}
-	
+
 	public void removeComment(User admin, Comment comment) {
 		checkArgument(admin, notNull());
 		checkArgument(comment, notNull());
 		checkArgument(admin.isAdmin());
-		
+
 		if (!comments.contains(comment)) {
 			// this will only happen when removeComment is called in a
 			// callback
 			return;
 		}
-		
+
 		comments.remove(comment);
 		this.totalScore -= comment.getMovieScore().getValue();
-		
+
 		admin.removeComment(comment);
 	}
 

@@ -15,7 +15,7 @@ public class MovieFormValidator implements Validator {
 	private static final String GENRES_ID = "genres";
 	private static final String RUNTIME_ID = "runtimeInMins";
 	private static final String RELEASEDATE_ID = "releaseDate";
-	private static final String PICTURE_ID ="picture";
+	private static final String PICTURE_ID = "picture";
 	private static final int PICTURE_MAX_SIZE = 2000000;
 
 	@Override
@@ -37,13 +37,14 @@ public class MovieFormValidator implements Validator {
 			errors.rejectValue(RUNTIME_ID, "non.positive",
 					"Runtimes must be strictly positive numbers");
 		}
-		
-		CommonsMultipartFile item = form.getPicture();	
+
+		CommonsMultipartFile item = form.getPicture();
 		if (!item.isEmpty() && !item.getContentType().startsWith("image")) {
-			errors.rejectValue(PICTURE_ID,"Invalid image type");
+			errors.rejectValue(PICTURE_ID, "Invalid image type");
 		}
 		if (!item.isEmpty() && item.getSize() > PICTURE_MAX_SIZE) {
-			errors.rejectValue(PICTURE_ID,"Invalid image size, it should be smaller");
+			errors.rejectValue(PICTURE_ID,
+					"Invalid image size, it should be smaller");
 		}
 
 		checkSet(RELEASEDATE_ID, form.getReleaseDate(), errors);

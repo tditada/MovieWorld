@@ -3,10 +3,13 @@ package ar.edu.itba.paw.g4.web.form.validation;
 import static ar.edu.itba.paw.g4.util.ObjectHelpers.areEqual;
 import static org.joda.time.DateTime.now;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import ar.edu.itba.paw.g4.model.user.Email;
+import ar.edu.itba.paw.g4.model.user.UserRepo;
 import ar.edu.itba.paw.g4.web.form.RegisterForm;
 
 @Component
@@ -18,6 +21,15 @@ public class RegisterFormValidator implements Validator {
 	private static final String PASSWORD_ID = "password";
 	private static final String PASSWORD_CONFIRMATION_ID = "passwordConfirmation";
 
+	private static final String USER_EXISTS_ID = "userExists";
+
+	private UserRepo users;
+
+	@Autowired
+	public RegisterFormValidator(UserRepo users) {
+		this.users = users;
+	}
+
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return RegisterForm.class.equals(clazz);
@@ -26,27 +38,17 @@ public class RegisterFormValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		RegisterForm form = (RegisterForm) target;
-		// CHECK
-		// if (!NonArtisticName.isValid(form.getFirstName())) {
-		// errors.rejectValue(FIRST_NAME_ID, "invalid");
-		// }
-		//
-		// if (!NonArtisticName.isValid(form.getLastName())) {
-		// errors.rejectValue(LAST_NAME_ID, "invalid");
-		// }
-		//
-		// if (!EmailAddress.isValid(form.get)) {
-		// errors.rejectValue(arg0, arg1);
-		// }
-		//
-		// if (!Password.isValid(form.getPassword())) {
-		// errors.rejectValue(PASS_ID, "invalid");
-		// }
-
 		checkSet(FIRST_NAME_ID, form.getFirstName(), errors);
 		checkSet(LAST_NAME_ID, form.getLastName(), errors);
 		checkSet(BIRTH_DATE_ID, form.getBirthDate(), errors);
-		checkSet(EMAIL_ID, form.getEmail(), errors);
+
+		Email email = form.getEmail();
+		checkSet(EMAIL_ID, email, errors);
+
+		if (email != null && users.findUserByEmail(email) != null) {
+			errors.reject(USER_EXISTS_ID, "User exists");
+		}
+
 		checkSet(PASSWORD_ID, form.getEmail(), errors);
 		checkSet(PASSWORD_CONFIRMATION_ID, form.getPasswordConfirmation(),
 				errors);

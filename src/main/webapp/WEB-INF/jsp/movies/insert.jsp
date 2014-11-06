@@ -10,6 +10,9 @@
 			<c:if test="${user.admin}">
 				<form:form role="form" enctype="multipart/form-data"
 					action="app/movies/insert" method="post" commandName="movieForm">
+					<form:errors>
+						<div class="alert alert-danger" role="alert">Movie exists</div>
+					</form:errors>
 					<div class="form-group">
 						<label for="title">Enter title</label>
 						<div class="input-group">

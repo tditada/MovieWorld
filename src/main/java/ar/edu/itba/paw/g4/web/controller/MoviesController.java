@@ -27,6 +27,7 @@ import ar.edu.itba.paw.g4.util.persist.Orderings;
 import ar.edu.itba.paw.g4.web.form.MovieForm;
 import ar.edu.itba.paw.g4.web.form.NewCommentForm;
 import ar.edu.itba.paw.g4.web.form.ScoreCommentForm;
+import ar.edu.itba.paw.g4.web.form.validation.InsertMovieFormValidator;
 import ar.edu.itba.paw.g4.web.form.validation.MovieFormValidator;
 
 @Controller
@@ -49,14 +50,17 @@ public class MoviesController {
 	private UserRepo users;
 	private GenreRepo genres;
 	private MovieFormValidator movieFormValidator;
+	private InsertMovieFormValidator insertMovieFormValidator;
 
 	@Autowired
 	MoviesController(MovieRepo movies, UserRepo users, GenreRepo genres,
-			MovieFormValidator movieFormValidator) {
+			MovieFormValidator movieFormValidator,
+			InsertMovieFormValidator insertMovieFormValidator) {
 		this.users = users;
 		this.movies = movies;
 		this.genres = genres;
 		this.movieFormValidator = movieFormValidator;
+		this.insertMovieFormValidator = insertMovieFormValidator;
 	}
 
 	@RequestMapping(value = "insert", method = RequestMethod.GET)
@@ -86,7 +90,7 @@ public class MoviesController {
 			return mav;
 		}
 
-		movieFormValidator.validate(movieForm, errors);
+		insertMovieFormValidator.validate(movieForm, errors);
 		if (errors.hasErrors()) {
 			mav.addObject(USER_ID, user);
 			mav.setViewName("/movies/insert");
@@ -98,20 +102,20 @@ public class MoviesController {
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
-	
-//	@RequestMapping(value = "/removePicture", method = RequestMethod.POST)
-//	public ModelAndView removePicture(@RequestParam Movie movie,
-//			HttpSession session) {
-//		ModelAndView mav = new ModelAndView();
-//		User user = getLoggedUserFromSession(session);
-//
-//		if (movie != null && user != null && user.isAdmin()) {
-//			movie.removePicture();
-//		}
-//
-//		mav.setViewName("redirect:/app/movies/edit?movie="+movie.getId());
-//		return mav;
-//	}
+
+	// @RequestMapping(value = "/removePicture", method = RequestMethod.POST)
+	// public ModelAndView removePicture(@RequestParam Movie movie,
+	// HttpSession session) {
+	// ModelAndView mav = new ModelAndView();
+	// User user = getLoggedUserFromSession(session);
+	//
+	// if (movie != null && user != null && user.isAdmin()) {
+	// movie.removePicture();
+	// }
+	//
+	// mav.setViewName("redirect:/app/movies/edit?movie="+movie.getId());
+	// return mav;
+	// }
 
 	@RequestMapping(value = "edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam(required = false) Movie movie,
@@ -128,7 +132,7 @@ public class MoviesController {
 		mav.addObject(USER_ID, user);
 		mav.addObject(MOVIE_ID, movie);
 		MovieForm form = new MovieForm();
-		form.setGenres(movie.getGenres()); 
+		form.setGenres(movie.getGenres());
 		form.setReleaseDate(movie.getReleaseDate());
 		mav.addObject("movieForm", form);
 		mav.setViewName("movies/edit");
@@ -151,7 +155,7 @@ public class MoviesController {
 		movieFormValidator.validate(movieForm, errors);
 		if (errors.hasErrors()) {
 			mav.addObject(USER_ID, user);
-			mav.addObject(MOVIE_ID,movie);
+			mav.addObject(MOVIE_ID, movie);
 			mav.setViewName("movies/edit");
 			return mav;
 		}
@@ -162,30 +166,32 @@ public class MoviesController {
 		movie.setDirector(movieForm.getDirector());
 		movie.setSummary(movieForm.getSummary());
 		movie.setRuntimeInMins(movieForm.getRuntimeInMins());
-		if(movieForm.getPicture()!=null){
+		if (movieForm.getPicture() != null) {
 			movie.setPicture(movieForm.getPicture().getBytes());
 		}
-		if(movieForm.isDeletePicture()){
+		if (movieForm.isDeletePicture()) {
 			movie.removePicture();
 		}
 
 		mav.setViewName("redirect:/app/home");
 		return mav;
 	}
-	
-	@RequestMapping(value="getMoviePicture", method=RequestMethod.GET)
-	public void getMoviePicture(@RequestParam Movie movie,HttpServletRequest req, HttpServletResponse resp) throws IOException{
+
+	@RequestMapping(value = "getMoviePicture", method = RequestMethod.GET)
+	public void getMoviePicture(@RequestParam Movie movie,
+			HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
 		if (movie == null) {
-//			req.setAttribute("errorDescription",
-//					"Error: blah");
-//			req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req,
-//					resp);
+			// req.setAttribute("errorDescription",
+			// "Error: blah");
+			// req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req,
+			// resp);
 			return;
 		}
 		byte[] img = movies.findById(movie.getId()).getPicture();
 		if (img == null || img.length == 0) {
 			System.out.println("no image");
-//			resp.sendRedirect("../../img/picture-standard.png");
+			// resp.sendRedirect("../../img/picture-standard.png");
 			return;
 		}
 		resp.setContentType("image/*");
@@ -203,7 +209,7 @@ public class MoviesController {
 		if (movie != null && user != null && user.isAdmin()) {
 			movies.remove(user, movie);
 			mav.setViewName("redirect:/app/movies/list");
-		}else {
+		} else {
 			mav.setViewName("redirect:/app/home");
 		}
 

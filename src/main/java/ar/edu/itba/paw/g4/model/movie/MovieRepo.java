@@ -34,4 +34,6 @@ public interface MovieRepo {
 
 	void remove(User admin, Movie movie);
 
+	Movie findByTitleAndDirector(String title, Director director);
+
 }

@@ -20,13 +20,15 @@
 								value="app/movies/detail?movie=${topMovie.id}" />">
 										<c:out value="${topMovie.title}" />
 								</a></td>
-								<td><c:forEach begin="1" end="${topMovie.averageScore.value}">
+								<td><c:forEach begin="1"
+										end="${topMovie.averageScore.value}">
 										<span class="glyphicon glyphicon-star"></span>
 									</c:forEach> <c:if test="${topMovie.averageScore.value < 5}">
 										<c:forEach begin="${topMovie.averageScore.value}" end="4">
 											<span class="glyphicon glyphicon-star-empty"></span>
 										</c:forEach>
-									</c:if><small> <c:out value="(${topMovie.averageScore.value}/5)" />
+									</c:if><small> <c:out
+											value="(${topMovie.averageScore.value}/5)" />
 								</small></td>
 							</tr>
 						</c:forEach>
@@ -104,8 +106,8 @@
 								No comments to show! <br> Maybe you want to add more users
 								of your interest? <br> Go to <a
 									href="<c:out
-								value="app/users/list" />"> All Users
-									page </a> to look around
+								value="app/users/list" />"> Other
+									Users</a> to look around
 							</p>
 						</c:when>
 						<c:otherwise>

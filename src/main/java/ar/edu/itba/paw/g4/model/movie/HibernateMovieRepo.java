@@ -17,6 +17,7 @@ import ar.edu.itba.paw.g4.model.AbstractHibernateRepo;
 import ar.edu.itba.paw.g4.model.comment.Comment;
 import ar.edu.itba.paw.g4.model.comment.CommentRepo;
 import ar.edu.itba.paw.g4.model.genre.Genre;
+import ar.edu.itba.paw.g4.model.genre.GenreRepo;
 import ar.edu.itba.paw.g4.model.user.User;
 import ar.edu.itba.paw.g4.util.persist.Orderings;
 
@@ -24,12 +25,14 @@ import ar.edu.itba.paw.g4.util.persist.Orderings;
 public class HibernateMovieRepo extends AbstractHibernateRepo implements
 		MovieRepo {
 	private CommentRepo comments;
+	private GenreRepo genres;
 
 	@Autowired
 	public HibernateMovieRepo(SessionFactory sessionFactory,
-			CommentRepo comments) {
+			CommentRepo comments, GenreRepo genres) {
 		super(sessionFactory);
 		this.comments = comments;
+		this.genres = genres;
 	}
 
 	@Override
@@ -40,6 +43,11 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 	@Override
 	public void save(Movie movie) {
 		checkArgument(movie, notNull());
+		for (Genre genre : movie.getGenres()) {
+			// this is because JPA's mapping {CascadeType.PERSIST,
+			// CascadeType.MERGE} doesn't work well with Hibernate's Session
+			genres.save(genre);
+		}
 		super.save(movie);
 	}
 
@@ -127,6 +135,16 @@ public class HibernateMovieRepo extends AbstractHibernateRepo implements
 		// entities
 
 		super.remove(movie);
+	}
+
+	@Override
+	public Movie findByTitleAndDirector(String title, Director director) {
+		List<Movie> movies = find("from Movie where title=? and director=?",
+				title, director);
+		if (movies.isEmpty()) {
+			return null;
+		}
+		return movies.get(0);
 	}
 
 }
