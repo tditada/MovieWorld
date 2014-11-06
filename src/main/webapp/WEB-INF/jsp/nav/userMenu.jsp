@@ -15,7 +15,15 @@
 					<li><a href="app/users/login">Login/Register</a></li>
 				</c:when>
 				<c:otherwise>
-					<li><a href="app/users/profile?user=${user.id}">My Comments</a></li>
+					<c:if test="${user.admin}">
+						<li><a href="<c:out value="app/movies/insert"/>">Insert
+								Movie</a></li>
+						<li><a href="<c:out value="app/comments/reported"/>">Manage
+								reported comments</a></li>
+						<li class="divider"></li>
+					</c:if>
+					<li><a href="app/users/profile?user=${user.id}">My
+							Comments</a></li>
 					<li class="divider"></li>
 					<li><a class="btn-link black-link logout">Logout</a></li>
 				</c:otherwise>

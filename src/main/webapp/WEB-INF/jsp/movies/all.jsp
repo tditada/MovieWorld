@@ -61,7 +61,7 @@
 									action="app/movies/remove" method="post" commandName="remove">
 									<input type="hidden" name="movie" id="movie"
 										value="${movie.id}"></input>
-									<input type="submit" name="delete" id="delete" value="delete"
+									<input type="submit" name="delete" id="delete" value="Delete"
 										class="btn btn-primary pull-right">
 								</form:form></td>
 						</c:if>

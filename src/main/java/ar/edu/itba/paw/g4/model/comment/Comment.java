@@ -14,9 +14,9 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -41,13 +41,20 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 	@AttributeOverride(name = "score", column = @Column(name = "movieScore", nullable = false))
 	private Score movieScore;
 
-	@OneToMany
-	@JoinColumn(name="scorer_id", referencedColumnName="id")
-	private Set<User> scorers = new HashSet<>();
+	@ManyToMany
+	@JoinTable(name = "comment_scorers")
+	// @OneToMany
+	// @JoinColumn(name="scorer_id", referencedColumnName="id")
+	private Set<User> scorers = new HashSet<>();// a comment can be scored by
+												// many different users, and a
+												// user can score in
+												// many different comments
 
-	@OneToMany
-	@JoinColumn(name="reporting_user_id", referencedColumnName="id")
-	private Set<User> reportingUsers = new HashSet<>();
+	@ManyToMany
+	@JoinTable(name = "comment_reports")
+	// @OneToMany
+	// @JoinColumn(name = "reporting_user_id", referencedColumnName = "id")
+	private Set<User> reportingUsers = new HashSet<>(); // same idea as above
 
 	@Column(nullable = false)
 	private int totalReports;
@@ -142,7 +149,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 
 	public boolean isReportableBy(User user) {
 		checkArgument(user, notNull());
-		return !reportingUsers.contains(user);
+		return !user.equals(this.user) && !reportingUsers.contains(user);
 	}
 
 	public void dropReports(User user) {
@@ -197,7 +204,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 
 	@Override
 	public String toString() {
-		//TODO
+		// TODO
 		return "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 		// return toStringHelper(this).add("id", getId()).add("user", user)
 		// .add("movie", movie).add("score", movieScore).add("text", text)

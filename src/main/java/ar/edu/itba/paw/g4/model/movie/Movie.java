@@ -19,6 +19,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -57,8 +58,10 @@ public class Movie extends PersistentEntity {
 	private DateTime releaseDate;
 
 	@Sort(type = SortType.NATURAL)
-	@OneToMany
-	private SortedSet<MovieGenre> genres;
+	@ManyToMany(cascade = CascadeType.ALL)
+	private SortedSet<MovieGenre> genres; // a movie can have many different
+											// genres and a genre can have many
+											// different movies
 
 	@Embedded
 	@AttributeOverride(name = "name", column = @Column(name = "director"))
@@ -247,6 +250,7 @@ public class Movie extends PersistentEntity {
 		}
 
 		comments.remove(comment);
+		this.totalScore -= comment.getMovieScore().getValue();
 
 		admin.removeComment(comment);
 	}
@@ -273,14 +277,14 @@ public class Movie extends PersistentEntity {
 
 	@Override
 	public String toString() {
-		//TODO
+		// TODO
 		return "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY";
-//		return toStringHelper(this).add("name", title).add("id", getId())
-//				.add("creationDate", creationDate)
-//				.add("releaseDate", releaseDate).add("genres", genres)
-//				.add("director", director).add("durationInMins", runtimeInMins)
-//				.add("summary", summary).add("totalScore", totalScore)
-//				.toString();
+		// return toStringHelper(this).add("name", title).add("id", getId())
+		// .add("creationDate", creationDate)
+		// .add("releaseDate", releaseDate).add("genres", genres)
+		// .add("director", director).add("durationInMins", runtimeInMins)
+		// .add("summary", summary).add("totalScore", totalScore)
+		// .toString();
 	}
 
 	@Override
