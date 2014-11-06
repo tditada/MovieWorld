@@ -23,6 +23,8 @@ public class MovieBuilder implements Cloneable {
 	protected boolean isSet$summary$java$lang$String;
 	protected Integer value$id$java$lang$Integer;
 	protected boolean isSet$id$java$lang$Integer;
+	protected byte[] picture;
+	private boolean isPictureSet;
 
 	/**
 	 * Creates a new {@link MovieBuilder}.
@@ -121,6 +123,12 @@ public class MovieBuilder implements Cloneable {
 		this.isSet$id$java$lang$Integer = true;
 		return self;
 	}
+	
+	public MovieBuilder withPicture(byte[] picture){
+		this.picture=picture;
+		this.isPictureSet=true;
+		return self;
+	}
 
 	/**
 	 * Returns a clone of this builder.
@@ -157,7 +165,7 @@ public class MovieBuilder implements Cloneable {
 			Movie result = new Movie(value$releaseDate$org$joda$time$DateTime,
 					value$title$java$lang$String, value$genres$java$util$Set,
 					value$director$ar$edu$itba$paw$g4$model$Director,
-					value$runtimeInMins$int, value$summary$java$lang$String);
+					value$runtimeInMins$int, value$summary$java$lang$String, picture);
 			if (isSet$id$java$lang$Integer) {
 				result.setId(value$id$java$lang$Integer);
 			}

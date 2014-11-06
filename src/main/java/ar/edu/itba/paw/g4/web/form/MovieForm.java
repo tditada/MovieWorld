@@ -72,7 +72,7 @@ public class MovieForm {
 	public Movie build() {
 		return Movie.builder().withDirector(director).withGenres(genres)
 				.withReleaseDate(releaseDate).withRuntimeInMins(runtimeInMins)
-				.withSummary(summary).withTitle(title).build();
+				.withSummary(summary).withTitle(title).withPicture(picture.getBytes()).build();
 	}
 
 	public CommonsMultipartFile getPicture() {

@@ -87,14 +87,16 @@ public class Movie extends PersistentEntity {
 	@GeneratePojoBuilder
 	public Movie(DateTime releaseDate, String title,
 			SortedSet<MovieGenre> genres, Director director, int runtimeInMins,
-			String summary) {
+			String summary, byte[] picture) {
 		setTitle(title);
 		setReleaseDate(releaseDate);
 		setGenres(genres);
 		setDirector(director);
 		setRuntimeInMins(runtimeInMins);
 		setSummary(summary);
-
+		
+		this.picture=new ImageWrapper();
+		this.picture.setImage(picture); //si es null lo setea en null		
 		this.creationDate = now();
 		this.totalScore = 0;
 	}

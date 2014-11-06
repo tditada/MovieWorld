@@ -3,6 +3,7 @@ package ar.edu.itba.paw.g4.web.form.validation;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import ar.edu.itba.paw.g4.web.form.MovieForm;
 
@@ -14,6 +15,8 @@ public class MovieFormValidator implements Validator {
 	private static final String GENRES_ID = "genres";
 	private static final String RUNTIME_ID = "runtimeInMins";
 	private static final String RELEASEDATE_ID = "releaseDate";
+	private static final String PICTURE_ID ="picture";
+	private static final int PICTURE_MAX_SIZE = 2000000;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -33,6 +36,14 @@ public class MovieFormValidator implements Validator {
 		if (runtimeInMins != null && runtimeInMins <= 0) {
 			errors.rejectValue(RUNTIME_ID, "non.positive",
 					"Runtimes must be strictly positive numbers");
+		}
+		
+		CommonsMultipartFile item = form.getPicture();	
+		if (!item.getContentType().startsWith("image")) {
+			errors.rejectValue(PICTURE_ID,"Invalid image type");
+		}
+		if (item.getSize() > PICTURE_MAX_SIZE) {
+			errors.rejectValue(PICTURE_ID,"Invalid image size, it should be smaller");
 		}
 
 		checkSet(RELEASEDATE_ID, form.getReleaseDate(), errors);
