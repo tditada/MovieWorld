@@ -1,0 +1,525 @@
+ALTER TABLE "users" RENAME TO __users;
+ALTER TABLE "movies" RENAME TO __movies;
+ALTER TABLE "comments" RENAME TO __comments;
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.5
+-- Dumped by pg_dump version 9.3.5
+-- Started on 2014-11-06 14:34:17
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 182 (class 3079 OID 11750)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2011 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 170 (class 1259 OID 43729)
+-- Name: comment_reports; Type: TABLE; Schema: public; Owner: paw; Tablespace: 
+--
+
+CREATE TABLE comment_reports (
+    comments_id integer NOT NULL,
+    reportingusers_id integer NOT NULL
+);
+
+
+ALTER TABLE public.comment_reports OWNER TO paw;
+
+--
+-- TOC entry 171 (class 1259 OID 43734)
+-- Name: comment_scorers; Type: TABLE; Schema: public; Owner: paw; Tablespace: 
+--
+
+CREATE TABLE comment_scorers (
+    comments_id integer NOT NULL,
+    scorers_id integer NOT NULL
+);
+
+
+ALTER TABLE public.comment_scorers OWNER TO paw;
+
+--
+-- TOC entry 173 (class 1259 OID 43741)
+-- Name: comments; Type: TABLE; Schema: public; Owner: paw; Tablespace: 
+--
+
+CREATE TABLE comments (
+    id integer NOT NULL,
+    creationdate timestamp without time zone NOT NULL,
+    score integer,
+    text character varying(255) NOT NULL,
+    totalcommentscore integer NOT NULL,
+    totalreports integer NOT NULL,
+    movie_id integer,
+    user_id integer
+);
+
+
+ALTER TABLE public.comments OWNER TO paw;
+
+--
+-- TOC entry 172 (class 1259 OID 43739)
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: paw
+--
+
+CREATE SEQUENCE comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comments_id_seq OWNER TO paw;
+
+--
+-- TOC entry 2012 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paw
+--
+
+ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
+
+
+--
+-- TOC entry 175 (class 1259 OID 43749)
+-- Name: genres; Type: TABLE; Schema: public; Owner: paw; Tablespace: 
+--
+
+CREATE TABLE genres (
+    id integer NOT NULL,
+    name character varying(25) NOT NULL
+);
+
+
+ALTER TABLE public.genres OWNER TO paw;
+
+--
+-- TOC entry 174 (class 1259 OID 43747)
+-- Name: genres_id_seq; Type: SEQUENCE; Schema: public; Owner: paw
+--
+
+CREATE SEQUENCE genres_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.genres_id_seq OWNER TO paw;
+
+--
+-- TOC entry 2013 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: genres_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paw
+--
+
+ALTER SEQUENCE genres_id_seq OWNED BY genres.id;
+
+
+--
+-- TOC entry 177 (class 1259 OID 43759)
+-- Name: movies; Type: TABLE; Schema: public; Owner: paw; Tablespace: 
+--
+
+CREATE TABLE movies (
+    id integer NOT NULL,
+    creationdate timestamp without time zone NOT NULL,
+    director character varying(255),
+    image bytea,
+    releasedate timestamp without time zone NOT NULL,
+    runtimeinmins integer NOT NULL,
+    summary text NOT NULL,
+    title character varying(255) NOT NULL,
+    totalscore integer NOT NULL
+);
+
+
+ALTER TABLE public.movies OWNER TO paw;
+
+--
+-- TOC entry 178 (class 1259 OID 43770)
+-- Name: movies_genres; Type: TABLE; Schema: public; Owner: paw; Tablespace: 
+--
+
+CREATE TABLE movies_genres (
+    movies_id integer NOT NULL,
+    genres_id integer NOT NULL
+);
+
+
+ALTER TABLE public.movies_genres OWNER TO paw;
+
+--
+-- TOC entry 176 (class 1259 OID 43757)
+-- Name: movies_id_seq; Type: SEQUENCE; Schema: public; Owner: paw
+--
+
+CREATE SEQUENCE movies_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.movies_id_seq OWNER TO paw;
+
+--
+-- TOC entry 2014 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: movies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paw
+--
+
+ALTER SEQUENCE movies_id_seq OWNED BY movies.id;
+
+
+--
+-- TOC entry 180 (class 1259 OID 43777)
+-- Name: users; Type: TABLE; Schema: public; Owner: paw; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    admin boolean NOT NULL,
+    birthdate timestamp without time zone NOT NULL,
+    email character varying(100) NOT NULL,
+    firstname character varying(255) NOT NULL,
+    lastname character varying(255) NOT NULL,
+    password character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO paw;
+
+--
+-- TOC entry 179 (class 1259 OID 43775)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: paw
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO paw;
+
+--
+-- TOC entry 2015 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: paw
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- TOC entry 181 (class 1259 OID 43788)
+-- Name: users_users; Type: TABLE; Schema: public; Owner: paw; Tablespace: 
+--
+
+CREATE TABLE users_users (
+    users_id integer NOT NULL,
+    interestingusers_id integer NOT NULL
+);
+
+
+ALTER TABLE public.users_users OWNER TO paw;
+
+--
+-- TOC entry 1859 (class 2604 OID 43744)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq'::regclass);
+
+
+--
+-- TOC entry 1860 (class 2604 OID 43752)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY genres ALTER COLUMN id SET DEFAULT nextval('genres_id_seq'::regclass);
+
+
+--
+-- TOC entry 1861 (class 2604 OID 43762)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY movies ALTER COLUMN id SET DEFAULT nextval('movies_id_seq'::regclass);
+
+
+--
+-- TOC entry 1862 (class 2604 OID 43780)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- TOC entry 1864 (class 2606 OID 43733)
+-- Name: comment_reports_pkey; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY comment_reports
+    ADD CONSTRAINT comment_reports_pkey PRIMARY KEY (comments_id, reportingusers_id);
+
+
+--
+-- TOC entry 1866 (class 2606 OID 43738)
+-- Name: comment_scorers_pkey; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY comment_scorers
+    ADD CONSTRAINT comment_scorers_pkey PRIMARY KEY (comments_id, scorers_id);
+
+
+--
+-- TOC entry 1868 (class 2606 OID 43746)
+-- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT newcomments_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1870 (class 2606 OID 43756)
+-- Name: genres_name_key; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY genres
+    ADD CONSTRAINT genres_name_key UNIQUE (name);
+
+
+--
+-- TOC entry 1872 (class 2606 OID 43754)
+-- Name: genres_pkey; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY genres
+    ADD CONSTRAINT genres_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1878 (class 2606 OID 43774)
+-- Name: movies_genres_pkey; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY movies_genres
+    ADD CONSTRAINT movies_genres_pkey PRIMARY KEY (movies_id, genres_id);
+
+
+--
+-- TOC entry 1874 (class 2606 OID 43767)
+-- Name: movies_pkey; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY movies
+    ADD CONSTRAINT newmovies_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1876 (class 2606 OID 43769)
+-- Name: movies_title_director_key; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY movies
+    ADD CONSTRAINT movies_title_director_key UNIQUE (title, director);
+
+
+--
+-- TOC entry 1880 (class 2606 OID 43787)
+-- Name: users_email_key; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 1882 (class 2606 OID 43785)
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT newusers_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1884 (class 2606 OID 43794)
+-- Name: users_users_interestingusers_id_key; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY users_users
+    ADD CONSTRAINT users_users_interestingusers_id_key UNIQUE (interestingusers_id);
+
+
+--
+-- TOC entry 1886 (class 2606 OID 43792)
+-- Name: users_users_pkey; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
+--
+
+ALTER TABLE ONLY users_users
+    ADD CONSTRAINT users_users_pkey PRIMARY KEY (users_id, interestingusers_id);
+
+
+--
+-- TOC entry 1887 (class 2606 OID 43795)
+-- Name: fk360b17df7dad55f; Type: FK CONSTRAINT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY comment_reports
+    ADD CONSTRAINT fk360b17df7dad55f FOREIGN KEY (reportingusers_id) REFERENCES users(id);
+
+
+--
+-- TOC entry 1888 (class 2606 OID 43800)
+-- Name: fk360b17dfe96c5687; Type: FK CONSTRAINT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY comment_reports
+    ADD CONSTRAINT fk360b17dfe96c5687 FOREIGN KEY (comments_id) REFERENCES comments(id);
+
+
+--
+-- TOC entry 1894 (class 2606 OID 43830)
+-- Name: fk37775bcc3ad69bb3; Type: FK CONSTRAINT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY movies_genres
+    ADD CONSTRAINT fk37775bcc3ad69bb3 FOREIGN KEY (genres_id) REFERENCES genres(id);
+
+
+--
+-- TOC entry 1893 (class 2606 OID 43825)
+-- Name: fk37775bcc5edfe87a; Type: FK CONSTRAINT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY movies_genres
+    ADD CONSTRAINT fk37775bcc5edfe87a FOREIGN KEY (movies_id) REFERENCES movies(id);
+
+
+--
+-- TOC entry 1890 (class 2606 OID 43810)
+-- Name: fk677ab673e96c5687; Type: FK CONSTRAINT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY comment_scorers
+    ADD CONSTRAINT fk677ab673e96c5687 FOREIGN KEY (comments_id) REFERENCES comments(id);
+
+
+--
+-- TOC entry 1889 (class 2606 OID 43805)
+-- Name: fk677ab673ea0b9306; Type: FK CONSTRAINT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY comment_scorers
+    ADD CONSTRAINT fk677ab673ea0b9306 FOREIGN KEY (scorers_id) REFERENCES users(id);
+
+
+--
+-- TOC entry 1891 (class 2606 OID 43815)
+-- Name: fkdc17ddf4120fad6d; Type: FK CONSTRAINT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT fkdc17ddf4120fad6d FOREIGN KEY (movie_id) REFERENCES movies(id);
+
+
+--
+-- TOC entry 1892 (class 2606 OID 43820)
+-- Name: fkdc17ddf481d3448e; Type: FK CONSTRAINT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT fkdc17ddf481d3448e FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- TOC entry 1895 (class 2606 OID 43835)
+-- Name: fkf6f8d9114a4fcda9; Type: FK CONSTRAINT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY users_users
+    ADD CONSTRAINT fkf6f8d9114a4fcda9 FOREIGN KEY (interestingusers_id) REFERENCES users(id);
+
+
+--
+-- TOC entry 1896 (class 2606 OID 43840)
+-- Name: fkf6f8d9117ac41d31; Type: FK CONSTRAINT; Schema: public; Owner: paw
+--
+
+ALTER TABLE ONLY users_users
+    ADD CONSTRAINT fkf6f8d9117ac41d31 FOREIGN KEY (users_id) REFERENCES users(id);
+
+
+--
+-- TOC entry 2010 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2014-11-06 14:34:17
+
+--
+-- PostgreSQL database dump complete
+--
+
+
+insert into users(id, firstName, lastName, email, password, birthdate, admin) 
+    select userId, firstName, lastName, emailAddr, password, birthdate, FALSE from __users;
+
+insert into movies(id,title,creationdate,releasedate, director,runtimeinmins,summary,totalscore,image)
+    select movieId,title,creationDate,releaseDate,directorName,runtimeMins,summary,totalScore, null from __movies;
+
+-- GENEROS
+
+insert into comments(id,creationdate,score,text,totalcommentscore,totalreports,movie_id,user_id)
+    select commentId, creationDate, score, txt, 0, 0, movieId, userId from __comments;
+
+
+-- drop all tables along with its segquences
+DROP TABLE __movies CASCADE;
+DROP TABLE __users CASCADE;
+DROP TABLE __comments CASCADE;
