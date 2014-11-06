@@ -25,8 +25,7 @@
 				<c:if test="${not empty movie.picture }">
 					<dt>Picture</dt>
 					<dd>
-						<img
-							alt="${movie.title}" id="actualPicture"
+						<img alt="${movie.title}" id="actualPicture"
 							class="profile_image img-circle"
 							src="app/movies/getMoviePicture?movie=${movie.id}" />
 					</dd>
@@ -79,38 +78,46 @@
 		</div>
 	</div>
 	<%@include file="singleCommentPanel.jsp"%>
-	<c:if test="${not empty user && ableToComment}">
-		<div class="panel panel-default">
+	<div class="panel panel-default">
+		<c:if test="${not empty user }">
 			<div class="panel-heading">
 				<h4 class="panel-title">Write a Comment</h4>
 			</div>
-			<div class="panel-body">
-				<form:form role="form" action="app/comments" method="POST"
-					commandName="newCommentForm">
-					<div class="form-group">
-						<label for="movieScore" class="col-sm-2 control-label">Score</label>
-						<div class="input-group">
-							<form:input type="number" min="0" max="5" class="form-control"
-								name="movieScore" id="movieScore" path="movieScore" />
+		</c:if>
+		<c:choose>
+			<c:when test="${not empty user && ableToComment}">
+				<div class="panel-body">
+					<form:form role="form" action="app/comments" method="POST"
+						commandName="newCommentForm">
+						<div class="form-group">
+							<label for="movieScore" class="col-sm-2 control-label">Score</label>
+							<div class="input-group">
+								<form:input type="number" min="0" max="5" class="form-control"
+									name="movieScore" id="movieScore" path="movieScore" />
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="commentText" class="col-sm-2 control-label">Comment</label>
-						<div class="input-group">
-							<form:textarea path="commentText" rows="5" cols="50" />
-							<%-- <form:input type="text" path="commentText" id="commentText"/> --%>
+						<div class="form-group">
+							<label for="commentText" class="col-sm-2 control-label">Comment</label>
+							<div class="input-group">
+								<form:textarea path="commentText" rows="5" cols="50" />
+								<%-- <form:input type="text" path="commentText" id="commentText"/> --%>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<input type="submit" name="submit" id="submit" value="Submit"
-								class="btn btn-primary">
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<input type="submit" name="submit" id="submit" value="Submit"
+									class="btn btn-primary">
+							</div>
 						</div>
-					</div>
-				</form:form>
-			</div>
-		</div>
-	</c:if>
+					</form:form>
+				</div>
+			</c:when>
+			<c:when test="${not empty user && not ableToComment}">
+				<div class="panel-body">It seems you can't comment. Maybe
+					you already comment here or this film isn't released yet?</div>
+			</c:when>
+		</c:choose>
+	</div>
 </div>
 
 <%@ include file="../footer.jsp"%>

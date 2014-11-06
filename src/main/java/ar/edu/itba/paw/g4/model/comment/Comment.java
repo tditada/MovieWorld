@@ -174,9 +174,9 @@ public class Comment extends PersistentEntity implements Comparable<Comment> {
 			return 0;
 		}
 
-		Integer comp = Double.compare(
-				other.getAverageCommentScore().getValue(), this
-						.getAverageCommentScore().getValue());
+		Integer comp = (Integer.valueOf(other.getAverageCommentScore()
+				.getValue())).compareTo(this.getAverageCommentScore()
+				.getValue());
 		if (comp == 0) {
 			return other.getUser().getFirstName().getNameString()
 					.compareTo(user.getFirstName().getNameString());
