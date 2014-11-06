@@ -163,14 +163,19 @@ public class CommentsController {
 
 	@RequestMapping(value = "remove", method = RequestMethod.POST)
 	public ModelAndView remove(@RequestParam(required = false) Comment comment,
-			HttpSession session) {
+			@RequestParam(required = false) Movie movie, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 
 		User user = getLoggedUserFromSession(session);
 
 		if (comment != null && user != null && user.isAdmin()) {
 			comments.remove(user, comment);
-			mav.setViewName("redirect:/app/comments/reported");
+			if (movie == null) {
+				mav.setViewName("redirect:/app/comments/reported");
+			} else {
+				mav.setViewName("redirect:/app/movies/detail?movie="
+						+ movie.getId());
+			}
 		} else {
 			mav.setViewName("redirect:/app/home");
 		}
