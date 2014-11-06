@@ -74,6 +74,7 @@ public class Movie extends PersistentEntity {
 	@Check(constraints = "runtimeInMins > 0")
 	private int runtimeInMins;
 
+	@Type(type="text")
 	@Column(nullable = false)
 	private String summary;
 
