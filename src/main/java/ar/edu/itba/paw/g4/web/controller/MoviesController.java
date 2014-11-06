@@ -1,7 +1,11 @@
 package ar.edu.itba.paw.g4.web.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,6 +143,28 @@ public class MoviesController {
 
 		mav.setViewName("redirect:/app/home");
 		return mav;
+	}
+	
+	@RequestMapping(value="getMoviePicture", method=RequestMethod.GET)
+	public void getMoviePicture(@RequestParam(required=false) Movie movie,HttpServletRequest req, HttpServletResponse resp) throws IOException{
+		if (movie == null) {
+			System.out.println("movie null");
+//			req.setAttribute("errorDescription",
+//					"Error: Se debe especificar un nombre de usuario.");
+//			req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req,
+//					resp);
+			return;
+		}
+		byte[] img = movies.findById(movie.getId()).getPicture();
+		if (img == null || img.length == 0) {
+			System.out.println("no image");
+//			resp.sendRedirect("../../img/profile-standard.png");
+			return;
+		}
+		resp.setContentType("image/*");
+		resp.setHeader("Cache-Control", "max-age=0");
+		OutputStream out = resp.getOutputStream();
+		out.write(img);
 	}
 
 	@RequestMapping(value = "remove", method = RequestMethod.POST)

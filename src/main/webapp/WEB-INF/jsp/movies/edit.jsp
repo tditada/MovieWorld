@@ -9,7 +9,7 @@
 		<div class="col-lg-6">
 			<c:if test="${not empty movie and user.admin}">
 				<form:form role="form" action="app/movies/edit" method="post"
-					commandName="MovieForm">
+					commandName="movieForm">
 					<div class="form-group">
 						<label for="title">Enter title</label>
 						<div class="input-group">
@@ -78,6 +78,15 @@
 							<div class="alert alert-danger" role="alert">Invalid
 								Release Date</div>
 						</form:errors>
+					</div>
+					<div class="form-group">
+						<div class="profile_pic_container">
+							<img alt="${movie.title}"
+								class="profile_image img-circle"
+								src="app/movies/getMoviePicture?movie=${movie.id}" />
+						</div>
+						<label for="picture">Enter another picture</label>
+						<form:input type="file" path="picture" />
 					</div>
 					<input type="submit" name="submit" id="submit" value="Submit"
 						class="btn btn-primary pull-right">
