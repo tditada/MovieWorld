@@ -513,6 +513,12 @@ insert into users(id, firstName, lastName, email, password, birthdate, admin)
 insert into movies(id,title,creationdate,releasedate, director,runtimeinmins,summary,totalscore,image)
     select movieId,title,creationDate,releaseDate,directorName,runtimeMins,summary,totalScore, null from movies__old;
 
+create or replace function explode_array(in_array anyarray) returns setof anyelement as
+$$
+    select ($1)[s] from generate_series(1,array_upper($1, 1)) as s;
+$$
+language sql immutable;
+
 -- GENRES Y MOVIES_GENRES
 insert into genres(name) select distinct * from (select explode_array(movies__old.genres) from movies__old) as aux;
 
@@ -532,6 +538,6 @@ SELECT setval('users_id_seq', (select greatest(count(*), 1) from users), 't');
 SELECT setval('comments_id_seq', (select greatest(count(*), 1) from comments), 't');
 
 -- drop all tables along with its sequences
---DROP TABLE movies__old CASCADE;
---DROP TABLE users__old CASCADE;
---DROP TABLE comments__old CASCADE;
+DROP TABLE movies__old CASCADE;
+DROP TABLE users__old CASCADE;
+DROP TABLE comments__old CASCADE;
