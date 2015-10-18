@@ -11,7 +11,7 @@
          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<context:component-scan base-package="ar.edu.itba.paw.g4" />
-
+	<bean class="ar.edu.itba.paw.g4.web.MovieWorldApplication"/>
 	<bean
 		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
 
