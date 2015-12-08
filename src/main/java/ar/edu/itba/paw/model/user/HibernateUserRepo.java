@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ar.edu.itba.paw.model.AbstractHibernateRepo;
+import ar.edu.itba.paw.web.common.AbstractHibernateRepo;
 
 @Repository
 public class HibernateUserRepo extends AbstractHibernateRepo implements

@@ -1,9 +1,13 @@
 <html>
 	<body>
-		<h1 style="float: left;">Demo</h1>
-		<h2 style="float: right;"><wicket:message key="currentUser">currentUser</wicket:message> :
-			<span wicket:id="username">guest</span>
-		</h2>			
-		<br style="clear: both;" />
+		<wicket:extend>
+			<table>
+				<tbody>
+					<tr wicket:id="topFive.movie">
+						<td wicket:id="summary">Summary</td>
+					</tr>
+				</tbody>
+			</table>			
+		</wicket:extend>
 	</body>
 </html>

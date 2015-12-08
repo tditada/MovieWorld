@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.model;
+package ar.edu.itba.paw.web.common;
 
 import static ar.edu.itba.paw.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.util.validation.PredicateHelpers.notNull;

@@ -13,13 +13,13 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ar.edu.itba.paw.model.AbstractHibernateRepo;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.comment.CommentRepo;
 import ar.edu.itba.paw.model.genre.Genre;
 import ar.edu.itba.paw.model.genre.GenreRepo;
 import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.util.persist.Orderings;
+import ar.edu.itba.paw.web.common.AbstractHibernateRepo;
 
 @Repository
 public class HibernateMovieRepo extends AbstractHibernateRepo implements
