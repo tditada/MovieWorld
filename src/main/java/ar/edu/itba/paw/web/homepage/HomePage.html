@@ -1,13 +1,68 @@
 <html>
-	<body>
-		<wicket:extend>
-			<table>
-				<tbody>
-					<tr wicket:id="topFive.movie">
-						<td wicket:id="summary">Summary</td>
-					</tr>
-				</tbody>
-			</table>			
-		</wicket:extend>
-	</body>
+<body>
+	<wicket:extend>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="panel panel-default">
+						<div class="panel-heading text-center">
+							<h3 class="panel-title">
+								<wicket:message key="topFive">Top five</wicket:message>
+							</h3>
+						</div>
+						<table class="table ">
+							<thead />
+							<tbody>
+								<tr wicket:id="topFive.movie">
+									<td></td>
+									<td wicket:id="title">Title</td>
+									<td wicket:id="summary">Summary</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading text-center">
+							<h3 class="panel-title">
+								<wicket:message key="newAdditions">New Additions</wicket:message>
+							</h3>
+						</div>
+						<table class="table">
+							<thead>
+								<tr>
+									<th class="text-center"><wicket:message key="title"> Title</wicket:message></th>
+									<th class="text-center"><wicket:message key="creationDate"> Created at </wicket:message></th>
+									<th class="text-center"><wicket:message
+											key="TotalComments"> Comment count </wicket:message></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr wicket:id="mostRecent.movie">
+									<td wicket:id="title" />
+									<td wicket:id="creationDate" />
+									<td wicket:id="TotalComments" />
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<div class="panel panel-default">
+						<div class="panel-heading text-center">
+							<h2 class="panel-title">
+								<wicket:message key="releases">Releases</wicket:message>
+							</h2>
+						</div>
+						<div wicket:id="releases.movie" class="panel panel-default">
+							<div wicket:id="title" class="panel-heading" />
+							<div class="panel-body">
+								<p wicket:id="ShortSummary" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
 </html>

@@ -225,6 +225,11 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
 		</dependency>
+		<dependency>
+		    <groupId>de.agilecoders.wicket</groupId>
+		    <artifactId>bootstrap</artifactId>
+		    <version>0.7.6</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>MovieWorld</finalName>

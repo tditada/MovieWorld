@@ -279,6 +279,12 @@ public class Movie extends PersistentEntity {
 		}
 		return Collections.unmodifiableList(reportableComments);
 	}
+	
+	public String getShortSummary(){
+		if(summary.length()>300){
+			return summary.substring(0, 300);
+		} return summary;
+	}
 
 	@Override
 	public String toString() {

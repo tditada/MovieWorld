@@ -1,40 +1,27 @@
-package ar.edu.itba.paw.web.formatters;
+package ar.edu.itba.paw.web.converter;
 
-import java.text.ParseException;
 import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.wicket.util.convert.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.Formatter;
-import org.springframework.stereotype.Component;
 
 import ar.edu.itba.paw.model.genre.Genre;
 import ar.edu.itba.paw.model.genre.GenreRepo;
 
-@Component
-public class GenreSortedSetFormatter implements Formatter<SortedSet<Genre>> {
+@SuppressWarnings("serial")
+public class GenreSortedSetConverter implements IConverter<SortedSet<Genre>> {
 	private GenreRepo genres;
 
 	@Autowired
-	public GenreSortedSetFormatter(GenreRepo genres) {
+	public GenreSortedSetConverter(GenreRepo genres) {
 		this.genres = genres;
 	}
 
 	@Override
-	public String print(SortedSet<Genre> genres, Locale arg1) {
-		String genresString = "";
-		for (Genre genre : genres) {
-			genresString = genre.getName() + ", ";
-		}
-		genresString = StringUtils.stripEnd(genresString, ", ");
-		return genresString;
-	}
-
-	@Override
-	public SortedSet<Genre> parse(String arg0, Locale arg1)
-			throws ParseException {
+	public SortedSet<Genre> convertToObject(String arg0, Locale arg1) {
 		SortedSet<Genre> movieGenresSet = new TreeSet<>();
 		String[] genreNames = arg0.split(",");
 
@@ -47,7 +34,17 @@ public class GenreSortedSetFormatter implements Formatter<SortedSet<Genre>> {
 			movieGenresSet.add(genre);
 		}
 
+
 		return movieGenresSet;
 	}
 
+	@Override
+	public String convertToString(SortedSet<Genre> genres, Locale arg1) {
+		String genresString = "";
+		for (Genre genre : genres) {
+			genresString = genre.getName() + ", ";
+		}
+		genresString = StringUtils.stripEnd(genresString, ", ");
+		return genresString;
+	}
 }

@@ -1,26 +1,25 @@
-package ar.edu.itba.paw.web.formatters;
+package ar.edu.itba.paw.web.converter;
 
-import java.text.ParseException;
 import java.util.Locale;
 
+import org.apache.wicket.util.convert.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.comment.CommentRepo;
 
-@Component
-public class CommentFormatter implements Formatter<Comment> {
+@SuppressWarnings("serial")
+public class CommentConverter implements IConverter<Comment> {
 	private CommentRepo comments;
-
+	
 	@Autowired
-	public CommentFormatter(CommentRepo comments) {
-		this.comments = comments;
+	public CommentConverter(CommentRepo comments) {
+		this.comments=comments;
 	}
 
 	@Override
-	public Comment parse(String arg0, Locale arg1) throws ParseException {
+	public Comment convertToObject(String arg0, Locale arg1) {
 		Comment comment = comments.findById(Integer.valueOf(arg0));
 		if (comment == null) {
 			throw new IllegalArgumentException("There is no comment with id="
@@ -30,7 +29,7 @@ public class CommentFormatter implements Formatter<Comment> {
 	}
 
 	@Override
-	public String print(Comment arg0, Locale arg1) { // TODO:check!
+	public String convertToString(Comment arg0, Locale arg1) {
 		return String.valueOf(arg0.getId());
 	}
 }

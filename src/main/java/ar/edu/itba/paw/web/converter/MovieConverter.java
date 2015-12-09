@@ -1,37 +1,36 @@
-package ar.edu.itba.paw.web.formatters;
+package ar.edu.itba.paw.web.converter;
 
-import java.text.ParseException;
 import java.util.Locale;
 
+import org.apache.wicket.util.convert.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
 import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.movie.MovieRepo;
 
-@Component
-public class MovieFormatter implements Formatter<Movie> {
+@SuppressWarnings("serial")
+public class MovieConverter implements IConverter<Movie> {
 	private MovieRepo movies;
 
 	@Autowired
-	public MovieFormatter(MovieRepo movies) {
+	public MovieConverter(MovieRepo movies) {
 		this.movies = movies;
 	}
 
 	@Override
-	public Movie parse(String arg0, Locale arg1) throws ParseException {
+	public Movie convertToObject(String arg0, Locale arg1) {
 		Movie movie = movies.findById(Integer.valueOf(arg0));
 		if (movie == null) {
-			throw new IllegalArgumentException("There is no movie with id="
-					+ arg0);
+			throw new IllegalArgumentException("There is no movie with id=" + arg0);
 		}
 		return movie;
 	}
 
 	@Override
-	public String print(Movie arg0, Locale arg1) { // TODO:check!
+	public String convertToString(Movie arg0, Locale arg1) {
 		return String.valueOf(arg0.getId());
+
 	}
 
 }

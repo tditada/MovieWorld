@@ -1,26 +1,25 @@
-package ar.edu.itba.paw.web.formatters;
+package ar.edu.itba.paw.web.converter;
 
-import java.text.ParseException;
 import java.util.Locale;
 
+import org.apache.wicket.util.convert.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
 import ar.edu.itba.paw.model.genre.Genre;
 import ar.edu.itba.paw.model.genre.GenreRepo;
 
-@Component
-public class GenreFormatter implements Formatter<Genre> {
+@SuppressWarnings("serial")
+public class GenreConverter implements IConverter<Genre> {
 	private GenreRepo genres;
-
+	
 	@Autowired
-	public GenreFormatter(GenreRepo genres) {
+	public GenreConverter(GenreRepo genres) {
 		this.genres = genres;
 	}
 
 	@Override
-	public Genre parse(String name, Locale arg1) throws ParseException {
+	public Genre convertToObject(String name, Locale arg1) {
 		Genre genre = genres.findByName(name);
 		if (genre == null) {
 			genre = new Genre(name);
@@ -28,8 +27,10 @@ public class GenreFormatter implements Formatter<Genre> {
 		return genre;
 	}
 
+
+
 	@Override
-	public String print(Genre genre, Locale arg1) {
+	public String convertToString(Genre genre, Locale arg1) {
 		return genre.getName();
 	}
 }
