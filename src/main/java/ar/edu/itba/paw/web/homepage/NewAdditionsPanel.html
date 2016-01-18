@@ -1,0 +1,29 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:panel>
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<h3 class="panel-title">
+					<wicket:message key="newAdditions">New Additions</wicket:message>
+				</h3>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="text-center"><wicket:message key="title"> Title</wicket:message></th>
+						<th class="text-center"><wicket:message key="creationDate"> Created at </wicket:message></th>
+						<th class="text-center"><wicket:message key="TotalComments"> Comment count </wicket:message></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="mostRecent.movie">
+						<td wicket:id="title" />
+						<td wicket:id="creationDate" />
+						<td wicket:id="TotalComments" />
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</wicket:panel>
+</body>
+</html>

@@ -1,6 +1,4 @@
 package ar.edu.itba.paw.web;
-import java.util.SortedSet;
-
 import org.apache.wicket.ConverterLocator;
 import org.apache.wicket.IConverterLocator;
 import org.apache.wicket.Page;
@@ -34,7 +32,6 @@ import ar.edu.itba.paw.web.converter.DateConverter;
 import ar.edu.itba.paw.web.converter.DirectorConverter;
 import ar.edu.itba.paw.web.converter.EmailConverter;
 import ar.edu.itba.paw.web.converter.GenreConverter;
-import ar.edu.itba.paw.web.converter.GenreSortedSetConverter;
 import ar.edu.itba.paw.web.converter.MovieConverter;
 import ar.edu.itba.paw.web.converter.NonArtisticNameConverter;
 import ar.edu.itba.paw.web.converter.PasswordConverter;
@@ -43,8 +40,13 @@ import ar.edu.itba.paw.web.converter.UserConverter;
 import ar.edu.itba.paw.web.homepage.HomePage;
 
 public class MovieWorldApplication extends WebApplication {
-	public static final ResourceReference STAR = new PackageResourceReference(MovieWorldApplication.class, "resources/star.png");
-
+	public static final ResourceReference STAR_FULL_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/star_full.png");
+	public static final ResourceReference STAR_EMPTY_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/star_empty.png");
+	public static final ResourceReference LINK_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/link.png");
+	public static final ResourceReference EDIT_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/edit.png");
+	public static final ResourceReference DELETE_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/delete.png");
+	public static final ResourceReference ADD_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/add.png");
+	
 	private final SessionFactory sessionFactory;
 	private final CommentRepo commentRepo;
 	private final GenreRepo genreRepo;

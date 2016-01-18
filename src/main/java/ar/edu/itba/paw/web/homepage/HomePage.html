@@ -4,63 +4,64 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4">
-					<div class="panel panel-default">
-						<div class="panel-heading text-center">
-							<h3 class="panel-title">
-								<wicket:message key="topFive">Top five</wicket:message>
-							</h3>
-						</div>
-						<table class="table ">
-							<thead />
-							<tbody>
-								<tr wicket:id="topFive.movie">
-									<td></td>
-									<td wicket:id="title">Title</td>
-									<td wicket:id="summary">Summary</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading text-center">
-							<h3 class="panel-title">
-								<wicket:message key="newAdditions">New Additions</wicket:message>
-							</h3>
-						</div>
-						<table class="table">
-							<thead>
-								<tr>
-									<th class="text-center"><wicket:message key="title"> Title</wicket:message></th>
-									<th class="text-center"><wicket:message key="creationDate"> Created at </wicket:message></th>
-									<th class="text-center"><wicket:message
-											key="TotalComments"> Comment count </wicket:message></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr wicket:id="mostRecent.movie">
-									<td wicket:id="title" />
-									<td wicket:id="creationDate" />
-									<td wicket:id="TotalComments" />
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					<wicket:container wicket:id="topMovies" />					
+					<wicket:container wicket:id="newAdditions"/>
 				</div>
 				<div class="col-md-8">
-					<div class="panel panel-default">
-						<div class="panel-heading text-center">
-							<h2 class="panel-title">
-								<wicket:message key="releases">Releases</wicket:message>
-							</h2>
-						</div>
-						<div wicket:id="releases.movie" class="panel panel-default">
-							<div wicket:id="title" class="panel-heading" />
-							<div class="panel-body">
-								<p wicket:id="ShortSummary" />
-							</div>
-						</div>
-					</div>
+					<wicket:container wicket:id="releasesMovies" />
 				</div>
+<!-- 				<c:if test="${not empty user}"> -->
+<!-- 				<div class="panel panel-default"> -->
+<!-- 					<div class="panel-heading text-center"> -->
+<!-- 						<h2 class="panel-title">Interesting Users' Comments of the -->
+<!-- 							Last Week</h2> -->
+<!-- 					</div> -->
+<!-- 					<c:choose> -->
+<!-- 						<c:when test="${empty interestingComments}"> -->
+<!-- 							<p class="text-center"> -->
+<!-- 								No comments to show! <br> Maybe you want to add more users -->
+<!-- 								of your interest? <br> Go to <a -->
+<!-- 									href="<c:out -->
+<!-- 								value="app/users/list" />"> Other -->
+<!-- 									Users</a> to look around -->
+<!-- 							</p> -->
+<!-- 						</c:when> -->
+<!-- 						<c:otherwise> -->
+<!-- 							<c:forEach items="${interestingComments}" -->
+<!-- 								var="interestingComment"> -->
+<!-- 								<div class="panel panel-default"> -->
+<!-- 									<div class="panel-heading"> -->
+<!-- 										<a -->
+<!-- 											href="<c:out -->
+<!-- 								value="app/users/profile?user=${interestingComment.user.id}" />"> -->
+<!-- 											<c:out -->
+<!-- 												value="${interestingComment.user.firstName.nameString}" /> -->
+<!-- 											<c:out value="${interestingComment.user.lastName.nameString}" /> -->
+<!-- 										</a> commented in <a -->
+<!-- 											href="<c:out -->
+<!-- 								value="app/movies/detail?user=${interestingComment.movie.id}" />"> -->
+<!-- 											<c:out value="${interestingComment.movie.title}" /> -->
+<!-- 										</a> -->
+<!-- 									</div> -->
+<!-- 									<div class="panel-body"> -->
+<!-- 										<p> -->
+<!-- 											<c:choose> -->
+<!-- 												<c:when test="${fn:length(interestingComment.text) > 300}"> -->
+<!-- 													<c:out -->
+<!-- 														value="${fn:substring(interestingComment.text, 0, 300)}..." /> -->
+<!-- 												</c:when> -->
+<!-- 												<c:otherwise> -->
+<!-- 													<c:out value="${interestingComment.text}" /> -->
+<!-- 												</c:otherwise> -->
+<!-- 											</c:choose> -->
+<!-- 										</p> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</c:forEach> -->
+<!-- 						</c:otherwise> -->
+<!-- 					</c:choose> -->
+<!-- 				</div> -->
+<!-- 			</c:if> -->
 			</div>
 		</div>
 	</wicket:extend>

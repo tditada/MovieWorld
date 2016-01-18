@@ -3,7 +3,6 @@ package ar.edu.itba.paw.web.converter;
 import java.util.Locale;
 
 import org.apache.wicket.util.convert.IConverter;
-import org.springframework.stereotype.Component;
 
 import ar.edu.itba.paw.model.user.Password;
 

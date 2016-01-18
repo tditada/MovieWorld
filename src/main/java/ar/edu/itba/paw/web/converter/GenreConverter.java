@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import org.apache.wicket.util.convert.IConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import ar.edu.itba.paw.model.genre.Genre;
 import ar.edu.itba.paw.model.genre.GenreRepo;

@@ -22,7 +22,7 @@ public class MovieStar extends Image {
 	}
 	
 	public MovieStar(Movie movie) {
-		super("star", MovieWorldApplication.STAR);
+		super("star", MovieWorldApplication.STAR_FULL_ICON);
 		this.movieModel = new EntityModel<Movie>(Movie.class, movie);
 	}
 }
