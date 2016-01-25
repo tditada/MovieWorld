@@ -8,6 +8,7 @@ import static ar.edu.itba.paw.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,7 +34,7 @@ import ar.edu.itba.paw.util.persist.PersistentEntity;
 
 @Entity
 @Table(name = "comments")
-public class Comment extends PersistentEntity implements Comparable<Comment> {
+public class Comment extends PersistentEntity implements Comparable<Comment>,Serializable {
 	@Type(type = "text")
 	@Check(constraints = "length(text) > 0")
 	@Column(nullable = false)

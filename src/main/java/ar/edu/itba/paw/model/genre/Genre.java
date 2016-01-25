@@ -6,6 +6,8 @@ import static ar.edu.itba.paw.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -15,9 +17,10 @@ import org.hibernate.annotations.Check;
 
 import ar.edu.itba.paw.util.persist.PersistentEntity;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "genres", uniqueConstraints = @UniqueConstraint(columnNames = { "name" }))
-public class Genre extends PersistentEntity implements Comparable<Genre> {
+public class Genre extends PersistentEntity implements Comparable<Genre>,Serializable {
 	private static final int MAX_GENRE_LENGTH = 25;
 
 	@Check(constraints = "length(name) > 0")

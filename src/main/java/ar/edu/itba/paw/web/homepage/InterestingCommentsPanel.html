@@ -1,0 +1,30 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:panel>
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<h2 class="panel-title">Interesting Users' Comments of the Last
+					Week</h2>
+			</div>
+			<p wicket:enclosure="commentSummary" class="text-center">
+				No comments to show! <br></br> Maybe you want to add more users of
+				your interest? <br></br> Go to Other Users to look around
+			</p>
+			<wicket:container wicket:id="interestingComments">
+				<blockquote>
+					<p wicket:id="commentSummary" />
+					<footer>
+						<wicket:message
+								key="username">
+								<span wicket:id="firstName"></span>
+								<span wicket:id="lastName"></span>
+							</wicket:message>
+						commented in <wicket:container
+								wicket:id="title" />
+					</footer>
+				</blockquote>
+			</wicket:container>
+		</div>
+	</wicket:panel>
+</body>
+</html>

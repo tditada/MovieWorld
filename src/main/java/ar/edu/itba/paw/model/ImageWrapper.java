@@ -1,9 +1,12 @@
 package ar.edu.itba.paw.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 
+@SuppressWarnings("serial")
 @Embeddable
-public class ImageWrapper {
+public class ImageWrapper implements Serializable{
 
 	private byte[] image;
 	

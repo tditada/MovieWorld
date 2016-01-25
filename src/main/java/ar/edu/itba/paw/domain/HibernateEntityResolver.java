@@ -30,7 +30,7 @@ public class HibernateEntityResolver implements EntityResolver {
 
 	@Override
 	public Integer getId(final Object object) {
-		Assert.isInstanceOf(PersistentEntity.class, object, "This entity resolver only hanldes objects implementing PersistentEntity");
+		Assert.isInstanceOf(PersistentEntity.class, object, "This entity resolver only handles objects implementing PersistentEntity");
 		try {
 			getSession().flush();
 			Integer id = ((PersistentEntity) object).getId();

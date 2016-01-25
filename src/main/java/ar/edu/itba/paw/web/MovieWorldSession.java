@@ -9,9 +9,9 @@ import ar.edu.itba.paw.model.user.Password;
 import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 
+@SuppressWarnings("serial")
 public class MovieWorldSession extends WebSession {
 
-	private static final long serialVersionUID = -670935308465563666L;
 	private String email;
 	private int id;
 

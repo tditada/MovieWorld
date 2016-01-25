@@ -9,6 +9,7 @@ import static ar.edu.itba.paw.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,7 +46,7 @@ import ar.edu.itba.paw.util.persist.PersistentEntity;
 @Entity
 @Table(name = "movies", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"title", "director" }))
-public class Movie extends PersistentEntity {
+public class Movie extends PersistentEntity implements Serializable {
 	public static final int DAYS_AS_RELEASE = 6;
 	public static final int MAX_TITLE_LENGTH = 255;
 
@@ -278,12 +279,6 @@ public class Movie extends PersistentEntity {
 			}
 		}
 		return Collections.unmodifiableList(reportableComments);
-	}
-	
-	public String getShortSummary(){
-		if(summary.length()>300){
-			return summary.substring(0, 300);
-		} return summary;
 	}
 
 	@Override

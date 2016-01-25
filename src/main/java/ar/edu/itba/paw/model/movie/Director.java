@@ -6,13 +6,16 @@ import static ar.edu.itba.paw.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import org.hibernate.annotations.Check;
 
+@SuppressWarnings("serial")
 @Embeddable
-public class Director {
+public class Director implements Serializable{
 	public static final int MAX_NAME_LENGTH = 70;
 
 	@Check(constraints = "length(name) > 0")
