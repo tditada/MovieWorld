@@ -8,13 +8,15 @@ import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isAlphaSpace;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import org.hibernate.annotations.Check;
 
 @Embeddable
-public class NonArtisticName {
+public class NonArtisticName implements Serializable{
 	public static final int MAX_NAME_LENGTH = 35;
 
 	@Check(constraints = "length(name) > 0")

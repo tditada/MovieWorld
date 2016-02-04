@@ -1,0 +1,21 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:extend>
+		<form wicket:id="filterMovie" class="navbar-form navbar-left"
+			role="search" method="get">
+			<div class="form-group">
+				<select wicket:id="genre" class="selectpicker"
+					title="Filter by genre" data-live-search="true"
+					data-container="body" name="genre">
+					<!-- 					<option disabled selected><wicket:message key="anyGenre">Any genre</wicket:message></option> -->
+				</select> <select wicket:id="director" class="selectpicker" title="Filter by director"
+					data-live-search="true" data-container="body" name="director">
+				</select>
+				<button wicket:id="submit" type="submit" class="btn btn-default">
+					<wicket:message key="applyFilter">Apply filter</wicket:message>
+				</button>
+			</div>
+		</form>
+	</wicket:extend>
+</body>
+</html>

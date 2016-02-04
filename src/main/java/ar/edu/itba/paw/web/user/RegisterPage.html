@@ -1,0 +1,75 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:extend>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<form role="form" method="post" wicket:id="registerForm">
+						<div wicket:id="feedback" class="alert alert-danger" role="alert" />
+						<div class="form-group">
+							<label for="firstName"><wicket:message key="enterName">Enter Name</wicket:message></label>
+							<div class="input-group">
+								<input type="text" wicket:id="firstName" class="form-control"
+									name="firstName" id="firstName" placeholder="Enter Name" /> <span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-asterisk"></span> <wicket:message
+										key="required">Required</wicket:message></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="lastName"><wicket:message key="enterLastName">Enter Last Name</wicket:message></label>
+							<div class="input-group">
+								<input type="text" wicket:id="lastName" class="form-control"
+									name="lastName" id="lastName" placeholder="Enter Name" /> <span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-asterisk"></span> <wicket:message
+										key="required">Required</wicket:message></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="email"><wicket:message key="enterEmail">Enter Email</wicket:message></label>
+							<div class="input-group">
+								<input type="text" wicket:id="email" class="form-control"
+									name="email" id="email" placeholder="Enter Email" /> <span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-asterisk"></span> <wicket:message
+										key="required">Required</wicket:message></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="password"><wicket:message key="enterPassword">Enter Password</wicket:message></label>
+							<div class="input-group">
+								<input type="password" wicket:id="password" class="form-control"
+									name="password" id="password" placeholder="Enter Password" />
+								<span class="input-group-addon"><span
+									class="glyphicon glyphicon-asterisk" /> <wicket:message
+										key="required">Required</wicket:message></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="passwordConfirmation"><wicket:message
+									key="confirmPass">Confirm Password</wicket:message></label>
+							<div class="input-group">
+								<input type="password" wicket:id="confirmPassword"
+									class="form-control" name="confirmPassword"
+									id="confirmPassword" placeholder="Enter Password" /> <span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-asterisk"></span> <wicket:message
+										key="required">Required</wicket:message></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="birthDate"><wicket:message
+									key="enterBirthday">Enter Birthday</wicket:message></label> <input
+								name="birthDate" class="form-control" wicket:id="birthDate"
+								id="birthDatepicker" cssClass="birthDatepicker" />
+						</div>
+						<input type="submit" name="submit" id="submit" value="Submit"
+							class="btn btn-primary pull-right">
+					</form>
+				</div>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

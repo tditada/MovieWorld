@@ -10,33 +10,63 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<dependencies>	
+	<dependencies>
 		<!-- Wicket related -->
 		<dependency>
-    		<groupId>org.apache.wicket</groupId>
-    		<artifactId>wicket-extensions</artifactId>
-    		<version>1.5.6</version>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-extensions</artifactId>
+			<version>6.19.0</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.apache.wicket</groupId>
-    		<artifactId>wicket-datetime</artifactId>
-    		<version>1.5.6</version>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-datetime</artifactId>
+			<version>6.19.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
-			<version>1.5.6</version>
+			<version>6.19.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-spring</artifactId>
-			<version>1.5.6</version>
+			<version>6.19.0</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>spring</artifactId>
 					<groupId>org.springframework</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>de.agilecoders.wicket</groupId>
+			<artifactId>wicket-bootstrap-core</artifactId>
+			<version>0.10.5</version>
+		</dependency>
+		<dependency>
+			<groupId>de.agilecoders.wicket</groupId>
+			<artifactId>wicket-bootstrap-themes</artifactId>
+			<version>0.10.5</version>
+		</dependency>
+		<dependency>
+			<groupId>de.agilecoders.wicket</groupId>
+			<artifactId>wicket-bootstrap-extensions</artifactId>
+			<version>0.10.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.wicket-jquery-ui</groupId>
+			<artifactId>wicket-jquery-ui</artifactId>
+			<version>6.19.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-util</artifactId>
+			<version>6.19.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>bootstrap-select</artifactId>
+			<version>1.9.4</version>
 		</dependency>
 		<!-- Spring-Hibernate related -->
 		<dependency>
@@ -165,12 +195,12 @@
 			<version>3.3.2</version>
 		</dependency>
 		<!-- Automatic Builder generation -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>net.karneim</groupId> -->
-<!-- 			<artifactId>pojobuilder</artifactId> -->
-<!-- 			<version>3.1.0</version> -->
-<!-- 			<scope>provided</scope> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>net.karneim</groupId> -->
+		<!-- <artifactId>pojobuilder</artifactId> -->
+		<!-- <version>3.1.0</version> -->
+		<!-- <scope>provided</scope> -->
+		<!-- </dependency> -->
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -226,9 +256,9 @@
 			<version>1.4</version>
 		</dependency>
 		<dependency>
-		    <groupId>de.agilecoders.wicket</groupId>
-		    <artifactId>bootstrap</artifactId>
-		    <version>0.7.6</version>
+			<groupId>de.agilecoders.wicket</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>0.7.6</version>
 		</dependency>
 	</dependencies>
 	<build>

@@ -15,7 +15,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Check;
 
-import ar.edu.itba.paw.util.persist.PersistentEntity;
+import ar.edu.itba.paw.domain.PersistentEntity;
 
 @SuppressWarnings("serial")
 @Entity

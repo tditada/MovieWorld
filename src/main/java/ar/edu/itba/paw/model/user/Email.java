@@ -7,6 +7,7 @@ import static ar.edu.itba.paw.util.validation.PredicateHelpers.neitherNullNorEmp
 import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 import static java.util.regex.Pattern.compile;
 
+import java.io.Serializable;
 import java.util.regex.Pattern;
 
 import javax.persistence.Column;
@@ -15,7 +16,7 @@ import javax.persistence.Embeddable;
 import org.hibernate.annotations.Check;
 
 @Embeddable
-public class Email {
+public class Email implements Serializable{
 	public static final int MAX_ADDRESS_LENGTH = 100;
 	private static final String EMAIL_PATTERN_STR = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*"
 			+ "@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";

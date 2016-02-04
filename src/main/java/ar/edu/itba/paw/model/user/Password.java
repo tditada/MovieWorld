@@ -6,6 +6,8 @@ import static ar.edu.itba.paw.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -14,7 +16,7 @@ import org.hibernate.annotations.Check;
 import com.google.common.collect.Range;
 
 @Embeddable
-public class Password {
+public class Password implements Serializable{
 	public static final int MIN_PASSWORD_LENGTH = 10;
 	public static final int MAX_PASSWORD_LENGTH = 255;
 

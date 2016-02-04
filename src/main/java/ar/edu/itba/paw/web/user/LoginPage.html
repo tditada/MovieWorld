@@ -1,0 +1,31 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:extend>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div wicket:id="feedback" class="alert alert-danger" role="alert" />
+					<form role="form" method="post" wicket:id="loginForm">
+						<div class="form-group">
+							<input type="text" wicket:id="email"
+								class="form-control input-lg" placeholder="Email" />
+						</div>
+						<div class="form-group">
+							<input type="password" wicket:id="password"
+								class="form-control input-lg" placeholder="Password" />
+						</div>
+						<div class="form-group">
+							<button class="btn btn-primary btn-lg btn-block">
+								<wicket:message key="signIn">Sign
+									In</wicket:message>
+							</button>
+							<span class="pull-right"><a href="#" wicket:id="register"><wicket:message
+										key="register">Register</wicket:message></a></span>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

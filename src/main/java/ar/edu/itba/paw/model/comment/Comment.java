@@ -27,10 +27,10 @@ import org.hibernate.annotations.Check;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.domain.PersistentEntity;
 import ar.edu.itba.paw.model.Score;
 import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.user.User;
-import ar.edu.itba.paw.util.persist.PersistentEntity;
 
 @Entity
 @Table(name = "comments")

@@ -25,14 +25,21 @@ public class EntityModel<T> implements IModel<T> {
 		this.id = id;
 	}
 	
-	public EntityModel(Class<T> type, T object) {
-		super();
+
+    public EntityModel(Class<T> type, T object) {
 		Assert.notNull(type, "You must provide a type for entity resolver models!");
-		this.type = type;
-		this.id = (object == null ? null : resolver().getId(object));
-		this.value = object;
-		this.attached = true;
-	}
+        this.type = type;
+        setObject(object);
+    }
+	
+//	public EntityModel(Class<T> type, T object) {
+//		super();
+//		Assert.notNull(type, "You must provide a type for entity resolver models!");
+//		this.type = type;
+//		this.id = (object == null ? null : resolver().getId(object));
+//		this.value = object;
+//		this.attached = true;
+//	}
 	
 	public EntityModel(Class<T> type) {
 		this(type, (T)null);

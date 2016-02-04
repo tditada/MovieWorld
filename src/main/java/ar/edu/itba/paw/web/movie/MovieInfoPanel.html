@@ -1,11 +1,69 @@
 <html xmlns:wicket="http://wicket.apache.org/">
 <body>
 	<wicket:panel>
-		<div class="page-header">
-		<h1>
-			<p wicket:id="title" />
-		</h1>
-	</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<wicket:message key="details">Details</wicket:message>
+				</h3>
+			</div>
+			<div class="panel-body">
+				<div class="col-md-3" wicket:enclosure="picture">
+					<img wicket:id="picture" class="profile_image img-circle" />
+				</div>
+				<dl class="dl-horizontal">
+					<dt>
+						<wicket:message key="genres"> Genres</wicket:message>
+					</dt>
+					<dd class="text-capitalize">
+						<wicket:container wicket:id="movie.genres">
+							<a href="#" wicket:id="linkGenre"> <wicket:container
+									wicket:id="genre.name" />
+							</a>
+						</wicket:container>
+					</dd>
+
+					<dt>
+						<wicket:message key="director"> Director</wicket:message>
+					</dt>
+					<dd>
+						<a href="#" wicket:id="linkDirector"> <wicket:container
+								wicket:id="movie.director" />
+						</a>
+					</dd>
+					<dt>
+						<wicket:message key="releaseDate">Release date</wicket:message>
+					</dt>
+					<dd>
+						<wicket:container wicket:id="movie.releaseDate" />
+					</dd>
+					<dt>
+						<wicket:message key="runtime">Runtime</wicket:message>
+					</dt>
+					<dd>
+						<wicket:container wicket:id="movie.runtimeInMins" />
+						<wicket:message key="minutes" />
+					</dd>
+					<dt>
+						<wicket:message key="score">Score</wicket:message>
+					</dt>
+					<dd>
+						<wicket:container wicket:id="movieStarPanel" />
+					</dd>
+					<dt>
+						<wicket:message key="summary">
+						Summary
+						</wicket:message>
+					</dt>
+					<dd>
+						<p>
+							<wicket:container wicket:id="movie.summary" />
+						</p>
+					</dd>
+				</dl>
+
+			</div>
+		</div>
 	</wicket:panel>
 </body>
 </html>

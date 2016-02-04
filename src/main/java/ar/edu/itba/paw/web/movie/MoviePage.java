@@ -4,12 +4,17 @@ import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.web.base.BasePage;
 
 @SuppressWarnings("serial")
-public class MoviePage extends BasePage{
+public class MoviePage extends BasePage {
 
+	public static final String MOVIE_TITLE_PANEL_ID = "movieTitlePanel";
 	public static final String MOVIE_INFO_PANEL_ID = "movieInfoPanel";
-	
+	public static final String MOVIE_COMMENTS_PANEL_ID = "movieCommentsPanel";
+
 	public MoviePage(Movie movie) {
+		add(new MovieTitlePanel(MOVIE_TITLE_PANEL_ID, movie));
 		add(new MovieInfoPanel(MOVIE_INFO_PANEL_ID, movie));
+		// TODO: Check what to do with showing a sourset of comments.
+		// add(new MovieCommentsPanel(MOVIE_COMMENTS_PANEL_ID, movie));
 	}
 
 }

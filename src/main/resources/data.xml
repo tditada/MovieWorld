@@ -46,7 +46,8 @@
 
 		<property name="packagesToScan">
 			<list>
-				<value>ar.edu.itba.paw</value>
+				<value>ar.edu.itba.paw.domain</value>
+				<value>ar.edu.itba.paw.model</value>
 			</list>
 		</property>
 	</bean>

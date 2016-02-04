@@ -20,6 +20,7 @@ public class DivisibleValidator implements IValidator<Integer> {
 		if (value % divisor != 0)
 		{
 			ValidationError error = new ValidationError();
+//			error.addKey(resourceKey());
 			error.addMessageKey(resourceKey());
 			error.setVariable("divisor", divisor);
 			validatable.error(error);

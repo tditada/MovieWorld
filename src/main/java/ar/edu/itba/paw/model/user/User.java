@@ -7,6 +7,7 @@ import static ar.edu.itba.paw.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 import static ar.edu.itba.paw.util.validation.Validations.checkState;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -31,19 +32,29 @@ import org.hibernate.annotations.SortType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.domain.PersistentEntity;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.movie.Movie;
-import ar.edu.itba.paw.util.persist.PersistentEntity;
 
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email") )
 public class User extends PersistentEntity {
+	
+	public static class Validations {
+		public static int NAME_MIN_LENGTH = 4;
+		public static int NAME_MAX_LENGTH = 20;
+		public static int EMAIL_MIN_LENGTH = 10;
+		public static int EMAIL_MAX_LENGTH = 40;
+		public static int PASSWORD_MIN_LENGTH = 10;
+		public static int PASSWORD_MAX_LENGTH = 255;
+	}
+	
 	@Embedded
-	@AttributeOverride(name = "nameString", column = @Column(name = "firstName", nullable = false, length = NonArtisticName.MAX_NAME_LENGTH))
+	@AttributeOverride(name = "nameString", column = @Column(name = "firstName", nullable = false, length = NonArtisticName.MAX_NAME_LENGTH) )
 	private NonArtisticName firstName;
 
 	@Embedded
-	@AttributeOverride(name = "nameString", column = @Column(name = "lastName", nullable = false, length = NonArtisticName.MAX_NAME_LENGTH))
+	@AttributeOverride(name = "nameString", column = @Column(name = "lastName", nullable = false, length = NonArtisticName.MAX_NAME_LENGTH) )
 	private NonArtisticName lastName;
 
 	@Embedded
@@ -70,8 +81,8 @@ public class User extends PersistentEntity {
 	}
 
 	// @GeneratePojoBuilder
-	User(NonArtisticName firstName, NonArtisticName lastName, Email email,
-			Password password, DateTime birthDate, boolean admin) {
+	User(NonArtisticName firstName, NonArtisticName lastName, Email email, Password password, DateTime birthDate,
+			boolean admin) {
 		checkArgument(firstName, notNull());
 		checkArgument(lastName, notNull());
 		checkArgument(email, notNull());
@@ -153,12 +164,14 @@ public class User extends PersistentEntity {
 		return Collections.unmodifiableSortedSet(comments);
 	}
 
+	public List<Comment> getCommentsAsList() {
+		return Collections.unmodifiableList(new ArrayList<Comment>(comments));
+	}
+
 	@Override
 	public String toString() {
-		return toStringHelper(this).add("id", getId())
-				.add("firstName", firstName).add("lastName", lastName)
-				.add("email", email).add("password", password)
-				.add("birthDate", birthDate).toString();
+		return toStringHelper(this).add("id", getId()).add("firstName", firstName).add("lastName", lastName)
+				.add("email", email).add("password", password).add("birthDate", birthDate).toString();
 	}
 
 	@Override

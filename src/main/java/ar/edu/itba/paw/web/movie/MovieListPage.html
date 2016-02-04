@@ -1,0 +1,46 @@
+<html>
+<body>
+	<wicket:extend>
+		<wicket:container wicket:id="filterNavBar" />
+		<div class="container">
+			<div class="well">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th class="col-md-2"><wicket:message key="releaseDate">Release Date</wicket:message></th>
+							<th class="col-md-2"><wicket:message key="director">Director</wicket:message></th>
+							<th class="col-md-4"><wicket:message key="title">Title</wicket:message></th>
+							<th class="col-md-1"><wicket:message key="detail">Detail</wicket:message></th>
+							<!-- 							<c:if test="${user.admin}"> -->
+<!-- 							<th class="col-md-1"><wicket:container wicket:id="edit">Edit</wicket:container></th> -->
+							<th class="col-md-1"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr wicket:id="movies">
+							<td class="col-md-2" wicket:id="movie.releaseDate" />
+							<td class="col-md-2" wicket:id="movie.director.name" />
+							<td class="col-md-4" wicket:id="movie.title" />
+							<td class="col-md-1"><a href="#" wicket:id="movie.link"><span
+								class="glyphicon glyphicon-link"></span></a></td>
+							<!-- 								<c:if test="${user.admin}"> -->
+							<!-- 									<td class="col-md-1"><a href="<c:out -->
+							<!-- 								value=" -->
+							<!-- 										app/movies/edit?movie=${movie.id} " />"><span -->
+							<!-- 										class="glyphicon glyphicon-pencil text-center"></span></a></td> -->
+							<!-- 									<td class="col-md-1"><form role="form" -->
+							<!-- 											action="app/movies/remove" method="post" commandName="remove"> -->
+							<!-- 											<input type="hidden" name="movie" id="movie" -->
+							<!-- 												value="${movie.id}"></input> -->
+							<!-- 											<input type="submit" name="delete" id="delete" value="Delete" -->
+							<!-- 												class="btn btn-primary pull-right"> -->
+							<!-- 										</form></td> -->
+							<!-- 								</c:if> -->
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

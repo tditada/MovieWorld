@@ -1,0 +1,61 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:extend>
+		<div class="container">
+			<div class="row">
+				<div class="page-header">
+					<h1>
+						<wicket:container wicket:id="userName" />
+						<wicket:message key="profile">Profile</wicket:message>
+						<form wicket:id="removeInterestingUser">
+							<input type="submit" name="removeInteresting"
+								id="removeInteresting" value="Remove As Interesting User"
+								class="btn btn-primary pull-right" />
+						</form>
+						<form wicket:id="addInterestingUser">
+							<input type="submit" name="addInteresting" id="addInteresting"
+								value="Add As Interesting User"
+								class="btn btn-primary pull-right" />
+						</form>
+					</h1>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+								<wicket:container wicket:id="comments"/>
+								<wicket:container wicket:id="noComments"/>
+							</h3>
+						</div>
+						<wicket:container wicket:id="user.comments">
+							<div class="panel-body">
+								<dl class="dl-horizontal">
+									<dt>
+										<wicket:message key="movie">Movie</wicket:message>
+									</dt>
+									<dd>
+										<a href="#" wicket:id="comment.movie.link"> <wicket:container
+												wicket:id="comment.movie.title" />
+										</a>
+									</dd>
+									<dt>
+										<wicket:message key="date">Date</wicket:message>
+									</dt>
+									<dd>
+										<wicket:container wicket:id="comment.creationdate " />
+									</dd>
+								</dl>
+							</div>
+						</wicket:container>
+					</div>
+					<div class="panel-body">
+						<dl class="dl-horizontal">
+
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:panel>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<wicket:enclosure child="commentAmount">
+						<wicket:message key="commentsAmountText">
+							<wicket:container wicket:id="commentAmount">[commentAmount]</wicket:container>
+						</wicket:message>
+					</wicket:enclosure>
+				</h3>
+			</div>
+			<wicket:container wicket:id="comments">
+				<dl class="dl-horizontal">
+					<div class="panel-body">
+						<dt>
+							<wicket:message key="user">User</wicket:message>
+						</dt>
+						<dd>
+							<wicket:container wicket:id="comment.user" />
+						</dd>
+						<dt>
+							<wicket:message key="moviescore">Movie Score</wicket:message>
+						</dt>
+						<dd>
+							<wicket:container wicket:id="movie.scorePanel" />
+						</dd>
+						<dt>
+							<wicket:message key="date">Date</wicket:message>
+						</dt>
+						<dd>
+							<wicket:container wicket:id="comment.creationdate " />
+						</dd>
+						<dt>
+							<wicket:message key="comment">Comment</wicket:message>
+						</dt>
+						<dd>
+							<wicket:container wicket:id="comment.text" />
+						</dd>
+						<dt>
+							<wicket:message key="commentScore">Comment Score</wicket:message>
+						</dt>
+						<dd>
+							<wicket:container wicket:id="comment.CommentScorePanel" />
+						</dd>
+					</div>
+				</dl>
+			</wicket:container>
+			<!-- 			</c:forEach> -->
+		</div>
+	</wicket:panel>
+</body>
+</html>

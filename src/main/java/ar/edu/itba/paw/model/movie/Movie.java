@@ -10,6 +10,8 @@ import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
 import java.io.Serializable;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,14 +37,16 @@ import org.hibernate.annotations.SortType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormat;
 
+import ar.edu.itba.paw.domain.PersistentEntity;
 import ar.edu.itba.paw.model.ImageWrapper;
 import ar.edu.itba.paw.model.Score;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.genre.Genre;
 import ar.edu.itba.paw.model.user.User;
-import ar.edu.itba.paw.util.persist.PersistentEntity;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "movies", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"title", "director" }))
@@ -92,7 +96,6 @@ public class Movie extends PersistentEntity implements Serializable {
 	Movie() {
 	}
 
-	// @GeneratePojoBuilder
 	public Movie(DateTime releaseDate, String title, SortedSet<Genre> genres,
 			Director director, int runtimeInMins, String summary, byte[] picture) {
 		setTitle(title);
@@ -117,6 +120,10 @@ public class Movie extends PersistentEntity implements Serializable {
 	public SortedSet<Comment> getComments() {
 		return Collections.unmodifiableSortedSet(comments);
 	}
+	
+	public List<Comment> getCommentsAsList() {
+		return Collections.unmodifiableList(new ArrayList<Comment>(comments));
+	}
 
 	public Score getAverageScore() {
 		if (getTotalComments() == 0) {
@@ -136,6 +143,10 @@ public class Movie extends PersistentEntity implements Serializable {
 	public SortedSet<Genre> getGenres() {
 		return Collections.unmodifiableSortedSet(genres);
 	}
+	
+	public List<Genre> getGenreList() {
+        return Collections.unmodifiableList(new ArrayList<>(genres));
+    }
 
 	public Director getDirector() {
 		return director;
@@ -153,9 +164,16 @@ public class Movie extends PersistentEntity implements Serializable {
 		return releaseDate;
 	}
 
+//	public String getReleaseDateFormatter() {
+//		org.joda.time.format.DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+//		return releaseDate.toString(formatter);
+//	}
+	
 	public byte[] getPicture() {
 		return (picture == null) ? null : picture.getImage();
 	}
+	
+	
 
 	public void setPicture(byte[] picture) {
 		if (picture == null) { // esto sería que no haya imagen, es válido
