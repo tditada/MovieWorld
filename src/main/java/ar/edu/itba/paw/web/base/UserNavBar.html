@@ -2,13 +2,13 @@
 <body>
 	<wicket:panel>
 		<ul class="nav navbar-nav navbar-right">
-			<wicket:enclosure child="user.firstName">
-				<wicket:message key="loggedInAs" class="navbar-text">
-				Logged in as
-				<wicket:container id="user.firstName" />
-					<wicket:container id="user.lastName" />
-				</wicket:message>
-			</wicket:enclosure>
+<!-- 			<wicket:enclosure child="user.firstName"> -->
+<!-- 				<wicket:message key="loggedInAs" class="navbar-text"> -->
+<!-- 				Logged in as -->
+<!-- 				<wicket:container id="user.firstName" /> -->
+<!-- 					<wicket:container id="user.lastName" /> -->
+<!-- 				</wicket:message> -->
+<!-- 			</wicket:enclosure> -->
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown"> <wicket:message key="menu">Menu</wicket:message>
 					<span class="caret"></span></a> 
@@ -19,7 +19,7 @@
 					</a></li>
 <!-- 					If Admin -->
 					<wicket:enclosure child="InsertMovieLink">
-						<li><a href="#" wicket:id="InserMovieLink"> <wicket:message
+						<li><a href="#" wicket:id="InsertMovieLink"> <wicket:message
 									key="InsertMovie">Insert Movie</wicket:message>
 						</a></li>
 						<li><a href="#" wicket:id="ReportedCommentsLink"><wicket:message
@@ -27,7 +27,7 @@
 								reported comments</wicket:message></a></li>
 						<li class="divider"></li>
 					</wicket:enclosure>
-					<!-- 					If User Loged (not Admin)-->
+<!-- 										If User Loged (not Admin) -->
 					<li><a href="#" wicket:id="myCommentsLink"><wicket:message key="myComments">My
 							Comments</wicket:message></a></li>
 					<li class="divider"></li>

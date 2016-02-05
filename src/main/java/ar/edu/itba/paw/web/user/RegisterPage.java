@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.web.user;
 
-import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
@@ -12,7 +11,6 @@ import org.apache.wicket.validation.IValidationError;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import ar.edu.itba.paw.model.user.Email;
 import ar.edu.itba.paw.model.user.NonArtisticName;
@@ -32,31 +30,34 @@ public class RegisterPage extends BasePage {
 	@SpringBean
 	private UserRepo users;
 
-	private NonArtisticName firstName;
-	private NonArtisticName lastName;
-	private Email email;
-	private String birthDate;
-	private Password password;
-	private Password confirmPassword;
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String birthday;
+	public String password;
+	private String confirmPassword;
 
+
+	
 	public RegisterPage() {
-
 		Form<RegisterPage> form = new Form<RegisterPage>("registerForm",
 				new CompoundPropertyModel<RegisterPage>(this)) {
 			@Override
 			protected void onSubmit() {
-				DateTime date = DateTime.parse(birthDate);
-				User user = User.builder().withFirstName(firstName).withLastName(lastName).withPassword(password)
-						.withEmail(email).withBirthDate(date).build();
-				try {
-					users.register(user);
-					MovieWorldSession.get().signIn(user.getEmail().getTextAddress(),
-							user.getPassword().getPasswordString(), users);
-					setResponsePage(HomePage.class);
-				} catch (Exception e) {
-					error(getString("user.exists"));
+				String[] b = birthday.split("/");
+				birthday = b[b.length-1] + "-" + b[0] + "-" + b[1];
+				User user =
+				 User.builder().withFirstName(new NonArtisticName(firstName)).withLastName(new NonArtisticName(lastName)).withPassword( new Password(password))
+				 .withEmail(new Email(email)).withBirthDate(new DateTime(birthday)).build();
+				 try {
+				 users.register(user);
+				 MovieWorldSession.get().signIn(user.getEmail().getTextAddress(),
+				 user.getPassword().getPasswordString(), users);
+				 setResponsePage(HomePage.class);
+				 } catch (Exception e) {
+					error(getString("userExists"));
 					setResponsePage(RegisterPage.class);
-				}
+				 }
 			}
 
 			@Override
@@ -82,6 +83,19 @@ public class RegisterPage extends BasePage {
 
 		TextField<String> firstname = new TextField<String>("firstName") {
 			@Override
+			protected void onInitialize() {
+				super.onInitialize();
+				add(new IValidator<String>() {
+					@Override
+					public void validate(IValidatable<String> validatable) {
+						if (!NonArtisticName.isValid(validatable.getValue())) {
+							validatable.error(new ValidationError(this));
+						}
+					}
+				});
+			}
+
+			@Override
 			public void error(IValidationError error) {
 				error(getString("invalidName"));
 			}
@@ -90,24 +104,58 @@ public class RegisterPage extends BasePage {
 		form.add(firstname);
 
 		TextField<String> lastname = new TextField<String>("lastName") {
+
+			@Override
+			protected void onInitialize() {
+				super.onInitialize();
+				add(new IValidator<String>() {
+					@Override
+					public void validate(IValidatable<String> validatable) {
+						if (!NonArtisticName.isValid(validatable.getValue())) {
+							validatable.error(new ValidationError(this));
+						}
+					}
+				});
+			}
+
 			@Override
 			public void error(IValidationError error) {
-				error(getString("invalidName"));
+				error(getString("invalidLastName"));
 			}
 		};
+
 		lastname.setRequired(true);
 		form.add(lastname);
 
-		TextField<Email> email = new TextField<Email>("email") {
+		TextField<String> email = new TextField<String>("email") {
+			@Override
+			protected void onInitialize() {
+				super.onInitialize();
+				add(new IValidator<String>() {
+					@Override
+					public void validate(IValidatable<String> validatable) {
+						if (!Email.isValid(validatable.getValue())) {
+							validatable.error(new ValidationError(this));
+						}
+					}
+				});
+			}
+
 			@Override
 			public void error(IValidationError error) {
 				error(getString("errorEmail"));
+			}
+
+			@Override
+			protected void onValid() {
+				super.onValid();
+				Email.isValid(getConvertedInput());
 			}
 		};
 		email.setRequired(true);
 		form.add(email);
 
-		form.add(new DateTextField("birthDate",
+		form.add(new DateTextField("birthday",
 				new DateTextFieldConfig().autoClose(true).withStartDate(DateTime.now().minusYears(100))
 						.withView(DateTextFieldConfig.View.Decade).withEndDate(DateTime.now())) {
 			@Override
@@ -121,60 +169,61 @@ public class RegisterPage extends BasePage {
 			}
 		});
 
-	     form.add(new RequiredTextField<Password>("password") {
-              @Override
-              public void error(IValidationError error) {
-                  error(getString(getId() + ".invalid"));
-              }
+		form.add(new RequiredTextField<String>("password") {
+			
+			@Override
+			protected void onInitialize() {
+				super.onInitialize();
+				add(new IValidator<String>() {
+					@Override
+					public void validate(IValidatable<String> validatable) {
+						if (!Password.isValid(validatable.getValue())) {
+							validatable.error(new ValidationError(this));
+						}
+					}
+				});
+			}
+			
+			@Override
+			public void error(IValidationError error) {
+				error(getString("errorPassword"));
+			}
 
-              @Override
-              protected void onComponentTag(ComponentTag tag) {
-                  super.onComponentTag(tag);
-                  tag.put("value", "");
-              }
+			@Override
+			protected String getInputType() {
+				return "password";
+			}
+		});
+//		password.setRequired(true);
+//		form.add(password);
 
-              @Override
-              protected String getInputType() {
-                  return "password";
-              }
-          });
-	      
-        form.add(new RequiredTextField<Password>("confirmPassword") {
-            @Override
-            protected void onInitialize() {
-                super.onInitialize();
-                add(new IValidator<Password>() {
-                    @Override
-                    public void validate(
-                            IValidatable<Password> validatable) {
-                        if (password != null && !validatable.getValue()
-                                .equals(password)) {
-                            validatable
-                                    .error(new ValidationError(this));
-                        }
-                    }
-                });
-            }
+		TextField<String> confirmPassword = new RequiredTextField<String>("confirmPassword") {
 
-            @Override
-            protected void onComponentTag(ComponentTag tag) {
-                super.onComponentTag(tag);
-                tag.put("value", "");
-            }
+			@Override
+			protected void onInitialize() {
+				super.onInitialize();
+				add(new IValidator<String>() {
+					@Override
+					public void validate(IValidatable<String> validatable) {
+						if (password!=null && !password.equals(validatable.getValue())) {
+							validatable.error(new ValidationError(this));
+						}
+					}
+				});
+			}
+			
+			@Override
+			public void error(IValidationError error) {
+				error(getString("confirmPassError"));
+			}
 
-            @Override
-            public void error(IValidationError error) {
-                error(getString("confirmPassError"));
-            }
-
-            @Override
-            protected String getInputType() {
-                return "password";
-            }
-        });
-//		confirmPassword.setRequired(true);
-//		password.add(new EqualValidator(confirmPassword));
-//		form.add(confirmPassword);
+			@Override
+			protected String getInputType() {
+				return "password";
+			}
+		};
+		confirmPassword.setRequired(true);
+		form.add(confirmPassword);
 		add(form);
 	}
 

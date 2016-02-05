@@ -47,6 +47,5 @@ public class NavBar extends Panel {
 	
 	protected void addNavBars(){
 		add(new UserNavBar("userNavBar"));
-//		add(new FilterMovieNavBar("movieNavBar"));
 	}
 }

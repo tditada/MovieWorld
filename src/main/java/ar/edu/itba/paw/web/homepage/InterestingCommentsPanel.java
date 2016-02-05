@@ -24,19 +24,25 @@ public class InterestingCommentsPanel extends Panel {
 
 	@SpringBean
 	private UserRepo users;
-
 	public InterestingCommentsPanel(String id) {
 		super(id);
 
-		IModel<List<Comment>> interestingComments = new LoadableDetachableModel<List<Comment>>() {
+		final IModel<List<Comment>> interestingComments = new LoadableDetachableModel<List<Comment>>() {
 			@Override
 			protected List<Comment> load() {
 				User user = MovieWorldSession.get().getCurrentUser(users);
 				return getInterestingCommentsFor(user);
 			}
 		};
+		
+		add(new Label("noComments", getString("noComments")){
+			@Override
+			public boolean isVisible() {
+				return super.isVisible() && interestingComments.getObject().size()>0;
+			}
+		});
 
-		add(new PropertyListView<Comment>("interestingComments.comment", interestingComments) {
+		add(new PropertyListView<Comment>("interestingComments", interestingComments) {
 			@Override
 			protected void populateItem(ListItem<Comment> item) {
 				item.add(new Label("firstName", new PropertyModel<String>(item.getModel(), "user.firstName")));

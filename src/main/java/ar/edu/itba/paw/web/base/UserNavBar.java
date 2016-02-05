@@ -43,18 +43,18 @@ public class UserNavBar extends Panel {
 		});
 
 		// Logged User Link
-		add(new Label("user.firstName", firstName) {
-			@Override
-			public boolean isVisible() {
-				return MovieWorldSession.get().isSignedIn();
-			}
-		});
-		add(new Label("user.lastName", lastName) {
-			@Override
-			public boolean isVisible() {
-				return MovieWorldSession.get().isSignedIn();
-			}
-		});
+//		add(new Label("user.firstName", firstName) {
+//			@Override
+//			public boolean isVisible() {
+//				return MovieWorldSession.get().isSignedIn();
+//			}
+//		});
+//		add(new Label("user.lastName", lastName) {
+//			@Override
+//			public boolean isVisible() {
+//				return MovieWorldSession.get().isSignedIn();
+//			}
+//		});
 
 		add(new Link<Void>("myCommentsLink") {
 
