@@ -7,6 +7,7 @@ import static ar.edu.itba.paw.util.validation.PredicateHelpers.notNull;
 import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 import static ar.edu.itba.paw.util.validation.Validations.checkState;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -21,6 +22,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -36,9 +38,10 @@ import ar.edu.itba.paw.domain.PersistentEntity;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.movie.Movie;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email") )
-public class User extends PersistentEntity {
+public class User extends PersistentEntity implements Serializable {
 	
 	public static class Validations {
 		public static int NAME_MIN_LENGTH = 4;
@@ -71,7 +74,7 @@ public class User extends PersistentEntity {
 	private boolean admin;
 
 	@Sort(type = SortType.NATURAL)
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private SortedSet<Comment> comments = new TreeSet<Comment>();
 
 	@OneToMany

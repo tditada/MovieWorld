@@ -1,0 +1,34 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:extend>
+		<div class="container">
+			<div class="well">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th class="col-md-2"><wicket:message key="user">User</wicket:message></th>
+							<th class="col-md-2"><wicket:message key="comments">Comments</wicket:message></th>
+						</tr>
+					</thead>
+					<tbody>
+						<wicket:container wicket:id="users">
+<!-- 							<c:if test="${user ne listedUser }"> -->
+								<tr>
+									<td class="col-md-2">
+										<p>
+											<wicket:container wicket:id="userFirstName"/>
+											<wicket:container wicket:id="userLastName"/>
+										</p>
+									</td>
+									<td class="col-md-1"><a href="#" wicket:id="userLink"><span
+										class="glyphicon glyphicon-link"></span></a></td>
+								</tr>
+<!-- 							</c:if> -->
+						</wicket:container>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

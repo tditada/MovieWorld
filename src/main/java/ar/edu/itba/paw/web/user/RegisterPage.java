@@ -73,7 +73,6 @@ public class RegisterPage extends BasePage {
 			}
 
 		};
-
 		form.add(new FeedbackPanel("feedback") {
 			@Override
 			public boolean isVisible() {

@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.web.base;
 
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -9,7 +8,9 @@ import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.homepage.HomePage;
+import ar.edu.itba.paw.web.movie.AddMoviePage;
 import ar.edu.itba.paw.web.user.LoginPage;
+import ar.edu.itba.paw.web.user.UserCommentsPage;
 
 @SuppressWarnings("serial")
 public class UserNavBar extends Panel {
@@ -42,25 +43,19 @@ public class UserNavBar extends Panel {
 
 		});
 
-		// Logged User Link
-//		add(new Label("user.firstName", firstName) {
-//			@Override
-//			public boolean isVisible() {
-//				return MovieWorldSession.get().isSignedIn();
-//			}
-//		});
-//		add(new Label("user.lastName", lastName) {
-//			@Override
-//			public boolean isVisible() {
-//				return MovieWorldSession.get().isSignedIn();
-//			}
-//		});
+//		 Logged User Link
+//		Label firstNameLabel = new Label("user.firstName", firstName);
+//		Label lastNameLabel = new Label("user.lastName", lastName);
+//		if( MovieWorldSession.get().isSignedIn()){
+//			firstNameLabel.isVisible();
+//			lastNameLabel.isVisible();
+//		}
 
 		add(new Link<Void>("myCommentsLink") {
 
 			@Override
 			public void onClick() {
-				setResponsePage(HomePage.class);
+				setResponsePage(new UserCommentsPage(MovieWorldSession.get().getCurrentUser(userRepo)));
 			}
 
 			@Override
@@ -88,7 +83,7 @@ public class UserNavBar extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(HomePage.class);
+				setResponsePage(AddMoviePage.class);
 			}
 
 			@Override

@@ -5,13 +5,15 @@ import static ar.edu.itba.paw.util.ObjectHelpers.hash;
 import static ar.edu.itba.paw.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import org.hibernate.annotations.Check;
 
 @Embeddable
-public class Score implements Comparable<Score> {
+public class Score implements Comparable<Score>, Serializable  {
 	public static final int MIN_SCORE = 0;
 	public static final int MAX_SCORE = 5;
 

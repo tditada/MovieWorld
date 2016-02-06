@@ -23,14 +23,14 @@ import ar.edu.itba.paw.web.base.BasePage;
 import ar.edu.itba.paw.web.movie.MoviePage;
 
 @SuppressWarnings("serial")
-public class UserProfilePage extends BasePage {
+public class UserCommentsPage extends BasePage {
 
 	@SpringBean
 	UserRepo userRepo;
 	@SpringBean
 	MovieRepo movieRepo;
 
-	public UserProfilePage(User user) {
+	public UserCommentsPage(final User user) {
 		final IModel<User> userModel = new EntityModel<>(User.class, user);
 
 		add(new Label("userName", user.getFirstName().getNameString() + " " + user.getLastName().getNameString()));
@@ -46,14 +46,14 @@ public class UserProfilePage extends BasePage {
 				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
 				User user = userModel.getObject();
 				currentUser.removeInterestingUser(user);
-				setResponsePage(new UserProfilePage(user));
+				setResponsePage(new UserCommentsPage(user));
 			}
 		};
 		Form<Void> addInterestingUser = new Form<Void>("addInterestingUser") {
 			@Override
 			public boolean isVisible() {
 				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
-				return super.isVisible() && !currentUser.isinterestingUser(userModel.getObject());
+				return super.isVisible() && currentUser!=user && !currentUser.isinterestingUser(userModel.getObject());
 			}
 
 			@Override
@@ -61,7 +61,7 @@ public class UserProfilePage extends BasePage {
 				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
 				User user = userModel.getObject();
 				currentUser.addInterestingUser(user);
-				setResponsePage(new UserProfilePage(user));
+				setResponsePage(new UserCommentsPage(user));
 			}
 		};
 		add(removeInterestingUser);
@@ -86,15 +86,15 @@ public class UserProfilePage extends BasePage {
 			}
 		};
 
-		add(new PropertyListView<Comment>("user.comments", userComments) {
+		add(new PropertyListView<Comment>("userComments", userComments) {
 			@Override
 			protected void populateItem(final ListItem<Comment> item) {
 
-				item.add(new Link<Void>("comment.movie.link") {
+				item.add(new Link<Void>("commentMovieLink") {
 					@Override
 					protected void onInitialize() {
 						super.onInitialize();
-						add(new Label("comment.movie.title", new PropertyModel<String>(item.getModel(), "title")));
+						add(new Label("commentMovieTitle", new PropertyModel<String>(item.getModelObject().getMovie(), "title")));
 					}
 
 					@Override
@@ -104,7 +104,8 @@ public class UserProfilePage extends BasePage {
 					}
 				});
 				
-				item.add(new Label("comment.screationDate", new PropertyModel<String>(item.getModel(), "creationDate")));
+				item.add(new Label("commentCreationdate", new PropertyModel<String>(item.getModel(), "creationDate")));
+				item.add(new Label("commentText", new PropertyModel<String>(item.getModel(), "text")));
 			}
 		});
 		

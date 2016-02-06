@@ -87,7 +87,7 @@ public class Movie extends PersistentEntity implements Serializable {
 	private int totalScore;
 
 	@Sort(type = SortType.NATURAL)
-	@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "movie", cascade = CascadeType.ALL)
 	private SortedSet<Comment> comments = new TreeSet<Comment>();
 
 	@Embedded

@@ -1,0 +1,81 @@
+<html>
+<body>
+	<wicket:extend>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<!-- 					<c:if test="${user.admin}"> -->
+					<form role="form" enctype="multipart/form-data" method="post"
+						wicket:id="movieForm">
+						<div wicket:id="feedback" class="alert alert-danger" role="alert" />
+						<div class="form-group">
+							<label for="title"><wicket:message key="enterTitle">Enter title</wicket:message></label>
+							<div class="input-group">
+								<input wicket:id="movieTitle" type="text" class="form-control"
+									placeholder="Enter Movie's Title" /> <span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-asterisk"></span> <wicket:message
+										key="required">Required</wicket:message></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="director"><wicket:message key="enterDirector">Enter director</wicket:message></label>
+							<div class="input-group">
+								<input wicket:id="director" type="text" class="form-control"
+									placeholder="Enter Director" /> <span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-asterisk"></span> <wicket:message
+										key="required">Required</wicket:message></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="summary"><wicket:message key="enterSummary">Enter summary</wicket:message></label>
+							<div class="input-group">
+								<input wicket:id="summary" type="text" class="form-control"
+									name="summary" id="summary" placeholder="Enter Summary" /> <span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-asterisk"></span> <wicket:message
+										key="required">Required</wicket:message></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="genres"><wicket:message key="enterGenre">Enter genre(s)</wicket:message></label>
+							<div class="input-group">
+								<input wicket:id="genres" type="text" class="form-control"
+									id="genres" placeholder="Action, Comedy, ..." />
+								<span class="input-group-addon"><span
+									class="glyphicon glyphicon-asterisk"></span> <wicket:message
+										key="required">Required</wicket:message></span>
+							</div>
+							<wicket:message key="genresHelp"/>
+							<wicket:container wicket:id="genresAll"/>
+						</div>
+						<div class="form-group">
+							<label for="runtimeInMins" class="control-label"><wicket:message
+									key="enterMin">Enter
+								runtime (in minutes)</wicket:message></label> <input wicket:id="runtime" type="number"
+								class="form-control" id="runtimeInMins" /> <span
+								class="input-group-addon"><span
+								class="glyphicon glyphicon-asterisk"></span> <wicket:message
+									key="required">Required</wicket:message></span>
+						</div>
+						<div class="form-group">
+							<label for="releaseDate"><wicket:message
+									key="enterRelease">Enter release date</wicket:message></label> <input
+								wicket:id="release" type="text" name="releaseDate" path="releaseDate"
+								id="releaseDatepicker" cssClass="releaseDatepicker" />
+						</div>
+<!-- 						<div class="form-group"> -->
+<!-- 							<label for="picture"><wicket:message key="enterPic">Enter a picture</wicket:message></label>  -->
+<!-- 							<input wicket:id="file"  id="file-picker"  type="file"	path="picture" /> -->
+<!-- 						</div> -->
+						<input type="submit" name="submit" id="submit" value="Submit"
+							class="btn btn-primary pull-right">
+					</form>
+					<!-- 					</c:if> -->
+				</div>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

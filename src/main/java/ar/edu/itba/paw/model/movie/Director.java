@@ -30,6 +30,17 @@ public class Director implements Serializable{
 		checkArgument(name.length() <= MAX_NAME_LENGTH);
 		this.name = name;
 	}
+	
+	public static boolean isValid(String name){
+		try{
+			checkArgument(name, neitherNullNorEmpty());
+			checkArgument(name.length() <= MAX_NAME_LENGTH);
+		}catch(Exception e){
+			return false;
+		}
+		return true;
+		
+	}
 
 	public String getName() {
 		return name;

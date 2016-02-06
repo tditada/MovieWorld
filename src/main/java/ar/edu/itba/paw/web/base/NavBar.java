@@ -8,6 +8,7 @@ import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.homepage.HomePage;
 import ar.edu.itba.paw.web.movie.MovieListPage;
+import ar.edu.itba.paw.web.user.UsersListPage;
 
 @SuppressWarnings("serial")
 public class NavBar extends Panel {
@@ -33,7 +34,7 @@ public class NavBar extends Panel {
 		add(new Link<Void>("otherUsersLink") {
 			@Override
 			public void onClick() {
-				setResponsePage(HomePage.class);
+				setResponsePage(UsersListPage.class);
 			}
 
 			@Override

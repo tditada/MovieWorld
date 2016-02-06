@@ -1,8 +1,6 @@
 package ar.edu.itba.paw.web.movie;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -17,6 +15,7 @@ import ar.edu.itba.paw.domain.EntityModel;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.comment.CommentRepo;
 import ar.edu.itba.paw.model.movie.Movie;
+import ar.edu.itba.paw.web.MovieWorldSession;
 
 @SuppressWarnings("serial")
 public class MovieCommentsPanel extends Panel {
@@ -31,21 +30,39 @@ public class MovieCommentsPanel extends Panel {
 		movieModel = new EntityModel<Movie>(Movie.class, movie);
 		// add(new Label("commentAmount", new PropertyModel<String>(movie,
 		// "title")));
-		// TODO Auto-generated constructor stub
-
-		add(new Label("movie.commentAmount", PropertyModel.of(movieModel, "totalComments")));
-
+		Integer amount = movie.getTotalComments();
+		Label amountLabel = new Label("movie.commentAmount", PropertyModel.of(movieModel, "totalComments"));
+		Label commentsLabel = new Label("commentsLabel",getString("comments"));
+		Label noCommentsLabel = new Label("noCommentsLabel", getString("noComments"));
+		Label commentLabel = new Label("commentLabel", getString("comment"));
+		if(amount == 0){
+			noCommentsLabel.setVisible(true);
+			commentsLabel.setVisible(false);
+			commentLabel.setVisible(false);
+			amountLabel.setVisible(false);
+		}else if(amount == 1){
+			commentLabel.setVisible(true);
+			noCommentsLabel.setVisible(false);
+			commentsLabel.setVisible(false);
+			amountLabel.setVisible(true);
+		}else{
+			commentsLabel.setVisible(true);
+			commentLabel.setVisible(false);
+			noCommentsLabel.setVisible(false);
+			amountLabel.setVisible(true);
+		}
+		add(amountLabel);
+		add(commentsLabel);
+		add(noCommentsLabel);
+		add(commentLabel);
+		
 		IModel<List<Comment>> comments = new LoadableDetachableModel<List<Comment>>() {
 			@Override
 			protected List<Comment> load() {
-				Set<Comment> sortedSet = movie.getComments();
-				List<Comment> list = new ArrayList<Comment>(sortedSet);
-				return list;
+				return movie.getCommentsAsList();
 			}
 		};
 		
-//		IModel<List<Comment>> commentsModel = new EntityModel<List<Comment>>(List.class, comments
-
 		add(new ListView<Comment>("comments", comments) {
 
 			@Override
@@ -65,6 +82,7 @@ public class MovieCommentsPanel extends Panel {
 						item.getModelObject().getAverageCommentScore().getValue()));
 			}
 		});
+		
 
 	}
 }

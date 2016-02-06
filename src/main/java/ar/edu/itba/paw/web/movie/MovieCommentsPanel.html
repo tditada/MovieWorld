@@ -4,11 +4,10 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">
-					<wicket:enclosure child="commentAmount">
-						<wicket:message key="commentsAmountText">
-							<wicket:container wicket:id="commentAmount">[commentAmount]</wicket:container>
-						</wicket:message>
-					</wicket:enclosure>
+					<wicket:container wicket:id="movie.commentAmount" />
+					<wicket:container wicket:id="commentsLabel" />
+					<wicket:container wicket:id="commentLabel" />
+					<wicket:container wicket:id="noCommentsLabel" />
 				</h3>
 			</div>
 			<wicket:container wicket:id="comments">
@@ -47,7 +46,6 @@
 					</div>
 				</dl>
 			</wicket:container>
-			<!-- 			</c:forEach> -->
 		</div>
 	</wicket:panel>
 </body>

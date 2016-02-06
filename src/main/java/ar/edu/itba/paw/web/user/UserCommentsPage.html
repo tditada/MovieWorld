@@ -27,32 +27,38 @@
 								<wicket:container wicket:id="noComments"/>
 							</h3>
 						</div>
-						<wicket:container wicket:id="user.comments">
+						<wicket:container wicket:id="userComments">
 							<div class="panel-body">
 								<dl class="dl-horizontal">
 									<dt>
 										<wicket:message key="movie">Movie</wicket:message>
 									</dt>
 									<dd>
-										<a href="#" wicket:id="comment.movie.link"> <wicket:container
-												wicket:id="comment.movie.title" />
+										<a href="#" wicket:id="commentMovieLink"> <wicket:container
+												wicket:id="commentMovieTitle" />
 										</a>
 									</dd>
 									<dt>
 										<wicket:message key="date">Date</wicket:message>
 									</dt>
 									<dd>
-										<wicket:container wicket:id="comment.creationdate " />
+										<wicket:container wicket:id="commentCreationdate " />
+									</dd>
+									<dt>
+										<wicket:message key="commentText">Comment Text</wicket:message>
+									</dt>
+									<dd>
+										<wicket:container wicket:id="commentText " />
 									</dd>
 								</dl>
 							</div>
 						</wicket:container>
 					</div>
-					<div class="panel-body">
-						<dl class="dl-horizontal">
+<!-- 					<div class="panel-body"> -->
+<!-- 						<dl class="dl-horizontal"> -->
 
-						</dl>
-					</div>
+<!-- 						</dl> -->
+<!-- 					</div> -->
 				</div>
 			</div>
 		</div>

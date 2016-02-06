@@ -5,19 +5,18 @@
 <!-- 			<wicket:enclosure child="user.firstName"> -->
 <!-- 				<wicket:message key="loggedInAs" class="navbar-text"> -->
 <!-- 				Logged in as -->
-<!-- 				<wicket:container id="user.firstName" /> -->
-<!-- 					<wicket:container id="user.lastName" /> -->
 <!-- 				</wicket:message> -->
+<!-- 				<wicket:container id="user.firstName" /> -->
+<!-- 				<wicket:container id="user.lastName" /> -->
 <!-- 			</wicket:enclosure> -->
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown"> <wicket:message key="menu">Menu</wicket:message>
-					<span class="caret"></span></a> 
-				<!-- 					If No User -->
+					<span class="caret"></span></a> <!-- 					If No User -->
 				<ul class="dropdown-menu" role="menu">
 					<li><a href="#" wicket:id="loginRegisterLink"> <wicket:message
 								key="loginRegister">Login/Register</wicket:message>
 					</a></li>
-<!-- 					If Admin -->
+					<!-- 					If Admin -->
 					<wicket:enclosure child="InsertMovieLink">
 						<li><a href="#" wicket:id="InsertMovieLink"> <wicket:message
 									key="InsertMovie">Insert Movie</wicket:message>
@@ -27,11 +26,13 @@
 								reported comments</wicket:message></a></li>
 						<li class="divider"></li>
 					</wicket:enclosure>
-<!-- 										If User Loged (not Admin) -->
-					<li><a href="#" wicket:id="myCommentsLink"><wicket:message key="myComments">My
+					<!-- 										If User Loged (not Admin) -->
+					<li><a href="#" wicket:id="myCommentsLink"><wicket:message
+								key="myComments">My
 							Comments</wicket:message></a></li>
 					<li class="divider"></li>
-					<li><a wicket:id="logoutLink" class="btn-link black-link logout"><wicket:message
+					<li><a wicket:id="logoutLink"
+						class="btn-link black-link logout"><wicket:message
 								key="logout">Logout</wicket:message></a></li>
 				</ul></li>
 		</ul>
