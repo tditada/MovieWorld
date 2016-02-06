@@ -16,6 +16,7 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -44,7 +45,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment>,Ser
 	@AttributeOverride(name = "score", column = @Column(name = "movieScore", nullable = false))
 	private Score movieScore;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "comment_scorers")
 	private Set<User> scorers = new HashSet<>();// a comment can be scored by
 												// many different users, and a

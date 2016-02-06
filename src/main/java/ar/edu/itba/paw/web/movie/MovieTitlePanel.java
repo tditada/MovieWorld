@@ -18,7 +18,7 @@ public class MovieTitlePanel extends Panel{
 		add(new Label("release", "Release"){
 			@Override
 			public boolean isVisible() {
-				return !movie.isRelease();
+				return movie.isRelease();
 			}
 		});
 	}

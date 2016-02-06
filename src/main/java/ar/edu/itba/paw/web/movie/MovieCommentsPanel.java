@@ -80,6 +80,7 @@ public class MovieCommentsPanel extends Panel {
 				item.add(new Label("comment.text", PropertyModel.of(commentModel, "text")));
 				item.add(new StarsPanel("comment.CommentScorePanel",
 						item.getModelObject().getAverageCommentScore().getValue()));
+				item.add(new ScoreCommentForm("scoreCommentForm",item.getModelObject()));
 			}
 		});
 		

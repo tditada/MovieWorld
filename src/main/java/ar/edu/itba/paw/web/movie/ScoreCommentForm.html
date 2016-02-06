@@ -1,0 +1,51 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:panel>
+						<dt>Score this comment</dt>
+						<dd>
+							<div class="input-group">
+								<form role="form" action="app/comments/score" method="post"
+									wicket:id="scoreCommentForm">
+									<input wicket:id="score" type="number" class="form-control"
+										name="score" id="score" />
+<!-- 									<input type="hidden" path="comment" value="${comment.id}" /> -->
+									<input type="submit" name="submit" id="submit" value="Score"
+										class="btn btn-primary">
+								</form>
+							</div>
+						</dd>
+<!-- 				<dt>Report this comment</dt> -->
+<!-- 				<dd> -->
+<!-- 					<c:forEach items="${reportablesByUser}" var="reportable"> -->
+<!-- 						<c:if test="${comment eq reportable}"> -->
+<!-- 							<c:set var="reported" value="${true}" /> -->
+<!-- 									<%-- href="<c:out -->
+<!-- 								value="app/comments/report?comment=${comment.id}" />"> --%> -->
+
+<!-- 									<form role="form" action="app/comments/report" method="post"> -->
+<!-- 								<input type="hidden" name="comment" id="comment" -->
+<!-- 									value="${comment.id}"></input> <input type="submit" -->
+<!-- 									name="report" id="report" value="Report" -->
+<!-- 									class="btn btn-primary" /> -->
+<!-- 							</form> -->
+<!-- 						</c:if> -->
+<!-- 					</c:forEach> -->
+<!-- 					<c:if test="${empty reported}"> -->
+<!-- 						<span class="label label-danger">Reported</span> -->
+<!-- 					</c:if> -->
+<!-- 				</dd> -->
+<!-- 			</c:if> -->
+<!-- 			<c:if test="${user.admin}"> -->
+<!-- 				<dt>Delete this comment</dt> -->
+<!-- 				<dd> -->
+<!-- 					<form role="form" action="app/comments/remove" method="post"> -->
+<!-- 						<input type="hidden" name="comment" id="comment" -->
+<!-- 							value="${comment.id}" /><input type="hidden" name="movie" -->
+<!-- 							id="movie" value="${movie.id}" /> <input type="submit" -->
+<!-- 							name="delete" id="delete" value="Delete" class="btn btn-primary"> -->
+<!-- 					</form> -->
+<!-- 				</dd> -->
+<!-- 			</c:if> -->
+	</wicket:panel>
+</body>
+</html>

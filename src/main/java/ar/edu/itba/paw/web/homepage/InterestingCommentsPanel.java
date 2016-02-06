@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -16,8 +17,9 @@ import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
-import ar.edu.itba.paw.web.MovieTitleStarsPanel;
 import ar.edu.itba.paw.web.MovieWorldSession;
+import ar.edu.itba.paw.web.movie.MoviePage;
+import ar.edu.itba.paw.web.user.UserCommentsPage;
 
 @SuppressWarnings("serial")
 public class InterestingCommentsPanel extends Panel {
@@ -38,17 +40,39 @@ public class InterestingCommentsPanel extends Panel {
 		add(new Label("noComments", getString("noComments")){
 			@Override
 			public boolean isVisible() {
-				return super.isVisible() && interestingComments.getObject().size()>0;
+				return super.isVisible() && interestingComments.getObject().size()==0;
 			}
 		});
 
 		add(new PropertyListView<Comment>("interestingComments", interestingComments) {
 			@Override
-			protected void populateItem(ListItem<Comment> item) {
-				item.add(new Label("firstName", new PropertyModel<String>(item.getModel(), "user.firstName")));
-				item.add(new Label("lastName", new PropertyModel<String>(item.getModel(), "user.lastName")));
-				item.add(new MovieTitleStarsPanel("title", new PropertyModel<Movie>(item.getModel(), "movie.title")));
+			protected void populateItem(final ListItem<Comment> item) {
+				final Comment c =item.getModelObject();
 				item.add(new Label("commentSummary", new PropertyModel<Movie>(item.getModel(), "text")));
+				item.add(new Link<Void>("userLink"){
+					@Override
+					protected void onInitialize() {
+						super.onInitialize();
+						add(new Label("firstName", new PropertyModel<String>(item.getModel(), "user.firstName")));
+						add(new Label("lastName", new PropertyModel<String>(item.getModel(), "user.lastName")));
+					}
+					@Override
+					public void onClick() {
+						setResponsePage(new UserCommentsPage(c.getUser()));
+					}
+				});
+				item.add(new Link<Void>("movieLink"){
+					@Override
+					protected void onInitialize() {
+						add(new Label("title",new PropertyModel<Movie>(item.getModel(), "movie.title")));
+						super.onInitialize();
+					}
+					@Override
+					public void onClick() {
+						setResponsePage(new MoviePage(c.getMovie()));
+					}
+				});
+				//				item.add(new MovieTitleStarsPanel("title", new PropertyModel<Movie>(item.getModel(), "movie.title")));
 			}
 		});
 	}
