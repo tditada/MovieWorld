@@ -148,6 +148,17 @@ public class Movie extends PersistentEntity implements Serializable {
         return Collections.unmodifiableList(new ArrayList<>(genres));
     }
 
+	public String getGenreListString() {
+		List<Genre> genreList = getGenreList();
+		String genreString = "";
+		for (Genre g : genreList) {
+			String name = g.getName();
+			name = name.substring(0, 1) + name.substring(1).toLowerCase();
+			genreString += name + ", ";
+		}
+		genreString = genreString.substring(0, genreString.length() - 2);
+        return genreString;
+    }
 	public Director getDirector() {
 		return director;
 	}

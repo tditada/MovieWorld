@@ -4,11 +4,13 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.edu.itba.paw.domain.EntityModel;
+import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.comment.ReportedCommentsPage;
-import ar.edu.itba.paw.web.movie.AddMoviePage;
+import ar.edu.itba.paw.web.movie.AddEditMoviePage;
 import ar.edu.itba.paw.web.user.LoginPage;
 import ar.edu.itba.paw.web.user.UserCommentsPage;
 
@@ -83,7 +85,7 @@ public class UserNavBar extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(AddMoviePage.class);
+				setResponsePage(new AddEditMoviePage(new EntityModel<Movie>(Movie.class)));
 			}
 
 			@Override

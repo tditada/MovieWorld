@@ -3,6 +3,7 @@ package ar.edu.itba.paw.web.movie;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
@@ -17,14 +18,21 @@ import ar.edu.itba.paw.model.genre.Genre;
 import ar.edu.itba.paw.model.movie.Director;
 import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.movie.MovieRepo;
+import ar.edu.itba.paw.model.user.User;
+import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.util.persist.Orderings;
+import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.base.BasePage;
+import ar.edu.itba.paw.web.homepage.HomePage;
 
 @SuppressWarnings("serial")
 public class MovieListPage extends BasePage {
 
 	@SpringBean
 	MovieRepo movieRepo;
+	
+	@SpringBean
+	UserRepo userRepo;
 
 	final IModel<Genre> genreModel;
 	final IModel<Director> directorModel;
@@ -37,6 +45,7 @@ public class MovieListPage extends BasePage {
 
 		genreModel = new EntityModel<Genre>(Genre.class, genre);
 		directorModel = new Model<Director>(director);
+		final User user = MovieWorldSession.get().getCurrentUser(userRepo);
 		add(new FilterMovieNavBar("filterNavBar", genreModel, directorModel));
 
 		IModel<List<Movie>> movies = new LoadableDetachableModel<List<Movie>>() {
@@ -52,7 +61,15 @@ public class MovieListPage extends BasePage {
 				}
 			}
 		};
-		add(new Label("edit", getString("edit")));
+		add(new Label("edit", getString("edit")){
+			@Override
+			public boolean isVisible() {
+				if(user == null){
+					return false;
+				}
+				return super.isVisible() && user.isAdmin();
+			}
+		});
 
 		add(new PropertyListView<Movie>("movies", movies) {
 			@Override
@@ -67,9 +84,45 @@ public class MovieListPage extends BasePage {
 						setResponsePage(new MoviePage(m));
 					}
 				});
+				item.add(new Link<Void>("editLink"){
+					@Override
+					public void onClick() {
+						setResponsePage(new AddEditMoviePage(item.getModel()));
+					}
+					@Override
+					public boolean isVisible() {
+						if(user == null){
+							return false;
+						}
+						return super.isVisible() && user.isAdmin();
+					}
+				});
+				item.add(new Form<MovieListPage>("deleteMovie") {
+					@Override
+					public boolean isVisible() {
+						if(user == null){
+							return false;
+						}
+						return super.isVisible() && user.isAdmin();
+					}
+					@Override
+					protected void onSubmit() {
+						Movie movie = item.getModelObject();
+						if (movie != null && user != null && user.isAdmin()) {
+							movieRepo.remove(user, movie);
+							setResponsePage(new MovieListPage());
+						} else {
+
+							setResponsePage(HomePage.class);
+						}
+						super.onSubmit();
+						
+					}
+				});
 
 			}
 		});
+		
 
 	}
 }
