@@ -231,4 +231,5 @@ public class User extends PersistentEntity implements Serializable {
 		return recentComments;
 	}
 
+
 }

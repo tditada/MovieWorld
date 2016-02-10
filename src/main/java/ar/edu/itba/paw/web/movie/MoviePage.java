@@ -2,6 +2,8 @@ package ar.edu.itba.paw.web.movie;
 
 import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.web.base.BasePage;
+import ar.edu.itba.paw.web.comment.MovieCommentFormPanel;
+import ar.edu.itba.paw.web.comment.MovieCommentsPanel;
 
 @SuppressWarnings("serial")
 public class MoviePage extends BasePage {

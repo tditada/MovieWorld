@@ -17,7 +17,9 @@
 							<wicket:message key="user">User</wicket:message>
 						</dt>
 						<dd>
-							<wicket:container wicket:id="comment.user" />
+							<a href="#" wicket:id="userLink"> <wicket:container
+									wicket:id="commentUser" />
+							</a>
 						</dd>
 						<dt>
 							<wicket:message key="moviescore">Movie Score</wicket:message>
@@ -43,7 +45,9 @@
 						<dd>
 							<wicket:container wicket:id="comment.CommentScorePanel" />
 						</dd>
-						<wicket:container wicket:id="scoreCommentForm"/>
+						<wicket:container wicket:id="scoreCommentForm" />
+						<br />
+						<wicket:container wicket:id="deleteCommentForm" />
 					</div>
 				</dl>
 			</wicket:container>

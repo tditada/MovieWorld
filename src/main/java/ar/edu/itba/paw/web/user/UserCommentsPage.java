@@ -31,13 +31,17 @@ public class UserCommentsPage extends BasePage {
 	MovieRepo movieRepo;
 
 	public UserCommentsPage(final User user) {
-		final IModel<User> userModel = new EntityModel<>(User.class, user);
 
-		add(new Label("userName", user.getFirstName().getNameString() + " " + user.getLastName().getNameString()));
+        final IModel<User> userModel = new EntityModel<>(User.class, user);
+		add(new Label("userName", userModel.getObject().getFirstName().getNameString() + " "
+				+ userModel.getObject().getLastName().getNameString()));
 		Form<Void> removeInterestingUser = new Form<Void>("removeInterestingUser") {
 			@Override
 			public boolean isVisible() {
 				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
+				if (currentUser == null) {
+					return false;
+				}
 				return super.isVisible() && currentUser.isinterestingUser(userModel.getObject());
 			}
 
@@ -46,14 +50,18 @@ public class UserCommentsPage extends BasePage {
 				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
 				User user = userModel.getObject();
 				currentUser.removeInterestingUser(user);
-				setResponsePage(new UserCommentsPage(user));
+				setResponsePage(new UserCommentsPage(userModel.getObject()));
 			}
 		};
 		Form<Void> addInterestingUser = new Form<Void>("addInterestingUser") {
 			@Override
 			public boolean isVisible() {
 				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
-				return super.isVisible() && currentUser!=user && !currentUser.isinterestingUser(userModel.getObject());
+				if (currentUser == null) {
+					return false;
+				}
+				return super.isVisible() && currentUser != userModel.getObject()
+						&& !currentUser.isinterestingUser(userModel.getObject());
 			}
 
 			@Override
@@ -94,7 +102,8 @@ public class UserCommentsPage extends BasePage {
 					@Override
 					protected void onInitialize() {
 						super.onInitialize();
-						add(new Label("commentMovieTitle", new PropertyModel<String>(item.getModelObject().getMovie(), "title")));
+						add(new Label("commentMovieTitle",
+								new PropertyModel<String>(item.getModelObject().getMovie(), "title")));
 					}
 
 					@Override
@@ -103,13 +112,10 @@ public class UserCommentsPage extends BasePage {
 						setResponsePage(new MoviePage(m));
 					}
 				});
-				
+
 				item.add(new Label("commentCreationdate", new PropertyModel<String>(item.getModel(), "creationDate")));
 				item.add(new Label("commentText", new PropertyModel<String>(item.getModel(), "text")));
 			}
 		});
-		
-		
-
 	}
 }

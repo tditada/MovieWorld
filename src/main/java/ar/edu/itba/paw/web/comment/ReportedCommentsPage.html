@@ -1,0 +1,43 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:extend>
+		<div class="container">
+			<div class="well">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th class="col-md-2">User</th>
+							<th class="col-md-2">Movie</th>
+							<th class="col-md-4">Text</th>
+							<th class="col-md-2">Date</th>
+							<th class="col-md-2">Reports</th>
+							<th class="col-md-2"></th>
+							<th class="col-md-2"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<wicket:container wicket:id="reportedComments">
+							<tr>
+								<td class="col-md-2"><a href="" wicket:id="commentUserLink"><wicket:container
+											wicket:id="commentUserEmail" /></a></td>
+								<td class="col-md-2"><a href="#"
+									wicket:id="commentMovieLink"><wicket:container
+											wicket:id="commentMovieTitle" /></a></td>
+								<td class="col-md-4"><wicket:container
+										wicket:id="commentText" /></td>
+								<td class="col-md-2"><wicket:container
+										wicket:id="commentCreationDate" /></td>
+								<td class="col-md-2"><wicket:container wicket:id="reports"/></td>
+								<td class="col-md-1"><wicket:container
+										wicket:id="deleteComment" /></td>
+								<td class="col-md-1"><wicket:container
+										wicket:id="dropComments" /></td>
+							</tr>
+						</wicket:container>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

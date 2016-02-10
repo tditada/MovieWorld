@@ -59,9 +59,9 @@ public abstract class AbstractHibernateRepo {
 		return sessionFactory.getCurrentSession();
 	}
 
-	public Serializable save(Object o) {
+	public void save(Object o) {
 		checkArgument(o, notNull());
-		return getSession().save(o);
+		getSession().saveOrUpdate(o);
 	}
 
 	public void remove(Object o) {

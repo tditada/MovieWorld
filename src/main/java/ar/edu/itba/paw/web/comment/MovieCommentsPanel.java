@@ -1,8 +1,9 @@
-package ar.edu.itba.paw.web.movie;
+package ar.edu.itba.paw.web.comment;
 
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -15,7 +16,11 @@ import ar.edu.itba.paw.domain.EntityModel;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.comment.CommentRepo;
 import ar.edu.itba.paw.model.movie.Movie;
+import ar.edu.itba.paw.model.user.User;
+import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
+import ar.edu.itba.paw.web.movie.StarsPanel;
+import ar.edu.itba.paw.web.user.UserCommentsPage;
 
 @SuppressWarnings("serial")
 public class MovieCommentsPanel extends Panel {
@@ -24,6 +29,8 @@ public class MovieCommentsPanel extends Panel {
 
 	@SpringBean
 	private CommentRepo commentRepo;
+	@SpringBean
+	private UserRepo userRepo;
 
 	public MovieCommentsPanel(String id, final Movie movie) {
 		super(id);
@@ -67,20 +74,33 @@ public class MovieCommentsPanel extends Panel {
 
 			@Override
 			protected void populateItem(final ListItem<Comment> item) {
-				String userName = item.getModelObject().getUser().getFirstName().getNameString()
-						+ item.getModelObject().getUser().getLastName().getNameString();
-				item.add(new Label("comment.user", userName));
+				item.add(new Link<Void>("userLink"){
+					@Override
+					protected void onInitialize() {
+						String userName = item.getModelObject().getUser().getFirstName().getNameString()
+								+ item.getModelObject().getUser().getLastName().getNameString();
+						add(new Label("commentUser", userName));
+						super.onInitialize();
+					}
+					@Override
+					public void onClick() {
+						setResponsePage(new UserCommentsPage(item.getModelObject().getUser()));
+					}
+				});
 
 				item.add(new StarsPanel("movie.scorePanel", item.getModelObject().getMovieScore().getValue()));
 
-				EntityModel<Comment> commentModel = new EntityModel<Comment>(Comment.class,
-						movie.getComments().first());
-				item.add(new Label("comment.creationdate", PropertyModel.of(commentModel, "creationDate")));
-
-				item.add(new Label("comment.text", PropertyModel.of(commentModel, "text")));
+				item.add(new Label("comment.creationdate", PropertyModel.of(item.getModelObject(), "creationDate")));
+				item.add(new Label("comment.text", PropertyModel.of(item.getModelObject(), "text")));
 				item.add(new StarsPanel("comment.CommentScorePanel",
 						item.getModelObject().getAverageCommentScore().getValue()));
 				item.add(new ScoreCommentForm("scoreCommentForm",item.getModelObject()));
+				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
+				DeleteCommentPanel delete = new DeleteCommentPanel("deleteCommentForm",item.getModelObject(), false);
+				item.add(delete);
+				if(currentUser==null || (currentUser!= null && !currentUser.isAdmin())){
+					delete.setVisible(false);
+				}
 			}
 		});
 		

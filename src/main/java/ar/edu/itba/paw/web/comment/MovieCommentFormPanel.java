@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.web.movie;
+package ar.edu.itba.paw.web.comment;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -7,7 +7,6 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.hibernate.Hibernate;
 
 import ar.edu.itba.paw.model.Score;
 import ar.edu.itba.paw.model.comment.Comment;
@@ -16,6 +15,7 @@ import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
+import ar.edu.itba.paw.web.movie.MoviePage;
 
 @SuppressWarnings("serial")
 public class MovieCommentFormPanel extends Panel {
@@ -73,9 +73,6 @@ public class MovieCommentFormPanel extends Panel {
 			writeCommentLabel.setVisible(false);
 			cannotComment.setVisible(false);
 			form.setVisible(false);
-		}
-
-		if(user == null){
 			this.setVisible(false);
 		}
 	}

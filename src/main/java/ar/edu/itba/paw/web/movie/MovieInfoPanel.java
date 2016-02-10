@@ -2,17 +2,12 @@ package ar.edu.itba.paw.web.movie;
 
 import java.util.List;
 
-import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.resource.DynamicImageResource;
-import org.apache.wicket.request.resource.IResource;
-import org.apache.wicket.request.resource.IResource.Attributes;
 
 import ar.edu.itba.paw.domain.EntityModel;
 import ar.edu.itba.paw.model.genre.Genre;
@@ -30,8 +25,8 @@ public class MovieInfoPanel extends Panel {
 
 		// add(new Label("title", new PropertyModel<String>(movie, "title")));
 
-		add(new ListView<ar.edu.itba.paw.model.genre.Genre>("movie.genres",
-				new PropertyModel<List<Genre>>(movieModel, "genreList")) {
+		add(new ListView<Genre>("movie.genres",
+				new PropertyModel<List<Genre>>(movieModel, "GenreList")) {
 
 			@Override
 			protected void populateItem(final ListItem<Genre> item) {
@@ -66,32 +61,32 @@ public class MovieInfoPanel extends Panel {
 		add(new Label("movie.summary", PropertyModel.of(movieModel, "summary")));
 		add(new StarsPanel("movieStarPanel",movieModel.getObject().getAverageScore().getValue()));
 		
-		 add(new NonCachingImage("picture", movieModel) {
-	            @Override
-	            protected IResource getImageResource() {
-	                return new DynamicImageResource() {
-	                    @Override
-	                    protected byte[] getImageData(Attributes attributes) {
-	                        return getMovie().getPicture();
-	                    }
-	                };
-	            }
-
-	            @Override
-	            public boolean isVisible() {
-	                return getMovie().getPicture()!=null;
-	            }
-
-	            @Override
-	            protected void onComponentTag(ComponentTag tag) {
-	                super.onComponentTag(tag);
-	                tag.put("alt", getMovie().getTitle());
-	            }
-
-	            private Movie getMovie() {
-	                return (Movie) getInnermostModel().getObject();
-	            }
-	        });
+//		 add(new NonCachingImage("picture", movieModel) {
+//	            @Override
+//	            protected IResource getImageResource() {
+//	                return new DynamicImageResource() {
+//	                    @Override
+//	                    protected byte[] getImageData(Attributes attributes) {
+//	                        return getMovie().getPicture();
+//	                    }
+//	                };
+//	            }
+//
+//	            @Override
+//	            public boolean isVisible() {
+//	                return getMovie().getPicture()!=null;
+//	            }
+//
+//	            @Override
+//	            protected void onComponentTag(ComponentTag tag) {
+//	                super.onComponentTag(tag);
+//	                tag.put("alt", getMovie().getTitle());
+//	            }
+//
+//	            private Movie getMovie() {
+//	                return (Movie) getInnermostModel().getObject();
+//	            }
+//	        });
 	}
 
 }

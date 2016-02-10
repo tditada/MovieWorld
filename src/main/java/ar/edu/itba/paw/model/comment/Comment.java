@@ -31,18 +31,19 @@ import org.joda.time.DateTime;
 import ar.edu.itba.paw.domain.PersistentEntity;
 import ar.edu.itba.paw.model.Score;
 import ar.edu.itba.paw.model.movie.Movie;
+import ar.edu.itba.paw.model.user.Email;
 import ar.edu.itba.paw.model.user.User;
 
 @Entity
 @Table(name = "comments")
-public class Comment extends PersistentEntity implements Comparable<Comment>,Serializable {
+public class Comment extends PersistentEntity implements Comparable<Comment>, Serializable {
 	@Type(type = "text")
 	@Check(constraints = "length(text) > 0")
 	@Column(nullable = false)
 	private String text;
 
 	@Embedded
-	@AttributeOverride(name = "score", column = @Column(name = "movieScore", nullable = false))
+	@AttributeOverride(name = "score", column = @Column(name = "movieScore", nullable = false) )
 	private Score movieScore;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -52,7 +53,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment>,Ser
 												// user can score in
 												// many different comments
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "comment_reports")
 	private Set<User> reportingUsers = new HashSet<>(); // same idea as above
 
@@ -109,7 +110,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment>,Ser
 	}
 
 	public Score getAverageCommentScore() {
-		if (totalCommentScore == 0) {
+		if (totalCommentScore == 0 || scorers.size()==0) {
 			return new Score(0);
 		}
 		return new Score(totalCommentScore / scorers.size());
@@ -146,6 +147,10 @@ public class Comment extends PersistentEntity implements Comparable<Comment>,Ser
 		reportingUsers.add(user);
 		totalReports++;
 	}
+	
+	public int getReportedSize(){
+		return reportingUsers.size();
+	}
 
 	public boolean isReportableBy(User user) {
 		checkArgument(user, notNull());
@@ -174,18 +179,23 @@ public class Comment extends PersistentEntity implements Comparable<Comment>,Ser
 			return 0;
 		}
 
-		Integer comp = other.getAverageCommentScore().compareTo(
-				this.getAverageCommentScore());
+		Integer comp = other.getAverageCommentScore().compareTo(this.getAverageCommentScore());
 		if (comp != 0) {
 			return comp;
 		}
-		comp = other.getUser().getEmail().getTextAddress()
-				.compareTo(user.getEmail().getTextAddress());
+		String textAddress = other.getUser().getEmail().getTextAddress();
+		if(textAddress == null){
+			return 1;
+		}
+		Email email = user.getEmail();
+		if(email==null){
+			return 1;
+		}
+		comp = textAddress.compareTo(email.getTextAddress());
 		if (comp != 0) {
 			return comp;
 		}
-		comp = other.getMovie().getDirector().getName()
-				.compareTo(movie.getDirector().getName());
+		comp = other.getMovie().getDirector().getName().compareTo(movie.getDirector().getName());
 		if (comp != 0) {
 			return comp;
 		}
@@ -206,15 +216,13 @@ public class Comment extends PersistentEntity implements Comparable<Comment>,Ser
 			return false;
 		}
 		Comment that = (Comment) obj;
-		return areEqual(this.user, that.user)
-				&& areEqual(this.movie, that.movie);
+		return areEqual(this.user, that.user) && areEqual(this.movie, that.movie);
 	}
 
 	@Override
 	public String toString() {
-		return toStringHelper(this).add("id", getId()).add("score", movieScore)
-				.add("text", text).add("creationDate", creationDate)
-				.add("totalCommentScore", totalCommentScore).toString();
+		return toStringHelper(this).add("id", getId()).add("score", movieScore).add("text", text)
+				.add("creationDate", creationDate).add("totalCommentScore", totalCommentScore).toString();
 	}
 
 	public static CommentBuilder builder() {
