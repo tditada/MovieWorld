@@ -21,6 +21,7 @@ import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.base.BasePage;
 import ar.edu.itba.paw.web.movie.MoviePage;
+import ar.edu.itba.paw.web.movie.MovieTitlePanel;
 
 @SuppressWarnings("serial")
 public class UserCommentsPage extends BasePage {
@@ -102,8 +103,9 @@ public class UserCommentsPage extends BasePage {
 					@Override
 					protected void onInitialize() {
 						super.onInitialize();
-						add(new Label("commentMovieTitle",
-								new PropertyModel<String>(item.getModelObject().getMovie(), "title")));
+						IModel<Movie> movieModel = new EntityModel<Movie>(Movie.class, item.getModelObject().getMovie());
+						add(new MovieTitlePanel("commentMovieTitle",movieModel));
+						
 					}
 
 					@Override

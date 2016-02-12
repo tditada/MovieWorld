@@ -41,7 +41,6 @@ public class NewAdditionsPanel extends Panel{
 					@Override
 					protected void onInitialize() {
 						add(new MovieTitlePanel("title", movieModel));
-//						add(new Label("title", new PropertyModel<String>(movieModel, "title")));
 						super.onInitialize();
 					}
 					@Override

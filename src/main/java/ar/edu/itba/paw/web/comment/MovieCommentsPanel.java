@@ -35,24 +35,23 @@ public class MovieCommentsPanel extends Panel {
 	public MovieCommentsPanel(String id, final Movie movie) {
 		super(id);
 		movieModel = new EntityModel<Movie>(Movie.class, movie);
-		// add(new Label("commentAmount", new PropertyModel<String>(movie,
-		// "title")));
 		Integer amount = movie.getTotalComments();
 		Label amountLabel = new Label("movie.commentAmount", PropertyModel.of(movieModel, "totalComments"));
-		Label commentsLabel = new Label("commentsLabel",getString("comments"));
+		Label commentsLabel = new Label("commentsLabel", getString("comments"));
 		Label noCommentsLabel = new Label("noCommentsLabel", getString("noComments"));
 		Label commentLabel = new Label("commentLabel", getString("comment"));
-		if(amount == 0){
+		
+		if (amount == 0) {
 			noCommentsLabel.setVisible(true);
 			commentsLabel.setVisible(false);
 			commentLabel.setVisible(false);
 			amountLabel.setVisible(false);
-		}else if(amount == 1){
+		} else if (amount == 1) {
 			commentLabel.setVisible(true);
 			noCommentsLabel.setVisible(false);
 			commentsLabel.setVisible(false);
 			amountLabel.setVisible(true);
-		}else{
+		} else {
 			commentsLabel.setVisible(true);
 			commentLabel.setVisible(false);
 			noCommentsLabel.setVisible(false);
@@ -62,19 +61,19 @@ public class MovieCommentsPanel extends Panel {
 		add(commentsLabel);
 		add(noCommentsLabel);
 		add(commentLabel);
-		
+
 		IModel<List<Comment>> comments = new LoadableDetachableModel<List<Comment>>() {
 			@Override
 			protected List<Comment> load() {
 				return movie.getCommentsAsList();
 			}
 		};
-		
+
 		add(new ListView<Comment>("comments", comments) {
 
 			@Override
 			protected void populateItem(final ListItem<Comment> item) {
-				item.add(new Link<Void>("userLink"){
+				item.add(new Link<Void>("userLink") {
 					@Override
 					protected void onInitialize() {
 						String userName = item.getModelObject().getUser().getFirstName().getNameString()
@@ -82,28 +81,28 @@ public class MovieCommentsPanel extends Panel {
 						add(new Label("commentUser", userName));
 						super.onInitialize();
 					}
+
 					@Override
 					public void onClick() {
 						setResponsePage(new UserCommentsPage(item.getModelObject().getUser()));
 					}
 				});
 
-				item.add(new StarsPanel("movie.scorePanel", item.getModelObject().getMovieScore().getValue()));
+				item.add(new StarsPanel("movieScorePanel", item.getModelObject().getMovieScore().getValue()));
 
-				item.add(new Label("comment.creationdate", PropertyModel.of(item.getModelObject(), "creationDate")));
-				item.add(new Label("comment.text", PropertyModel.of(item.getModelObject(), "text")));
-				item.add(new StarsPanel("comment.CommentScorePanel",
+				item.add(new Label("commentCreationdate", PropertyModel.of(item.getModelObject(), "creationDate")));
+				item.add(new Label("commentText", PropertyModel.of(item.getModelObject(), "text")));
+				item.add(new StarsPanel("commentCommentScorePanel",
 						item.getModelObject().getAverageCommentScore().getValue()));
-				item.add(new ScoreCommentForm("scoreCommentForm",item.getModelObject()));
+				item.add(new ScoreCommentForm("scoreCommentForm", item.getModelObject()));
 				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
-				DeleteCommentPanel delete = new DeleteCommentPanel("deleteCommentForm",item.getModelObject(), false);
+				DeleteCommentPanel delete = new DeleteCommentPanel("deleteCommentForm", item.getModelObject(), false);
 				item.add(delete);
-				if(currentUser==null || (currentUser!= null && !currentUser.isAdmin())){
+				if (currentUser == null || (currentUser != null && !currentUser.isAdmin())) {
 					delete.setVisible(false);
 				}
 			}
 		});
-		
 
 	}
 }

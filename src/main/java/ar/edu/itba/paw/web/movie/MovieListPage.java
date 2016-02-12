@@ -74,10 +74,11 @@ public class MovieListPage extends BasePage {
 		add(new PropertyListView<Movie>("movies", movies) {
 			@Override
 			protected void populateItem(final ListItem<Movie> item) {
-				item.add(new Label("movie.releaseDate", new PropertyModel<String>(item.getModel(), "releaseDate")));
-				item.add(new Label("movie.director.name", new PropertyModel<String>(item.getModel(), "director")));
-				item.add(new Label("movie.title", new PropertyModel<String>(item.getModel(), "title")));
-				item.add(new Link<Void>("movie.link") {
+				item.add(new Label("movieReleaseDate", new PropertyModel<String>(item.getModel(), "releaseDate")));
+				item.add(new Label("movieDirector", new PropertyModel<String>(item.getModel(), "director")));
+				item.add(new MovieTitlePanel("movieTitle", item.getModel()));
+				//				item.add(new Label("movie.title", new PropertyModel<String>(item.getModel(), "title")));
+				item.add(new Link<Void>("movieLink") {
 					@Override
 					public void onClick() {
 						Movie m = (Movie) item.getModelObject();
