@@ -19,6 +19,7 @@ import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.base.BasePage;
+import ar.edu.itba.paw.web.captcha.CaptchaPanel;
 import ar.edu.itba.paw.web.homepage.HomePage;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
@@ -26,6 +27,8 @@ import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField
 //TODO: Captcha
 @SuppressWarnings("serial")
 public class RegisterPage extends BasePage {
+	
+	public static int CAPTCHA_SIZE = 5;
 
 	@SpringBean
 	private UserRepo users;
@@ -36,6 +39,7 @@ public class RegisterPage extends BasePage {
 	private String birthday;
 	public String password;
 	private String confirmPassword;
+	private String imagePassword;
 
 	public RegisterPage() {
 		Form<RegisterPage> form = new Form<RegisterPage>("registerForm",
@@ -219,8 +223,12 @@ public class RegisterPage extends BasePage {
 				return "password";
 			}
 		};
+		
+		
 		confirmPassword.setRequired(true);
 		form.add(confirmPassword);
+		
+		form.add(new CaptchaPanel("captchaPanel", CAPTCHA_SIZE));
 		add(form);
 	}
 
