@@ -15,6 +15,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.movie.MovieRepo;
 import ar.edu.itba.paw.web.movie.MoviePage;
+import ar.edu.itba.paw.web.movie.MovieTitlePanel;
 
 @SuppressWarnings("serial")
 public class TopPanel extends Panel{
@@ -41,7 +42,7 @@ public class TopPanel extends Panel{
 					 @Override
 	                    protected void onInitialize() {
 	                        super.onInitialize();
-	                    	add(new Label("title", new PropertyModel<String>(item.getModel(), "title")));
+	                        add(new MovieTitlePanel("title",item.getModel()));
 					 }
 					@Override
 					public void onClick() {

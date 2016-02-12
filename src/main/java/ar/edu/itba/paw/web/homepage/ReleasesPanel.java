@@ -3,6 +3,7 @@ package ar.edu.itba.paw.web.homepage;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -13,6 +14,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.movie.MovieRepo;
+import ar.edu.itba.paw.web.movie.MoviePage;
+import ar.edu.itba.paw.web.movie.MovieTitlePanel;
 
 @SuppressWarnings("serial")
 public class ReleasesPanel extends Panel{
@@ -32,7 +35,18 @@ public class ReleasesPanel extends Panel{
 		add(new PropertyListView<Movie>("releases.movie", releasesMovie) {
 			@Override
 			protected void populateItem(ListItem<Movie> item) {
-				item.add(new Label("title", new PropertyModel<String>(item.getModel(), "title")));
+				final IModel<Movie> movieModel = item.getModel();
+				item.add(new Link<Void>("movieLink"){
+					@Override
+					protected void onInitialize() {
+                        add(new MovieTitlePanel("title",movieModel));
+						super.onInitialize();
+					}
+					@Override
+					public void onClick() {
+						setResponsePage(new MoviePage(movieModel.getObject()));
+					}
+				});
 				item.add(new Label("ShortSummary", new PropertyModel<String>(item.getModel(), "ShortSummary")));
 			}
 		});

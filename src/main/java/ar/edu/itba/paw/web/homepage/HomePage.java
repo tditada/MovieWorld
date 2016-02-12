@@ -1,12 +1,18 @@
 package ar.edu.itba.paw.web.homepage;
 
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import ar.edu.itba.paw.model.user.UserRepo;
+import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.base.BasePage;
 
 //TODO: Links
-//TODO: estrellas al lado de las top5 peliculas
 
 @SuppressWarnings("serial")
 public class HomePage extends BasePage {
+	
+	@SpringBean UserRepo userRepo;
 
 	private static final int TOP_MOVIES_QUANTITY = 5;
 	private static final int NEW_ADDITIONS_QUANTITY = 5;
@@ -16,16 +22,16 @@ public class HomePage extends BasePage {
 	public static final String NEW_ADDITIONS_ID = "newAdditions";
 	private static final String INTERESTING_COMMENTS_ID = "interestingComments";
 
-//	private static final String SESSION_USER_ID = "user";
-	//	private static final String USER_ID = "user";
-
-	
 	public HomePage() {
-				
-	    add(new TopPanel(TOP_MOVIES_ID, TOP_MOVIES_QUANTITY));
+
+		add(new TopPanel(TOP_MOVIES_ID, TOP_MOVIES_QUANTITY));
 		add(new NewAdditionsPanel(NEW_ADDITIONS_ID, NEW_ADDITIONS_QUANTITY));
 		add(new ReleasesPanel(RELEASES_ID));
-		add(new InterestingCommentsPanel(INTERESTING_COMMENTS_ID));
-
+		
+		Panel interestingComments = new InterestingCommentsPanel(INTERESTING_COMMENTS_ID);
+		add(interestingComments);
+		if(MovieWorldSession.get().getCurrentUser(userRepo) == null){
+			interestingComments.setVisible(false);
+		}
 	}
 }

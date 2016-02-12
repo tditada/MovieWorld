@@ -4,7 +4,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">
-					<wicket:message key="details">Details</wicket:message>
+					<wicket:message key="details"/>
 				</h3>
 			</div>
 			<div class="panel-body">
@@ -17,7 +17,7 @@
 				</dl>
 				<dl class="dl-horizontal">
 					<dt>
-						<wicket:message key="genres"> Genres</wicket:message>
+						<wicket:message key="genres"/>
 					</dt>
 					<dd class="text-capitalize">
 						<wicket:container wicket:id="movie.genres">
@@ -28,7 +28,7 @@
 					</dd>
 
 					<dt>
-						<wicket:message key="director"> Director</wicket:message>
+						<wicket:message key="director"/>
 					</dt>
 					<dd>
 						<a href="#" wicket:id="linkDirector"> <wicket:container
@@ -36,32 +36,38 @@
 						</a>
 					</dd>
 					<dt>
-						<wicket:message key="releaseDate">Release date</wicket:message>
+						<wicket:message key="releaseDate"/>
 					</dt>
 					<dd>
 						<wicket:container wicket:id="movie.releaseDate" />
 					</dd>
 					<dt>
-						<wicket:message key="runtime">Runtime</wicket:message>
+						<wicket:message key="runtime"/>
 					</dt>
 					<dd>
 						<wicket:container wicket:id="movie.runtimeInMins" />
 						<wicket:message key="minutes" />
 					</dd>
 					<dt>
-						<wicket:message key="score">Score</wicket:message>
+						<wicket:message key="score"/>
 					</dt>
 					<dd>
 						<wicket:container wicket:id="movieStarPanel" />
 					</dd>
 					<dt>
-						<wicket:message key="summary">
-						Summary
-						</wicket:message>
+						<wicket:message key="summary"/>
 					</dt>
 					<dd>
 						<p>
 							<wicket:container wicket:id="movie.summary" />
+						</p>
+					</dd>
+					<dt>
+						<wicket:message key="visits"/>
+					</dt>
+					<dd>
+						<p>
+							<wicket:container wicket:id="movieVisits" />
 						</p>
 					</dd>
 				</dl>

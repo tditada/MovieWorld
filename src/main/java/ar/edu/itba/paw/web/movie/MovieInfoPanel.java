@@ -24,10 +24,9 @@ public class MovieInfoPanel extends Panel {
 
 	public MovieInfoPanel(String id, Movie movie) {
 		super(id);
+		movie.addVisit();
 		movieModel = new EntityModel<Movie>(Movie.class, movie);
 		setDefaultModel(this.movieModel);
-
-		// add(new Label("title", new PropertyModel<String>(movie, "title")));
 
 		add(new ListView<Genre>("movie.genres", new PropertyModel<List<Genre>>(movieModel, "GenreList")) {
 
@@ -63,7 +62,7 @@ public class MovieInfoPanel extends Panel {
 		add(new Label("movie.runtimeInMins", PropertyModel.of(movieModel, "runtimeInMins")));
 		add(new Label("movie.summary", PropertyModel.of(movieModel, "summary")));
 		add(new StarsPanel("movieStarPanel", movieModel.getObject().getAverageScore().getValue()));
-
+		add(new Label("movieVisits", new PropertyModel<Integer>(movieModel, "visits")));
 		add(new NonCachingImage("picture", movieModel) {
 			@Override
 			protected IResource getImageResource() {

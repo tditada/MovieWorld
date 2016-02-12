@@ -9,70 +9,81 @@
 						wicket:id="movieForm">
 						<div wicket:id="feedback" class="alert alert-danger" role="alert" />
 						<div class="form-group">
-							<label for="title"><wicket:message key="enterTitle">Enter title</wicket:message></label>
+							<label for="title"><wicket:message key="enterTitle" /></label>
 							<div class="input-group">
 								<input wicket:id="movieTitle" type="text" class="form-control"
 									placeholder="Enter Movie's Title" /> <span
 									class="input-group-addon"><span
 									class="glyphicon glyphicon-asterisk"></span> <wicket:message
-										key="required">Required</wicket:message></span>
+										key="required" /></span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="director"><wicket:message key="enterDirector">Enter director</wicket:message></label>
+							<label for="director"><wicket:message key="enterDirector" /></label>
 							<div class="input-group">
 								<input wicket:id="director" type="text" class="form-control"
 									placeholder="Enter Director" /> <span
 									class="input-group-addon"><span
 									class="glyphicon glyphicon-asterisk"></span> <wicket:message
-										key="required">Required</wicket:message></span>
+										key="required" /></span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="summary"><wicket:message key="enterSummary">Enter summary</wicket:message></label>
+							<label for="summary"><wicket:message key="enterSummary" /></label>
 							<div class="input-group">
 								<input wicket:id="summary" type="text" class="form-control"
 									name="summary" id="summary" placeholder="Enter Summary" /> <span
 									class="input-group-addon"><span
 									class="glyphicon glyphicon-asterisk"></span> <wicket:message
-										key="required">Required</wicket:message></span>
+										key="required" /></span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="genres"><wicket:message key="enterGenre">Enter genre(s)</wicket:message></label>
+							<label for="genres"><wicket:message key="enterGenre" /></label>
 							<div class="input-group">
 								<input wicket:id="genres" type="text" class="form-control"
-									id="genres" placeholder="Action, Comedy, ..." />
-								<span class="input-group-addon"><span
+									id="genres" placeholder="Action, Comedy, ..." /> <span
+									class="input-group-addon"><span
 									class="glyphicon glyphicon-asterisk"></span> <wicket:message
-										key="required">Required</wicket:message></span>
+										key="required" /></span>
 							</div>
-							<wicket:message key="genresHelp"/>
-							<wicket:container wicket:id="genresAll"/>
+							<wicket:message key="genresHelp" />
+							<wicket:container wicket:id="genresAll" />
 						</div>
 						<div class="form-group">
 							<label for="runtimeInMins" class="control-label"><wicket:message
 									key="enterMin">Enter
-								runtime (in minutes)</wicket:message></label> <input wicket:id="runtime" type="number"
+								runtime (in minutes)</wicket:message></label> <input
+								type="number" wicket:id="runtime"
 								class="form-control" id="runtimeInMins" /> <span
 								class="input-group-addon"><span
 								class="glyphicon glyphicon-asterisk"></span> <wicket:message
-									key="required">Required</wicket:message></span>
+									key="required" /></span>
 						</div>
 						<div class="form-group">
 							<label for="releaseDate"><wicket:message
-									key="enterRelease">Enter release date</wicket:message></label> <input
-								wicket:id="release" type="text" name="releaseDate" path="releaseDate"
+									key="enterRelease" /></label> <input wicket:id="releaseDate"
+								type="text" name="releaseDate" path="releaseDate"
 								id="releaseDatepicker" cssClass="releaseDatepicker" />
 						</div>
-<!-- 						<div class="form-group"> -->
-<!-- 							<label for="picture"><wicket:message key="enterPic">Enter a picture</wicket:message></label>  -->
-<!-- 							<input wicket:id="file"  id="file-picker"  type="file"	path="picture" /> -->
-<!-- 						</div> -->
+						<div class="form-group" wicket:enclosure="picture">
+							<label for="picture">Actual Picture</label><br /> <img
+								wicket:id="picture" name="picture"
+								class="img-responsive img-rounded" />
+							<!-- 								<input -->
+							<!-- 								type="submit" name="removePicture" wicket:id="removePicture" -->
+							<!-- 								value="Remove picture" class="btn btn-primary"></input> -->
+						</div>
+						<div class="form-group">
+							<label for="file-picker"><wicket:message key="enterPic" /></label>
+							<input id="file-picker" type="file" path="picture" /> <input
+								type="checkbox" wicket:id="deletePicture">
+							<wicket:container wicket:id="deletePicText" />
+							</input>
+						</div>
 						<input type="submit" name="submit" id="submit" value="Submit"
-							class="btn btn-primary pull-right">
+							class="btn btn-primary pull-right" />
 					</form>
-					<!-- 					</c:if> -->
 				</div>
 			</div>
 		</div>

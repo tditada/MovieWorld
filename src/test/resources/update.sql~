@@ -542,3 +542,4 @@ DROP TABLE movies__old CASCADE;
 DROP TABLE users__old CASCADE;
 DROP TABLE comments__old CASCADE;
 
+ALTER TABLE movie ADD COLUMN visits integer DEFAULT 0;

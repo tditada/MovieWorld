@@ -1,4 +1,6 @@
 package ar.edu.itba.paw.web;
+import java.util.SortedSet;
+
 import org.apache.wicket.ConverterLocator;
 import org.apache.wicket.IConverterLocator;
 import org.apache.wicket.Page;
@@ -32,6 +34,7 @@ import ar.edu.itba.paw.web.converter.DateConverter;
 import ar.edu.itba.paw.web.converter.DirectorConverter;
 import ar.edu.itba.paw.web.converter.EmailConverter;
 import ar.edu.itba.paw.web.converter.GenreConverter;
+import ar.edu.itba.paw.web.converter.GenreSortedSetConverter;
 import ar.edu.itba.paw.web.converter.MovieConverter;
 import ar.edu.itba.paw.web.converter.NonArtisticNameConverter;
 import ar.edu.itba.paw.web.converter.PasswordConverter;
@@ -88,7 +91,7 @@ public class MovieWorldApplication extends WebApplication {
 		converterLocator.set(Director.class, new DirectorConverter());
 		converterLocator.set(Email.class, new EmailConverter());
 		converterLocator.set(Genre.class, new GenreConverter(genreRepo));
-//		converterLocator.set(SortedSet.class, new GenreSortedSetConverter(genreRepo));
+		converterLocator.set(SortedSet.class, new GenreSortedSetConverter(genreRepo));
 		converterLocator.set(Movie.class,new MovieConverter(movieRepo));
 		converterLocator.set(NonArtisticName.class, new NonArtisticNameConverter());
 		converterLocator.set(Password.class, new PasswordConverter());

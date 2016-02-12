@@ -85,7 +85,7 @@ public class UserNavBar extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(new AddEditMoviePage(new EntityModel<Movie>(Movie.class)));
+				setResponsePage(new AddEditMoviePage(null));
 			}
 
 			@Override

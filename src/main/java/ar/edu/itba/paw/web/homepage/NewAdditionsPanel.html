@@ -4,20 +4,22 @@
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
 				<h3 class="panel-title">
-					<wicket:message key="newAdditions">New Additions</wicket:message>
+					<wicket:message key="newAdditions" />
 				</h3>
 			</div>
 			<table class="table">
 				<thead>
 					<tr>
-						<th class="text-center"><wicket:message key="title"> Title</wicket:message></th>
-						<th class="text-center"><wicket:message key="creationDate"> Created at </wicket:message></th>
-						<th class="text-center"><wicket:message key="TotalComments"> Comment count </wicket:message></th>
+						<th class="text-center"><wicket:message key="title" /></th>
+						<th class="text-center"><wicket:message key="creationDate" /></th>
+						<th class="text-center"><wicket:message key="TotalComments" /></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr wicket:id="mostRecent.movie">
-						<td wicket:id="title" />
+						<td><a href="#" wicket:id="movieLink"> <wicket:container
+									wicket:id="title" />
+						</a></td>
 						<td wicket:id="creationDate" />
 						<td wicket:id="TotalComments" />
 					</tr>

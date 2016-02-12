@@ -10,7 +10,6 @@ import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 import static org.joda.time.DateTime.now;
 
 import java.io.Serializable;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -37,7 +36,6 @@ import org.hibernate.annotations.SortType;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-import org.joda.time.format.DateTimeFormat;
 
 import ar.edu.itba.paw.domain.PersistentEntity;
 import ar.edu.itba.paw.model.ImageWrapper;
@@ -48,11 +46,12 @@ import ar.edu.itba.paw.model.user.User;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "movies", uniqueConstraints = @UniqueConstraint(columnNames = {
-		"title", "director" }))
+@Table(name = "movies", uniqueConstraints = @UniqueConstraint(columnNames = { "title", "director" }) )
 public class Movie extends PersistentEntity implements Serializable {
 	public static final int DAYS_AS_RELEASE = 6;
 	public static final int MAX_TITLE_LENGTH = 255;
+	public static final int MAX_SUMMARY_LENGTH = 255;
+	public static final int MAX_SHORT_SUMMARY = 70;
 
 	@Column(nullable = false, length = MAX_TITLE_LENGTH)
 	private String title; // artistic name for movie, so no special rules (other
@@ -66,14 +65,13 @@ public class Movie extends PersistentEntity implements Serializable {
 	private DateTime releaseDate;
 
 	@Sort(type = SortType.NATURAL)
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,
-			CascadeType.MERGE })
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private SortedSet<Genre> genres; // a movie can have many different
 										// genres and a genre can have many
 										// different movies
 
 	@Embedded
-	@AttributeOverride(name = "name", column = @Column(name = "director", nullable = false, length = Director.MAX_NAME_LENGTH))
+	@AttributeOverride(name = "name", column = @Column(name = "director", nullable = false, length = Director.MAX_NAME_LENGTH) )
 	private Director director;
 
 	@Check(constraints = "runtimeInMins > 0")
@@ -93,11 +91,14 @@ public class Movie extends PersistentEntity implements Serializable {
 	@Embedded
 	private ImageWrapper picture;
 
+	@Check(constraints = "visits >= 0")
+	private int visits;
+
 	Movie() {
 	}
 
-	public Movie(DateTime releaseDate, String title, SortedSet<Genre> genres,
-			Director director, int runtimeInMins, String summary, byte[] picture) {
+	public Movie(DateTime releaseDate, String title, SortedSet<Genre> genres, Director director, int runtimeInMins,
+			String summary, byte[] picture) {
 		setTitle(title);
 		setReleaseDate(releaseDate);
 		setGenres(genres);
@@ -117,10 +118,18 @@ public class Movie extends PersistentEntity implements Serializable {
 		return totalScore;
 	}
 
+	public int getVisits() {
+		return visits;
+	}
+
+	public void addVisit() {
+		this.visits = visits + 1;
+	}
+
 	public SortedSet<Comment> getComments() {
 		return Collections.unmodifiableSortedSet(comments);
 	}
-	
+
 	public List<Comment> getCommentsAsList() {
 		return Collections.unmodifiableList(new ArrayList<Comment>(comments));
 	}
@@ -143,10 +152,17 @@ public class Movie extends PersistentEntity implements Serializable {
 	public SortedSet<Genre> getGenres() {
 		return Collections.unmodifiableSortedSet(genres);
 	}
-	
+
 	public List<Genre> getGenreList() {
-        return Collections.unmodifiableList(new ArrayList<>(genres));
-    }
+		return Collections.unmodifiableList(new ArrayList<>(genres));
+	}
+
+	public String getShortSummary() {
+		if (summary.length() < MAX_SHORT_SUMMARY) {
+			return summary;
+		}
+		return summary.substring(0, MAX_SHORT_SUMMARY);
+	}
 
 	public String getGenreListString() {
 		List<Genre> genreList = getGenreList();
@@ -156,9 +172,12 @@ public class Movie extends PersistentEntity implements Serializable {
 			name = name.substring(0, 1) + name.substring(1).toLowerCase();
 			genreString += name + ", ";
 		}
-		genreString = genreString.substring(0, genreString.length() - 2);
-        return genreString;
-    }
+		if (genreString.length() >= 2) {
+			genreString = genreString.substring(0, genreString.length() - 2);
+		}
+		return genreString;
+	}
+
 	public Director getDirector() {
 		return director;
 	}
@@ -175,16 +194,15 @@ public class Movie extends PersistentEntity implements Serializable {
 		return releaseDate;
 	}
 
-//	public String getReleaseDateFormatter() {
-//		org.joda.time.format.DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
-//		return releaseDate.toString(formatter);
-//	}
-	
+	// public String getReleaseDateFormatter() {
+	// org.joda.time.format.DateTimeFormatter formatter =
+	// DateTimeFormat.forPattern("dd/MM/yyyy");
+	// return releaseDate.toString(formatter);
+	// }
+
 	public byte[] getPicture() {
 		return (picture == null) ? null : picture.getImage();
 	}
-	
-	
 
 	public void setPicture(byte[] picture) {
 		if (picture == null) { // esto sería que no haya imagen, es válido
@@ -215,6 +233,7 @@ public class Movie extends PersistentEntity implements Serializable {
 
 	public void setSummary(String summary) {
 		checkArgument(summary, notNull());
+		checkArgument(title.length() <= MAX_SUMMARY_LENGTH);
 		this.summary = summary;
 	}
 
@@ -230,8 +249,7 @@ public class Movie extends PersistentEntity implements Serializable {
 
 	public boolean isRelease() {
 		DateTime now = DateTime.now();
-		Interval releaseInterval = new Interval(now.minusDays(DAYS_AS_RELEASE),
-				now);
+		Interval releaseInterval = new Interval(now.minusDays(DAYS_AS_RELEASE), now);
 		return releaseInterval.contains(releaseDate);
 	}
 
@@ -312,12 +330,9 @@ public class Movie extends PersistentEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return toStringHelper(this).add("name", title).add("id", getId())
-				.add("creationDate", creationDate)
-				.add("releaseDate", releaseDate).add("genres", genres)
-				.add("director", director).add("durationInMins", runtimeInMins)
-				.add("summary", summary).add("totalScore", totalScore)
-				.toString();
+		return toStringHelper(this).add("name", title).add("id", getId()).add("creationDate", creationDate)
+				.add("releaseDate", releaseDate).add("genres", genres).add("director", director)
+				.add("durationInMins", runtimeInMins).add("summary", summary).add("totalScore", totalScore).toString();
 	}
 
 	@Override
@@ -334,8 +349,7 @@ public class Movie extends PersistentEntity implements Serializable {
 			return false;
 		}
 		Movie that = (Movie) obj;
-		return areEqual(this.title, that.title)
-				&& areEqual(this.director, that.director);
+		return areEqual(this.title, that.title) && areEqual(this.director, that.director);
 	}
 
 	public static MovieBuilder builder() {

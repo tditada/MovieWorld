@@ -12,6 +12,7 @@ import ar.edu.itba.paw.model.Score;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.comment.CommentRepo;
 import ar.edu.itba.paw.model.movie.Movie;
+import ar.edu.itba.paw.model.movie.MovieRepo;
 import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
@@ -25,6 +26,9 @@ public class MovieCommentFormPanel extends Panel {
 
 	@SpringBean
 	CommentRepo commentRepo;
+	
+	@SpringBean
+	MovieRepo movieRepo;
 
 	private Integer commentScore; // Score
 	private String commentText;
@@ -44,6 +48,7 @@ public class MovieCommentFormPanel extends Panel {
 						.build();
 				user.addComment(comment);
 				commentRepo.save(comment);
+				movieRepo.save(movie);
 				setResponsePage(new MoviePage(movie));
 			}
 		};

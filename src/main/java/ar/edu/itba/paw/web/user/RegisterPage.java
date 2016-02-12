@@ -37,27 +37,25 @@ public class RegisterPage extends BasePage {
 	public String password;
 	private String confirmPassword;
 
-
-	
 	public RegisterPage() {
 		Form<RegisterPage> form = new Form<RegisterPage>("registerForm",
 				new CompoundPropertyModel<RegisterPage>(this)) {
 			@Override
 			protected void onSubmit() {
 				String[] b = birthday.split("/");
-				birthday = b[b.length-1] + "-" + b[0] + "-" + b[1];
-				User user =
-				 User.builder().withFirstName(new NonArtisticName(firstName)).withLastName(new NonArtisticName(lastName)).withPassword( new Password(password))
-				 .withEmail(new Email(email)).withBirthDate(new DateTime(birthday)).build();
-				 try {
-				 users.register(user);
-				 MovieWorldSession.get().signIn(user.getEmail().getTextAddress(),
-				 user.getPassword().getPasswordString(), users);
-				 setResponsePage(HomePage.class);
-				 } catch (Exception e) {
+				birthday = b[b.length - 1] + "-" + b[0] + "-" + b[1];
+				User user = User.builder().withFirstName(new NonArtisticName(firstName))
+						.withLastName(new NonArtisticName(lastName)).withPassword(new Password(password))
+						.withEmail(new Email(email)).withBirthDate(new DateTime(birthday)).build();
+				try {
+					users.register(user);
+					MovieWorldSession.get().signIn(user.getEmail().getTextAddress(),
+							user.getPassword().getPasswordString(), users);
+					setResponsePage(HomePage.class);
+				} catch (Exception e) {
 					error(getString("userExists"));
 					setResponsePage(RegisterPage.class);
-				 }
+				}
 			}
 
 			@Override
@@ -169,7 +167,7 @@ public class RegisterPage extends BasePage {
 		});
 
 		form.add(new RequiredTextField<String>("password") {
-			
+
 			@Override
 			protected void onInitialize() {
 				super.onInitialize();
@@ -182,7 +180,7 @@ public class RegisterPage extends BasePage {
 					}
 				});
 			}
-			
+
 			@Override
 			public void error(IValidationError error) {
 				error(getString("errorPassword"));
@@ -193,8 +191,8 @@ public class RegisterPage extends BasePage {
 				return "password";
 			}
 		});
-//		password.setRequired(true);
-//		form.add(password);
+		// password.setRequired(true);
+		// form.add(password);
 
 		TextField<String> confirmPassword = new RequiredTextField<String>("confirmPassword") {
 
@@ -204,13 +202,13 @@ public class RegisterPage extends BasePage {
 				add(new IValidator<String>() {
 					@Override
 					public void validate(IValidatable<String> validatable) {
-						if (password!=null && !password.equals(validatable.getValue())) {
+						if (password != null && !password.equals(validatable.getValue())) {
 							validatable.error(new ValidationError(this));
 						}
 					}
 				});
 			}
-			
+
 			@Override
 			public void error(IValidationError error) {
 				error(getString("confirmPassError"));
@@ -227,44 +225,3 @@ public class RegisterPage extends BasePage {
 	}
 
 }
-
-// @RequestMapping(value = "register", method = RequestMethod.GET)
-// public ModelAndView showRegister(HttpSession session) {
-// ModelAndView mav = new ModelAndView();
-// User user = getLoggedUserFromSession(session);
-//
-// if (user != null) {
-// // user is already registered
-// mav.setViewName("redirect:/app/home");
-// } else {
-// mav.addObject("registerForm", new RegisterForm());
-// mav.setViewName("register");
-// }
-// return mav;
-// }
-//
-// @RequestMapping(value = "register", method = RequestMethod.POST)
-// public ModelAndView register(RegisterForm registerForm, Errors errors,
-// HttpSession session) {
-// ModelAndView mav = new ModelAndView();
-//
-// if (userLoggedIn(session)) {
-// // user is already registered
-// mav.setViewName("redirect:/app/home");
-// return mav;
-// }
-//
-// registerFormValidator.validate(registerForm, errors);
-// if (errors.hasErrors()) {
-// mav.setViewName("register");
-// return mav;
-// }
-//
-// User user = registerForm.build();
-// users.register(user);
-//
-// logUserInSession(session, user);
-//
-// mav.setViewName("redirect:/app/home");
-// return mav;
-// }

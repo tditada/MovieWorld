@@ -13,12 +13,14 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.edu.itba.paw.domain.EntityModel;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.movie.MoviePage;
+import ar.edu.itba.paw.web.movie.MovieTitlePanel;
 import ar.edu.itba.paw.web.user.UserCommentsPage;
 
 @SuppressWarnings("serial")
@@ -64,7 +66,8 @@ public class InterestingCommentsPanel extends Panel {
 				item.add(new Link<Void>("movieLink"){
 					@Override
 					protected void onInitialize() {
-						add(new Label("title",new PropertyModel<Movie>(item.getModel(), "movie.title")));
+						IModel<Movie> movieModel = new EntityModel<Movie>(Movie.class,item.getModel().getObject().getMovie());
+                        add(new MovieTitlePanel("title", movieModel));
 						super.onInitialize();
 					}
 					@Override
@@ -72,7 +75,6 @@ public class InterestingCommentsPanel extends Panel {
 						setResponsePage(new MoviePage(c.getMovie()));
 					}
 				});
-				//				item.add(new MovieTitleStarsPanel("title", new PropertyModel<Movie>(item.getModel(), "movie.title")));
 			}
 		});
 	}
@@ -84,11 +86,5 @@ public class InterestingCommentsPanel extends Panel {
 		}
 		return interestingComments;
 	}
-	
-	// TODO: Performance?
-    @Override
-    public boolean isVisible() {
-        return MovieWorldSession.get().isSignedIn();
-    }
 
 }

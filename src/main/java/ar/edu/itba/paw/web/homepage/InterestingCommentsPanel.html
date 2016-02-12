@@ -3,8 +3,7 @@
 	<wicket:panel>
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
-				<h2 class="panel-title">Interesting Users' Comments of the Last
-					Week</h2>
+				<h2 class="panel-title"><wicket:message key="interestingUsers"/></h2>
 			</div>
 			<p wicket:id="noComments" class="text-center"></p>
 			<wicket:container wicket:id="interestingComments">
@@ -13,7 +12,7 @@
 					<footer>
 						<!-- 						<wicket:message key="username" /> -->
 						<a wicket:id="userLink"><span wicket:id="firstName"></span> <span
-							wicket:id="lastName"></span></a> commented in
+							wicket:id="lastName"></span></a> <wicket:message key="commentIn"/>
 						<a wicket:id="movieLink"><wicket:container wicket:id="title" /></a>
 					</footer>
 				</blockquote>
