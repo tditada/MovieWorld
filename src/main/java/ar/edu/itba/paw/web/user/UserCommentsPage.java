@@ -110,8 +110,8 @@ public class UserCommentsPage extends BasePage {
 
 					@Override
 					public void onClick() {
-						Movie m = item.getModel().getObject().getMovie();
-						setResponsePage(new MoviePage(m));
+						IModel<Movie> movieModel =  new EntityModel<Movie>(Movie.class,item.getModel().getObject().getMovie());
+						setResponsePage(new MoviePage(movieModel));
 					}
 				});
 

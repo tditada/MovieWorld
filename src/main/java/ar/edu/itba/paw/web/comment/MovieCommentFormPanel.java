@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.form.NumberTextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import ar.edu.itba.paw.model.Score;
@@ -33,9 +34,10 @@ public class MovieCommentFormPanel extends Panel {
 	private Integer commentScore; // Score
 	private String commentText;
 
-	public MovieCommentFormPanel(String id, final Movie movie) {
+	public MovieCommentFormPanel(String id, final IModel<Movie> movieModel) {
 		super(id);
 		final User user = MovieWorldSession.get().getCurrentUser(userRepo);
+		final Movie movie = movieModel.getObject();
 
 		Label writeCommentLabel = new Label("writeComment", getString("writeComment"));
 		Form<MovieCommentFormPanel> form = new Form<MovieCommentFormPanel>("commentForm",
@@ -49,7 +51,7 @@ public class MovieCommentFormPanel extends Panel {
 				user.addComment(comment);
 				commentRepo.save(comment);
 				movieRepo.save(movie);
-				setResponsePage(new MoviePage(movie));
+				setResponsePage(new MoviePage(movieModel));
 			}
 		};
 		NumberTextField<Integer> commentScore = new NumberTextField<Integer>("commentScore");

@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.IResource;
@@ -20,13 +21,11 @@ import ar.edu.itba.paw.web.homepage.HomePage;
 
 @SuppressWarnings("serial")
 public class MovieInfoPanel extends Panel {
-	private EntityModel<Movie> movieModel;
 
-	public MovieInfoPanel(String id, Movie movie) {
+	public MovieInfoPanel(String id, final IModel<Movie> movieModel) {
 		super(id);
-		movie.addVisit();
-		movieModel = new EntityModel<Movie>(Movie.class, movie);
-		setDefaultModel(this.movieModel);
+		movieModel.getObject().addVisit();
+		setDefaultModel(movieModel);
 
 		add(new ListView<Genre>("movie.genres", new PropertyModel<List<Genre>>(movieModel, "GenreList")) {
 

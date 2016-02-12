@@ -64,15 +64,15 @@ public class InterestingCommentsPanel extends Panel {
 					}
 				});
 				item.add(new Link<Void>("movieLink"){
+					IModel<Movie> movieModel = new EntityModel<Movie>(Movie.class,item.getModel().getObject().getMovie());
 					@Override
 					protected void onInitialize() {
-						IModel<Movie> movieModel = new EntityModel<Movie>(Movie.class,item.getModel().getObject().getMovie());
                         add(new MovieTitlePanel("title", movieModel));
 						super.onInitialize();
 					}
 					@Override
 					public void onClick() {
-						setResponsePage(new MoviePage(c.getMovie()));
+						setResponsePage(new MoviePage(movieModel));
 					}
 				});
 			}

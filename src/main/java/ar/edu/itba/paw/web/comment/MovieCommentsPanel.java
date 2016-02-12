@@ -32,10 +32,9 @@ public class MovieCommentsPanel extends Panel {
 	@SpringBean
 	private UserRepo userRepo;
 
-	public MovieCommentsPanel(String id, final Movie movie) {
+	public MovieCommentsPanel(String id, final IModel<Movie> movieModel) {
 		super(id);
-		movieModel = new EntityModel<Movie>(Movie.class, movie);
-		Integer amount = movie.getTotalComments();
+		Integer amount = movieModel.getObject().getTotalComments();
 		Label amountLabel = new Label("movie.commentAmount", PropertyModel.of(movieModel, "totalComments"));
 		Label commentsLabel = new Label("commentsLabel", getString("comments"));
 		Label noCommentsLabel = new Label("noCommentsLabel", getString("noComments"));
@@ -65,7 +64,7 @@ public class MovieCommentsPanel extends Panel {
 		IModel<List<Comment>> comments = new LoadableDetachableModel<List<Comment>>() {
 			@Override
 			protected List<Comment> load() {
-				return movie.getCommentsAsList();
+				return movieModel.getObject().getCommentsAsList();
 			}
 		};
 

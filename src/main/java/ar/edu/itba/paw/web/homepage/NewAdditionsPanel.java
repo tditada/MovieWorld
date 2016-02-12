@@ -45,7 +45,7 @@ public class NewAdditionsPanel extends Panel{
 					}
 					@Override
 					public void onClick() {
-						setResponsePage(new MoviePage(movieModel.getObject()));
+						setResponsePage(new MoviePage(movieModel));
 					}
 				});
 //				item.add(new Label("title", new PropertyModel<String>(item.getModel(), "title")));

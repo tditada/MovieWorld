@@ -3,10 +3,13 @@ package ar.edu.itba.paw.web.comment;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.edu.itba.paw.domain.EntityModel;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.comment.CommentRepo;
+import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
@@ -33,7 +36,8 @@ public class DeleteCommentPanel extends Panel {
 				if (isAdminPage) {
 					setResponsePage(new ReportedCommentsPage());
 				} else {
-					setResponsePage(new MoviePage(comment.getMovie()));
+					IModel<Movie> movieModel = new EntityModel<Movie>(Movie.class,comment.getMovie());
+					setResponsePage(new MoviePage(movieModel));
 				}
 			}
 		});

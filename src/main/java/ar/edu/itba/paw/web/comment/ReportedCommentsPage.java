@@ -11,8 +11,10 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.edu.itba.paw.domain.EntityModel;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.comment.CommentRepo;
+import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.util.persist.Orderings;
 import ar.edu.itba.paw.web.base.SecuredPage;
@@ -60,7 +62,8 @@ public class ReportedCommentsPage extends SecuredPage {
 
 					@Override
 					public void onClick() {
-						setResponsePage(new MoviePage(item.getModelObject().getMovie()));
+						IModel<Movie> movieModel = new EntityModel<Movie>(Movie.class,item.getModelObject().getMovie());
+						setResponsePage(new MoviePage(movieModel));
 					};
 				});
 				item.add(new Label("commentText", new PropertyModel<String>(item.getModelObject(), "text")));

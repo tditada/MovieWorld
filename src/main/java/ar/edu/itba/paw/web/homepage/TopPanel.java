@@ -46,8 +46,7 @@ public class TopPanel extends Panel{
 					 }
 					@Override
 					public void onClick() {
-						Movie m = (Movie)item.getModelObject();
-						setResponsePage(new MoviePage(m));
+						setResponsePage(new MoviePage(item.getModel()));
 					}
 				});
 			}

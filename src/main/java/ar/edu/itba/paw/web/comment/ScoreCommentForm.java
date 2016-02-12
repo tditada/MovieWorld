@@ -4,8 +4,10 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.NumberTextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import ar.edu.itba.paw.domain.EntityModel;
 import ar.edu.itba.paw.model.Score;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.comment.CommentRepo;
@@ -41,8 +43,9 @@ public class ScoreCommentForm extends Panel {
 				
 				c.addScore(currentUser, new Score(score));
 				commentRepo.save(c);
-//				!?
-				setResponsePage(new MoviePage(c.getMovie()));
+				
+				IModel<Movie> movieModel = new EntityModel<Movie>(Movie.class,movie);
+				setResponsePage(new MoviePage(movieModel));
 			}
 		};
 		NumberTextField<Integer> scoreField = new NumberTextField<Integer>("score");
