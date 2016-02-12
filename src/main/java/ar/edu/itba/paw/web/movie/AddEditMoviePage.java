@@ -39,8 +39,7 @@ import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.util.persist.Orderings;
 import ar.edu.itba.paw.web.MovieWorldSession;
-import ar.edu.itba.paw.web.base.BasePage;
-import ar.edu.itba.paw.web.converter.DateConverter;
+import ar.edu.itba.paw.web.base.SecuredPage;
 import ar.edu.itba.paw.web.homepage.HomePage;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
@@ -48,7 +47,7 @@ import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.fileinput.Boo
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.fileinput.FileInputConfig;
 
 @SuppressWarnings("serial")
-public class AddEditMoviePage extends BasePage {
+public class AddEditMoviePage extends SecuredPage {
 
 	@SpringBean
 	MovieRepo movieRepo;

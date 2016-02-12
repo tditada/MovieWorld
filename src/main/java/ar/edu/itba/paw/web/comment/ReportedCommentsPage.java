@@ -15,12 +15,12 @@ import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.comment.CommentRepo;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.util.persist.Orderings;
-import ar.edu.itba.paw.web.base.BasePage;
+import ar.edu.itba.paw.web.base.SecuredPage;
 import ar.edu.itba.paw.web.movie.MoviePage;
 import ar.edu.itba.paw.web.user.UserCommentsPage;
 
 @SuppressWarnings("serial")
-public class ReportedCommentsPage extends BasePage {
+public class ReportedCommentsPage extends SecuredPage {
 
 	@SpringBean
 	CommentRepo commentRepo;
