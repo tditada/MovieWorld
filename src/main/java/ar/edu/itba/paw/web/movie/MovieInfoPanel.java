@@ -10,11 +10,11 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.IResource;
 
-import ar.edu.itba.paw.domain.EntityModel;
 import ar.edu.itba.paw.model.genre.Genre;
 import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.web.homepage.HomePage;
@@ -57,9 +57,22 @@ public class MovieInfoPanel extends Panel {
 				setResponsePage(HomePage.class);
 			}
 		});
+		
+
+		IModel<String> stockModel = new Model<String>() {
+			@Override
+			public String getObject() {
+				try {
+					return String.valueOf(MovieStock.getStock(movieModel.getObject()));
+				} catch (MovieStockNotFound e) {
+					return getString("NoStock");
+				}
+			}
+		};
+		add(new Label("movieStock", stockModel));
 		add(new Label("movie.releaseDate", PropertyModel.of(movieModel, "releaseDate")));
 		add(new Label("movie.runtimeInMins", PropertyModel.of(movieModel, "runtimeInMins")));
-		add(new Label("movie.summary", PropertyModel.of(movieModel, "summary")));
+		add(new Label("movieSummary", PropertyModel.of(movieModel, "summary")));
 		add(new StarsPanel("movieStarPanel", movieModel.getObject().getAverageScore().getValue()));
 		add(new Label("movieVisits", new PropertyModel<Integer>(movieModel, "visits")));
 		add(new NonCachingImage("picture", movieModel) {

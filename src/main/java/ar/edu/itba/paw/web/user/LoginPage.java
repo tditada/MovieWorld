@@ -17,6 +17,7 @@ import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.base.BasePage;
 import ar.edu.itba.paw.web.homepage.HomePage;
+import ar.edu.itba.paw.web.user.register.RegisterPage;
 
 @SuppressWarnings("serial")
 public class LoginPage extends BasePage {

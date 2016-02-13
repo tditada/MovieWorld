@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.web.captcha;
+package ar.edu.itba.paw.web.user.register;
 
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidator;

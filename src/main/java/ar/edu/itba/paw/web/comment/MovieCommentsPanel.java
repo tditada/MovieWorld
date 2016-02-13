@@ -93,7 +93,7 @@ public class MovieCommentsPanel extends Panel {
 				item.add(new Label("commentText", PropertyModel.of(item.getModelObject(), "text")));
 				item.add(new StarsPanel("commentCommentScorePanel",
 						item.getModelObject().getAverageCommentScore().getValue()));
-				item.add(new ScoreCommentForm("scoreCommentForm", item.getModelObject()));
+				item.add(new ScoreCommentFormPanel("scoreCommentForm", item.getModelObject()));
 				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
 				DeleteCommentPanel delete = new DeleteCommentPanel("deleteCommentForm", item.getModelObject(), false);
 				item.add(delete);

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.web.captcha;
+package ar.edu.itba.paw.web.user.register;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.wicket.extensions.markup.html.captcha.CaptchaImageResource;

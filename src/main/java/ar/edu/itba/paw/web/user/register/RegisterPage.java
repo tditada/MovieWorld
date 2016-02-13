@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.web.user;
+package ar.edu.itba.paw.web.user.register;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -19,7 +19,6 @@ import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.base.BasePage;
-import ar.edu.itba.paw.web.captcha.CaptchaPanel;
 import ar.edu.itba.paw.web.homepage.HomePage;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
@@ -66,12 +65,6 @@ public class RegisterPage extends BasePage {
 			protected void onError() {
 				super.onError();
 				setResponsePage(RegisterPage.this);
-			}
-
-			@Override
-			protected void onInitialize() {
-				// TODO Auto-generated method stub
-				super.onInitialize();
 			}
 
 		};

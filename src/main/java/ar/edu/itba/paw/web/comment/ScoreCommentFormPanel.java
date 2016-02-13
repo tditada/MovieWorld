@@ -19,7 +19,7 @@ import ar.edu.itba.paw.web.homepage.HomePage;
 import ar.edu.itba.paw.web.movie.MoviePage;
 
 @SuppressWarnings("serial")
-public class ScoreCommentForm extends Panel {
+public class ScoreCommentFormPanel extends Panel {
 
 	private Integer score;
 	@SpringBean
@@ -27,12 +27,12 @@ public class ScoreCommentForm extends Panel {
 	@SpringBean
 	CommentRepo commentRepo;
 
-	public ScoreCommentForm(String id, final Comment c) {
+	public ScoreCommentFormPanel(String id, final Comment c) {
 		super(id);
 
 		final User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
-		Form<ScoreCommentForm> form = new Form<ScoreCommentForm>("scoreCommentForm",
-				new CompoundPropertyModel<ScoreCommentForm>(this)){
+		Form<ScoreCommentFormPanel> form = new Form<ScoreCommentFormPanel>("scoreCommentForm",
+				new CompoundPropertyModel<ScoreCommentFormPanel>(this)){
 			@Override
 			protected void onSubmit() {
 				Movie movie = c.getMovie();

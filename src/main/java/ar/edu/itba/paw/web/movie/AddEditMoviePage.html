@@ -39,22 +39,23 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="genres"><wicket:message key="enterGenre" /></label>
+							<label for="genres"><wicket:message key="enterGenre" /><span
+									class="glyphicon glyphicon-asterisk"></span> (<wicket:message
+										key="required" />)</label>
 							<div class="input-group">
-								<input wicket:id="genres" type="text" class="form-control"
-									id="genres" placeholder="Action, Comedy, ..." /> <span
-									class="input-group-addon"><span
-									class="glyphicon glyphicon-asterisk"></span> <wicket:message
-										key="required" /></span>
+								<span wicket:id="genres"></span>
+								<!-- 								 <select wicket:id="genres"></select> -->
+								<!-- 								<input wicket:id="genres" type="text" class="form-control" -->
+								<!-- 									id="genres" placeholder="Action, Comedy, ..." />  -->
+								
 							</div>
-							<wicket:message key="genresHelp" />
-							<wicket:container wicket:id="genresAll" />
+							<!-- 							<wicket:message key="genresHelp" /> -->
+							<!-- 							<wicket:container wicket:id="genresAll" /> -->
 						</div>
 						<div class="form-group">
 							<label for="runtimeInMins" class="control-label"><wicket:message
 									key="enterMin">Enter
-								runtime (in minutes)</wicket:message></label> <input
-								type="number" wicket:id="runtime"
+								runtime (in minutes)</wicket:message></label> <input type="number" wicket:id="runtime"
 								class="form-control" id="runtimeInMins" /> <span
 								class="input-group-addon"><span
 								class="glyphicon glyphicon-asterisk"></span> <wicket:message

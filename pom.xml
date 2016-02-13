@@ -11,6 +11,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
+		<!-- Parse4j -->
+		<dependency>
+			<groupId>com.github.thiagolocatelli</groupId>
+			<artifactId>parse4j</artifactId>
+			<version>1.4</version>
+		</dependency>
 		<!-- Wicket related -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>

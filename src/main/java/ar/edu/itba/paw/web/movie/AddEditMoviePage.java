@@ -6,6 +6,7 @@ import java.util.SortedSet;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.NumberTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -15,6 +16,7 @@ import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.util.ListModel;
@@ -211,21 +213,29 @@ public class AddEditMoviePage extends SecuredPage {
 			}
 		};
 
-		TextField<String> genresField = new RequiredTextField<String>("genres", String.class) {
+		IModel<List<Genre>> genresModel = new LoadableDetachableModel<List<Genre>>() {
 			@Override
-			public void error(IValidationError error) {
-				error(getString("invalidGenre"));
+			protected List<Genre> load() {
+				return genreRepo.findAllOrderedByName(Orderings.DESC);
 			}
 		};
-		List<Genre> genreList = genreRepo.findAllOrderedByName(Orderings.DESC);
-		String genreString = "";
-		for (Genre g : genreList) {
-			String name = g.getName();
-			name = name.substring(0, 1) + name.substring(1).toLowerCase();
-			genreString += name + ", ";
-		}
-		genreString = genreString.substring(0, genreString.length() - 2);
-		Label allGenres = new Label("genresAll", genreString);
+		addMovieForm.add(new CheckBoxMultipleChoice<Genre>("genres",genresModel));
+		
+//		TextField<String> genresField = new RequiredTextField<String>("genres", String.class) {
+//			@Override
+//			public void error(IValidationError error) {
+//				error(getString("invalidGenre"));
+//			}
+//		};
+//		List<Genre> genreList = genreRepo.findAllOrderedByName(Orderings.DESC);
+//		String genreString = "";
+//		for (Genre g : genreList) {
+//			String name = g.getName();
+//			name = name.substring(0, 1) + name.substring(1).toLowerCase();
+//			genreString += name + ", ";
+//		}
+//		genreString = genreString.substring(0, genreString.length() - 2);
+//		Label allGenres = new Label("genresAll", genreString);
 
 		NumberTextField<Integer> runtimeField = new NumberTextField<Integer>("runtime", Integer.class) {
 			@Override
@@ -259,7 +269,7 @@ public class AddEditMoviePage extends SecuredPage {
 			movieTitleField.setModel(new PropertyModel<String>(movieModel, "title"));
 			directorField.setModel(new PropertyModel<String>(movieModel, "director"));
 			summaryField.setModel(new PropertyModel<String>(movieModel, "summary"));
-			genresField.setModel(new PropertyModel<String>(movieModel, "genreListString"));
+//			genresField.setModel(new PropertyModel<String>(movieModel, "genreListString"));
 			runtimeField.setModel(new PropertyModel<Integer>(movieModel, "runtimeInMins"));
 			IModel<Date> dateModel = new Model<>(movieModel.getObject().getReleaseDate().toDate());
 			dateField.setModel(dateModel);
@@ -268,8 +278,8 @@ public class AddEditMoviePage extends SecuredPage {
 		addMovieForm.add(movieTitleField);
 		addMovieForm.add(directorField);
 		addMovieForm.add(summaryField);
-		addMovieForm.add(genresField);
-		addMovieForm.add(allGenres);
+//		addMovieForm.add(genresField);
+//		addMovieForm.add(allGenres);
 		addMovieForm.add(runtimeField);
 		addMovieForm.add(dateField);
 
