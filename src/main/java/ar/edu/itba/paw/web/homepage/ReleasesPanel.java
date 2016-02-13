@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.web.homepage;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -24,14 +25,13 @@ public class ReleasesPanel extends Panel{
 	public ReleasesPanel(String id) {
 		super(id);
 
-		//RELEASES (Title, Summary)
-		IModel<List<Movie>> releasesMovie = new LoadableDetachableModel<List<Movie>>() {
+		final IModel<List<Movie>> releasesMovie = new LoadableDetachableModel<List<Movie>>() {
 			@Override
 			protected List<Movie> load() {
 				return movies.findReleases(); 
 			}
 		};
-				
+						
 		add(new PropertyListView<Movie>("releases.movie", releasesMovie) {
 			@Override
 			protected void populateItem(ListItem<Movie> item) {
@@ -48,6 +48,13 @@ public class ReleasesPanel extends Panel{
 					}
 				});
 				item.add(new Label("ShortSummary", new PropertyModel<String>(item.getModel(), "ShortSummary")));
+			}
+		});
+		
+		add(new Label("noReleases",MessageFormat.format(getString("noReleases"),Movie.DAYS_AS_RELEASE)){
+			@Override
+			public boolean isVisible() {
+				return super.isVisible() && releasesMovie.getObject().size()==0;
 			}
 		});
 		

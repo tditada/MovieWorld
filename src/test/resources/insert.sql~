@@ -11,7 +11,6 @@ INSERT INTO movies_genres(movies_id, genres_id) VALUES (508,15);
 INSERT INTO movies_genres(movies_id, genres_id) VALUES (508,6);
 
 INSERT INTO movies(id,creationdate, image, releasedate, runtimeinmins, summary, title, totalscore, visits, director) VALUES (509,TIMESTAMP '2016-02-12', NULL, TIMESTAMP '2016-02-16', 102, 'When their kingdom becomes trapped in perpetual winter, fearless Anna (Kristen Bell) joins forces with mountaineer Kristoff (Jonathan Groff) and his reindeer sidekick to find Annas sister, Snow Queen Elsa (Idina Menzel), and break her icy spell. Although their epic journey leads them to encounters with mystical trolls, a comedic snowman (Josh Gad), harsh conditions, and magic at every turn, Anna and Kristoff bravely push onward in a race to save their kingdom from winters cold grip', 'Frozen', 0, 0, 'Jennifer Lee');
-
 INSERT INTO movies_genres(movies_id, genres_id) VALUES (509,4);
 INSERT INTO movies_genres(movies_id, genres_id) VALUES (509,9);
 INSERT INTO movies_genres(movies_id, genres_id) VALUES (509,14);

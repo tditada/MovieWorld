@@ -16,6 +16,7 @@ import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.IResource;
 
 import ar.edu.itba.paw.model.genre.Genre;
+import ar.edu.itba.paw.model.movie.Director;
 import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.web.homepage.HomePage;
 
@@ -40,21 +41,22 @@ public class MovieInfoPanel extends Panel {
 
 					@Override
 					public void onClick() {
-						setResponsePage(HomePage.class);
+						setResponsePage(new MovieListPage(item.getModelObject(),null));
 					}
 				});
 			}
 		});
 
 		add(new Link<Movie>("linkDirector", movieModel) {
+			IModel<Director> directorModel = new PropertyModel<Director>(movieModel, "director");
 			protected void onInitialize() {
 				super.onInitialize();
-				add(new Label("movie.director", new PropertyModel<String>(movieModel, "director")));
+				add(new Label("movie.director",directorModel.getObject().getName()));
 			};
 
 			@Override
 			public void onClick() {
-				setResponsePage(HomePage.class);
+				setResponsePage(new MovieListPage(null, directorModel.getObject()));
 			}
 		});
 		

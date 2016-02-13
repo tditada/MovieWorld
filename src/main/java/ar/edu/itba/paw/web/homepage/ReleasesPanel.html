@@ -4,7 +4,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
 				<h2 class="panel-title">
-					<wicket:message key="releases"/>
+					<wicket:message key="releases" />
 				</h2>
 			</div>
 			<div wicket:id="releases.movie" class="panel panel-default">
@@ -13,6 +13,11 @@
 				<div class="panel-body">
 					<p wicket:id="ShortSummary" />
 				</div>
+			</div>
+			<div wicket:enclosure="noReleases">
+				<br/>
+				<p wicket:id="noReleases" class="text-center"></p>
+				<br/>
 			</div>
 		</div>
 	</wicket:panel>

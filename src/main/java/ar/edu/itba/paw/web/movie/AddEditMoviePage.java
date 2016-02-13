@@ -2,6 +2,7 @@ package ar.edu.itba.paw.web.movie;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -23,6 +24,7 @@ import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidationError;
 import org.apache.wicket.validation.IValidator;
@@ -47,6 +49,7 @@ import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.fileinput.BootstrapFileInput;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.fileinput.FileInputConfig;
+import de.agilecoders.wicket.jquery.IKey;
 
 @SuppressWarnings("serial")
 public class AddEditMoviePage extends SecuredPage {
@@ -64,7 +67,7 @@ public class AddEditMoviePage extends SecuredPage {
 	private SortedSet<Genre> genres;
 	private Integer runtime;
 	private String releaseDate;
-//	private String releaseDate = DateTime.now().toString();
+	// private String releaseDate = DateTime.now().toString();
 	private ImageWrapper picture;
 	private IModel<List<FileUpload>> fileUploadsModel = new ListModel<FileUpload>();
 	private boolean deletePicture = false;
@@ -84,7 +87,7 @@ public class AddEditMoviePage extends SecuredPage {
 		Form<AddEditMoviePage> addMovieForm = new Form<AddEditMoviePage>("movieForm",
 				new CompoundPropertyModel<AddEditMoviePage>(this)) {
 			@Override
-				
+
 			protected void onSubmit() {
 				String[] s = releaseDate.split("/");
 				releaseDate = s[s.length - 1] + "-" + s[0] + "-" + s[1];
@@ -139,10 +142,10 @@ public class AddEditMoviePage extends SecuredPage {
 				super.onSubmit();
 			}
 
-//			@Override
-//			protected void onError() {
-//				error(getString("movieExists"));
-//			}
+			// @Override
+			// protected void onError() {
+			// error(getString("movieExists"));
+			// }
 		};
 
 		addMovieForm.add(new FeedbackPanel("feedback") {
@@ -219,23 +222,7 @@ public class AddEditMoviePage extends SecuredPage {
 				return genreRepo.findAllOrderedByName(Orderings.DESC);
 			}
 		};
-		addMovieForm.add(new CheckBoxMultipleChoice<Genre>("genres",genresModel));
-		
-//		TextField<String> genresField = new RequiredTextField<String>("genres", String.class) {
-//			@Override
-//			public void error(IValidationError error) {
-//				error(getString("invalidGenre"));
-//			}
-//		};
-//		List<Genre> genreList = genreRepo.findAllOrderedByName(Orderings.DESC);
-//		String genreString = "";
-//		for (Genre g : genreList) {
-//			String name = g.getName();
-//			name = name.substring(0, 1) + name.substring(1).toLowerCase();
-//			genreString += name + ", ";
-//		}
-//		genreString = genreString.substring(0, genreString.length() - 2);
-//		Label allGenres = new Label("genresAll", genreString);
+		CheckBoxMultipleChoice<Genre> genresField = new CheckBoxMultipleChoice<Genre>("genres", genresModel);
 
 		NumberTextField<Integer> runtimeField = new NumberTextField<Integer>("runtime", Integer.class) {
 			@Override
@@ -250,7 +237,7 @@ public class AddEditMoviePage extends SecuredPage {
 		};
 		runtimeField.setRequired(true);
 		runtimeField.setMinimum(1);
-		
+
 		DateTextField dateField = new DateTextField("releaseDate",
 				new DateTextFieldConfig().autoClose(true).withStartDate(DateTime.now().minusYears(100))
 						.withView(DateTextFieldConfig.View.Decade).withEndDate(DateTime.now())) {
@@ -264,12 +251,13 @@ public class AddEditMoviePage extends SecuredPage {
 				error(getString("invalidRelease"));
 			}
 		};
-		
+
 		if (edit) {
 			movieTitleField.setModel(new PropertyModel<String>(movieModel, "title"));
 			directorField.setModel(new PropertyModel<String>(movieModel, "director"));
 			summaryField.setModel(new PropertyModel<String>(movieModel, "summary"));
-//			genresField.setModel(new PropertyModel<String>(movieModel, "genreListString"));
+			IModel<SortedSet<Genre>> genresMovieModel = new PropertyModel<SortedSet<Genre>>(movieModel, "genres");
+			genresField.setDefaultModel(genresMovieModel);
 			runtimeField.setModel(new PropertyModel<Integer>(movieModel, "runtimeInMins"));
 			IModel<Date> dateModel = new Model<>(movieModel.getObject().getReleaseDate().toDate());
 			dateField.setModel(dateModel);
@@ -278,8 +266,7 @@ public class AddEditMoviePage extends SecuredPage {
 		addMovieForm.add(movieTitleField);
 		addMovieForm.add(directorField);
 		addMovieForm.add(summaryField);
-//		addMovieForm.add(genresField);
-//		addMovieForm.add(allGenres);
+		addMovieForm.add(genresField);
 		addMovieForm.add(runtimeField);
 		addMovieForm.add(dateField);
 
@@ -301,13 +288,7 @@ public class AddEditMoviePage extends SecuredPage {
 		});
 
 		addMovieForm.add(new BootstrapFileInput("file-picker", fileUploadsModel,
-				new BootstrapFileInputConfig().maxFileCount(1).showUpload(false).showCaption(true).showPreview(false)) {
-			@Override
-			protected void onInitialize() {
-				super.onInitialize();
-				// setFileMaxSize(Bytes.bytes(ImageWrapper.MAX_SIZE));
-			}
-		});
+				new BootstrapFileInputConfig().maxFileCount(1).showUpload(false).showCaption(true).showPreview(false)));
 
 		addMovieForm.add(new CheckBox("deletePicture") {
 			@Override
@@ -321,12 +302,12 @@ public class AddEditMoviePage extends SecuredPage {
 				return movieModel.getObject() != null && movieModel.getObject().getPicture() != null;
 			}
 		});
-
+		addMovieForm.setFileMaxSize(Bytes.bytes(ImageWrapper.MAX_SIZE));
 		add(addMovieForm);
 	}
 
 	private static class BootstrapFileInputConfig extends FileInputConfig {
-		private static final de.agilecoders.wicket.jquery.IKey<Integer> maxFileCount = newKey("maxFileCount", 1);
+		private static final IKey<Integer> maxFileCount = newKey("maxFileCount", 1);
 
 		public BootstrapFileInputConfig maxFileCount(int i) {
 			put(maxFileCount, i);

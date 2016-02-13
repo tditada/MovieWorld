@@ -23,7 +23,6 @@ import ar.edu.itba.paw.web.homepage.HomePage;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
 
-//TODO: Captcha
 @SuppressWarnings("serial")
 public class RegisterPage extends BasePage {
 	
