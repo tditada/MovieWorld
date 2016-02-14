@@ -1,0 +1,32 @@
+<html>
+<body>
+	<wicket:extend>
+		<div class="container">
+			<div class="col-lg-6">
+				<form role="form" enctype="multipart/form-data" method="post"
+					wicket:id="movieForm">
+					<div wicket:id="feedback" class="alert alert-danger" role="alert" />
+					<wicket:container wicket:id="movieInputs" />
+					<div class="form-group">
+						<label for="releaseDate"><wicket:message
+								key="enterRelease" /></label> <input wicket:id="releaseDate"
+							type="text" name="releaseDate" path="releaseDate"
+							id="releaseDatepicker" cssClass="releaseDatepicker" /><span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-asterisk"></span> <wicket:message
+								key="required" /></span>
+					</div>
+					<div class="form-group">
+						<label for="file-picker"><wicket:message key="enterPic" /></label>
+						<br /> <input id="file-picker" wicket:id="file-picker" type="file"
+							class="file" data-max-file-count=1
+							data-allowed-file-types="image"></input>
+					</div>
+					<input type="submit" name="submit" id="submit" value="Submit"
+						class="btn btn-primary pull-right" />
+				</form>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

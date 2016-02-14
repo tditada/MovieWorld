@@ -1,0 +1,52 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<body>
+	<wicket:panel>
+		<div class="form-group">
+			<label for="title"><wicket:message key="enterTitle" /></label>
+			<div class="input-group">
+				<input wicket:id="title" type="text" class="form-control"
+					placeholder="Enter Movie's Title" /> <span
+					class="input-group-addon"><span
+					class="glyphicon glyphicon-asterisk"></span> <wicket:message
+						key="required" /></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="director"><wicket:message key="enterDirector" /></label>
+			<div class="input-group">
+				<input wicket:id="director" type="text" class="form-control"
+					placeholder="Enter Director" /> <span class="input-group-addon"><span
+					class="glyphicon glyphicon-asterisk"></span> <wicket:message
+						key="required" /></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="summary"><wicket:message key="enterSummary" /></label>
+			<div class="input-group">
+				<input wicket:id="summary" type="text" class="form-control"
+					name="summary" id="summary" placeholder="Enter Summary" /> <span
+					class="input-group-addon"><span
+					class="glyphicon glyphicon-asterisk"></span> <wicket:message
+						key="required" /></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="genres"><wicket:message key="enterGenre" /> <span
+				class="glyphicon glyphicon-asterisk"></span> (<wicket:message
+					key="chooseAtLeastOne" />)</label>
+			<div class="input-group">
+				<span wicket:id="genres"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="runtimeInMins" class="control-label"><wicket:message
+					key="enterMin">Enter
+								runtime (in minutes)</wicket:message></label> <input type="number"
+				wicket:id="runtimeInMins" class="form-control"
+				id="runtimeInMins" /> <span class="input-group-addon"><span
+				class="glyphicon glyphicon-asterisk"></span> <wicket:message
+					key="required" /></span>
+		</div>
+	</wicket:panel>
+</body>
+</html>

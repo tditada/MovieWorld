@@ -27,6 +27,8 @@ public class GenreSortedSetConverter implements IConverter<SortedSet<Genre>> {
 
 		for (String name : genreNames) {
 			String strippedName = StringUtils.strip(name, " ");
+			strippedName = StringUtils.strip(strippedName, "]");
+			strippedName = StringUtils.strip(strippedName, "[");
 			Genre genre = genres.findByName(strippedName);
 			if (genre == null) {
 				genre = new Genre(strippedName);

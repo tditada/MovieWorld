@@ -2,7 +2,6 @@ package ar.edu.itba.paw.web.movie;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -74,7 +73,6 @@ public class AddEditMoviePage extends SecuredPage {
 	private IModel<Movie> movieModel;
 	private boolean edit;
 
-	// TODO: Just the admin can see this page
 	// Set pic max size
 	public AddEditMoviePage(final Movie movie) {
 		super();
@@ -238,7 +236,26 @@ public class AddEditMoviePage extends SecuredPage {
 		runtimeField.setRequired(true);
 		runtimeField.setMinimum(1);
 
-		DateTextField dateField = new DateTextField("releaseDate",
+		if (edit) {
+//			Movie m = movieModel.getObject();
+//			movieTitle = m.getTitle();
+//			director = m.getDirector().getName();
+//			summary = m.getSummary();
+//			genres = m.getGenres();
+//			runtime = m.getRuntimeInMins()
+//			addMovieForm.setDefaultModel(movieModel);
+			movieTitleField.setModel(new PropertyModel<String>(movieModel, "title"));
+			directorField.setModel(new PropertyModel<String>(movieModel, "director"));
+			summaryField.setModel(new PropertyModel<String>(movieModel, "summary"));
+			IModel<SortedSet<Genre>> genresMovieModel = new PropertyModel<SortedSet<Genre>>(movieModel, "genres");
+			genresField.setDefaultModel(genresMovieModel);
+			runtimeField.setModel(new PropertyModel<Integer>(movieModel, "runtimeInMins"));
+//			dateField.setModel(dateModel);
+//			dateField.
+		}
+		IModel<Date> dateModel = new Model<Date>(movieModel.getObject().getReleaseDate().toDate());
+
+		DateTextField dateField = new DateTextField("releaseDate", dateModel,
 				new DateTextFieldConfig().autoClose(true).withStartDate(DateTime.now().minusYears(100))
 						.withView(DateTextFieldConfig.View.Decade).withEndDate(DateTime.now())) {
 			@Override
@@ -251,17 +268,6 @@ public class AddEditMoviePage extends SecuredPage {
 				error(getString("invalidRelease"));
 			}
 		};
-
-		if (edit) {
-			movieTitleField.setModel(new PropertyModel<String>(movieModel, "title"));
-			directorField.setModel(new PropertyModel<String>(movieModel, "director"));
-			summaryField.setModel(new PropertyModel<String>(movieModel, "summary"));
-			IModel<SortedSet<Genre>> genresMovieModel = new PropertyModel<SortedSet<Genre>>(movieModel, "genres");
-			genresField.setDefaultModel(genresMovieModel);
-			runtimeField.setModel(new PropertyModel<Integer>(movieModel, "runtimeInMins"));
-			IModel<Date> dateModel = new Model<>(movieModel.getObject().getReleaseDate().toDate());
-			dateField.setModel(dateModel);
-		}
 
 		addMovieForm.add(movieTitleField);
 		addMovieForm.add(directorField);

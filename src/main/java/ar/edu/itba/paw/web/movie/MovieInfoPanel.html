@@ -12,74 +12,72 @@
 					<img wicket:id="picture" class="profile_image img-circle" />
 					<br/>
 				</div>
-				<dl>
-					<br/>
-				</dl>
-				<dl class="dl-horizontal">
-					<dt>
-						<wicket:message key="genres"/>
-					</dt>
-					<dd class="text-capitalize">
-						<wicket:container wicket:id="movie.genres">
-							<a href="#" wicket:id="linkGenre"> <wicket:container
-									wicket:id="genre.name" />
+				<div class="col-md-6">
+					<dl class="dl-horizontal">
+						<dt>
+							<wicket:message key="genres"/>
+						</dt>
+						<dd class="text-capitalize">
+							<wicket:container wicket:id="movie.genres">
+								<a href="#" wicket:id="linkGenre"> <wicket:container
+										wicket:id="genre.name" />
+								</a>
+							</wicket:container>
+						</dd>
+	
+						<dt>
+							<wicket:message key="director"/>
+						</dt>
+						<dd>
+							<a href="#" wicket:id="linkDirector"> <wicket:container
+									wicket:id="movie.director" />
 							</a>
-						</wicket:container>
-					</dd>
-
-					<dt>
-						<wicket:message key="director"/>
-					</dt>
-					<dd>
-						<a href="#" wicket:id="linkDirector"> <wicket:container
-								wicket:id="movie.director" />
-						</a>
-					</dd>
-					<dt>
-						<wicket:message key="releaseDate"/>
-					</dt>
-					<dd>
-						<wicket:container wicket:id="movie.releaseDate" />
-					</dd>
-					<dt>
-						<wicket:message key="runtime"/>
-					</dt>
-					<dd>
-						<wicket:container wicket:id="movie.runtimeInMins" />
-						<wicket:message key="minutes" />
-					</dd>
-					<dt>
-						<wicket:message key="score"/>
-					</dt>
-					<dd>
-						<wicket:container wicket:id="movieStarPanel" />
-					</dd>
-					<dt>
-						<wicket:message key="summary"/>
-					</dt>
-					<dd>
-						<p>
-							<wicket:container wicket:id="movieSummary" />
-						</p>
-					</dd>
-					<dt>
-						<wicket:message key="visits"/>
-					</dt>
-					<dd>
-						<p>
-							<wicket:container wicket:id="movieVisits" />
-						</p>
-					</dd>
-					<dt>
-						<wicket:message key="stock"/>
-					</dt>
-					<dd>
-						<p>
-							<wicket:container wicket:id="movieStock" />
-						</p>
-					</dd>
-				</dl>
-
+						</dd>
+						<dt>
+							<wicket:message key="releaseDate"/>
+						</dt>
+						<dd>
+							<wicket:container wicket:id="movie.releaseDate" />
+						</dd>
+						<dt>
+							<wicket:message key="runtime"/>
+						</dt>
+						<dd>
+							<wicket:container wicket:id="movie.runtimeInMins" />
+							<wicket:message key="minutes" />
+						</dd>
+						<dt>
+							<wicket:message key="score"/>
+						</dt>
+						<dd>
+							<wicket:container wicket:id="movieStarPanel" />
+						</dd>
+						<dt>
+							<wicket:message key="summary"/>
+						</dt>
+						<dd>
+							<p>
+								<wicket:container wicket:id="movieSummary" />
+							</p>
+						</dd>
+						<dt>
+							<wicket:message key="visits"/>
+						</dt>
+						<dd>
+							<p>
+								<wicket:container wicket:id="movieVisits" />
+							</p>
+						</dd>
+						<dt>
+							<wicket:message key="stock"/>
+						</dt>
+						<dd>
+							<p>
+								<wicket:container wicket:id="movieStock" />
+							</p>
+						</dd>
+					</dl>
+				</div>
 			</div>
 		</div>
 	</wicket:panel>

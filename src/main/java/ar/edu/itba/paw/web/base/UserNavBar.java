@@ -11,6 +11,7 @@ import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.comment.ReportedCommentsPage;
 import ar.edu.itba.paw.web.movie.AddEditMoviePage;
+import ar.edu.itba.paw.web.movie.AddMoviePage;
 import ar.edu.itba.paw.web.user.LoginPage;
 import ar.edu.itba.paw.web.user.UserCommentsPage;
 
@@ -85,7 +86,7 @@ public class UserNavBar extends Panel {
 
 			@Override
 			public void onClick() {
-				setResponsePage(new AddEditMoviePage(null));
+				setResponsePage(new AddMoviePage());
 			}
 
 			@Override

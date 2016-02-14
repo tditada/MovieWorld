@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.web.base;
 
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -18,12 +19,7 @@ public class NavBar extends Panel {
 
 	public NavBar(String id) {
 		super(id);
-		add(new Link<Void>("homepageLink") {
-			@Override
-			public void onClick() {
-				setResponsePage(HomePage.class);
-			}
-		});
+		add(new BookmarkablePageLink<Void>("homepageLink", HomePage.class));
 		add(new Link<Void>("allMoviesLink") {
 			@Override
 			public void onClick() {

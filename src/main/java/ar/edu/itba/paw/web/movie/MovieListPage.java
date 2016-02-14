@@ -87,7 +87,7 @@ public class MovieListPage extends BasePage {
 				item.add(new Link<Void>("editLink"){
 					@Override
 					public void onClick() {
-						setResponsePage(new AddEditMoviePage(item.getModelObject()));
+						setResponsePage(new EditMoviePage(item.getModel()));
 					}
 					@Override
 					public boolean isVisible() {

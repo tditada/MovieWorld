@@ -9,12 +9,9 @@ import org.joda.time.format.DateTimeFormatter;
 
 @SuppressWarnings("serial")
 public class DateConverter implements IConverter<DateTime> {
-	public static final String DATE_TIME_FORMAT = "yy-MM-dd"; /*
-																 * IMPORTANT:
-																 * This is the
-																 * same as JS'
-																 * yy-mm-dd
-																 */
+
+    public static final String DATE_TIME_FORMAT = "dd-MM-yyyy";
+    
 	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_TIME_FORMAT);
 
 	@Override

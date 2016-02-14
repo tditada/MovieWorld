@@ -4,12 +4,12 @@ $(document).ready(function() {
 		changeYear : true,
 		maxDate : 0,
 		yearRange : "1900:2014",
-		dateFormat : 'yy-mm-dd'
+		dateFormat : 'dd-mm-yy'
 	});
 
 	$(".releaseDatepicker").datepicker({
 		changeMonth : true,
 		changeYear : true,
-		dateFormat : 'yy-mm-dd'
+		dateFormat : 'dd-mm-yy'
 	});
 });

@@ -2,7 +2,6 @@ package ar.edu.itba.paw.model.genre;
 
 import static ar.edu.itba.paw.util.ObjectHelpers.areEqual;
 import static ar.edu.itba.paw.util.ObjectHelpers.hash;
-import static ar.edu.itba.paw.util.ObjectHelpers.toStringHelper;
 import static ar.edu.itba.paw.util.validation.PredicateHelpers.neitherNullNorEmpty;
 import static ar.edu.itba.paw.util.validation.Validations.checkArgument;
 
@@ -19,8 +18,8 @@ import ar.edu.itba.paw.domain.PersistentEntity;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "genres", uniqueConstraints = @UniqueConstraint(columnNames = { "name" }))
-public class Genre extends PersistentEntity implements Comparable<Genre>,Serializable {
+@Table(name = "genres", uniqueConstraints = @UniqueConstraint(columnNames = { "name" }) )
+public class Genre extends PersistentEntity implements Comparable<Genre>, Serializable {
 	private static final int MAX_GENRE_LENGTH = 25;
 
 	@Check(constraints = "length(name) > 0")
@@ -62,11 +61,12 @@ public class Genre extends PersistentEntity implements Comparable<Genre>,Seriali
 			return false;
 		}
 		Genre other = (Genre) obj;
-		return areEqual(this.name, other.name);
+		return areEqual(other.name, this.name);
 	}
 
 	@Override
 	public String toString() {
-		return toStringHelper(this).add("name", name).toString();
+		return name;
+		// return toStringHelper(this).add("name", name).toString();
 	}
 }
