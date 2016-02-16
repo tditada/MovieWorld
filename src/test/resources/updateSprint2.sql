@@ -385,8 +385,8 @@ ALTER TABLE ONLY users
 -- Name: users_users_interestingusers_id_key; Type: CONSTRAINT; Schema: public; Owner: paw; Tablespace: 
 --
 
-ALTER TABLE ONLY users_users
-    ADD CONSTRAINT users_users_interestingusers_id_key UNIQUE (interestingusers_id);
+--ALTER TABLE ONLY users_users
+--    ADD CONSTRAINT users_users_interestingusers_id_key UNIQUE (interestingusers_id);
 
 
 --

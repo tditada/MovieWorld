@@ -22,12 +22,14 @@ import ar.edu.itba.paw.web.MovieWorldSession;
 import ar.edu.itba.paw.web.movie.MoviePage;
 import ar.edu.itba.paw.web.movie.MovieTitlePanel;
 import ar.edu.itba.paw.web.user.UserCommentsPage;
+import ar.edu.itba.paw.web.user.UsersListPage;
 
 @SuppressWarnings("serial")
 public class InterestingCommentsPanel extends Panel {
 
 	@SpringBean
 	private UserRepo users;
+
 	public InterestingCommentsPanel(String id) {
 		super(id);
 
@@ -38,43 +40,60 @@ public class InterestingCommentsPanel extends Panel {
 				return getInterestingCommentsFor(user);
 			}
 		};
-		
-		add(new Label("noComments", getString("noComments")){
-			@Override
-			public boolean isVisible() {
-				return super.isVisible() && interestingComments.getObject().size()==0;
-			}
-		});
 
 		add(new PropertyListView<Comment>("interestingComments", interestingComments) {
 			@Override
 			protected void populateItem(final ListItem<Comment> item) {
-				final Comment c =item.getModelObject();
+				final Comment c = item.getModelObject();
 				item.add(new Label("commentSummary", new PropertyModel<Movie>(item.getModel(), "text")));
-				item.add(new Link<Void>("userLink"){
+				item.add(new Link<Void>("userLink") {
 					@Override
 					protected void onInitialize() {
 						super.onInitialize();
 						add(new Label("firstName", new PropertyModel<String>(item.getModel(), "user.firstName")));
 						add(new Label("lastName", new PropertyModel<String>(item.getModel(), "user.lastName")));
 					}
+
 					@Override
 					public void onClick() {
 						setResponsePage(new UserCommentsPage(c.getUser()));
 					}
 				});
-				item.add(new Link<Void>("movieLink"){
-					IModel<Movie> movieModel = new EntityModel<Movie>(Movie.class,item.getModel().getObject().getMovie());
+				item.add(new Link<Void>("movieLink") {
+					IModel<Movie> movieModel = new EntityModel<Movie>(Movie.class,
+							item.getModel().getObject().getMovie());
+
 					@Override
 					protected void onInitialize() {
-                        add(new MovieTitlePanel("title", movieModel));
+						add(new MovieTitlePanel("title", movieModel));
 						super.onInitialize();
 					}
+
 					@Override
 					public void onClick() {
 						setResponsePage(new MoviePage(movieModel));
 					}
 				});
+			}
+		});
+
+		add(new Label("noComments", getString("noComments")) {
+			@Override
+			public boolean isVisible() {
+				return super.isVisible() && interestingComments.getObject().size() == 0;
+			}
+		});
+
+		add(new Link<Void>("users") {
+
+			@Override
+			public boolean isVisible() {
+				return super.isVisible() && interestingComments.getObject().size() == 0;
+			}
+
+			@Override
+			public void onClick() {
+				setResponsePage(new UsersListPage());
 			}
 		});
 	}

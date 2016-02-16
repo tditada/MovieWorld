@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -30,22 +31,16 @@ public class UserCommentsPage extends BasePage {
 	UserRepo userRepo;
 	@SpringBean
 	MovieRepo movieRepo;
+	
+	private IModel<User> userModel;
 
-	public UserCommentsPage(final User user) {
+	public UserCommentsPage(User user) {
 
-        final IModel<User> userModel = new EntityModel<>(User.class, user);
+        userModel = new Model<User>(user);
 		add(new Label("userName", userModel.getObject().getFirstName().getNameString() + " "
 				+ userModel.getObject().getLastName().getNameString()));
+		User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
 		Form<Void> removeInterestingUser = new Form<Void>("removeInterestingUser") {
-			@Override
-			public boolean isVisible() {
-				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
-				if (currentUser == null) {
-					return false;
-				}
-				return super.isVisible() && currentUser.isinterestingUser(userModel.getObject());
-			}
-
 			@Override
 			protected void onSubmit() {
 				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
@@ -54,27 +49,31 @@ public class UserCommentsPage extends BasePage {
 				setResponsePage(new UserCommentsPage(userModel.getObject()));
 			}
 		};
-		Form<Void> addInterestingUser = new Form<Void>("addInterestingUser") {
-			@Override
-			public boolean isVisible() {
-				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
-				if (currentUser == null) {
-					return false;
-				}
-				return super.isVisible() && currentUser != userModel.getObject()
-						&& !currentUser.isinterestingUser(userModel.getObject());
-			}
 
+		Form<Void> addInterestingUser = new Form<Void>("addInterestingUser") {
 			@Override
 			protected void onSubmit() {
 				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
 				User user = userModel.getObject();
 				currentUser.addInterestingUser(user);
+				userRepo.save(currentUser);
 				setResponsePage(new UserCommentsPage(user));
 			}
 		};
 		add(removeInterestingUser);
 		add(addInterestingUser);
+		
+		if(currentUser == null || (currentUser!=null && currentUser.equals(userModel.getObject()))){
+			removeInterestingUser.setVisible(false);
+			addInterestingUser.setVisible(false);
+		}else if(currentUser!=null && !currentUser.isinterestingUser(userModel.getObject())){
+			removeInterestingUser.setVisible(false);
+			addInterestingUser.setVisible(true);
+		}else if(currentUser!=null && currentUser.isinterestingUser(userModel.getObject())){
+			removeInterestingUser.setVisible(true);
+			addInterestingUser.setVisible(false);
+		}
+
 		add(new Label("comments", getString("comments")) {
 			@Override
 			public boolean isVisible() {
@@ -105,7 +104,6 @@ public class UserCommentsPage extends BasePage {
 						super.onInitialize();
 						IModel<Movie> movieModel = new EntityModel<Movie>(Movie.class, item.getModelObject().getMovie());
 						add(new MovieTitlePanel("commentMovieTitle",movieModel));
-						
 					}
 
 					@Override

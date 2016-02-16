@@ -55,9 +55,6 @@ public class EditMoviePage extends SecuredPage {
 				if (user == null || !user.isAdmin() || movieModel.getObject() == null) {
 					setResponsePage(HomePage.class);
 				}
-//				String[] s = releaseDate.split("/");
-//				releaseDate = s[1] + "-" + s[0] + "-" + s[3];
-//				movieModel.getObject().setReleaseDate(new DateTime(releaseDate));
 				try {
 					List<FileUpload> fileUploads = fileUploadsModel.getObject();
 					if (fileUploads != null) {
@@ -98,12 +95,7 @@ public class EditMoviePage extends SecuredPage {
 			}
 		};
 		form.add(dateField);
-		form.add(new NonCachingImage("picture") {
-			@Override
-			public boolean isVisible() {
-				return movieModel.getObject() != null && movieModel.getObject().getPicture() != null;
-			}
-
+		NonCachingImage image = new NonCachingImage("picture") {
 			@Override
 			protected IResource getImageResource() {
 				return new DynamicImageResource() {
@@ -113,23 +105,25 @@ public class EditMoviePage extends SecuredPage {
 					}
 				};
 			}
-		});
+		};
+		form.add(image);
 
 		form.add(new BootstrapFileInput("file-picker", fileUploadsModel,
 				new FileInputConfig().showUpload(false).showCaption(true).showPreview(false)));
 
-		form.add(new CheckBox("deletePicture", deletePicture) {
+		CheckBox delete = new CheckBox("deletePicture", deletePicture) {
 			@Override
 			protected void onInitialize() {
 				add(new Label("deletePicText", getString("deletePicText")));
 				super.onInitialize();
 			}
-
-			@Override
-			public boolean isVisible() {
-				return movieModel.getObject() != null && movieModel.getObject().getPicture() != null;
-			}
-		});
+		};
+		if (movieModel.getObject() == null
+				|| (movieModel.getObject() != null && movieModel.getObject().getPicture() == null)) {
+			image.setVisible(false);
+			delete.setVisible(false);
+		}
+		form.add(delete);
 		add(form);
 	}
 }

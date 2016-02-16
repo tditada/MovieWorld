@@ -14,10 +14,10 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
-import ar.edu.itba.paw.web.base.BasePage;
+import ar.edu.itba.paw.web.base.UsersPage;
 
 @SuppressWarnings("serial")
-public class UsersListPage extends BasePage {
+public class UsersListPage extends UsersPage {
 
 	@SpringBean
 	UserRepo userRepo;

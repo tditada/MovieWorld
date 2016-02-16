@@ -19,45 +19,46 @@ import ar.edu.itba.paw.web.movie.MoviePage;
 import ar.edu.itba.paw.web.movie.MovieTitlePanel;
 
 @SuppressWarnings("serial")
-public class ReleasesPanel extends Panel{
-	@SpringBean private MovieRepo movies;
-	
+public class ReleasesPanel extends Panel {
+	@SpringBean
+	private MovieRepo movies;
+
 	public ReleasesPanel(String id) {
 		super(id);
 
 		final IModel<List<Movie>> releasesMovie = new LoadableDetachableModel<List<Movie>>() {
 			@Override
 			protected List<Movie> load() {
-				return movies.findReleases(); 
+				return movies.findReleases();
 			}
 		};
-						
+
 		add(new PropertyListView<Movie>("releases.movie", releasesMovie) {
 			@Override
 			protected void populateItem(ListItem<Movie> item) {
 				final IModel<Movie> movieModel = item.getModel();
-				item.add(new Link<Void>("movieLink"){
+				item.add(new Link<Void>("movieLink") {
 					@Override
 					protected void onInitialize() {
-                        add(new MovieTitlePanel("title",movieModel));
+						add(new MovieTitlePanel("title", movieModel));
 						super.onInitialize();
 					}
+
 					@Override
 					public void onClick() {
 						setResponsePage(new MoviePage(movieModel));
 					}
 				});
-				item.add(new Label("ShortSummary", new PropertyModel<String>(item.getModel(), "ShortSummary")));
+				item.add(new Label("summary", new PropertyModel<String>(item.getModel(), "summary")));
 			}
 		});
-		
-		add(new Label("noReleases",MessageFormat.format(getString("noReleases"),Movie.DAYS_AS_RELEASE)){
-			@Override
-			public boolean isVisible() {
-				return super.isVisible() && releasesMovie.getObject().size()==0;
-			}
-		});
-		
+
+		Label noReleases = new Label("noReleases",
+				MessageFormat.format(getString("noReleases"), Movie.DAYS_AS_RELEASE));
+		add(noReleases);
+		if (releasesMovie.getObject().size() != 0) {
+			noReleases.setVisible(false);
+		}
 	}
 
 }

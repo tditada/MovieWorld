@@ -68,12 +68,9 @@ public class MovieCommentFormPanel extends Panel {
 
 		if (user != null) {
 			boolean ableToComment = movie.isCommentableBy(user);
-			writeCommentLabel.setVisible(true);
 			if (ableToComment) {
 				cannotComment.setVisible(false);
-				form.setVisible(true);
 			} else if (!ableToComment) {
-				cannotComment.setVisible(true);
 				form.setVisible(false);
 			}
 		} else {

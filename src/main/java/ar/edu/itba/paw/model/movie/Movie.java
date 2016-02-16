@@ -51,7 +51,7 @@ public class Movie extends PersistentEntity implements Serializable {
 	public static final int DAYS_AS_RELEASE = 6;
 	public static final int MAX_TITLE_LENGTH = 255;
 	public static final int MAX_SUMMARY_LENGTH = 255;
-	public static final int MAX_SHORT_SUMMARY = 70;
+	public static final int MAX_SHORT_SUMMARY = 100;
 
 	@Column(nullable = false, length = MAX_TITLE_LENGTH)
 	private String title; // artistic name for movie, so no special rules (other

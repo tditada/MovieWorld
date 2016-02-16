@@ -84,27 +84,14 @@ public class MovieListPage extends BasePage {
 						setResponsePage(new MoviePage(item.getModel()));
 					}
 				});
-				item.add(new Link<Void>("editLink"){
+				Link<Void> edit = new Link<Void>("editLink"){
 					@Override
 					public void onClick() {
 						setResponsePage(new EditMoviePage(item.getModel()));
 					}
-					@Override
-					public boolean isVisible() {
-						if(user == null){
-							return false;
-						}
-						return super.isVisible() && user.isAdmin();
-					}
-				});
-				item.add(new Form<MovieListPage>("deleteMovie") {
-					@Override
-					public boolean isVisible() {
-						if(user == null){
-							return false;
-						}
-						return super.isVisible() && user.isAdmin();
-					}
+				};
+				item.add(edit);
+				Form<MovieListPage> deleteForm = new Form<MovieListPage>("deleteMovie") {
 					@Override
 					protected void onSubmit() {
 						Movie movie = item.getModelObject();
@@ -118,7 +105,13 @@ public class MovieListPage extends BasePage {
 						super.onSubmit();
 						
 					}
-				});
+				};
+				item.add(deleteForm);
+				
+				if(user == null || (user != null && !user.isAdmin())){
+					edit.setVisible(false);
+					deleteForm.setVisible(false);
+				}
 
 			}
 		});

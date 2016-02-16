@@ -42,11 +42,9 @@ public class ReportCommentPanel extends Panel{
 			this.setVisible(false);
 		}else{
 			if (!c.isReportableBy(currentUser)) {
-				reportedLabel.setVisible(true);
 				reportForm.setVisible(false);
 			} else {
 				reportedLabel.setVisible(false);
-				reportForm.setVisible(true);
 			}
 		}
 		

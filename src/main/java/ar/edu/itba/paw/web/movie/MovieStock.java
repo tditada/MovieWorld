@@ -21,7 +21,6 @@ public class MovieStock {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Movie");
 		query.whereEqualTo("name", movie.getTitle());
-		// query.limit(1);
 
 		List<ParseObject> objects;
 		try {

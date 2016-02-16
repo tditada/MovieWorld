@@ -14,13 +14,11 @@ public class MovieTitlePanel extends Panel{
 
 	public MovieTitlePanel(String id, final IModel<Movie> movieModel) {
 		super(id);
-		add(new Icon("loveIcon", GlyphIconType.heart){
-			@Override
-			public boolean isVisible() {
-				return super.isVisible() && movieModel.getObject().getAverageScore().getValue()>=4;
-			}
-			
-		});
+		Icon icon = new Icon("loveIcon", GlyphIconType.heart);
+		add(icon);
+		if(movieModel.getObject().getAverageScore().getValue()<4){
+			icon.setVisible(false);
+		}
 		add(new Label("title", new PropertyModel<String>(movieModel,"title")));
 	}
 

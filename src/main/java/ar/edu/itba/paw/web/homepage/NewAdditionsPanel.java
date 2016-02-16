@@ -25,7 +25,6 @@ public class NewAdditionsPanel extends Panel{
 		super(id);
 
 		//NEW ADDITIONS
-		
 		IModel<List<Movie>> mostRecentMovies = new LoadableDetachableModel<List<Movie>>() {
 			@Override
 			protected List<Movie> load() {
@@ -48,7 +47,6 @@ public class NewAdditionsPanel extends Panel{
 						setResponsePage(new MoviePage(movieModel));
 					}
 				});
-//				item.add(new Label("title", new PropertyModel<String>(item.getModel(), "title")));
 				item.add(new Label("creationDate", new PropertyModel<String>(item.getModel(), "creationDate")));
 				item.add(new Label("TotalComments", new PropertyModel<String>(item.getModel(), "TotalComments")));
 

@@ -99,7 +99,6 @@ public class LoginPage extends BasePage {
 		form.add(new Link<Void>("register") {
 			@Override
 			public void onClick() {
-				// TODO: change link
 				setResponsePage(new RegisterPage());
 			}
 		});

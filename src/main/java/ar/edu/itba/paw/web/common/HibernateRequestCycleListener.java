@@ -77,4 +77,5 @@ public class HibernateRequestCycleListener extends AbstractRequestCycleListener 
 		ManagedSessionContext.unbind(sessionFactory);
 		session.close();
 	}
+	
 }

@@ -14,7 +14,7 @@ import ar.edu.itba.paw.model.genre.GenreRepo;
 import ar.edu.itba.paw.model.movie.Director;
 import ar.edu.itba.paw.model.movie.MovieRepo;
 import ar.edu.itba.paw.util.persist.Orderings;
-import ar.edu.itba.paw.web.base.NavBar;
+import ar.edu.itba.paw.web.common.NavBar;
 
 @SuppressWarnings("serial")
 

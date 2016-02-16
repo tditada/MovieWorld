@@ -28,6 +28,7 @@
 			<param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>
 		</init-param>
 	</filter>
+
 	<filter-mapping>
 		<filter-name>wicketFilter</filter-name>
 		<url-pattern>/*</url-pattern>

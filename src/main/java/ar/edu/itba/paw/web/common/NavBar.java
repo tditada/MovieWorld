@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.web.base;
+package ar.edu.itba.paw.web.common;
 
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
@@ -27,19 +27,20 @@ public class NavBar extends Panel {
 			}
 		});
 
-		add(new Link<Void>("otherUsersLink") {
+		Link<Void> usersLink = new Link<Void>("otherUsersLink") {
 			@Override
 			public void onClick() {
 				setResponsePage(UsersListPage.class);
 			}
-
-			@Override
-			public boolean isVisible() {
-				return MovieWorldSession.get().isSignedIn();
-			}
-		});
-		
+		};
+		add(usersLink);
 		addNavBars();
+		
+		// Visibility
+		if(MovieWorldSession.get().getCurrentUser(users)==null){
+			usersLink.setVisible(false);
+		}
+		
 	}
 	
 	protected void addNavBars(){

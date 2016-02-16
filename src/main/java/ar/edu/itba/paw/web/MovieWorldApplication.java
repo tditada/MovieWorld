@@ -1,4 +1,5 @@
 package ar.edu.itba.paw.web;
+
 import java.util.SortedSet;
 
 import org.apache.wicket.ConverterLocator;
@@ -43,39 +44,45 @@ import ar.edu.itba.paw.web.converter.UserConverter;
 import ar.edu.itba.paw.web.homepage.HomePage;
 
 public class MovieWorldApplication extends WebApplication {
-	public static final ResourceReference STAR_FULL_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/star_full.png");
-	public static final ResourceReference STAR_EMPTY_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/star_empty.png");
-	public static final ResourceReference LINK_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/link.png");
-	public static final ResourceReference EDIT_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/edit.png");
-	public static final ResourceReference DELETE_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/delete.png");
-	public static final ResourceReference ADD_ICON = new PackageResourceReference(MovieWorldApplication.class, "resources/add.png");
-	
+	public static final ResourceReference STAR_FULL_ICON = new PackageResourceReference(MovieWorldApplication.class,
+			"resources/star_full.png");
+	public static final ResourceReference STAR_EMPTY_ICON = new PackageResourceReference(MovieWorldApplication.class,
+			"resources/star_empty.png");
+	public static final ResourceReference LINK_ICON = new PackageResourceReference(MovieWorldApplication.class,
+			"resources/link.png");
+	public static final ResourceReference EDIT_ICON = new PackageResourceReference(MovieWorldApplication.class,
+			"resources/edit.png");
+	public static final ResourceReference DELETE_ICON = new PackageResourceReference(MovieWorldApplication.class,
+			"resources/delete.png");
+	public static final ResourceReference ADD_ICON = new PackageResourceReference(MovieWorldApplication.class,
+			"resources/add.png");
+
 	private final SessionFactory sessionFactory;
 	private final CommentRepo commentRepo;
 	private final GenreRepo genreRepo;
 	private final MovieRepo movieRepo;
 	private final UserRepo userRepo;
-	
+
 	@Autowired
-	public MovieWorldApplication(SessionFactory sessionFactory, CommentRepo commentRepo, GenreRepo genreRepo, MovieRepo movieRepo, UserRepo userRepo) {
+	public MovieWorldApplication(SessionFactory sessionFactory, CommentRepo commentRepo, GenreRepo genreRepo,
+			MovieRepo movieRepo, UserRepo userRepo) {
 		this.sessionFactory = sessionFactory;
 		this.commentRepo = commentRepo;
-		this.genreRepo = genreRepo;	
+		this.genreRepo = genreRepo;
 		this.movieRepo = movieRepo;
 		this.userRepo = userRepo;
 	}
-	
+
 	@Override
 	public Class<? extends Page> getHomePage() {
 		return HomePage.class;
 	}
-	
+
 	@Override
 	protected void init() {
 		super.init();
 		getComponentInstantiationListeners().add(new SpringComponentInjector(this));
 		getRequestCycleListeners().add(new HibernateRequestCycleListener(sessionFactory));
-
 	}
 
 	@Override
@@ -92,13 +99,12 @@ public class MovieWorldApplication extends WebApplication {
 		converterLocator.set(Email.class, new EmailConverter());
 		converterLocator.set(Genre.class, new GenreConverter(genreRepo));
 		converterLocator.set(SortedSet.class, new GenreSortedSetConverter(genreRepo));
-		converterLocator.set(Movie.class,new MovieConverter(movieRepo));
+		converterLocator.set(Movie.class, new MovieConverter(movieRepo));
 		converterLocator.set(NonArtisticName.class, new NonArtisticNameConverter());
 		converterLocator.set(Password.class, new PasswordConverter());
 		converterLocator.set(Score.class, new ScoreConverter());
 		converterLocator.set(User.class, new UserConverter(userRepo));
 		return converterLocator;
 	}
-  
 
 }

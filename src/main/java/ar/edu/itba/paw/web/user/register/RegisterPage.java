@@ -187,11 +187,8 @@ public class RegisterPage extends BasePage {
 				return "password";
 			}
 		});
-		// password.setRequired(true);
-		// form.add(password);
 
 		TextField<String> confirmPassword = new RequiredTextField<String>("confirmPassword") {
-
 			@Override
 			protected void onInitialize() {
 				super.onInitialize();

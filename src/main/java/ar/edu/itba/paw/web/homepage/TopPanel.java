@@ -35,8 +35,7 @@ public class TopPanel extends Panel{
 		add(new PropertyListView<Movie>("topFive.movie", topFiveMovies) {
 			@Override
 			protected void populateItem(final ListItem<Movie> item) {
-//				item.add(new Label("title", new PropertyModel<String>(item.getModel(), "title")));
-				item.add(new Label("summary",new PropertyModel<String>(item.getModel(), "summary")));
+				item.add(new Label("shortSummary",new PropertyModel<String>(item.getModel(), "shortSummary")));
 
 				item.add(new Link<Void>("details"){
 					 @Override
@@ -52,14 +51,6 @@ public class TopPanel extends Panel{
 			}
 		});
 		
-//		add(new PropertyListView<Movie>("topFive.movie", topFiveMovies) {
-//			@Override
-//			protected void populateItem(ListItem<Movie> item) {
-//				item.add(new Label("title", new PropertyModel<String>(item.getModel(), "title")));
-//				item.add(new Label("summary",new PropertyModel<String>(item.getModel(), "summary")));
-//				
-//			}
-//		});
 	}
 
 }

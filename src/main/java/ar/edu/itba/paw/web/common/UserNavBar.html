@@ -2,13 +2,9 @@
 <body>
 	<wicket:panel>
 		<ul class="nav navbar-nav navbar-right">
-<!-- 			<wicket:enclosure child="user.firstName"> -->
-<!-- 				<wicket:message key="loggedInAs" class="navbar-text"> -->
-<!-- 				Logged in as -->
-<!-- 				</wicket:message> -->
-<!-- 				<wicket:container id="user.firstName" /> -->
-<!-- 				<wicket:container id="user.lastName" /> -->
-<!-- 			</wicket:enclosure> -->
+			<p class="navbar-text">
+				<wicket:container wicket:id="logInAs" />
+			</p>
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
 				data-toggle="dropdown"> <wicket:message key="menu">Menu</wicket:message>
 					<span class="caret"></span></a> <!-- 					If No User -->

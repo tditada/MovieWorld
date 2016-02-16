@@ -41,20 +41,15 @@ public class MovieCommentsPanel extends Panel {
 		Label commentLabel = new Label("commentLabel", getString("comment"));
 		
 		if (amount == 0) {
-			noCommentsLabel.setVisible(true);
 			commentsLabel.setVisible(false);
 			commentLabel.setVisible(false);
 			amountLabel.setVisible(false);
 		} else if (amount == 1) {
-			commentLabel.setVisible(true);
 			noCommentsLabel.setVisible(false);
 			commentsLabel.setVisible(false);
-			amountLabel.setVisible(true);
 		} else {
-			commentsLabel.setVisible(true);
 			commentLabel.setVisible(false);
 			noCommentsLabel.setVisible(false);
-			amountLabel.setVisible(true);
 		}
 		add(amountLabel);
 		add(commentsLabel);

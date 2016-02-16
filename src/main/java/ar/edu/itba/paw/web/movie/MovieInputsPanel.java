@@ -119,14 +119,11 @@ public class MovieInputsPanel extends Panel {
 		runtimeField.setRequired(true);
 		runtimeField.setMinimum(1);
 		
-//		TextField dateField =new RequiredTextField<String>("releaseDate");
-
 		add(movieTitleField);
 		add(directorField);
 		add(summaryField);
 		add(genresField);
 		add(runtimeField);
-//		add(dateField);
 	}
 
 }

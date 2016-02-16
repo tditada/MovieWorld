@@ -12,13 +12,11 @@ public class MoviePageHeaderPanel extends Panel{
 	public MoviePageHeaderPanel(String id, final IModel<Movie> movieModel) {
 		super(id);
 		add(new MovieTitlePanel("title",movieModel));
-
-		add(new Label("release", "Release"){
-			@Override
-			public boolean isVisible() {
-				return movieModel.getObject().isRelease();
-			}
-		});
+		Label release = new Label("release", "Release");
+		add(release);
+		if(!movieModel.getObject().isRelease()){
+			release.setVisible(false);
+		}
 	}
 
 }
