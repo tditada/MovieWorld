@@ -179,10 +179,15 @@ public class Comment extends PersistentEntity implements Comparable<Comment>, Se
 
 	@Override
 	public int compareTo(Comment other) {
-		if (other == null) {
+		if (other == null || (other != null && other.getUser() == null)) {
 			return 1;
 		}
-
+		if(other.getUser() != null && other.getUser().getEmail() == null){
+			return 1;
+		}
+		if(other.getMovie() == null || (other.getMovie() != null && other.getMovie().getDirector() == null)){
+			return 1;
+		}
 		if (other.equals(this)) {
 			return 0;
 		}
