@@ -196,10 +196,10 @@ public class Comment extends PersistentEntity implements Comparable<Comment>, Se
 		}
 		
 
-		Integer comp = other.getAverageCommentScore().compareTo(this.getAverageCommentScore());
-		if (comp != 0) {
-			return comp;
-		}
+//		Integer comp = other.getAverageCommentScore().compareTo(this.getAverageCommentScore());
+//		if (comp != 0) {
+//			return comp;
+//		}
 		String textAddress = other.getUser().getEmail().getTextAddress();
 		if (textAddress == null) {
 			return 1;
