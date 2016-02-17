@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -76,8 +77,14 @@ public class InterestingCommentsPanel extends Panel {
 				});
 			}
 		});
-
-		add(new Label("noComments", getString("noComments")) {
+		
+		IModel<String> stringModel = new Model<String>();
+		add(new Label("noComments", stringModel) {
+			@Override
+			protected void onInitialize() {
+				setDefaultModelObject(getString("noComments"));
+				super.onInitialize();
+			}
 			@Override
 			public boolean isVisible() {
 				return super.isVisible() && interestingComments.getObject().size() == 0;

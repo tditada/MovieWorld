@@ -2,6 +2,7 @@ package ar.edu.itba.paw.web.movie;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
@@ -16,6 +17,8 @@ import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.lang.Bytes;
+import org.apache.wicket.util.upload.FileUploadException;
 import org.apache.wicket.validation.IValidationError;
 import org.joda.time.DateTime;
 
@@ -73,6 +76,11 @@ public class EditMoviePage extends SecuredPage {
 				setResponsePage(new MovieListPage());
 				super.onSubmit();
 			}
+
+			@Override
+			protected void onFileUploadException(FileUploadException e, Map<String, Object> model) {
+				error(" picture is too large");
+			}
 		};
 		form.add(new MovieInputsPanel("movieInputs"));
 		form.add(new FeedbackPanel("feedback") {
@@ -124,6 +132,7 @@ public class EditMoviePage extends SecuredPage {
 			delete.setVisible(false);
 		}
 		form.add(delete);
+		form.setMaxSize(Bytes.kilobytes(100));
 		add(form);
 	}
 }

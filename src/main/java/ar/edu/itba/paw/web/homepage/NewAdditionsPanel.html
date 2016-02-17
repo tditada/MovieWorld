@@ -10,17 +10,17 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th class="text-center"><wicket:message key="title" /></th>
 						<th class="text-center"><wicket:message key="creationDate" /></th>
+						<th class="text-center"><wicket:message key="title" /></th>
 						<th class="text-center"><wicket:message key="TotalComments" /></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr wicket:id="mostRecent.movie">
+						<td wicket:id="creationDate" />
 						<td><a href="#" wicket:id="movieLink"> <wicket:container
 									wicket:id="title" />
 						</a></td>
-						<td wicket:id="creationDate" />
 						<td wicket:id="TotalComments" />
 					</tr>
 				</tbody>

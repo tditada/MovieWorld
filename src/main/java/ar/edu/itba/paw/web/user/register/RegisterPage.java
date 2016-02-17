@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.web.user.register;
 
+import java.text.MessageFormat;
+
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
@@ -12,6 +15,7 @@ import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 import org.joda.time.DateTime;
 
+import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.user.Email;
 import ar.edu.itba.paw.model.user.NonArtisticName;
 import ar.edu.itba.paw.model.user.Password;
@@ -90,7 +94,7 @@ public class RegisterPage extends BasePage {
 
 			@Override
 			public void error(IValidationError error) {
-				error(getString("invalidName"));
+				error(MessageFormat.format(getString("noReleases"), Movie.DAYS_AS_RELEASE));
 			}
 		};
 		firstname.setRequired(true);

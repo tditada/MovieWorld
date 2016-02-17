@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.web.movie;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
@@ -39,7 +40,7 @@ public class MovieInputsPanel extends Panel {
 		TextField<String> movieTitleField = new RequiredTextField<String>("title", String.class) {
 			@Override
 			public void error(IValidationError error) {
-				error(getString("invalidMovieName"));
+				error(MessageFormat.format(getString("invalidMovieName"), Movie.MAX_TITLE_LENGTH));
 			}
 
 			@Override
@@ -72,7 +73,7 @@ public class MovieInputsPanel extends Panel {
 
 			@Override
 			public void error(IValidationError error) {
-				error(getString("directorError"));
+				error(MessageFormat.format(getString("invalidDirector"), Director.MAX_NAME_LENGTH));
 			}
 
 		};
@@ -93,7 +94,7 @@ public class MovieInputsPanel extends Panel {
 
 			@Override
 			public void error(IValidationError error) {
-				error(getString("invalidSummary"));
+				error(MessageFormat.format(getString("invalidSummary"), Movie.MAX_SUMMARY_LENGTH));
 			}
 		};
 
@@ -103,8 +104,14 @@ public class MovieInputsPanel extends Panel {
 				return genreRepo.findAllOrderedByName(Orderings.DESC);
 			}
 		};
-		CheckBoxMultipleChoice<Genre> genresField = new CheckBoxMultipleChoice<Genre>("genres", genresModel);
-
+		CheckBoxMultipleChoice<Genre> genresField = new CheckBoxMultipleChoice<Genre>("genres", genresModel){
+			@Override
+			public void error(IValidationError error) {
+				error(getString("invalidGenres"));
+				super.error(error);
+			}
+		};
+		genresField.isRequired();
 		NumberTextField<Integer> runtimeField = new NumberTextField<Integer>("runtimeInMins", Integer.class) {
 			@Override
 			public void error(IValidationError error) {

@@ -2,6 +2,7 @@ package ar.edu.itba.paw.web.movie;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 
 import org.apache.wicket.markup.html.form.Form;
@@ -12,6 +13,8 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.lang.Bytes;
+import org.apache.wicket.util.upload.FileUploadException;
 import org.apache.wicket.validation.IValidationError;
 import org.joda.time.DateTime;
 
@@ -52,6 +55,7 @@ public class AddMoviePage extends SecuredPage {
 	public AddMoviePage() {
 
 		Form<AddMoviePage> form = new Form<AddMoviePage>("movieForm", new CompoundPropertyModel<AddMoviePage>(this)) {
+		
 			@Override
 			protected void onSubmit() {
 				super.onSubmit();
@@ -85,6 +89,11 @@ public class AddMoviePage extends SecuredPage {
 				}
 				setResponsePage(new MovieListPage());
 			}
+			
+			@Override
+			protected void onFileUploadException(FileUploadException e, Map<String, Object> model) {
+				error(" picture is too large");
+			}
 
 		};
 		form.add(new FeedbackPanel("feedback") {
@@ -110,7 +119,8 @@ public class AddMoviePage extends SecuredPage {
 		form.add(dateField);
 		form.add(new BootstrapFileInput("file-picker", fileUploadsModel,
 				new FileInputConfig().showUpload(false).showCaption(true).showPreview(false)));
-
+		form.setMaxSize(Bytes.kilobytes(100));
+	
 		add(form);
 	}
 

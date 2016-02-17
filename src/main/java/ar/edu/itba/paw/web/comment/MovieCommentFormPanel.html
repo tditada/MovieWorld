@@ -11,6 +11,7 @@
 			<div class="panel-body">
 				<form wicket:id="commentForm" role="form" method="POST"
 					commandName="newCommentForm">
+					<div wicket:id="feedback" class="alert alert-danger" role="alert" />
 					<div class="form-group">
 						<label for="movieScore" class="col-sm-2 control-label"> <wicket:message
 								key="score">Score</wicket:message></label>
@@ -37,7 +38,7 @@
 			</div>
 
 			<div class="panel-body">
-				<wicket:container wicket:id="cannotComment" />
+				<wicket:container wicket:id="cannotComment"/>
 			</div>
 		</div>
 	</wicket:panel>

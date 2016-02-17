@@ -206,6 +206,7 @@ public class Movie extends PersistentEntity implements Serializable {
 
 	public void setPicture(byte[] picture) {
 		if (picture == null) { // esto sería que no haya imagen, es válido
+			this.picture=null;
 			return;
 		} else if (picture.length == 0) { // levantas una imagen pero está vacía
 			return;

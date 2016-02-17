@@ -34,9 +34,12 @@ import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.user.Email;
 import ar.edu.itba.paw.model.user.User;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "comments")
 public class Comment extends PersistentEntity implements Comparable<Comment>, Serializable {
+	public static final int MAX_TEXT_LENGTH = 255;
+
 	@Type(type = "text")
 	@Check(constraints = "length(text) > 0")
 	@Column(nullable = false)
@@ -81,6 +84,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment>, Se
 	Comment(String text, Score movieScore, User user, Movie movie) {
 		checkArgument(movieScore, notNull());
 		checkArgument(text, neitherNullNorEmpty());
+		checkArgument(text.length() < MAX_TEXT_LENGTH);
 		checkArgument(user, notNull());
 		checkArgument(movie, notNull());
 		checkArgument(movie.isCommentableBy(user));
@@ -110,7 +114,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment>, Se
 	}
 
 	public Score getAverageCommentScore() {
-		if (totalCommentScore == 0 || scorers.size()==0) {
+		if (totalCommentScore == 0 || scorers.size() == 0) {
 			return new Score(0);
 		}
 		return new Score(totalCommentScore / scorers.size());
@@ -147,8 +151,8 @@ public class Comment extends PersistentEntity implements Comparable<Comment>, Se
 		reportingUsers.add(user);
 		totalReports++;
 	}
-	
-	public int getReportedSize(){
+
+	public int getReportedSize() {
 		return reportingUsers.size();
 	}
 
@@ -184,11 +188,11 @@ public class Comment extends PersistentEntity implements Comparable<Comment>, Se
 			return comp;
 		}
 		String textAddress = other.getUser().getEmail().getTextAddress();
-		if(textAddress == null){
+		if (textAddress == null) {
 			return 1;
 		}
 		Email email = user.getEmail();
-		if(email==null){
+		if (email == null) {
 			return 1;
 		}
 		comp = textAddress.compareTo(email.getTextAddress());

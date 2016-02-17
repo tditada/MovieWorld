@@ -1,13 +1,20 @@
 package ar.edu.itba.paw.web.comment;
 
+import java.text.MessageFormat;
+
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.NumberTextField;
 import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.IValidatable;
+import org.apache.wicket.validation.IValidationError;
+import org.apache.wicket.validation.IValidator;
+import org.apache.wicket.validation.ValidationError;
 
 import ar.edu.itba.paw.model.Score;
 import ar.edu.itba.paw.model.comment.Comment;
@@ -31,7 +38,7 @@ public class MovieCommentFormPanel extends Panel {
 	@SpringBean
 	MovieRepo movieRepo;
 
-	private Integer commentScore; // Score
+	private Integer commentScore; 
 	private String commentText;
 
 	public MovieCommentFormPanel(String id, final IModel<Movie> movieModel) {
@@ -54,12 +61,36 @@ public class MovieCommentFormPanel extends Panel {
 				setResponsePage(new MoviePage(movieModel));
 			}
 		};
+		form.add(new FeedbackPanel("feedback") {
+			@Override
+			public boolean isVisible() {
+				return super.isVisible() && anyMessage();
+			}
+		});
 		NumberTextField<Integer> commentScore = new NumberTextField<Integer>("commentScore");
 		commentScore.setRequired(true);
 		commentScore.setMaximum(5);
 		commentScore.setMinimum(0);
-		TextArea<String> commentText = new TextArea<String>("commentText");
-		Label cannotComment = new Label("cannotComment", getString("cannotComment.text"));
+		TextArea<String> commentText = new TextArea<String>("commentText"){
+			@Override
+			protected void onInitialize() {
+				super.onInitialize();
+				add(new IValidator<String>() {
+					@Override
+					public void validate(IValidatable<String> validatable) {
+						if (validatable.getValue().length() > Comment.MAX_TEXT_LENGTH) {
+							validatable.error(new ValidationError(this));
+						}
+					}
+				});
+			}
+			@Override
+			public void error(IValidationError error) {
+				error(MessageFormat.format(getString("commentTextInvalid"), Comment.MAX_TEXT_LENGTH));
+			}
+		};
+		commentText.setRequired(true);
+		Label cannotComment = new Label("cannotComment", getString("cannotComment"));
 		form.add(commentScore);
 		form.add(commentText);
 		add(writeCommentLabel);

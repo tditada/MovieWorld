@@ -12,8 +12,8 @@ import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.user.User;
 
 public class CommentTest {
-	// private static final int MIN_SCORE = 0;
-	// private static final int MAX_SCORE = 5;
+	 private static final int MIN_SCORE = 0;
+	 private static final int MAX_SCORE = 5;
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorFailOnNullText() throws Exception {

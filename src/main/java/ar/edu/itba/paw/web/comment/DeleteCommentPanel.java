@@ -10,6 +10,7 @@ import ar.edu.itba.paw.domain.EntityModel;
 import ar.edu.itba.paw.model.comment.Comment;
 import ar.edu.itba.paw.model.comment.CommentRepo;
 import ar.edu.itba.paw.model.movie.Movie;
+import ar.edu.itba.paw.model.movie.MovieRepo;
 import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
@@ -22,6 +23,8 @@ public class DeleteCommentPanel extends Panel {
 	CommentRepo commentRepo;
 	@SpringBean
 	UserRepo userRepo;
+	@SpringBean
+	MovieRepo movieRepo;
 
 	public DeleteCommentPanel(String id, final Comment comment, final boolean isAdminPage) {
 		super(id);
@@ -30,6 +33,9 @@ public class DeleteCommentPanel extends Panel {
 			@Override
 			protected void onSubmit() {
 				if (comment != null && user != null && user.isAdmin()) {
+					comment.getUser().removeComment(comment);
+					userRepo.save(comment.getUser());
+					movieRepo.save(comment.getMovie());
 					commentRepo.remove(user, comment);
 				}
 				super.onSubmit();

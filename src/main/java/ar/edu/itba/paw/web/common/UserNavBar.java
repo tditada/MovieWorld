@@ -3,11 +3,10 @@ package ar.edu.itba.paw.web.common;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import ar.edu.itba.paw.domain.EntityModel;
 import ar.edu.itba.paw.model.user.User;
 import ar.edu.itba.paw.model.user.UserRepo;
 import ar.edu.itba.paw.web.MovieWorldSession;
@@ -24,7 +23,7 @@ public class UserNavBar extends Panel {
 
 	public UserNavBar(String id) {
 		super(id);
-		IModel<User> userModel = new EntityModel<User>(User.class, MovieWorldSession.get().getCurrentUser(userRepo));
+		User user = MovieWorldSession.get().getCurrentUser(userRepo);
 
 		// User links
 		Link<Void> loginLink = new Link<Void>("loginRegisterLink") {
@@ -35,7 +34,7 @@ public class UserNavBar extends Panel {
 		};
 		add(loginLink);
 
-		Label logInAs = new Label("logInAs", new StringResourceModel("logInAs", this, userModel));
+		Label logInAs = new Label("logInAs", new StringResourceModel("logInAs", this, new Model<User>(user)));
 		add(logInAs);
 
 		Link<Void> commentsLink = new Link<Void>("myCommentsLink") {
@@ -84,7 +83,7 @@ public class UserNavBar extends Panel {
 		};
 		add(reportedLink);
 
-		if (userModel.getObject() == null || (userModel.getObject() != null && !userModel.getObject().isAdmin())) {
+		if (user == null || (user != null && !user.isAdmin())) {
 			insertMovieLink.setVisible(false);
 			reportedLink.setVisible(false);
 		}
