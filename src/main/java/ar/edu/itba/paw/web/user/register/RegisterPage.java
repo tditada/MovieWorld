@@ -1,21 +1,22 @@
 package ar.edu.itba.paw.web.user.register;
 
-import java.text.MessageFormat;
+import javax.servlet.http.HttpServletRequest;
 
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.INullAcceptingValidator;
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidationError;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 import org.joda.time.DateTime;
 
-import ar.edu.itba.paw.model.movie.Movie;
 import ar.edu.itba.paw.model.user.Email;
 import ar.edu.itba.paw.model.user.NonArtisticName;
 import ar.edu.itba.paw.model.user.Password;
@@ -26,6 +27,8 @@ import ar.edu.itba.paw.web.base.BasePage;
 import ar.edu.itba.paw.web.homepage.HomePage;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextField;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.DateTextFieldConfig;
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 @SuppressWarnings("serial")
 public class RegisterPage extends BasePage {
@@ -60,7 +63,7 @@ public class RegisterPage extends BasePage {
 					setResponsePage(HomePage.class);
 				} catch (Exception e) {
 					error(getString("userExists"));
-					setResponsePage(RegisterPage.class);
+					setResponsePage(RegisterPage.this);
 				}
 			}
 
@@ -94,7 +97,7 @@ public class RegisterPage extends BasePage {
 
 			@Override
 			public void error(IValidationError error) {
-				error(MessageFormat.format(getString("noReleases"), Movie.DAYS_AS_RELEASE));
+				error(getString("invalidName"));
 			}
 		};
 		firstname.setRequired(true);
@@ -166,7 +169,7 @@ public class RegisterPage extends BasePage {
 			}
 		});
 
-		form.add(new RequiredTextField<String>("password") {
+		PasswordTextField password = new PasswordTextField("password") {
 
 			@Override
 			protected void onInitialize() {
@@ -185,44 +188,23 @@ public class RegisterPage extends BasePage {
 			public void error(IValidationError error) {
 				error(getString("errorPassword"));
 			}
-
-			@Override
-			protected String getInputType() {
-				return "password";
-			}
-		});
-
-		TextField<String> confirmPassword = new RequiredTextField<String>("confirmPassword") {
-			@Override
-			protected void onInitialize() {
-				super.onInitialize();
-				add(new IValidator<String>() {
-					@Override
-					public void validate(IValidatable<String> validatable) {
-						if (password != null && !password.equals(validatable.getValue())) {
-							validatable.error(new ValidationError(this));
-						}
-					}
-				});
-			}
-
+		};
+		password.isRequired();
+		form.add(password);
+		
+		PasswordTextField confirmPassword = new PasswordTextField("confirmPassword") {
 			@Override
 			public void error(IValidationError error) {
 				error(getString("confirmPassError"));
 			}
-
-			@Override
-			protected String getInputType() {
-				return "password";
-			}
 		};
-		
-		
 		confirmPassword.setRequired(true);
 		form.add(confirmPassword);
-		
-		form.add(new CaptchaPanel("captchaPanel", CAPTCHA_SIZE));
+		form.add(new EqualPasswordInputValidator(password, confirmPassword));
+		ReCaptchaPanel recaptcha = new ReCaptchaPanel("captchaPanel");
+		form.add(recaptcha);
 		add(form);
 	}
+	
 
 }
