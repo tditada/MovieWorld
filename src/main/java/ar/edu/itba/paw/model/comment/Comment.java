@@ -208,7 +208,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment>, Se
 		if (email == null) {
 			return 1;
 		}
-		comp = textAddress.compareTo(email.getTextAddress());
+		Integer comp = textAddress.compareTo(email.getTextAddress());
 		if (comp != 0) {
 			return comp;
 		}
