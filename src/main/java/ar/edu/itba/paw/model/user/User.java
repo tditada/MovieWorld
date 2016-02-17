@@ -123,7 +123,7 @@ public class User extends PersistentEntity implements Serializable {
 
 	public void removeComment(Comment comment) {
 		checkArgument(comment, notNull());
-		checkState(this.isAdmin());
+//		checkState(this.isAdmin());
 
 		User user = comment.getUser();
 

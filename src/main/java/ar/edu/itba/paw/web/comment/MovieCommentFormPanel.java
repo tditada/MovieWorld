@@ -58,6 +58,7 @@ public class MovieCommentFormPanel extends Panel {
 				user.addComment(comment);
 				commentRepo.save(comment);
 				movieRepo.save(movie);
+				movieModel.setObject(movie);
 				setResponsePage(new MoviePage(movieModel));
 			}
 		};

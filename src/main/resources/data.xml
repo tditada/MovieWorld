@@ -40,7 +40,7 @@
 				hibernate.show_sql=${hibernate.show_sql}
 				hibernate.current_session_context_class=managed
 				hibernate.max_fetch_depth=6
-				hibernate.jdbc.batch_size=0
+				hibernate.jdbc.batch_size=10
 			</value>
 		</property>
 

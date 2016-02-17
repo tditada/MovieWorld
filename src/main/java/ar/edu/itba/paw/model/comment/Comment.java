@@ -114,7 +114,7 @@ public class Comment extends PersistentEntity implements Comparable<Comment>, Se
 	}
 
 	public Score getAverageCommentScore() {
-		if (totalCommentScore == 0 || scorers.size() == 0) {
+		if (totalCommentScore == 0 || (scorers != null && scorers.size() == 0)) {
 			return new Score(0);
 		}
 		return new Score(totalCommentScore / scorers.size());

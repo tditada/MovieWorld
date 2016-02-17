@@ -293,9 +293,9 @@ public class Movie extends PersistentEntity implements Serializable {
 	}
 
 	public void removeComment(User admin, Comment comment) {
-		checkArgument(admin, notNull());
+//		checkArgument(admin, notNull());
 		checkArgument(comment, notNull());
-		checkArgument(admin.isAdmin());
+//		checkArgument(admin.isAdmin());
 
 		if (!comments.contains(comment)) {
 			// this will only happen when removeComment is called in a

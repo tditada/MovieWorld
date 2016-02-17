@@ -2,10 +2,12 @@ package ar.edu.itba.paw.web.comment;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.NumberTextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.IValidationError;
 
 import ar.edu.itba.paw.domain.EntityModel;
 import ar.edu.itba.paw.model.Score;
@@ -48,7 +50,19 @@ public class ScoreCommentFormPanel extends Panel {
 				setResponsePage(new MoviePage(movieModel));
 			}
 		};
-		NumberTextField<Integer> scoreField = new NumberTextField<Integer>("score");
+		form.add(new FeedbackPanel("feedback") {
+			@Override
+			public boolean isVisible() {
+				return super.isVisible() && anyMessage();
+			}
+		});
+		NumberTextField<Integer> scoreField = new NumberTextField<Integer>("score"){
+			@Override
+			public void error(IValidationError error) {
+				error(getString("scoreRequired"));
+				super.error(error);
+			}
+		};
 		scoreField.setRequired(true);
 		scoreField.setMaximum(5);
 		scoreField.setMinimum(0);

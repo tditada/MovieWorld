@@ -9,8 +9,6 @@ import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
-import org.apache.wicket.request.resource.PackageResourceReference;
-import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
@@ -44,18 +42,6 @@ import ar.edu.itba.paw.web.converter.UserConverter;
 import ar.edu.itba.paw.web.homepage.HomePage;
 
 public class MovieWorldApplication extends WebApplication {
-	public static final ResourceReference STAR_FULL_ICON = new PackageResourceReference(MovieWorldApplication.class,
-			"resources/star_full.png");
-	public static final ResourceReference STAR_EMPTY_ICON = new PackageResourceReference(MovieWorldApplication.class,
-			"resources/star_empty.png");
-	public static final ResourceReference LINK_ICON = new PackageResourceReference(MovieWorldApplication.class,
-			"resources/link.png");
-	public static final ResourceReference EDIT_ICON = new PackageResourceReference(MovieWorldApplication.class,
-			"resources/edit.png");
-	public static final ResourceReference DELETE_ICON = new PackageResourceReference(MovieWorldApplication.class,
-			"resources/delete.png");
-	public static final ResourceReference ADD_ICON = new PackageResourceReference(MovieWorldApplication.class,
-			"resources/add.png");
 
 	private final SessionFactory sessionFactory;
 	private final CommentRepo commentRepo;
@@ -82,13 +68,14 @@ public class MovieWorldApplication extends WebApplication {
 	protected void init() {
 		super.init();
 		getComponentInstantiationListeners().add(new SpringComponentInjector(this));
+//		getRequestCycleListeners().add(new OpenTransactionInViewCycleListener(sessionFactory));
 		getRequestCycleListeners().add(new HibernateRequestCycleListener(sessionFactory));
 	}
 
-	@Override
-	public Session newSession(Request request, Response response) {
-		return new MovieWorldSession(request);
-	}
+    @Override
+    public Session newSession(Request request, Response response) {
+        return new MovieWorldSession(request);
+    }
 
 	@Override
 	protected IConverterLocator newConverterLocator() {

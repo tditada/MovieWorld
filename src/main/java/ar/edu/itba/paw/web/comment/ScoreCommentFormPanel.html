@@ -1,20 +1,20 @@
 <html xmlns:wicket="http://wicket.apache.org/">
 <body>
 	<wicket:panel>
-						<dt>Score this comment</dt>
-						<dd>
-							<div class="input-group">
-								<form role="form" action="app/comments/score" method="post"
-									wicket:id="scoreCommentForm">
-									<input wicket:id="score" type="number" class="form-control"
-										name="score" id="score" />
-									<input type="submit" name="submit" id="submit" value="Score"
-										class="btn btn-primary">
-								</form>
-							</div>
-						</dd>
-						<br/>
-<!-- 					<wicket:container wicket:id="reportCommentPanel"/> -->
+		<dt>Score this comment</dt>
+		<dd>
+			<div class="input-group">
+				<form role="form" action="app/comments/score" method="post"
+					wicket:id="scoreCommentForm">
+					<div wicket:id="feedback" class="alert alert-danger" role="alert" />
+					<input wicket:id="score" type="number" class="form-control"
+						name="score" id="score" /> <input type="submit" name="submit"
+						id="submit" value="Score" class="btn btn-primary">
+				</form>
+			</div>
+		</dd>
+		<br />
+		<!-- 					<wicket:container wicket:id="reportCommentPanel"/> -->
 	</wicket:panel>
 </body>
 </html>

@@ -89,12 +89,16 @@ public class MovieCommentsPanel extends Panel {
 				item.add(new StarsPanel("commentCommentScorePanel",
 						item.getModelObject().getAverageCommentScore().getValue()));
 				item.add(new ScoreCommentFormPanel("scoreCommentForm", item.getModelObject()));
-				item.add(new ReportCommentPanel("reportCommentPanel", item.getModelObject()));
+				Panel reported = new ReportCommentPanel("reportCommentPanel", item.getModelObject());
+				item.add(reported);
 				User currentUser = MovieWorldSession.get().getCurrentUser(userRepo);
 				DeleteCommentPanel delete = new DeleteCommentPanel("deleteCommentForm", item.getModelObject(), false);
 				item.add(delete);
 				if (currentUser == null || (currentUser != null && !currentUser.isAdmin())) {
 					delete.setVisible(false);
+				}
+				if(currentUser!= null && currentUser.equals(item.getModelObject().getUser())){
+					reported.setVisible(false);
 				}
 			}
 		});
