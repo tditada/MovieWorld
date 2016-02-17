@@ -33,9 +33,9 @@ public class DeleteCommentPanel extends Panel {
 			@Override
 			protected void onSubmit() {
 				if (comment != null && user != null && user.isAdmin()) {
-					comment.getUser().removeComment(comment);
-					userRepo.save(comment.getUser());
-					movieRepo.save(comment.getMovie());
+//					comment.getUser().removeComment(comment);
+//					userRepo.save(comment.getUser());
+//					movieRepo.save(comment.getMovie());
 					commentRepo.remove(user, comment);
 				}
 				super.onSubmit();

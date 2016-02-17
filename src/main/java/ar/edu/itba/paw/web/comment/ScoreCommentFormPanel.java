@@ -55,7 +55,7 @@ public class ScoreCommentFormPanel extends Panel {
 		form.add(scoreField);
 		add(form);
 		
-		add(new ReportCommentPanel("reportCommentPanel",c));
+//		add(new ReportCommentPanel("reportCommentPanel",c));
 
 		if (currentUser == null) {
 			this.setVisible(false);

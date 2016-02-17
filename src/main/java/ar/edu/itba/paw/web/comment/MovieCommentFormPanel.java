@@ -70,7 +70,7 @@ public class MovieCommentFormPanel extends Panel {
 		NumberTextField<Integer> commentScore = new NumberTextField<Integer>("commentScore");
 		commentScore.setRequired(true);
 		commentScore.setMaximum(5);
-		commentScore.setMinimum(0);
+		commentScore.setMinimum(1);
 		TextArea<String> commentText = new TextArea<String>("commentText"){
 			@Override
 			protected void onInitialize() {
