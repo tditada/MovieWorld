@@ -41,7 +41,7 @@ public class Genre extends PersistentEntity implements Comparable<Genre>, Serial
 
 	@Override
 	public int compareTo(Genre other) {
-		if(other == null){
+		if (other == null || name == null || (other != null && other.name == null)) {
 			return 1;
 		}
 		return name.compareTo(other.name);
