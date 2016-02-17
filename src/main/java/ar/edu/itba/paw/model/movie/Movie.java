@@ -138,7 +138,11 @@ public class Movie extends PersistentEntity implements Serializable {
 		if (getTotalComments() == 0) {
 			return new Score(0);
 		}
-		return new Score(totalScore / getTotalComments());
+		int n = totalScore / getTotalComments();
+		if (n < 5 && n > 0) {
+			return new Score(totalScore / getTotalComments());
+		}
+		return new Score(0);
 	}
 
 	public DateTime getCreationDate() {
@@ -206,7 +210,7 @@ public class Movie extends PersistentEntity implements Serializable {
 
 	public void setPicture(byte[] picture) {
 		if (picture == null) { // esto sería que no haya imagen, es válido
-			this.picture=null;
+			this.picture = null;
 			return;
 		} else if (picture.length == 0) { // levantas una imagen pero está vacía
 			return;
@@ -293,9 +297,9 @@ public class Movie extends PersistentEntity implements Serializable {
 	}
 
 	public void removeComment(User admin, Comment comment) {
-//		checkArgument(admin, notNull());
+		// checkArgument(admin, notNull());
 		checkArgument(comment, notNull());
-//		checkArgument(admin.isAdmin());
+		// checkArgument(admin.isAdmin());
 
 		if (!comments.contains(comment)) {
 			// this will only happen when removeComment is called in a
