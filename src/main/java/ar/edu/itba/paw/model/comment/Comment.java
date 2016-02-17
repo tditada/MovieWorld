@@ -185,12 +185,16 @@ public class Comment extends PersistentEntity implements Comparable<Comment>, Se
 		if(other.getUser() != null && other.getUser().getEmail() == null){
 			return 1;
 		}
-		if(other.getMovie() == null || (other.getMovie() != null && other.getMovie().getDirector() == null)){
+		if(other.getMovie() == null || (other.getMovie() != null && (other.getMovie().getDirector() == null || other.getMovie().getTitle() == null))){
+			return 1;
+		}
+		if(user == null || (user != null && user.getEmail() == null)){
 			return 1;
 		}
 		if (other.equals(this)) {
 			return 0;
 		}
+		
 
 		Integer comp = other.getAverageCommentScore().compareTo(this.getAverageCommentScore());
 		if (comp != 0) {
