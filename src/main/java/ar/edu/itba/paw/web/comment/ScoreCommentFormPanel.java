@@ -50,19 +50,7 @@ public class ScoreCommentFormPanel extends Panel {
 				setResponsePage(new MoviePage(movieModel));
 			}
 		};
-		form.add(new FeedbackPanel("feedback") {
-			@Override
-			public boolean isVisible() {
-				return super.isVisible() && anyMessage();
-			}
-		});
-		NumberTextField<Integer> scoreField = new NumberTextField<Integer>("score"){
-			@Override
-			public void error(IValidationError error) {
-				error(getString("scoreRequired"));
-				super.error(error);
-			}
-		};
+		NumberTextField<Integer> scoreField = new NumberTextField<Integer>("score");
 		scoreField.setRequired(true);
 		scoreField.setMaximum(5);
 		scoreField.setMinimum(0);
