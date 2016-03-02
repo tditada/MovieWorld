@@ -4,5 +4,8 @@
 .classpath
 /target/
 .factorypath
+.metadata/*
+.gitignore~
+pom.xml~
 paw4/
 paw4/*
